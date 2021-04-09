@@ -8,7 +8,7 @@ from server.Administration import Administration
 
 app = Flask(__name__)
 
-#CORS(app, resources=r'/*')
+CORS(app, resources=r'/*')
 
 api = Api(app)
 
