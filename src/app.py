@@ -5,6 +5,9 @@ from server.bo.User import User
 
 
 app = Flask(__name__)
+
+CORS(app, resources=r'/*')
+
 api = Api(app)
 
 
