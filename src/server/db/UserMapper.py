@@ -10,7 +10,7 @@ class UserMapper(Mapper):
     def find_all(self):
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * from users")
+        cursor.execute("SELECT * from user")
         tuples = cursor.fetchall()
 
         for (id, name, email) in tuples:
