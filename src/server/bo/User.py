@@ -18,3 +18,12 @@ class User (bo.BusinessObject):
 
     def set_email(self, value):
         self.__name = value
+
+    @staticmethod
+    def from_dict(dictionary=dict()):
+        """Umwandeln eines Python dict() in einen Customer()."""
+        obj = User()
+        obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
+        obj.set_name(dictionary["name"])
+        obj.set_email(dictionary["email"])
+        return obj

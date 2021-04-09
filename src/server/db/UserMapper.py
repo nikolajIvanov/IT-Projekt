@@ -10,7 +10,8 @@ class UserMapper(Mapper):
     def find_all(self):
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * from user")
+        command = "SELECT id, name, email from users"
+        cursor.execute(command)
         tuples = cursor.fetchall()
 
         for (id, name, email) in tuples:
@@ -19,6 +20,11 @@ class UserMapper(Mapper):
             user.set_name(name)
             user.set_email(email)
             result.append(user)
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
 
     def find_by_key(self):
         pass
