@@ -4,7 +4,7 @@ from flask_cors import CORS
 
 # Api Endpunkte
 from server.Administration import Administration
-from server.bo.User import User
+from server.bo.Nutzer import Nutzer
 app = Flask(__name__)
 
 CORS(app, resources=r'/*')
@@ -18,7 +18,7 @@ class Test(Resource):
         pass
 
     def post(self):
-        """Anlegen eines neuen User-Objekts.
+        """Anlegen eines neuen Nutzer-Objekts.
 
                 :return:
                 """

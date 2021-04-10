@@ -1,8 +1,8 @@
-from server.bo.User import User
+from server.bo.Nutzer import Nutzer
 from server.db.Mapper import Mapper
 
 
-class UserMapper(Mapper):
+class NutzerMapper(Mapper):
 
     def __init__(self):
         super().__init__()
@@ -14,7 +14,7 @@ class UserMapper(Mapper):
         tuples = cursor.fetchall()
 
         for (id, name, email) in tuples:
-            user = User()
+            user = Nutzer()
             user.set_id(id)
             user.set_name(name)
             user.set_email(email)
@@ -33,7 +33,7 @@ class UserMapper(Mapper):
         tuples = cursor.fetchall()
 
         (id, name, email) = tuples[0]
-        user = User()
+        user = Nutzer()
         user.set_id(id)
         user.set_name(name)
         user.set_email(email)
@@ -53,7 +53,7 @@ class UserMapper(Mapper):
         tuples = cursor.fetchall()
 
         (id, name, email) = tuples[0]
-        user = User()
+        user = Nutzer()
         user.set_id(id)
         user.set_name(name)
         user.set_email(email)
@@ -71,9 +71,9 @@ class UserMapper(Mapper):
         pass
 
     def insert(self, user):
-        """Einfügen eines User-Objekts in die Datenbank.
+        """Einfügen eines Nutzer-Objekts in die Datenbank.
 
-        :param user: Ein User Objekt wird übergeben
+        :param user: Ein Nutzer Objekt wird übergeben
         :return:
         """
         cursor = self._cnx.cursor()
@@ -82,12 +82,12 @@ class UserMapper(Mapper):
 
         for (maxid) in tuples:
             if maxid[0] is not None:
-                """Wenn User in der Datenbank exestieren, suchen wir die höchste ID und zählen diese
-                um 1 hoch, damit garantieren wir, dass der neue User eine neue ID erhält.
+                """Wenn Nutzer in der Datenbank exestieren, suchen wir die höchste ID und zählen diese
+                um 1 hoch, damit garantieren wir, dass der neue Nutzer eine neue ID erhält.
                 """
                 user.set_id(maxid[0] + 1)
             else:
-                """Falls noch kein User in der Datenbank exestiert, wird der neue User mit der ID 1 in der
+                """Falls noch kein Nutzer in der Datenbank exestiert, wird der neue Nutzer mit der ID 1 in der
                 Datenbank gespeichert.
                 """
                 user.set_id(1)

@@ -3,10 +3,9 @@ from flask_restx import Resource
 from server.Administration import Administration
 
 
-
-class UserApi(Resource):
+class NutzerByNameApi(Resource):
     @api.marshal_with(user)
-    def get(self, nummer):
+    def get(self, name):
         adm = Administration()
-        nutzer = adm.get_user_by_id(nummer)
+        nutzer = adm.get_user_by_name(name)
         return nutzer

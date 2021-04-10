@@ -1,7 +1,7 @@
 from src.server.bo import BusinessObject as bo
 
 
-class User (bo.BusinessObject):
+class Nutzer (bo.BusinessObject):
     def __init__(self):
         super().__init__()
         self.__name = ""
@@ -30,7 +30,7 @@ class User (bo.BusinessObject):
     @staticmethod
     def from_dict(dictionary=dict()):
         """"Umwandeln eines Python dict() in einen Customer()."""
-        obj = User()
+        obj = Nutzer()
         # obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_name(dictionary["name"])
         obj.set_email(dictionary["email"])

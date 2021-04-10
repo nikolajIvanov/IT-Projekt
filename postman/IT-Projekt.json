@@ -17,7 +17,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/user/3",
+					"raw": "http://127.0.0.1:5000/nutzer/4",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -27,8 +27,8 @@
 					],
 					"port": "5000",
 					"path": [
-						"user",
-						"3"
+						"nutzer",
+						"4"
 					]
 				}
 			},
@@ -62,7 +62,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/user-by-name/Niko",
+					"raw": "http://127.0.0.1:5000/nutzer-by-name/Niko",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -72,7 +72,7 @@
 					],
 					"port": "5000",
 					"path": [
-						"user-by-name",
+						"nutzer-by-name",
 						"Niko"
 					]
 				}
