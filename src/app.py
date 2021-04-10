@@ -21,18 +21,6 @@ user = api.inherit('User', bo, {
     'name': fields.String(attribute='_name', description='Name eines Benutzers'),
     'email': fields.String(attribute='_email', description='E-Mail-Adresse eines Benutzers')
 })
-"""
-model = api.model('Model', {
-    'email': fields.String,
-    'id': fields.Integer,
-    'name': fields.String,
-})
-"""
-@api.route('/benito')
-class Benito(Resource):
-    def get(self):
-        return {'benito': 'schwanzhart'}
-
 
 @api.route('/user/<int:id>')
 @api.param('id', 'Die ID des Customer-Objekts')
