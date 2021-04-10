@@ -4,20 +4,20 @@ from src.server.bo import BusinessObject as bo
 class User (bo.BusinessObject):
     def __init__(self):
         super().__init__()
-        self._name = ""
-        self._email = ""
+        self.__name = ""
+        self.__email = ""
 
     def get_name(self):
-        return self._name
+        return self.__name
 
     def set_name(self, value):
-        self._name = value
+        self.__name = value
 
     def get_email(self):
-        return self._email
+        return self.__email
 
     def set_email(self, value):
-        self._email = value
+        self.__email = value
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz.
@@ -31,7 +31,7 @@ class User (bo.BusinessObject):
     def from_dict(dictionary=dict()):
         """"Umwandeln eines Python dict() in einen Customer()."""
         obj = User()
-        obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
+        # obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_name(dictionary["name"])
         obj.set_email(dictionary["email"])
         return obj
