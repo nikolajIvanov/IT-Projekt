@@ -3,33 +3,36 @@ import React, {Component} from 'react';
 class Test extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            data: null,
+            name: null,
+            //id später übergeben lassen
+            id: 0,
         };
     }
 
-
+//Beim starten der Componente wird die API Schnittstelle aufgerufen
     componentDidMount() {
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
         };
 
-        fetch("http://127.0.0.1:5000/user", requestOptions)
+//Die API Schnittstelle
+        fetch("http://127.0.0.1:5000/user/" + this.state.id, requestOptions)
             .then(response => response.json())
-            /*.then(result => this.setState({
-                    data: result.name
+            .then(result => this.setState({
+                    name: result.name
             }
-            ))*/
-            .then(result => console.log(result.name))
+            ))
+            //Falls ein fehler auftritt wird in der Konsole ein error angezeigt
             .catch(error => console.log('error', error));
     }
 
+//Die Komponente rendert ein H1 Tag mit dem Namen von der API
     render() {
         return (
             <div>
-                <h1>{this.state.data}</h1>
+                <h1>{this.state.name}</h1>
             </div>
         );
     }
