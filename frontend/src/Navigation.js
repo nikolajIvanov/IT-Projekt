@@ -25,7 +25,7 @@ class Navigation extends Component {
                         <BottomNavigationAction label="Profil" icon={<PersonIcon />} />
                     </Link>
                     <BottomNavigationAction label="Logout" icon={<ExitToAppIcon/>}
-                                            onClick={this.props.handleLogOut}/>
+                                            onClick={this.props.logOut}/>
                 </BottomNavigation>
             </div>
         );
