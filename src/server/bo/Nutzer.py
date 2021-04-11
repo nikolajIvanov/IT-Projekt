@@ -26,7 +26,6 @@ class Nutzer (bo.BusinessObject):
         des jeweiligen Kunden."""
         return "Customer: {}, {}, {}".format(self.get_id(), self.get_name(), self.get_email())
 
-
     @staticmethod
     def from_dict(dictionary=dict()):
         """"Umwandeln eines Python dict() in einen Customer()."""
