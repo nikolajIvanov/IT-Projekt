@@ -9,7 +9,7 @@ from server.api.NutzerListApi import NutzerListApi
 from server.api.NutzerApi import NutzerApi
 from server.api.NutzerByNameApi import NutzerByNameApi
 
-
+# Flask implementierung
 app = Flask(__name__)
 
 CORS(app, resources=r'/*')
