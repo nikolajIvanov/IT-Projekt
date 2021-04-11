@@ -1,14 +1,16 @@
 import React from "react";
 import './App.css';
 import firebaseConfig from "./firebaseconfig";
-import Test from "./Test";
+import GetUser from "./GetUser";
+import SetNewUser from "./SetNewUser";
 
 class App extends React.Component {
   render() {
     return(
       <div>
-        <h1 className="App">Lern Bumble</h1>
-          <Test/>
+        <h1 className="App">Willkommen</h1>
+          <GetUser/>
+          <SetNewUser/>
       </div>
     );
   }
