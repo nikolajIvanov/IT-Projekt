@@ -20,4 +20,3 @@ class NutzerApi(Resource):
 
         if n is not None:
             n.set_id(id)
-

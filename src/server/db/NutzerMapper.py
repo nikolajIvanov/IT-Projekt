@@ -64,8 +64,16 @@ class NutzerMapper(Mapper):
 
         return result
 
-    def update(self):
-        pass
+    def update(self, user):
+
+        cursor = self._cnx.cursor()
+
+        command = "UPDATE users" + "SET name=% email=%s WHERE id = %s"
+        data = (user.get_name(), user.get_email(), user.get_user_id())
+        cursor.execute(command, data)
+
+        self._cnx.commit()
+        cursor.close()
 
     def delete(self):
         pass

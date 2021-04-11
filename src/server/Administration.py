@@ -40,3 +40,12 @@ class Administration(object):
     def get_user_by_name(self, value):
         with NutzerMapper() as mapper:
             return mapper.find_by_name(value)
+
+    def update(self, name, email):
+        user = Nutzer()
+        user.set_name(name)
+        user.set_email(email)
+        user.set_id(1)
+
+        with NutzerMapper() as mapper:
+            return mapper.update(user)
