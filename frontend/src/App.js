@@ -8,6 +8,7 @@ import Navigation from "./Navigation";
 import './App.css';
 import firebase from "./firebase";
 import LogIn from "./LogIn";
+import Chat2 from './ChatTest2';
 
 
 
@@ -146,6 +147,7 @@ class App extends React.Component {
                             <Route path="/" exact component={Home}/>
                             <Route path="/gruppen"  component={Gruppen}/>
                             <Route path="/profile"  component={Profile}/>
+                            <Route path="/chat"  component={Chat2}/>
                         </Switch>
                     </Router>
             ) : (

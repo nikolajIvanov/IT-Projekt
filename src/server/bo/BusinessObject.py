@@ -17,4 +17,3 @@ class BusinessObject(ABC):
     def set_id(self,value):
         """Setzen der ID."""
         self.__id = value
-
