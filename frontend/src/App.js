@@ -108,6 +108,8 @@ class App extends React.Component {
             .auth().signOut();
     }
 
+
+
     authListener(){
         firebase.auth().onAuthStateChanged(user => {
                 if (user) {
