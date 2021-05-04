@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,8 +11,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import {withStyles} from "@material-ui/styles";
+import PropTypes from "prop-types";
 
-const useStyles = makeStyles((theme) => ({
+const styles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
@@ -32,10 +34,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-import React, {Component} from 'react';
-import {withStyles} from "@material-ui/styles";
-import PropTypes from "prop-types";
-
 class Login2 extends Component {
     constructor(props) {
         super(props);
@@ -45,7 +43,24 @@ class Login2 extends Component {
         const { classes } = this.props;
         return (
             <div>
+                {/*
+                TODO Email Funktionen
+                        <input type="text" autoComplete="on" autoFocus required
 
+                        TODO das nehmen --> value={this.props.email} onChange={(e) => this.props.setEmail(e.target.value)}
+
+                    />
+                        <p className="errorMsg">{this.props.emailError}</p>
+
+                        TODO Passwort Funktionen
+                        <label>Password</label>
+                        <input type="text" autoFocus required
+
+                        TODO --> value={this.props.password} onChange={(e) => this.props.setPassword(e.target.value)}/>
+
+                        <p className="errorMsg">{this.props.passwordError}</p>
+                        <div className="btnContainer">
+                */}
             </div>
         );
     }
@@ -57,8 +72,11 @@ Login2.propTypes = {
 
 export default withStyles(styles)(Login2);
 
+
+
 ////// Hier darf nichts mehr kommen
 
+/*
 export default function SignIn(props) {
     const classes = useStyles();
 
@@ -82,8 +100,6 @@ export default function SignIn(props) {
                         name="email"
                         autoComplete="email"
                         autoFocus
-                        value={this.props.email}
-                        onChange={(e) => this.props.setEmail(e.target.value)}
                     />
                     <TextField
                         variant="outlined"
@@ -105,8 +121,6 @@ export default function SignIn(props) {
                         fullWidth
                         variant="contained"
                         color="primary"
-                        className={classes.submit}
-                        onClick={this.props.handleLogIn}
                     >
                         Sign In
                     </Button>
@@ -127,3 +141,4 @@ export default function SignIn(props) {
         </Container>
     );
 }
+*/
