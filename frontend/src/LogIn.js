@@ -8,10 +8,12 @@ class LogIn extends Component {
     render() {
         return (
             <div>
-                {/*TODO styling anpassen*/}
+
+                {/*Login Felder*/}
+
                 <section className="login" style={{textAlign: "center"}}>
                     <div className="logincontainer">
-                        <label>Username</label>
+                        <label>Email</label>
                         <input type="text" autoComplete="on" autoFocus required value={this.props.email}
                                onChange={(e) => this.props.setEmail(e.target.value)}/>
                         <p className="errorMsg">{this.props.emailError}</p>
@@ -20,6 +22,9 @@ class LogIn extends Component {
                                onChange={(e) => this.props.setPassword(e.target.value)}/>
                         <p className="errorMsg">{this.props.passwordError}</p>
                         <div className="btnContainer">
+
+                            {/*Anmeldungs- und Registrierungsoption wechseln*/}
+
                             {this.props.hasAccount ? (
                                 <>
                                     <button onClick={this.props.handleLogIn}>Einloggen</button>
@@ -27,7 +32,6 @@ class LogIn extends Component {
                                         onClick={() => this.props.setHasAccount(!this.props.hasAccount)
                                         }>Anmelden</span></p>
                                 </>
-
                             ) : (
                                 <>
                                     <button onClick={this.props.handleSignUp}>Anmelden</button>

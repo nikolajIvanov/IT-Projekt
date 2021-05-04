@@ -10,8 +10,6 @@ import firebase from "./firebase";
 import LogIn from "./LogIn";
 import Chat2 from './ChatTest2';
 
-
-
 class App extends React.Component {
     constructor() {
         super();
@@ -65,6 +63,8 @@ class App extends React.Component {
             hasAccount: value
         })
     }
+
+    //TODO Errormeldungen noch personalisieren
 
     handleLogIn(){
         this.clearErrors();
