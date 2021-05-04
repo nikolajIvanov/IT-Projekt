@@ -10,7 +10,7 @@ import firebase from "./firebase";
 import LogIn from "./LogIn";
 import Chat2 from './ChatTest2';
 import Loger from './Login 2'
-import SignUp from './SignUp'
+import SignUp from './SignUP'
 
 class App extends React.Component {
     constructor() {

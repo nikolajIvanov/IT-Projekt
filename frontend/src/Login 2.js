@@ -7,24 +7,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -46,7 +32,34 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignIn() {
+import React, {Component} from 'react';
+import {withStyles} from "@material-ui/styles";
+import PropTypes from "prop-types";
+
+class Login2 extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const { classes } = this.props;
+        return (
+            <div>
+
+            </div>
+        );
+    }
+}
+
+Login2.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Login2);
+
+////// Hier darf nichts mehr kommen
+
+export default function SignIn(props) {
     const classes = useStyles();
 
     return (
@@ -65,11 +78,12 @@ export default function SignIn() {
                         margin="normal"
                         required
                         fullWidth
-                        id="email"
                         label="Email Address"
                         name="email"
                         autoComplete="email"
                         autoFocus
+                        value={this.props.email}
+                        onChange={(e) => this.props.setEmail(e.target.value)}
                     />
                     <TextField
                         variant="outlined"
@@ -92,6 +106,7 @@ export default function SignIn() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={this.props.handleLogIn}
                     >
                         Sign In
                     </Button>
@@ -109,9 +124,6 @@ export default function SignIn() {
                     </Grid>
                 </form>
             </div>
-            <Box mt={8}>
-                <Copyright />
-            </Box>
         </Container>
     );
 }
