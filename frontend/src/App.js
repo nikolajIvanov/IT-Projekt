@@ -9,6 +9,7 @@ import './App.css';
 import firebase from "./firebase";
 import LogIn from "./LogIn";
 import Chat2 from './ChatTest2';
+import Loger from './Login 2'
 
 class App extends React.Component {
     constructor() {
@@ -151,11 +152,14 @@ class App extends React.Component {
                         </Switch>
                     </Router>
             ) : (
+                <div>
+                <Loger/>
                 <LogIn email={this.state.email} setEmail={this.setEmail}
                        password={this.state.password} setPassword={this.setPassword}
                        handleLogIn={this.handleLogIn} handleSignUp={this.handleSignUp}
                        hasAccount={this.state.hasAccount} setHasAccount={this.setHasAccount}
                        emailError={this.state.emailError} passwordError={this.state.passwordError}/>
+                </div>
             )}
         </div>
     );
