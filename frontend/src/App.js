@@ -10,6 +10,7 @@ import firebase from "./firebase";
 import LogIn from "./LogIn";
 import Chat2 from './ChatTest2';
 import Loger from './Login 2'
+import SignUp from './SignUp'
 
 class App extends React.Component {
     constructor() {
@@ -153,7 +154,16 @@ class App extends React.Component {
                     </Router>
             ) : (
                 <div>
-                <Loger/>
+                <Loger
+                    email={this.state.email}
+                    password={this.state.password}
+                    handleLogIn={this.handleLogIn}
+                />
+                    <SignUp
+                        setEmail={this.setEmail}
+                        setPassword={this.setPassword}
+                        handleSignUp={this.handleSignUp}
+                    />
                 <LogIn email={this.state.email} setEmail={this.setEmail}
                        password={this.state.password} setPassword={this.setPassword}
                        handleLogIn={this.handleLogIn} handleSignUp={this.handleSignUp}

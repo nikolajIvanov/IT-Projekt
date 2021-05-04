@@ -11,6 +11,8 @@ class LogIn extends Component {
 
                 {/*Login Felder*/}
 
+                {/*TODO Login & SignUp Componenten zusammenführen*/}
+
                 <section className="login" style={{textAlign: "center"}}>
                     <div className="logincontainer">
                         <label>Email</label>
