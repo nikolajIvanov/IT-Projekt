@@ -14,10 +14,12 @@ import PropTypes from "prop-types";
 
 const styles = theme => ({
   paper: {
-    marginTop: "theme.spacing(8)",
+    margin: "auto",
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: "center",
+    position: "relative",
   },
   avatar: {
     margin: "theme.spacing(1)",
@@ -26,10 +28,19 @@ const styles = theme => ({
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: "theme.spacing(3)",
+    justifyContent: "center",
+    alignItems: 'center',
   },
   submit: {
-    margin: "theme.spacing(3, 0, 2)",
+    marginTop: "10%",
+
   },
+  body:{
+    alignItems: 'center',
+    justifyContent: "flex-start",
+    display: "flex",
+  },
+
 });
 
 
@@ -42,8 +53,8 @@ class SignUp extends Component {
         const { classes } = this.props;
         return (
             <div>
-              <Container component="main" maxWidth="xs">
-      <CssBaseline />
+              <Container className={classes.body} component="main" maxWidth="xs">
+
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -83,7 +94,6 @@ class SignUp extends Component {
 
           </Grid>
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"
@@ -94,9 +104,9 @@ class SignUp extends Component {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <p style={{color:"blue",textDecoration:"underline"}} onClick={this.props.switch} >
                 Already have an account? Sign in
-              </Link>
+              </p>
             </Grid>
           </Grid>
         </form>
