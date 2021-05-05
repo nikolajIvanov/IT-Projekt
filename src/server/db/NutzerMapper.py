@@ -100,8 +100,8 @@ class NutzerMapper(Mapper):
                 """
                 user.set_id(1)
 
-            command = "INSERT INTO users (id, name, email) VALUES (%s,%s,%s)"
-            data = (user.get_id(), user.get_name(), user.get_email())
+            command = "INSERT INTO users (id, uid, name, email) VALUES (%s,%s,%s,%s)"
+            data = (user.get_id(), user.get_uid(), user.get_name(), user.get_email())
             cursor.execute(command, data)
 
             self._cnx.commit()

@@ -1,29 +1,6 @@
-from flask import Flask
-from flask_restx import Api, Resource
-from flask_cors import CORS
-
-# Api Endpunkte
-from server.Administration import Administration
-from server.bo.Nutzer import Nutzer
-app = Flask(__name__)
-
-CORS(app, resources=r'/*')
-
-api = Api(app)
-
-@api.route('/test')
-class Test(Resource):
-
-    def get(self):
-        pass
-
-    def post(self):
-        """Anlegen eines neuen Nutzer-Objekts.
-
-                :return:
-                """
-        print(api.payload)
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
+from src.server.Administration import Administration
+from src.server.bo.Nutzer import Nutzer
+adm = Administration()
+data = {"uid": "test_uid", "name": "test_name", "email": "test_email"}
+proposal = Nutzer.from_dict(data)
+adm.create_user(proposal.get_uid(), proposal.get_name(), proposal.get_email())

@@ -24,6 +24,7 @@ def handleMessage(msg):
     send(msg, broadcast=True)
     return None
 
+
 # Api Endpunkte werden mit der Funktion add_resource an Flask übergeben
 api.add_resource(TestApi, '/test-api/<int:number>')
 api.add_resource(NutzerListApi, '/users')
