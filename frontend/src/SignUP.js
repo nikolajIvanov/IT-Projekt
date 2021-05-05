@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {withStyles} from "@material-ui/styles";
 import PropTypes from "prop-types";
+import SignUpWithGoogle from "./SignUpWithGoogle";
 
 
 const styles = theme  => ({
@@ -38,7 +39,6 @@ const styles = theme  => ({
     justifyContent: "flex-start",
     display: "flex",
   },
-
 });
 
 
@@ -58,8 +58,10 @@ class SignUp extends Component {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Erstellen Sie Ihr kostenloses Konto
         </Typography>
+        <SignUpWithGoogle/>
+        <p>Oder</p>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>

@@ -5,6 +5,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import GroupIcon from '@material-ui/icons/Group';
 import PersonIcon from '@material-ui/icons/Person';
 import HomeIcon from '@material-ui/icons/Home';
+import ChatIcon from '@material-ui/icons/Chat';
 import { Link } from "react-router-dom"
 
 class Navigation extends Component {
@@ -23,6 +24,9 @@ class Navigation extends Component {
                     </Link>
                     <Link to="/profile">
                         <BottomNavigationAction label="Profil" icon={<PersonIcon />} />
+                    </Link>
+                    <Link to="/chat">
+                        <BottomNavigationAction label="Chat" icon={<ChatIcon />} />
                     </Link>
                     <BottomNavigationAction label="Logout" icon={<ExitToAppIcon/>}
                                             onClick={this.props.logOut}/>

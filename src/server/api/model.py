@@ -16,3 +16,4 @@ user = api.inherit('Nutzer', bo, {
 
 })
 
+

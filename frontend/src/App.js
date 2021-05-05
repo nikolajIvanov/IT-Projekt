@@ -12,6 +12,7 @@ import Chat2 from './ChatTest2';
 import Login2 from './Login 2';
 import SignUp from './SignUP'
 
+
 class App extends React.Component {
     constructor() {
         super();
@@ -181,7 +182,6 @@ class App extends React.Component {
                                 handleSignUp={this.handleSignUp}
                                 switch = {this.switch}
                                 />
-
                                 </>
                             )}
 
