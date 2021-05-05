@@ -165,29 +165,21 @@ class App extends React.Component {
                         <>
                             <Login2
 
-                    email={this.state.email}
-                    password={this.state.password}
-                    handleLogIn={this.handleLogIn}
-                    setEmail={this.setEmail}
-                    setPassword={this.setPassword}
-                    switch = {this.switch}
+                                email={this.state.email}
+                                password={this.state.password}
+                                handleLogIn={this.handleLogIn}
+                                setEmail={this.setEmail}
+                                setPassword={this.setPassword}
+                                switch = {this.switch}
                 />
-
-
-                <LogIn email={this.state.email} setEmail={this.setEmail}
-                       password={this.state.password} setPassword={this.setPassword}
-                       handleLogIn={this.handleLogIn} handleSignUp={this.handleSignUp}
-                       hasAccount={this.state.hasAccount} setHasAccount={this.setHasAccount}
-                       emailError={this.state.emailError} passwordError={this.state.passwordError}/>
-
                                 </>
-                            ) : (
-                                <>
-                                    <SignUp
-                                    setEmail={this.setEmail}
-                                    setPassword={this.setPassword}
-                                    handleSignUp={this.handleSignUp}
-                                    switch = {this.switch}
+                    ) : (
+                        <>
+                            <SignUp
+                                setEmail={this.setEmail}
+                                setPassword={this.setPassword}
+                                handleSignUp={this.handleSignUp}
+                                switch = {this.switch}
                                 />
 
                                 </>
