@@ -7,7 +7,6 @@ import Profile from "./Profile";
 import Navigation from "./Navigation";
 import './App.css';
 import firebase from "./firebase";
-import LogIn from "./LogIn";
 import Chat2 from './ChatTest2';
 import Login2 from './Login 2';
 import SignUp from './SignUP'
