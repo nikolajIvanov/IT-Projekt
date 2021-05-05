@@ -9,7 +9,7 @@ import './App.css';
 import firebase from "./firebase";
 import LogIn from "./LogIn";
 import Chat2 from './ChatTest2';
-import Login2 from './Login 2';
+import Loger from './Login 2'
 import SignUp from './SignUP'
 
 class App extends React.Component {
@@ -29,8 +29,7 @@ class App extends React.Component {
         this.setPassword = this.setPassword.bind(this);
         this.clearErrors = this.clearErrors.bind(this);
         this.handleSignUp = this.handleSignUp.bind(this);
-        this.handleLogIn = this.handleLogIn.bind(this);
-        this.switch = this.switch.bind(this)
+        this.handleLogIn = this.handleLogIn.bind(this)
     }
 
     componentDidMount() {
@@ -141,11 +140,7 @@ class App extends React.Component {
             passwordError:''
         })
     }
-    switch(){
-        this.setState({
-            hasAccount:!this.hasAccount
-        })
-    }
+
   render() {
     return(
         <div>
@@ -161,38 +156,21 @@ class App extends React.Component {
                     </Router>
             ) : (
                 <div>
-                    {this.state.hasAccount ? (
-                        <>
-                            <Login2
-
+                <Loger
                     email={this.state.email}
                     password={this.state.password}
                     handleLogIn={this.handleLogIn}
-                    setEmail={this.setEmail}
-                    setPassword={this.setPassword}
-                    switch = {this.switch}
                 />
-
-
+                    <SignUp
+                        setEmail={this.setEmail}
+                        setPassword={this.setPassword}
+                        handleSignUp={this.handleSignUp}
+                    />
                 <LogIn email={this.state.email} setEmail={this.setEmail}
                        password={this.state.password} setPassword={this.setPassword}
                        handleLogIn={this.handleLogIn} handleSignUp={this.handleSignUp}
                        hasAccount={this.state.hasAccount} setHasAccount={this.setHasAccount}
                        emailError={this.state.emailError} passwordError={this.state.passwordError}/>
-
-                                </>
-                            ) : (
-                                <>
-                                    <SignUp
-                                    setEmail={this.setEmail}
-                                    setPassword={this.setPassword}
-                                    handleSignUp={this.handleSignUp}
-                                    switch = {this.switch}
-                                />
-
-                                </>
-                            )}
-
                 </div>
             )}
         </div>
