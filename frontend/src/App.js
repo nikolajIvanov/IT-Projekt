@@ -143,7 +143,7 @@ class App extends React.Component {
     }
     switch(){
         this.setState({
-            hasAccount:!this.hasAccount
+            hasAccount:!this.state.hasAccount
         })
     }
   render() {

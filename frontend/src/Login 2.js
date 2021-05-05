@@ -91,19 +91,18 @@ class Login2 extends Component {
                             </Button>
                             <Grid container>
                                 <Grid item xs>
-                                    <Link onClick={this.props.switch}>
+                                    <Link>
                                         Forgot password?
                                     </Link>
                                 </Grid>
                                 <Grid item>
-                                    <p onClick={this.props.switch}>
+                                    <p style={{color:"blue",textDecoration:"underline"}} onClick={this.props.switch}>
                                         Don't have an account? Sign Up
                                     </p>
                                 </Grid>
                             </Grid>
                         </form>
                     </div>
-                    <p onClick={this.props.switch}>Drück mich!</p>
                 </Container>
                 {/*
                 TODO Email Funktionen
