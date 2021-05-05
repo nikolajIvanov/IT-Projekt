@@ -9,7 +9,7 @@ import './App.css';
 import firebase from "./firebase";
 import LogIn from "./LogIn";
 import Chat2 from './ChatTest2';
-import Loger from './Login 2'
+import Login2 from './Login 2';
 import SignUp from './SignUP'
 
 class App extends React.Component {
@@ -163,11 +163,14 @@ class App extends React.Component {
                 <div>
                     {this.state.hasAccount ? (
                         <>
-                            <Loger
+                            <Login2
 
                     email={this.state.email}
                     password={this.state.password}
                     handleLogIn={this.handleLogIn}
+                    setEmail={this.setEmail}
+                    setPassword={this.setPassword}
+                    switch = {this.switch}
                 />
 
 

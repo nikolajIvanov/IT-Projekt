@@ -9,30 +9,29 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {withStyles} from "@material-ui/styles";
 import PropTypes from "prop-types";
 
-const styles = makeStyles((theme) => ({
+const styles = theme => ({
     paper: {
-        marginTop: theme.spacing(8),
+        marginTop: "theme.spacing(8)",
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
     },
     avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+        margin: "theme.spacing(1)",
+        backgroundColor: "theme.palette.secondary.main",
     },
     form: {
         width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
+        marginTop: "theme.spacing(1)",
     },
     submit: {
-        margin: theme.spacing(3, 0, 2),
+        margin: "theme.spacing(3, 0, 2)",
     },
-}));
+});
 
 class Login2 extends Component {
     constructor(props) {
@@ -62,6 +61,8 @@ class Login2 extends Component {
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
+                                value = {this.props.email}
+                                onChange={(e)=>this.props.setEmail(e.target.value)}
                             />
                             <TextField
                                 variant="outlined"
@@ -73,13 +74,15 @@ class Login2 extends Component {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                                value = {this.props.password}
+                                onChange={(e)=>this.props.setPassword(e.target.value)}
                             />
                             <FormControlLabel
                                 control={<Checkbox value="remember" color="primary" />}
                                 label="Remember me"
                             />
                             <Button
-                                type="submit"
+                                onClick={this.props.handleLogIn}
                                 fullWidth
                                 variant="contained"
                                 color="primary"
@@ -88,24 +91,24 @@ class Login2 extends Component {
                             </Button>
                             <Grid container>
                                 <Grid item xs>
-                                    <Link href="#" variant="body2">
+                                    <Link onClick={this.props.switch}>
                                         Forgot password?
                                     </Link>
                                 </Grid>
                                 <Grid item>
-                                    <Link href="#" variant="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link>
+                                    <p onClick={this.props.switch}>
+                                        Don't have an account? Sign Up
+                                    </p>
                                 </Grid>
                             </Grid>
                         </form>
                     </div>
+                    <p onClick={this.props.switch}>Drück mich!</p>
                 </Container>
                 {/*
                 TODO Email Funktionen
                         <input type="text" autoComplete="on" autoFocus required
-
-                        TODO das nehmen --> value={this.props.email} onChange={(e) => this.props.setEmail(e.target.value)}
+                        Noch aktuell?
 
                     />
                         <p className="errorMsg">{this.props.emailError}</p>
@@ -113,8 +116,6 @@ class Login2 extends Component {
                         TODO Passwort Funktionen
                         <label>Password</label>
                         <input type="text" autoFocus required
-
-                        TODO --> value={this.props.password} onChange={(e) => this.props.setPassword(e.target.value)}/>
 
                         <p className="errorMsg">{this.props.passwordError}</p>
                         <div className="btnContainer">
