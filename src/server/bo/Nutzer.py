@@ -31,7 +31,7 @@ class Nutzer (bo.BusinessObject):
 
         Diese besteht aus der ID der Superklasse ergänzt durch den Vor- und Nachnamen
         des jeweiligen Kunden."""
-        return "Customer: {}, {}, {}".format(self.get_id(), self.get_uid(), self.get_name(), self.get_email())
+        return "Customer: {}, {}, {}, {}".format(self.get_id(), self.get_uid(), self.get_name(), self.get_email())
 
     @staticmethod
     def from_dict(dictionary=dict()):
