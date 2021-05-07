@@ -6,7 +6,7 @@ from .db.NutzerMapper import NutzerMapper
 
 
 class Administration(object):
-    """Diese Klasse aggregiert nahezu sämtliche Applikationslogik (engl. Business Logic).
+    """Diese Klasse aggregiert nahezu sämtliche Applikationslogik (Engl. Business Logic).
 
     """
     def __init__(self):

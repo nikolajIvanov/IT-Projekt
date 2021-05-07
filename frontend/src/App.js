@@ -171,6 +171,8 @@ class App extends React.Component {
                                 setEmail={this.setEmail}
                                 setPassword={this.setPassword}
                                 switch = {this.switch}
+                                passwordError ={this.setPasswordError}
+                                emailError = {this.setEmailError}
                 />
                                 </>
                     ) : (
@@ -180,6 +182,8 @@ class App extends React.Component {
                                 setPassword={this.setPassword}
                                 handleSignUp={this.handleSignUp}
                                 switch = {this.switch}
+                                passwordError={this.setPasswordError}
+                                emailError={this.setEmailError}
                                 />
                                 </>
                             )}
