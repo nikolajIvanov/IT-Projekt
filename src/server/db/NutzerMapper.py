@@ -29,7 +29,8 @@ class NutzerMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, name, email FROM `test-bank`.users WHERE id={}".format(key))
+        command = "SELECT id, name, email FROM `test-bank`.users WHERE id={}".format(key)
+        cursor.execute(command)
         tuples = cursor.fetchall()
 
         (id, name, email) = tuples[0]
