@@ -21,7 +21,7 @@ class Profil (bo.BusinessObject):
         self.__lerntyp = value
 
     def get_modul(self):
-        return self.__modul
+        pass
 
     def set_modul(self):
         pass
