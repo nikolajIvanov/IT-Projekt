@@ -76,6 +76,7 @@ class SignUp extends Component {
                 value ={this.props.email}
                 onChange={(e) => this.props.setEmail(e.target.value)}
               />
+              <p className="errorMsg">{this.props.emailError}</p>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -92,6 +93,7 @@ class SignUp extends Component {
                 onChange={(e) => this.props.setPassword(e.target.value)}
               />
             </Grid>
+            <p className="errorMsg">{this.props.passwordError}</p>
 
           </Grid>
           <Button
