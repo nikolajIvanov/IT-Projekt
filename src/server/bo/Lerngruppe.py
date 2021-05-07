@@ -24,3 +24,12 @@ class Lerngruppe(BusinessObject):
 
     def getProfilbild(self):
         return self.__profilbild
+
+    def setProfilbild(self, profilbild):
+        self.__profilbild = profilbild
+
+    def getAdmin(self):
+        return self.__admin
+
+    def setAdmin(self, admin):
+        self.__admin = admin
