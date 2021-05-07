@@ -17,8 +17,36 @@ class LerngruppeMapper(Mapper):
             lerngruppe.set_id(id)
             lerngruppe.setName(name)
             lerngruppe.setBeschreibung(beschreibung)
-            lerngruppe.
+            lerngruppe.setAdmin(admin)
+            result.append(lerngruppe)
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
 
 
-    def find_by_key(self):
-        pass
+    def find_by_name(self, name):
+        result = None
+
+        cursor = self._cnx.cursor()
+        """TODO: Welche Datenbank?"""
+
+        command = "SELECT id, name, beschreibung, profilbild, admin FROM `test-bank`.users WHERE name LIKE '{}'" \
+                  "ORDER BY  name".format(name)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        (id, name, beschreibung, profilbild, admin) = tuples[0]
+        lerngruppe = Lerngruppe()
+        lerngruppe.set_id(id)
+        lerngruppe.setName(name)
+        lerngruppe.setBeschreibung(beschreibung)
+        lerngruppe.setProfilbild(profilbild)
+        lerngruppe.setAdmin(admin)
+        result = lerngruppe
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
