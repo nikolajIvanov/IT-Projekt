@@ -4,3 +4,4 @@ flask-restx
 mysql-connector-python
 google-auth
 requests
+Flask-SocketIO

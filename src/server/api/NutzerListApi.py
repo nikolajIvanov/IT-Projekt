@@ -26,7 +26,7 @@ class NutzerListApi(Resource):
         proposal = Nutzer.from_dict(api.payload)
 
         if proposal is not None:
-            u = adm.create_user(proposal.get_name(), proposal.get_email())
+            u = adm.create_user(proposal.get_uid(), proposal.get_name(), proposal.get_email())
             return u, 200
         else:
             return '', 500

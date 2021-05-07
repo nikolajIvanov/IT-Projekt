@@ -5,14 +5,17 @@ class GetUid extends Component {
     constructor() {
         super();
         this.state={
-            userId : ""
+            userId : "",
+            email : "",
+            benutzername: "test"
         }
     }
 
-    componentDidMount() {
-        const data = firebase.auth().currentUser
+    async componentDidMount() {
+        const data = await firebase.auth().currentUser
         this.setState({
-            userId : data.uid
+            userId: data.uid,
+            email: data.email
         })
         this.sendeDaten()
     }
@@ -24,7 +27,11 @@ class GetUid extends Component {
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,
-            body: JSON.stringify({"uid": this.state.userId}),
+            body: JSON.stringify({
+                "uid": this.state.userId,
+                "name" : this.state.benutzername,
+                "email" : this.state.email,
+            }),
             redirect: 'follow'
         };
 
