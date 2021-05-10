@@ -12,6 +12,8 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {withStyles} from "@material-ui/styles";
 import PropTypes from "prop-types";
+import Logo from './assets/Logo_LogIn.svg'
+import './App.css';
 
 const styles = theme => ({
     paper: {
@@ -31,6 +33,10 @@ const styles = theme => ({
     submit: {
         margin: "theme.spacing(3, 0, 2)",
     },
+    img: {
+        height: "69%",
+        width: "69%"
+    },
 });
 
 class Login2 extends Component {
@@ -45,9 +51,7 @@ class Login2 extends Component {
                 <Container component="main" maxWidth="xs">
                     <CssBaseline />
                     <div className={classes.paper}>
-                        <Avatar className={classes.avatar}>
-                            <LockOutlinedIcon />
-                        </Avatar>
+                        <img src={Logo} alt="Logo" className={classes.img}/>
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
@@ -77,27 +81,23 @@ class Login2 extends Component {
                                 value = {this.props.password}
                                 onChange={(e)=>this.props.setPassword(e.target.value)}
                             />
-                            <FormControlLabel
-                                control={<Checkbox value="remember" color="primary" />}
-                                label="Remember me"
-                            />
                             <Button
                                 onClick={this.props.handleLogIn}
                                 fullWidth
                                 variant="contained"
                                 color="primary"
                             >
-                                Sign In
+                                Einloggen
                             </Button>
                             <Grid container>
                                 <Grid item xs>
                                     <Link>
-                                        Forgot password?
+                                        Passwort vergessen?
                                     </Link>
                                 </Grid>
                                 <Grid item>
                                     <p style={{color:"blue",textDecoration:"underline"}} onClick={this.props.switch}>
-                                        Don't have an account? Sign Up
+                                        Du hast keinen Account? Registrieren
                                     </p>
                                 </Grid>
                             </Grid>

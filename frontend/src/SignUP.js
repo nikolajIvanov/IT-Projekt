@@ -3,13 +3,13 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {withStyles} from "@material-ui/styles";
 import PropTypes from "prop-types";
 import SignUpWithGoogle from "./SignUpWithGoogle";
-
+import Logo from './assets/Logo_LogIn.svg'
+import './App.css';
 
 const styles = theme  => ({
   paper: {
@@ -39,8 +39,11 @@ const styles = theme  => ({
     justifyContent: "flex-start",
     display: "flex",
   },
+  img: {
+    height: "69%",
+    width: "69%"
+  },
 });
-
 
 class SignUp extends Component {
     constructor(props) {
@@ -54,14 +57,12 @@ class SignUp extends Component {
               <Container className={classes.body} component="main" maxWidth="xs">
 
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+          <img src={Logo} alt="Logo" className={classes.img}/>
         <Typography component="h1" variant="h5">
           Erstellen Sie Ihr kostenloses Konto
         </Typography>
         <SignUpWithGoogle/>
-        <p>Oder</p>
+        <p className="App">Oder</p>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -103,12 +104,12 @@ class SignUp extends Component {
             className={classes.submit}
             onClick={this.props.handleSignUp}
           >
-            Sign Up
+            Anmelden
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <p style={{color:"blue",textDecoration:"underline"}} onClick={this.props.switch} >
-                Already have an account? Sign in
+              <p className="sText" style={{color:"blue",textDecoration:"underline"}} onClick={this.props.switch} >
+                Du hast einen Account? Einloggen
               </p>
             </Grid>
           </Grid>
