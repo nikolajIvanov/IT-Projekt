@@ -1,18 +1,13 @@
-from src.server.bo import BusinessObject as bo
+from src.server.bo import Profil
 
 
-class Nutzer (bo.BusinessObject):
+
+class Nutzer(Profil):
     def __init__(self):
         super().__init__()
-        self.__name = ""
         self.__email = ""
         self.__uid = ""
-
-    def get_name(self):
-        return self.__name
-
-    def set_name(self, value):
-        self.__name = value
+        self.__geburtsdatum = ""
 
     def get_email(self):
         return self.__email
@@ -26,11 +21,18 @@ class Nutzer (bo.BusinessObject):
     def set_uid(self, value):
         self.__uid = value
 
+    def get_geburtsdatum(self,):
+        return self.__geburtsdatum
+
+    def set_geburtsdatum(self, datum):
+        self.__geburtsdatum = datum
+
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz.
 
-        Diese besteht aus der ID der Superklasse ergänzt durch den Vor- und Nachnamen
+        Diese besteht aus der ID der Superklasse ergänzt durch die Google Uid den Vor- und Nachnamen und die Email
         des jeweiligen Kunden."""
+        # TODO LERNTYP MODUL dazu allgemein attribute anschaun pls
         return "Customer: {}, {}, {}, {}".format(self.get_id(), self.get_uid(), self.get_name(), self.get_email())
 
     @staticmethod
