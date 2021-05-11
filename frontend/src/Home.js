@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import GetUser from "./GetUser";
 import SetNewUser from "./SetNewUser";
-import GetUid from './API/getUID'
+import GetUID from './api/GetUID'
 
 class Home extends Component {
     render() {
         return (
             <div>
                 <h1 className="App">Willkommen</h1>
-                <GetUid/>
+                <GetUID/>
                 <GetUser/>
                 <SetNewUser/>
             </div>

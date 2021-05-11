@@ -7,9 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {withStyles} from "@material-ui/styles";
 import PropTypes from "prop-types";
-import SignUpWithGoogle from "./SignUpWithGoogle";
-import Logo from './assets/Logo_LogIn.svg'
-import './App.css';
+import SignUpWithGoogle from "./components/Button/SignUpWithGoogle";
+import Logo from '../Logo_LogIn.svg'
+import '../assets/App.css';
 
 const styles = theme  => ({
   paper: {

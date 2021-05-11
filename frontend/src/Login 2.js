@@ -12,8 +12,10 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {withStyles} from "@material-ui/styles";
 import PropTypes from "prop-types";
-import Logo from './assets/Logo_LogIn.svg'
-import './App.css';
+import Logo from '../Logo_LogIn.svg'
+import '../assets/App.css';
+import ButtonBestTigen from "./components/Button/ButtonBestätigen";
+
 
 const styles = theme => ({
     paper: {

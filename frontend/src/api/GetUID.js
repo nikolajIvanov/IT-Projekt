@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import firebase from "firebase";
 
-class GetUid extends Component {
+class GetUID extends Component {
     constructor() {
         super();
         this.state={
@@ -50,4 +50,4 @@ class GetUid extends Component {
     }
 }
 
-export default GetUid;
+export default GetUID;
