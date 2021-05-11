@@ -2,7 +2,7 @@ import Button from "@material-ui/core/Button";
 
 import React from 'react';
 
-function ButtonBestTigen() {
+function ButtonBestätigen() {
     return (
         <div>
             <Button style={style.button}/>
@@ -10,7 +10,7 @@ function ButtonBestTigen() {
     );
 }
 
-export default ButtonBestTigen;
+export default ButtonBestätigen;
 
 const style = {
     button :{

@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import '../../../assets/App.css';
+import '../../assets/App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "../../Home";
 import Gruppen from "../../Gruppen";
 import Profile from "../../Profile";
 import Navigation from "../../Navigation";
-import '../../../assets/App.css';
+import '../../assets/App.css';
 import firebase from "../../api/Firebase";
 import Chat2 from '../../ChatTest2';
 import Login2 from '../../Login 2';
