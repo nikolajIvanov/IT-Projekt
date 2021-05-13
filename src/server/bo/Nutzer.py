@@ -30,7 +30,8 @@ class Nutzer(Profil):
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz.
 
-        Diese besteht aus der ID der Superklasse ergänzt durch die Google Uid den Vor- und Nachnamen und die Email
+        Diese besteht aus der ID, dem Namen, den Lerntyp und den Modulen der Superklasse ergänzt durch die Google
+
         des jeweiligen Kunden."""
         # TODO LERNTYP MODUL dazu allgemein attribute anschaun pls
         return "Customer: {}, {}, {}, {}".format(self.get_id(), self.get_uid(), self.get_name(), self.get_email())
