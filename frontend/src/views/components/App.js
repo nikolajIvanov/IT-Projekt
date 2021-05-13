@@ -10,6 +10,10 @@ import firebase from "../../api/Firebase";
 import Chat2 from '../../ChatTest2';
 import Login2 from '../../Login 2';
 import SignUp from '../../SignUP'
+import InputFeld from "../../components/Textfeld/InputFeld";
+import DropDown from "../../components/Textfeld/Dropdown";
+import Registrierung from "./Registrierung";
+
 
 
 class App extends React.Component {
@@ -21,8 +25,12 @@ class App extends React.Component {
             user: '',
             emailError: '',
             passwordError :'',
-            hasAccount: false
-        }
+            hasAccount: false,
+            text: 'Hi',
+            }
+
+
+
         this.setHasAccount = this.setHasAccount.bind(this);
         this.handleLogOut = this.handleLogOut.bind(this);
         this.setEmail = this.setEmail.bind(this);
@@ -158,6 +166,8 @@ class App extends React.Component {
                             <Route path="/profile"  component={Profile}/>
                             <Route path="/chat"  component={Chat2}/>
                         </Switch>
+                        <InputFeld text = {this.state.text} />
+                        <Registrierung/>
                     </Router>
             ) : (
                 <div>
