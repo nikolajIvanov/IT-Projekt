@@ -32,10 +32,19 @@ class Administration(object):
             return mapper.insert(user)
 
     def get_all_users(self):
+        """
+
+        :return: Alle Objekte unsere Nutzer
+        """
         with NutzerMapper() as mapper:
             return mapper.find_all()
 
     def get_user_by_id(self, number):
+        """
+
+        :param number: Ist die UserID
+        :return:
+        """
         with NutzerMapper() as mapper:
             return mapper.find_by_key(number)
 
