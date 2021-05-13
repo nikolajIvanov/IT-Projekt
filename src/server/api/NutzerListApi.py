@@ -7,8 +7,7 @@ from server.bo.Nutzer import Nutzer
 class NutzerListApi(Resource):
     @api.marshal_list_with(user)
     def get(self):
-        """
-        Auslesen aller Nutzer-Objekte
+        """Auslesen aller Nutzer-Objekte
         :return: nutzer
         """
         adm = Administration()
