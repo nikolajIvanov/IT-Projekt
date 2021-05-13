@@ -1,5 +1,6 @@
 import React from 'react';
 import DropDown from "../../components/Textfeld/Dropdown";
+import MultiLine from "../../components/Textfeld/MultiLine";
 
 const genders = [
     {
@@ -18,7 +19,7 @@ const genders = [
 ]
 
 const droplabels = [
-    "Gender" , "Lerntyp 1", "Lerntyp 2"
+    "Gender" , "Lerntyp 1", "Lerntyp 2", "Module"
 ]
 
 const lerntypArten = [
@@ -40,7 +41,7 @@ const lerntypArten = [
     },
 ]
 
-const lernGeschwindigkeiten = [
+const lernSpeeds = [
     {
         value: '1',
         label: 'Langsam',
@@ -55,12 +56,28 @@ const lernGeschwindigkeiten = [
     },
 ]
 
+const modula = [
+    {
+        value: '1',
+        label: 'Programmieren',
+    },
+    {
+        value: '2',
+        label: 'Data Science',
+    },
+    {
+        value: '3',
+        label: 'Marketing',
+    },
+]
+
 
 
 function Registrierung() {
     const [gender, setGender] = React.useState('');
     const [lerntypArt, setLerntypArt] = React.useState('');
-    const [lernGeschwindigkeit, setlernGeschwindigkeit] = React.useState('');
+    const [lernSpeed, setLernSpeed] = React.useState('');
+    const [modul, setModul] = React.useState('');
 
     const handleGender = (event) => {
         setGender(event.target.value);
@@ -70,10 +87,13 @@ function Registrierung() {
         setLerntypArt(event.target.value);
     };
 
-    const handlelernGeschwindigkeit = (event) => {
-        setlernGeschwindigkeit(event.target.value);
+    const handleLernSpeed = (event) => {
+        setLernSpeed(event.target.value);
     };
 
+    const handleModul = (event) => {
+        setModul(event.target.value);
+    };
 
     return (
         <div>
@@ -90,11 +110,20 @@ function Registrierung() {
                 droplabel = {droplabels[1]}
             />
             <DropDown
-                handleChange = {handleLerntypArt}
-                input = {}
-                map = {lerntypArten}
+                handleChange = {handleLernSpeed}
+                input = {lernSpeed}
+                map = {lernSpeeds}
                 droplabel = {droplabels[2]}
             />
+            <DropDown
+                handleChange = {handleModul}
+                input = {modul}
+                map = {modula}
+                droplabel = {droplabels[3]}
+            />
+
+
+            <MultiLine />
 
         </div>
     );
