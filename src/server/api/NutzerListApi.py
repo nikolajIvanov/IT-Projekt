@@ -8,8 +8,6 @@ class NutzerListApi(Resource):
     @api.marshal_list_with(user)
     def get(self):
         """Auslesen aller Nutzer-Objekte
-        gdfdg
-        fgdhfg
         :return: nutzer
         """
         adm = Administration()
