@@ -1,6 +1,7 @@
 import React from 'react';
 import DropDown from "../../components/Textfeld/Dropdown";
 import MultiLine from "../../components/Textfeld/MultiLine";
+import DatePickers from "../../components/Textfeld/DatePicker";
 
 const genders = [
     {
@@ -97,6 +98,7 @@ function Registrierung() {
 
     return (
         <div>
+            <DatePickers/>
             <DropDown
                 handleChange = {handleGender}
                 input = {gender}
