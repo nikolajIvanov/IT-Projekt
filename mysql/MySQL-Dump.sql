@@ -4,21 +4,6 @@ USE `TeamUP`;
 --
 -- Tabelenstruktur für die Tabelle `users
 --
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (
-    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-    `timeStamp` TIMESTAMP NOT NULL DEFAULT '',
-    `googleId` varchar(128) NOT NULL DEFAULT '',
-    `bild` blob NOT NULL DEFAULT '',
-    `name` varchar(128) NOT NULL DEFAULT '',
-    `geburtsdatum` DATE NOT NULL DEFAULT '',
-    `email` varchar(128) NOT NULL DEFAULT '',
-    `beschreibung` varchar(128) NOT NULL DEFAULT '',
-    `lerntypId` int(11) NOT NULL DEFAULT '',
-    FOREIGN KEY (lerntypId) REFERENCES lerntyp (id)
- );
-
-
 
 DROP TABLE IF EXISTS `lerntyp`;
 CREATE TABLE `lerntyp` (
@@ -32,12 +17,27 @@ CREATE TABLE `modul` (
     `bezeichnung` varchar(128) NOT NULL DEFAULT ''
 );
 
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `timeStamp` TIMESTAMP NOT NULL,
+    `googleId` varchar(128) NOT NULL DEFAULT '',
+    `bild` blob NOT NULL,
+    `name` varchar(128) NOT NULL DEFAULT '',
+    `geburtsdatum` DATE NOT NULL DEFAULT '01.01.1900',
+    `email` varchar(128) NOT NULL DEFAULT '',
+    `beschreibung` varchar(128) NOT NULL DEFAULT '',
+    `lerntypId` int(11) NOT NULL DEFAULT 999,
+    FOREIGN KEY (lerntypId) REFERENCES lerntyp (id)
+ );
+
 DROP TABLE IF EXISTS `userInModul`;
 CREATE TABLE `userInModul` (
-    `userId` int(11) NOT NULL PRIMARY KEY ,
-    `modulId` int(11) NOT NULL PRIMARY KEY ,
+    `userId` int(11) NOT NULL,
+    `modulId` int(11) NOT NULL,
     FOREIGN KEY (userId) REFERENCES users (id),
-    FOREIGN KEY (modulId) REFERENCES modul (id)
+    FOREIGN KEY (modulId) REFERENCES modul (id),
+    PRIMARY KEY (userId, modulId)
 
 );
 --
