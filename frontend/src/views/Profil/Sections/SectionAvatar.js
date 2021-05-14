@@ -1,11 +1,13 @@
 import React from 'react';
 import ProfilAvatar from "../../../components/Avatar/ProfilAvatar";
+import Typography from '@material-ui/core/Typography';
 
 
 function SectionAvatar(props) {
     return (
         <>
             <ProfilAvatar/>
+            <Typography>Name</Typography>
         </>
     );
 }

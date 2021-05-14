@@ -166,8 +166,7 @@ class App extends React.Component {
                             <Route path="/profile"  component={Profile}/>
                             <Route path="/chat"  component={Chat2}/>
                         </Switch>
-                        <InputFeld text = {this.state.text} />
-                        <Registrierung/>
+
                     </Router>
             ) : (
                 <div>
