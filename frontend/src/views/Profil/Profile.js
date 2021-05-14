@@ -1,8 +1,12 @@
 import React from 'react';
+import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
 import "../../assets/App.css"
 import SectionAvatar from "./Sections/SectionAvatar";
+import SectionSteckbrief from "./Sections/SectionSteckbrief";
+import SectionLerntyp from "./Sections/SectionLerntyp";
+import SectionLerngruppe from "./Sections/SectionLerngruppe";
 
 const styles = theme => ({
     root: {
@@ -23,8 +27,12 @@ class Profile extends React.Component {
         const { classes } = this.props;
         return (
             <>
-                <SectionAvatar/>
-
+                <Grid container direction="column" justify="space-between" alignItems="center">
+                    <SectionAvatar/>
+                    <SectionSteckbrief/>
+                    <SectionLerntyp/>
+                    <SectionLerngruppe/>
+                </Grid>
             </>
         );
     }
