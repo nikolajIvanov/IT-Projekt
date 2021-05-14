@@ -44,4 +44,5 @@ class Nutzer(Profil):
         obj.set_uid(dictionary["uid"])
         obj.set_name(dictionary["name"])
         obj.set_email(dictionary["email"])
+
         return obj

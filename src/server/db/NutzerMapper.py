@@ -10,7 +10,7 @@ class NutzerMapper(Mapper):
     def find_all(self):
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, name, email from users")
+        cursor.execute("SELECT id, name, email FROM users")
         tuples = cursor.fetchall()
 
         for (id, name, email) in tuples:
@@ -29,7 +29,7 @@ class NutzerMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, email FROM `test-bank`.users WHERE id={}".format(key)
+        command = "SELECT id, name, email FROM users WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -78,7 +78,7 @@ class NutzerMapper(Mapper):
 
     def delete(self):
         pass
-
+     #TODO Insert Z 88 bis 102 unnötig da wir in der Datenban Auto_Increment bei der Id haben. Oder? überprüfen
     def insert(self, user):
         """Einfügen eines Nutzer-Objekts in die Datenbank.
 

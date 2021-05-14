@@ -4,7 +4,7 @@ from .bo.Nutzer import Nutzer
 # Import aller Mapper Klassen
 from .db.NutzerMapper import NutzerMapper
 
-
+ #TODO Überlegen ob man was anderes braucht als get user bei Id
 class Administration(object):
     """Diese Klasse aggregiert nahezu sämtliche Applikationslogik (Engl. Business Logic).
 

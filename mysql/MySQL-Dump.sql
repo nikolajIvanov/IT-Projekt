@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS `Team UP` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `Team UP`;
+CREATE DATABASE IF NOT EXISTS `TeamUP` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `TeamUP`;
 
 --
 -- Tabelenstruktur für die Tabelle `users
