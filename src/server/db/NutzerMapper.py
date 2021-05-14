@@ -29,15 +29,21 @@ class NutzerMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, email FROM users WHERE id={}".format(key)
-        cursor.execute(command)
+        query = """ SELECT users.id, users.bild, users.name, users.geburtsdatum, users.email, users.beschreibung, 
+        lerntyp.typ FROM teamup.users JOIN teamup.lerntyp on users.lerntypId = lerntyp.id WHERE authId=%s"""
+
+        cursor.execute(query, (key,))
         tuples = cursor.fetchall()
 
-        (id, name, email) = tuples[0]
+        (id, bild, name, geburtsdatum, email, beschreibung, lerntyp) = tuples[0]
         user = Nutzer()
         user.set_id(id)
+        user.set_profilBild(bild)
         user.set_name(name)
+        user.set_geburtsdatum(geburtsdatum)
         user.set_email(email)
+        user.set_beschreibung(beschreibung)
+        user.set_lerntyp(lerntyp)
         result = user
 
         self._cnx.commit()

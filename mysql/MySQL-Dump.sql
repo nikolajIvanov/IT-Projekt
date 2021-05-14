@@ -4,24 +4,28 @@ USE `TeamUP`;
 --
 -- Tabelenstruktur für die Tabelle `users
 --
-
+DROP TABLE IF EXISTS `userInModul`;
+DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `modul`;
 DROP TABLE IF EXISTS `lerntyp`;
+
+
 CREATE TABLE `lerntyp` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     `typ` varchar(128) NOT NULL DEFAULT ''
 );
 
-DROP TABLE IF EXISTS `modul`;
+
 CREATE TABLE `modul` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     `bezeichnung` varchar(128) NOT NULL DEFAULT ''
 );
 
-DROP TABLE IF EXISTS `users`;
+
 CREATE TABLE `users` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     `timeStamp` TIMESTAMP NOT NULL,
-    `googleId` varchar(128) NOT NULL DEFAULT '',
+    `authId` varchar(128) NOT NULL DEFAULT '',
     `bild` blob NOT NULL,
     `name` varchar(128) NOT NULL DEFAULT '',
     `geburtsdatum` DATE NOT NULL DEFAULT '01.01.1900',
@@ -31,7 +35,7 @@ CREATE TABLE `users` (
     FOREIGN KEY (lerntypId) REFERENCES lerntyp (id)
  );
 
-DROP TABLE IF EXISTS `userInModul`;
+
 CREATE TABLE `userInModul` (
     `userId` int(11) NOT NULL,
     `modulId` int(11) NOT NULL,

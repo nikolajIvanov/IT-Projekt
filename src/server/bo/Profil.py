@@ -1,13 +1,14 @@
-from src.server.bo import BusinessObject
+from src.server.bo.BusinessObject import BusinessObject
 
 
-class Profil (BusinessObject):
+class Profil(BusinessObject):
     def __init__(self):
         super().__init__()
         self.__name = ""
         self.__lerntyp = ""
         self.__modul = []
         self.__profilBild = None
+        self.__beschreibung= ""
 
     def get_name(self):
         """ Gibt den Profilnamen des Profiles zurück.
@@ -47,3 +48,17 @@ class Profil (BusinessObject):
         :param module: Module
         """
         self.__modul.append(module)
+
+    def get_profilBild(self):
+        return self.__profilBild
+
+    def set_profilBild(self, bild):
+        self.__profilBild = bild
+
+    def get_beschreibung(self):
+        return self.__beschreibung
+
+    def set_beschreibung(self, beschreibung):
+        self.__beschreibung=beschreibung
+
+

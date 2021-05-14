@@ -1,5 +1,7 @@
 # Import aller BusinessObject Klassen
+
 from .bo.Nutzer import Nutzer
+
 
 # Import aller Mapper Klassen
 from .db.NutzerMapper import NutzerMapper
@@ -39,7 +41,7 @@ class Administration(object):
         with NutzerMapper() as mapper:
             return mapper.find_all()
 
-    def get_user_by_id(self, number):
+    def get_user_by_authId(self, number):
         """
 
         :param number: Ist die UserID

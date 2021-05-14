@@ -1,4 +1,4 @@
-from src.server.bo import Profil
+from src.server.bo.Profil import Profil
 
 
 
@@ -30,11 +30,12 @@ class Nutzer(Profil):
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz.
 
-        Diese besteht aus der ID, dem Namen, den Lerntyp und den Modulen der Superklasse ergänzt durch die Google
+        Diese besteht aus der ID, dem Namen, den Lerntyp und den Modulen der Superklasse ergänzt durch die GoogleId
 
         des jeweiligen Kunden."""
         # TODO LERNTYP MODUL dazu allgemein attribute anschaun pls
-        return "Customer: {}, {}, {}, {}".format(self.get_id(), self.get_uid(), self.get_name(), self.get_email())
+        return "Customer: {}, {}, {}, {}, {}".format(self.get_id(), self.get_uid(), self.get_name(), self.get_email(),
+                                                     self.get_lerntyp())
 
     @staticmethod
     def from_dict(dictionary=dict()):
