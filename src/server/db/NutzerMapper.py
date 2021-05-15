@@ -1,5 +1,6 @@
 from server.bo.Nutzer import Nutzer
 from server.db.Mapper import Mapper
+import datetime
 
 
 class NutzerMapper(Mapper):
@@ -83,86 +84,39 @@ class NutzerMapper(Mapper):
 
         return result
 
-    def update(self, user):
+        #TODO NIOKO BENITO UND SCHÖLLER FRAGEN OB WIR VOM FRONTEND FÜR DEN LERNTYPEN EINE ID ODER EINEN STRING BEKOMMEn
+        # In dieser funk. gehen wir davon aus, dass wir eine ID bekommen. Wenn es nicht so ist ändern selbs lol
+
+    def insert_by_authId(self, nutzer):
+        cursor = self._cnx.cursor(prepared=True)
+
+        query = """INSERT INTO teamup.users (authId, bild, name, geburtsdatum, email,
+                beschreibung,lerntypId) VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s)"""
+
+        daten = (
+            nutzer.get_authId(), nutzer.get_profilBild(), nutzer.get_name(),
+                 datetime.datetime.strptime(nutzer.get_geburtsdatum(),'%Y-%m-%d'),
+                 nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp()
+        )
+
+        cursor.executemany(query,(daten,))
+
+        self._cnx.commit()
+        cursor.close()
+
+    def update_by_authId(self, nutzer):
 
         cursor = self._cnx.cursor(prepared=True)
 
-        command = """UPDATE users" + "SET name=% email=%s WHERE id = %s"""
-        data = (user.get_name(), user.get_email(), user.get_user_id())
-        cursor.execute(command, data)
-
+        query = """UPDATE teamup.users SET authId=%s, bild=%s, name=%s, geburtsdatum=%s, email=%s,
+                beschreibung=%s, lerntypId=%s WHERE authid=%s """
+        daten = (nutzer.get_authId(), nutzer.get_profilBild(), nutzer.get_name(), nutzer.get_geburtsdatum(),
+                 nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp(),nutzer.get_authId())
+        cursor.execute(query,(daten, ))
         self._cnx.commit()
         cursor.close()
 
-    def update_authId(self, authIdOld, authIdNew):
 
-        cursor = self._cnx.cursor()
-
-        query =  """ UPDATE users SET users.authId = {} WHERE authId=%s """.format(authIdNew)
-        cursor.execute(query, (authIdOld,))
-
-        self._cnx.commit()
-        cursor.close()
-
-    def update_lerntypId(self, authId, lerntypId):
-
-        cursor = self._cnx.cursor()
-
-        query =  """ UPDATE users SET users.lerntypId = {} WHERE authId=%s """.format(lerntypId)
-        cursor.execute(query, (authId,))
-
-        self._cnx.commit()
-        cursor.close()
-
-    def update_bild(self, authId, bild):
-
-        cursor = self._cnx.cursor()
-
-        query =  """ UPDATE users SET users.bild = {} WHERE authId=%s """.format(bild)
-        cursor.execute(query, (authId,))
-
-        self._cnx.commit()
-        cursor.close()
-
-    def update_beschreibung(self, authId, beschreibung):
-
-        cursor = self._cnx.cursor()
-
-        query = """ UPDATE users SET users.beschreibung = {} WHERE authId=%s """.format(beschreibung)
-        cursor.execute(query, (authId,))
-
-        self._cnx.commit()
-        cursor.close()
-
-    def update_geburtsdatum(self, authId, geburtsdatum):
-
-        cursor = self._cnx.cursor()
-
-        query = """ UPDATE users SET users.geburtsdatum = {} WHERE authId=%s """.format(geburtsdatum)
-        cursor.execute(query, (authId,))
-
-        self._cnx.commit()
-        cursor.close()
-
-    def update_email(self, authId, email):
-
-        cursor = self._cnx.cursor()
-
-        query = """ UPDATE users SET users.email = {} WHERE authId=%s """.format(email)
-        cursor.execute(query, (authId,))
-
-        self._cnx.commit()
-        cursor.close()
-
-    def update_name(self, authId, name):
-
-        cursor = self._cnx.cursor()
-
-        query = """ UPDATE users SET users.name = {} WHERE authId=%s """.format(name)
-        cursor.execute(query, (authId,))
-
-        self._cnx.commit()
-        cursor.close()
 
     #TODO get_ModuleForUser erst wichtig für den algo
     """def get_modulForUser(self, authId):
@@ -190,34 +144,3 @@ class NutzerMapper(Mapper):
 
     def delete(self):
         pass
-     #TODO Insert Z 88 bis 102 unnötig da wir in der Datenban Auto_Increment bei der Id haben. Oder? überprüfen
-    def insert(self, user):
-        """Einfügen eines Nutzer-Objekts in die Datenbank.
-
-        :param user: Ein Nutzer Objekt wird übergeben
-        :return:
-        """
-        cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) AS maxid FROM users")
-        tuples = cursor.fetchall()
-
-        for (maxid) in tuples:
-            if maxid[0] is not None:
-                """Wenn Nutzer in der Datenbank exestieren, suchen wir die höchste ID und zählen diese
-                um 1 hoch, damit garantieren wir, dass der neue Nutzer eine neue ID erhält.
-                """
-                user.set_id(maxid[0] + 1)
-            else:
-                """Falls noch kein Nutzer in der Datenbank exestiert, wird der neue Nutzer mit der ID 1 in der
-                Datenbank gespeichert.
-                """
-                user.set_id(1)
-
-            command = "INSERT INTO users (id, uid, name, email) VALUES (%s,%s,%s,%s)"
-            data = (user.get_id(), user.get_uid(), user.get_name(), user.get_email())
-            cursor.execute(command, data)
-
-            self._cnx.commit()
-            cursor.close()
-
-            return user

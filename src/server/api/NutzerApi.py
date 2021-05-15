@@ -14,9 +14,10 @@ class NutzerApi(Resource):
     def delete(self):
         pass
 
-    def put(self, id):
+    @api.marshal_with(user)
+    def put(self):
         adm = Administration()
-        n = Nutzer.from_dict(api.payload)
+        nutzer = Nutzer.from_dict(api.payload)
+        adm.update_user_by_authId(nutzer)
 
-        if n is not None:
-            n.set_id(id)
+

@@ -7,7 +7,7 @@ class Profil(BusinessObject):
         self.__name = ""
         self.__lerntyp = ""
         self.__modul = []
-        self.__profilBild = None
+        self.__profilBild = ""
         self.__beschreibung= ""
 
     def get_name(self):

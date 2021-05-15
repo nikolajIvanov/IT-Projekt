@@ -17,21 +17,15 @@ class Administration(object):
     """
         Nutzer-spezifische Methoden
     """
-    def create_user(self, uid, name, email):
-        """Einen Nutzer anlegen
-        :param uid:
-        :param name:
-        :param email:
-        :return:
-        """
-        user = Nutzer()
-        user.set_name(name)
-        user.set_email(email)
-        user.set_id(1)
-        user.set_uid(uid)
+    def create_user_by_authId(self, nutzer):
 
         with NutzerMapper() as mapper:
-            return mapper.insert(user)
+            return mapper.insert_by_authId(nutzer)
+
+    def update_user_by_authId(self,nutzer):
+
+        with NutzerMapper() as mapper:
+            return mapper.update_by_authId(nutzer)
 
     def get_all_users(self):
         """

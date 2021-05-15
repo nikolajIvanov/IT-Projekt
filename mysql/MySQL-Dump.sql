@@ -26,13 +26,13 @@ CREATE TABLE `users` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     `timeStamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `authId` varchar(128) NOT NULL DEFAULT '',
-    `bild` blob NOT NULL,
+    `bild` varchar(128) NOT NULL DEFAULT '',
     `name` varchar(128) NOT NULL DEFAULT '',
     `geburtsdatum` DATE NOT NULL DEFAULT '01.01.1900',
     `email` varchar(128) NOT NULL DEFAULT '',
     `beschreibung` varchar(128) NOT NULL DEFAULT '',
     `lerntypId` int(11) NOT NULL DEFAULT 999,
-    FOREIGN KEY (lerntypId) REFERENCES lerntyp (id)
+     FOREIGN KEY (lerntypId) REFERENCES lerntyp (id)
  );
 
 

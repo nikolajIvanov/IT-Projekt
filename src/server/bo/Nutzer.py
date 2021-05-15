@@ -19,7 +19,7 @@ class Nutzer(Profil):
         return self.__authId
 
     def set_authId(self, value):
-        self.__authId= value
+        self.__authId = value
 
     def get_geburtsdatum(self,):
         return self.__geburtsdatum
@@ -41,8 +41,12 @@ class Nutzer(Profil):
     def from_dict(dictionary=dict()):
         """"Umwandeln eines Python dict() in einen Customer()."""
         obj = Nutzer()
-        # obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
-        obj.set_uid(dictionary["uid"])
+        obj.set_authId(dictionary["authId"])
+        obj.set_modul(dictionary["modul"])
+        obj.set_profilBild(dictionary["profilBild"])
+        obj.set_beschreibung(dictionary["beschreibung"])
+        obj.set_lerntyp(dictionary["lerntyp"])
+        obj.set_geburtsdatum(dictionary["geburtsdatum"])
         obj.set_name(dictionary["name"])
         obj.set_email(dictionary["email"])
 

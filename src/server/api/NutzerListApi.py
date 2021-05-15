@@ -16,10 +16,16 @@ class NutzerListApi(Resource):
 
     @api.marshal_with(user)
     def post(self):
-        """Anlegen eines neuen Nutzer-Objekts.
+        adm = Administration()
+        nutzer = Nutzer.from_dict(api.payload)
+        adm.create_user_by_authId(nutzer)
+
+    """@api.marshal_with(user)
+    def post(self):
+        Anlegen eines neuen Nutzer-Objekts.
 
         :return:
-        """
+        
         adm = Administration()
 
         proposal = Nutzer.from_dict(api.payload)
@@ -28,4 +34,4 @@ class NutzerListApi(Resource):
             u = adm.create_user(proposal.get_uid(), proposal.get_name(), proposal.get_email())
             return u, 200
         else:
-            return '', 500
+            return '', 500"""
