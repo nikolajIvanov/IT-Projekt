@@ -24,7 +24,7 @@ CREATE TABLE `modul` (
 
 CREATE TABLE `users` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-    `timeStamp` TIMESTAMP NOT NULL,
+    `timeStamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `authId` varchar(128) NOT NULL DEFAULT '',
     `bild` blob NOT NULL,
     `name` varchar(128) NOT NULL DEFAULT '',
