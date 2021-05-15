@@ -82,6 +82,16 @@ class NutzerMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
+    def update_modulId(self, authId, modulId):
+
+        cursor = self._cnx.cursor()
+
+        query =  """ UPDATE users SET users.lerntypId = {} WHERE authId=%s """.format(modulId)
+        cursor.execute(query, (authId,))
+
+        self._cnx.commit()
+        cursor.close()
+
     def delete(self):
         pass
      #TODO Insert Z 88 bis 102 unnötig da wir in der Datenban Auto_Increment bei der Id haben. Oder? überprüfen
