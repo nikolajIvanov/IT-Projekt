@@ -25,10 +25,11 @@ class NutzerMapper(Mapper):
         cursor.close()
 
         return result
-
+    # TODO Methode läuft nicht
     def find_by_key(self, key):
+        # TODO braucht man result?
         result = None
-
+        # TODO Tabelle Lerntyp befüllen: https://mitteldeutsches-institut.de/lerntypen/
         cursor = self._cnx.cursor(prepared=True)
         query = """SELECT users.id, users.bild, users.name, users.geburtsdatum, users.email, users.beschreibung, 
                lerntyp.typ FROM teamup.users JOIN teamup.lerntyp on users.lerntypId = lerntyp.id WHERE authId=%s"""
@@ -89,7 +90,7 @@ class NutzerMapper(Mapper):
 
     def insert_by_authId(self, nutzer):
         cursor = self._cnx.cursor(prepared=True)
-
+        # TODO Module müssen befüllt werden
         query = """INSERT INTO teamup.users (authId, bild, name, geburtsdatum, email,
                 beschreibung,lerntypId) VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s)"""
 
@@ -98,11 +99,14 @@ class NutzerMapper(Mapper):
                  datetime.datetime.strptime(nutzer.get_geburtsdatum(),'%Y-%m-%d'),
                  nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp()
         )
-
+        # TODO: exectuemany richtig?
         cursor.executemany(query,(daten,))
 
         self._cnx.commit()
         cursor.close()
+        # TODO welcher return ist der richtige?/ ist find_by_key richtig?
+        # return nutzer
+        return self.find_by_key(nutzer.get_authId())
 
     def update_by_authId(self, nutzer):
 

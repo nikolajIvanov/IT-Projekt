@@ -4,27 +4,27 @@ from src.server.bo.Profil import Profil
 class Nutzer(Profil):
     def __init__(self):
         super().__init__()
-        self._email = ""
-        self._authId = ""
-        self._geburtsdatum = ""
+        self.__email = ""
+        self.__authId = ""
+        self.__geburtsdatum = ""
 
     def get_email(self):
-        return self._email
+        return self.__email
 
     def set_email(self, value):
-        self._email = value
+        self.__email = value
 
     def get_authId(self):
-        return self._authId
+        return self.__authId
 
     def set_authId(self, value):
-        self._authId = value
+        self.__authId = value
 
     def get_geburtsdatum(self,):
-        return self._geburtsdatum
+        return self.__geburtsdatum
 
     def set_geburtsdatum(self, datum):
-        self._geburtsdatum = datum
+        self.__geburtsdatum = datum
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz.
@@ -33,8 +33,8 @@ class Nutzer(Profil):
 
         des jeweiligen Kunden."""
         # TODO LERNTYP MODUL dazu allgemein attribute anschaun pls
-        return "Customer: {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_authId(), self.get_name(),
-                                                         self.get_email(), self.get_lerntyp(), self.get_modul())
+        return "Customer: {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_uid(), self.get_name(), self.get_email(),
+                                                     self.get_lerntyp(), self.get_modul())
 
     @staticmethod
     def from_dict(dictionary=dict()):

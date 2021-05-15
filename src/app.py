@@ -1,6 +1,4 @@
 # Import aller Nötigen Flask Packages
-from flask import Flask
-from flask_restx import Api
 from flask_cors import CORS
 from flask_socketio import SocketIO, send
 # Api Endpunkte
@@ -8,13 +6,10 @@ from server.api.test_api import TestApi
 from server.api.NutzerListApi import NutzerListApi
 from server.api.NutzerApi import NutzerApi
 from server.api.NutzerByNameApi import NutzerByNameApi
+from server.api.model import api, app
 
-# Flask implementierung
-app = Flask(__name__)
 
 CORS(app, resources=r'/*')
-
-api = Api(app)
 socketIo = SocketIO(app, cors_allowed_origins="*")
 
 

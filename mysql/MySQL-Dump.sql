@@ -44,15 +44,3 @@ CREATE TABLE `userInModul` (
     PRIMARY KEY (userId, modulId)
 
 );
---
--- Testdaten für die Tabelle `users
---
--- LOCK TABLES `users` WRITE;
--- /*!40000 ALTER TABLE `users` DISABLE KEYS */;
--- INSERT INTO `users` VALUES (1,'Benito-Miguel Schwankhart','benito@miguel.de'),
---                           (2,'Nikolaj Ivanov','nikolaj@ivanov.de'),
---                           (3,'Ardit Fazliu','ardit@fazliu.de'),
---                           (4,'Christian Schoeller','crypto_chris@schoeller.de'),
---                           (5,'Christopher Segatz','papa@segatz.de');
--- /*!40000 ALTER TABLE `users` ENABLE KEYS */;
--- UNLOCK TABLES;

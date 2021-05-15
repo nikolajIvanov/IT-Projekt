@@ -6,22 +6,22 @@ app = Flask(__name__)
 api = Api(app)
 
 bo = api.model('BusinessObject', {
-    'id': fields.Integer(attribute="_id", description='Der Unique Identifier eines Business Object'),
+    'id': fields.Integer(attribute=lambda x: x.get_id(), description='Der Unique Identifier eines Business Object'),
 })
 
 profil = api.inherit('Profil', bo, {
-    'name': fields.String(attribute="_name", description='Name eines Benutzers'),
-    'lerntyp': fields.String(attribute="_lerntyp", description='Lerntyp eines Benutzers'),
-    'modul': fields.String(attribute="_modul", description='Module eines Benutzers'),
-    'profilBild': fields.String(attribute="_profilBild", description='Bild eines Benutzers'),
-    'beschreibung': fields.String(attribute="_beschreibung", description='beschreibung eines Benutzers')
+    'name': fields.String(attribute=lambda x: x.get_name(), description='Name eines Benutzers'),
+    'lerntyp': fields.String(attribute=lambda x: x.get_lerntyp(), description='Lerntyp eines Benutzers'),
+    'modul': fields.List(fields.String, attribute=lambda x: x.get_modul(), description='Module eines Benutzers'),
+    'profilBild': fields.String(attribute=lambda x: x.get_profilBild(), description='Bild eines Benutzers'),
+    'beschreibung': fields.String(attribute=lambda x: x.get_beschreibung(), description='beschreibung eines Benutzers')
 
 })
 
 user = api.inherit('Nutzer', profil, {
-    'authId': fields.Integer(attribute="_authId", description='GoogleID eines Benutzers'),
-    'geburtsdatum': fields.String(attribute="_geburtsdatum", description='Geburtsdatum eines Benutzers'),
-    'email': fields.String(attribute="_email", description='E-Mail-Adresse eines Benutzers')
+    'authId': fields.String(attribute=lambda x: x.get_authId(), description='GoogleID eines Benutzers'),
+    'geburtsdatum': fields.Date(attribute=lambda x: x.get_geburtsdatum(), description='Geburtsdatum eines Benutzers'),
+    'email': fields.String(attribute=lambda x: x.get_email(), description='E-Mail-Adresse eines Benutzers')
 })
 
 
