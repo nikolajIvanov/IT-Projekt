@@ -4,61 +4,61 @@ from src.server.bo.BusinessObject import BusinessObject
 class Profil(BusinessObject):
     def __init__(self):
         super().__init__()
-        self.__name = ""
-        self.__lerntyp = ""
-        self.__modul = []
-        self.__profilBild = ""
-        self.__beschreibung= ""
+        self._name = ""
+        self._lerntyp = ""
+        self._modul = []
+        self._profilBild = ""
+        self._beschreibung= ""
 
     def get_name(self):
         """ Gibt den Profilnamen des Profiles zurück.
 
         :return: Profilname
         """
-        return self.__name
+        return self._name
 
     def set_name(self, name):
         """ Setzt den Profilnamen des Profiles.
 
         :param name: Profielname
         """
-        self.__name = name
+        self._name = name
 
     def get_lerntyp(self):
         """Gibt den lerntyp des Profiles zurück.
 
         :return: Lerntyp
         """
-        return self.__lerntyp
+        return self._lerntyp
 
     def set_lerntyp(self, typ):
         """ Setzt den lerntyp des Profiles.
 
         :param typ: Lerntyp
         """
-        self.__lerntyp = typ
+        self._lerntyp = typ
 
     def get_modul(self):
 
-        return self.__modul
+        return self._modul
 
     def set_modul(self, module):
         """Fügt dem Profil neue Module hinzu.
 
         :param module: Module
         """
-        self.__modul.append(module)
+        self._modul.append(module)
 
     def get_profilBild(self):
-        return self.__profilBild
+        return self._profilBild
 
     def set_profilBild(self, bild):
-        self.__profilBild = bild
+        self._profilBild = bild
 
     def get_beschreibung(self):
-        return self.__beschreibung
+        return self._beschreibung
 
     def set_beschreibung(self, beschreibung):
-        self.__beschreibung=beschreibung
+        self._beschreibung=beschreibung
 
 

@@ -8,12 +8,12 @@ class BusinessObject(ABC):
     einer relationalen Datenbank auch als Primärschlüssel bezeichnen würde.
     """
     def __init__(self):
-        self.__id = 0   # Die eindeutige Identifikationsnummer einer Instanz dieser Klasse.
+        self._id = 0   # Die eindeutige Identifikationsnummer einer Instanz dieser Klasse.
 
     def get_id(self):
         """Auslesen der ID."""
-        return self.__id
+        return self._id
 
     def set_id(self, value):
         """Setzen der ID."""
-        self.__id = value
+        self._id = value
