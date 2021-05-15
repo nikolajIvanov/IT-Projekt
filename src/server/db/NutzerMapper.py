@@ -152,6 +152,19 @@ class NutzerMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
+    def get_modulForUser(self, authId):
+
+        cursor = self._cnx.cursor()
+        #SQL Query nochmal prüfen
+        query = """ SELECT userInModul.modulID FROM teamup.userInModul JOIN teamup.users on users.id = userInModul.userId WHERE authId=%s"""
+
+        cursor.execute(query, (authId,))
+        tuples = cursor.fetchall()
+
+        self._cnx.commit()
+        cursor.close()
+
+        return tuples
 
 
     def delete(self):
