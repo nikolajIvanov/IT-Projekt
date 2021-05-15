@@ -92,6 +92,38 @@ class NutzerMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
+    def update_beschreibung(self, authId, beschreibung):
+
+        cursor = self._cnx.cursor()
+
+        query = """ UPDATE users SET users.beschreibung = {} WHERE authId=%s """.format(beschreibung)
+        cursor.execute(query, (authId,))
+
+        self._cnx.commit()
+        cursor.close()
+
+    def update_geburtsdatum(self, authId, geburtsdatum):
+
+        cursor = self._cnx.cursor()
+
+        query = """ UPDATE users SET users.geburtsdatum = {} WHERE authId=%s """.format(geburtsdatum)
+        cursor.execute(query, (authId,))
+
+        self._cnx.commit()
+        cursor.close()
+
+    def update_name(self, authId, name):
+
+        cursor = self._cnx.cursor()
+
+        query = """ UPDATE users SET users.name = {} WHERE authId=%s """.format(name)
+        cursor.execute(query, (authId,))
+
+        self._cnx.commit()
+        cursor.close()
+
+
+
     def delete(self):
         pass
      #TODO Insert Z 88 bis 102 unnötig da wir in der Datenban Auto_Increment bei der Id haben. Oder? überprüfen
