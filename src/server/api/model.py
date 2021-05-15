@@ -10,7 +10,7 @@ bo = api.model('BusinessObject', {
 })
 
 
-user = api.inherit('Nutzer', bo, {
+user = api.inherit('User', bo, {
     'uid': fields.String(attribute=lambda x: x.get_uid(), description='GoogleID eines Benutzers'),
     'name': fields.String(attribute=lambda x: x.get_name(), description='Name eines Benutzers'),
     'email': fields.String(attribute=lambda x: x.get_email(), description='E-Mail-Adresse eines Benutzers')

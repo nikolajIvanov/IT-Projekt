@@ -7,7 +7,7 @@ function SectionAvatar(props) {
     return (
         <>
             <ProfilAvatar/>
-            <Typography>Name</Typography>
+            <Typography>{props.userName}</Typography>
         </>
     );
 }

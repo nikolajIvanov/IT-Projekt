@@ -7,7 +7,7 @@ from server.bo.Nutzer import Nutzer
 class NutzerListApi(Resource):
     @api.marshal_list_with(user)
     def get(self):
-        """Auslesen aller Nutzer-Objekte
+        """Auslesen aller User-Objekte
         :return: nutzer
         """
         adm = Administration()
@@ -16,7 +16,7 @@ class NutzerListApi(Resource):
 
     @api.marshal_with(user)
     def post(self):
-        """Anlegen eines neuen Nutzer-Objekts.
+        """Anlegen eines neuen User-Objekts.
 
         :return:
         """

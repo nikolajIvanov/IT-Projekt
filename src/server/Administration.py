@@ -13,10 +13,10 @@ class Administration(object):
         pass
 
     """
-        Nutzer-spezifische Methoden
+        User-spezifische Methoden
     """
     def create_user(self, uid, name, email):
-        """Einen Nutzer anlegen
+        """Einen User anlegen
         :param uid:
         :param name:
         :param email:
@@ -34,7 +34,7 @@ class Administration(object):
     def get_all_users(self):
         """
 
-        :return: Alle Objekte unsere Nutzer
+        :return: Alle Objekte unsere User
         """
         with NutzerMapper() as mapper:
             return mapper.find_all()
