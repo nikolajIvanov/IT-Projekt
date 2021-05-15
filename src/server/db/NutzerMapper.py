@@ -82,11 +82,31 @@ class NutzerMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    def update_modulId(self, authId, modulId):
+    def update_authId(self, authIdOld, authIdNew):
 
         cursor = self._cnx.cursor()
 
-        query =  """ UPDATE users SET users.lerntypId = {} WHERE authId=%s """.format(modulId)
+        query =  """ UPDATE users SET users.authId = {} WHERE authId=%s """.format(authIdNew)
+        cursor.execute(query, (authIdOld,))
+
+        self._cnx.commit()
+        cursor.close()
+
+    def update_lerntypId(self, authId, lerntypId):
+
+        cursor = self._cnx.cursor()
+
+        query =  """ UPDATE users SET users.lerntypId = {} WHERE authId=%s """.format(lerntypId)
+        cursor.execute(query, (authId,))
+
+        self._cnx.commit()
+        cursor.close()
+
+    def update_bild(self, authId, bild):
+
+        cursor = self._cnx.cursor()
+
+        query =  """ UPDATE users SET users.bild = {} WHERE authId=%s """.format(bild)
         cursor.execute(query, (authId,))
 
         self._cnx.commit()
@@ -107,6 +127,16 @@ class NutzerMapper(Mapper):
         cursor = self._cnx.cursor()
 
         query = """ UPDATE users SET users.geburtsdatum = {} WHERE authId=%s """.format(geburtsdatum)
+        cursor.execute(query, (authId,))
+
+        self._cnx.commit()
+        cursor.close()
+
+    def update_email(self, authId, email):
+
+        cursor = self._cnx.cursor()
+
+        query = """ UPDATE users SET users.email = {} WHERE authId=%s """.format(email)
         cursor.execute(query, (authId,))
 
         self._cnx.commit()
