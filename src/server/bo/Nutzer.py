@@ -6,7 +6,7 @@ class Nutzer(Profil):
     def __init__(self):
         super().__init__()
         self.__email = ""
-        self.__uid = ""
+        self.__authId = ""
         self.__geburtsdatum = ""
 
     def get_email(self):
@@ -15,11 +15,11 @@ class Nutzer(Profil):
     def set_email(self, value):
         self.__email = value
 
-    def get_uid(self):
-        return self.__uid
+    def get_authId(self):
+        return self.__authId
 
-    def set_uid(self, value):
-        self.__uid = value
+    def set_authId(self, value):
+        self.__authId= value
 
     def get_geburtsdatum(self,):
         return self.__geburtsdatum
@@ -34,8 +34,8 @@ class Nutzer(Profil):
 
         des jeweiligen Kunden."""
         # TODO LERNTYP MODUL dazu allgemein attribute anschaun pls
-        return "Customer: {}, {}, {}, {}, {}".format(self.get_id(), self.get_uid(), self.get_name(), self.get_email(),
-                                                     self.get_lerntyp())
+        return "Customer: {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_uid(), self.get_name(), self.get_email(),
+                                                     self.get_lerntyp(), self.get_modul())
 
     @staticmethod
     def from_dict(dictionary=dict()):

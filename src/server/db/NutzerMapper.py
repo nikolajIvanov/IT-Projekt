@@ -28,14 +28,21 @@ class NutzerMapper(Mapper):
     def find_by_key(self, key):
         result = None
 
-        cursor = self._cnx.cursor()
-        query = """ SELECT users.id, users.bild, users.name, users.geburtsdatum, users.email, users.beschreibung, 
-        lerntyp.typ FROM teamup.users JOIN teamup.lerntyp on users.lerntypId = lerntyp.id WHERE authId=%s"""
+        cursor = self._cnx.cursor(prepared=True)
+        query = """SELECT users.id, users.bild, users.name, users.geburtsdatum, users.email, users.beschreibung, 
+               lerntyp.typ FROM teamup.users JOIN teamup.lerntyp on users.lerntypId = lerntyp.id WHERE authId=%s"""
+
+
+        query1 ="""SELECT modul.bezeichnung From ((teamup.modul JOIN teamup.userinmodul 
+                ON modul.id = userinmodul.modulId) 
+                JOIN teamup.users ON userinmodul.userId = users.id ) WHERE authId=%s"""
 
         cursor.execute(query, (key,))
         tuples = cursor.fetchall()
+        cursor.execute(query1, (key,))
+        tuples1 = cursor.fetchall()
 
-        (id, bild, name, geburtsdatum, email, beschreibung, lerntyp) = tuples[0]
+        (id, bild, name, geburtsdatum, email, beschreibung, lerntyp,) = tuples[0]
         user = Nutzer()
         user.set_id(id)
         user.set_profilBild(bild)
@@ -44,6 +51,11 @@ class NutzerMapper(Mapper):
         user.set_email(email)
         user.set_beschreibung(beschreibung)
         user.set_lerntyp(lerntyp)
+
+        for i in tuples1:
+            for x in i:
+                user.set_modul(x)
+
         result = user
 
         self._cnx.commit()
@@ -73,9 +85,9 @@ class NutzerMapper(Mapper):
 
     def update(self, user):
 
-        cursor = self._cnx.cursor()
+        cursor = self._cnx.cursor(prepared=True)
 
-        command = "UPDATE users" + "SET name=% email=%s WHERE id = %s"
+        command = """UPDATE users" + "SET name=% email=%s WHERE id = %s"""
         data = (user.get_name(), user.get_email(), user.get_user_id())
         cursor.execute(command, data)
 
@@ -152,19 +164,28 @@ class NutzerMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    def get_modulForUser(self, authId):
+    #TODO get_ModuleForUser erst wichtig für den algo
+    """def get_modulForUser(self, authId):
 
         cursor = self._cnx.cursor()
         #SQL Query nochmal prüfen
-        query = """ SELECT userInModul.modulID FROM teamup.userInModul JOIN teamup.users on users.id = userInModul.userId WHERE authId=%s"""
+        #query =  SELECT userInModul.modulID FROM teamup.userInModul JOIN teamup.users on
+         #       users.id = userInModul.userId WHERE authId=%s
+        query = SELECT modul.bezeichnung From ((teamup.modul JOIN teamup.userinmodul ON modul.id = userinmodul.modulId) 
+                JOIN teamup.users ON userinmodul.userId = users.id ) WHERE authId=%s
 
         cursor.execute(query, (authId,))
         tuples = cursor.fetchall()
 
+        user = Nutzer()
+        for i in tuples:
+            for x in i:
+             user.set_modul(x)
+
         self._cnx.commit()
         cursor.close()
 
-        return tuples
+        return user"""
 
 
     def delete(self):

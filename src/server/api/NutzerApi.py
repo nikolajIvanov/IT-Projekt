@@ -6,9 +6,9 @@ from server.bo.Nutzer import Nutzer
 
 class NutzerApi(Resource):
     @api.marshal_with(user)
-    def get(self, id):
+    def get(self, authId):
         adm = Administration()
-        nutzer = adm.get_user_by_authId(id)
+        nutzer = adm.get_user_by_authId(authId)
         return nutzer
 
     def delete(self):

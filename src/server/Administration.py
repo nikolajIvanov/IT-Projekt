@@ -62,3 +62,7 @@ class Administration(object):
 
         with NutzerMapper() as mapper:
             return mapper.update(user)
+
+   # def get_Modul_by_authId(self,  authId):
+    #    with NutzerMapper() as mapper:
+     #       return mapper.get_modulForUser(authId)
