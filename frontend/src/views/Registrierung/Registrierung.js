@@ -7,6 +7,7 @@ import Lerntyp from "./lerntyp";
 import Lernspeed from "./lernspeed";
 import Module from "./module";
 import Bio from "./bio";
+import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
 
 const droplabels = [
     "Gender" , "Lerntyp", "Lernspeed", "Module"
@@ -125,12 +126,12 @@ function Registrierung(props) {
             <div>
                 { components[count-1] ? (
                     <div style={styles.button}>
-                    <Button onClick={handleCountBack}>Zurück</Button>
-                    <Button onClick={checkBox}>Weiter</Button>
+                    <ButtonBestätigen onClick={handleCountBack} inhalt={"Zurück"} style={styles.einzelButton}/>
+                    <ButtonBestätigen onClick={checkBox} inhalt={"Weiter"} style={styles.einzelButton}/>
                     </div>
                 ):(
                     <div style={styles.button}>
-                    <Button onClick={checkBox}>Weiter</Button>
+                        <ButtonBestätigen onClick={checkBox} inhalt={"Weiter"}/>
                     </div>
                 )}
             </div>
@@ -175,7 +176,9 @@ const styles = {
         marginTop: "2%",
     },
     button:{
-        marginTop: "15%"
+        marginTop: "15%",
+        display: "flex",
+        flexDirection: "row",
     },
     hinweis:{
         marginTop: "2%",
