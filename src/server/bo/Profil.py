@@ -47,6 +47,10 @@ class Profil(BusinessObject):
 
         :param module: Module
         """
+        self.__modul = module
+
+    def set_module_append(self, module):
+
         self.__modul.append(module)
 
     def get_profilBild(self):

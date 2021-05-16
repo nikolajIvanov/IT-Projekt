@@ -14,8 +14,8 @@ class NutzerApi(Resource):
     def delete(self):
         pass
 
-    @api.marshal_with(user)
-    def put(self):
+    @api.expect(user, validate=True)
+    def put(self,**kwargs):
         adm = Administration()
         nutzer = Nutzer.from_dict(api.payload)
         adm.update_user_by_authId(nutzer)

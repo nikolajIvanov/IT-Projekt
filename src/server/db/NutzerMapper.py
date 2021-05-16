@@ -56,7 +56,7 @@ class NutzerMapper(Mapper):
 
         for i in tuples1:
             for x in i:
-                user.set_modul(x)
+                user.set_module_append(x)
 
         result = user
 
@@ -85,44 +85,71 @@ class NutzerMapper(Mapper):
 
         return result
 
-        #TODO NIOKO BENITO UND SCHÖLLER FRAGEN OB WIR VOM FRONTEND FÜR DEN LERNTYPEN EINE ID ODER EINEN STRING BEKOMMEn
-        # In dieser funk. gehen wir davon aus, dass wir eine ID bekommen. Wenn es nicht so ist ändern selbs lol
-
     def insert_by_authId(self, nutzer):
         cursor = self._cnx.cursor(prepared=True)
-        # TODO Module müssen befüllt werden
+
         query = """INSERT INTO teamup.users (authId, bild, name, geburtsdatum, email,
-                beschreibung,lerntypId) VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s)"""
+                beschreibung, lerntypId) VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s)"""
 
-        daten = (
-            nutzer.get_authId(), nutzer.get_profilBild(), nutzer.get_name(),
+        daten = (nutzer.get_authId(), nutzer.get_profilBild(), nutzer.get_name(),
                  datetime.datetime.strptime(nutzer.get_geburtsdatum(),'%Y-%m-%d'),
-                 nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp()
-        )
-        # TODO: exectuemany richtig?
-        cursor.executemany(query,(daten,))
+                 nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp())
 
+        cursor.execute(query, (daten))
         self._cnx.commit()
         cursor.close()
-        # TODO welcher return ist der richtige?/ ist find_by_key richtig?
-        # return nutzer
-        return self.find_by_key(nutzer.get_authId())
+
+        cursor = self._cnx.cursor(prepared=True)
+
+        module = nutzer.get_modul()
+        for i in module:
+            query1 = """INSERT INTO teamup.userinmodul( userId, modulId) VALUES (%s, %s)"""
+            data = (self.get_Id_by_authId(nutzer.get_authId()), self.get_modulId_by_modul(i))
+            #Bitte kein Komma nach data
+            cursor.execute(query1, (data))
+        self._cnx.commit()
+        cursor.close()
+
+
+        return self.find_by_key (nutzer.get_authId())
 
     def update_by_authId(self, nutzer):
 
         cursor = self._cnx.cursor(prepared=True)
 
         query = """UPDATE teamup.users SET authId=%s, bild=%s, name=%s, geburtsdatum=%s, email=%s,
-                beschreibung=%s, lerntypId=%s WHERE authid=%s """
-        daten = (nutzer.get_authId(), nutzer.get_profilBild(), nutzer.get_name(), nutzer.get_geburtsdatum(),
-                 nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp(),nutzer.get_authId())
-        cursor.execute(query,(daten, ))
+                       beschreibung=%s, lerntypId=%s WHERE authId=%s"""
+        authId = nutzer.get_authId()
+        daten = (authId, nutzer.get_profilBild(), nutzer.get_name(),
+                 datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'),
+                 nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp(), authId)
+
+        cursor.execute(query, (daten))
+        self._cnx.commit()
+        cursor.close()
+
+        userid= self.get_Id_by_authId(authId)
+
+        cursor = self._cnx.cursor(prepared=True)
+        query1 = """DELETE FROM teamup.userinmodul WHERE userId=%s"""
+        cursor.execute(query1, (userid,))
+        self._cnx.commit()
+        cursor.close()
+
+        cursor = self._cnx.cursor(prepared=True)
+        module = nutzer.get_modul()
+
+        for i in module:
+            query2 = """INSERT INTO teamup.userinmodul( userId, modulId) VALUES (%s, %s)"""
+            data = (self.get_Id_by_authId(nutzer.get_authId()), self.get_modulId_by_modul(i))
+            # Bitte kein Komma nach data
+            cursor.execute(query2, (data))
         self._cnx.commit()
         cursor.close()
 
 
 
-    #TODO get_ModuleForUser erst wichtig für den algo
+
     """def get_modulForUser(self, authId):
 
         cursor = self._cnx.cursor()
@@ -145,6 +172,31 @@ class NutzerMapper(Mapper):
 
         return user"""
 
+    def get_modulId_by_modul(self, modul):
+        cursor = self._cnx.cursor(prepared=True)
+
+        query = """SELECT modul.id FROM teamup.modul WHERE bezeichnung=%s"""
+
+        cursor.execute(query, (modul,))
+
+        modulId = cursor.fetchone()
+
+        self._cnx.commit()
+        cursor.close()
+        return modulId[0]
+
+    def get_Id_by_authId(self, authId):
+        cursor = self._cnx.cursor(prepared=True)
+
+        query = """SELECT users.id FROM teamup.users WHERE authId=%s"""
+
+        cursor.execute(query, (authId,))
+
+        userid = cursor.fetchone()
+
+        self._cnx.commit()
+        cursor.close()
+        return userid[0]
 
     def delete(self):
         pass
