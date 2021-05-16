@@ -89,7 +89,6 @@ function Registrierung(props) {
                 handleNext()
             }
         }
-
     }
 
     const handleCountBack = () => {
