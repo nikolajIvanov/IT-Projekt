@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import SetNewUser from "./SetNewUser";
+import SetNewUser from "../../api/SetNewUser";
 
 class Home extends Component {
     render() {
