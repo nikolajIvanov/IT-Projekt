@@ -43,6 +43,7 @@ function Registrierung(props) {
         <Bio setBio={setBio} mode={styles.card}/>
     ]
 
+    //TODO Api Call aufruf und übergabe von Infos über BO (Nutzer) ans Backend
     const infos = {
         name: name,
         gender: gender,

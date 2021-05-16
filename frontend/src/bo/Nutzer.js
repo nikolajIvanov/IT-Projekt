@@ -32,7 +32,7 @@ class Nutzer {
         this.email = mail
     }
 
-    //Getter-Setter #Profildaten
+    //Getter-Setter alle #Profildaten
     getProfil(){
         return {
             name: this.name,

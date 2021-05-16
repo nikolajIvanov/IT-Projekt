@@ -25,6 +25,8 @@ class App extends React.Component {
             passwordError :'',
             hasAccount: false,
             text: 'Hi',
+            //TODO die Prüfung von exist soll über ein API call erfolgen der Prüft ob ein Name
+            // vorhanden ist (Rückschluss= alles muss da sein)
             exist: false,
             }
         this.setHasAccount = this.setHasAccount.bind(this);
