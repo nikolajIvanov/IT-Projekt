@@ -15,6 +15,7 @@ class NutzerListApi(Resource):
         return nutzer
 
     @api.expect(user, validate=True)
+    @api.marshal_with(user)
     def post(self, **kwargs):
         adm = Administration()
         proposal = Nutzer.from_dict(api.payload)
