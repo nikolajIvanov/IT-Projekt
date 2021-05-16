@@ -45,6 +45,9 @@ class App extends React.Component {
         this.setState({
             exist: true
         })
+        return(
+            <p>Done</p>
+        )
     }
 
     setEmailError(value){

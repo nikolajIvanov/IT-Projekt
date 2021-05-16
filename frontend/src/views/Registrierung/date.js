@@ -11,7 +11,9 @@ function Date(props) {
     return (
             <Paper style={props.mode}>
                 <Typography style={styles.font}>Wann bist du geboren?</Typography>
-                <DatePickers change={handleDate}/>
+                <DatePickers
+                    inhalt={props.date}
+                    change={handleDate}/>
             </Paper>
     );
 }

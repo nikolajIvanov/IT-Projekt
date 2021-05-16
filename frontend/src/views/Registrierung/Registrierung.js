@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Step, StepLabel, Stepper, Typography} from "@material-ui/core";
+import {Button, Modal, Paper, Step, StepLabel, Stepper, Typography} from "@material-ui/core";
 import Date from "./date";
 import Gender from "./gender";
 import Name from "./name";
@@ -16,6 +16,10 @@ function getSteps() {
     return ['Name', 'Geburtstag', 'Gender', 'Lerntyp', 'Lernspeed', 'Module', 'Bio'];
 }
 
+function SimpleModal() {
+    return null;
+}
+
 function Registrierung(props) {
     const [activeStep, setActiveStep] = React.useState(0);
     const [count, setCount] = React.useState(0);
@@ -26,11 +30,12 @@ function Registrierung(props) {
     const [lernSpeed, setLernSpeed] = React.useState('');
     const [lerntypArt, setLerntypArt] = React.useState('');
     const [modul, setModul] = React.useState('');
+    const [open, setOpen] = React.useState(false);
     const steps = getSteps();
 
     const components = [
-        <Name setName={setName} mode={styles.card}/>,
-        <Date setDate={setDate} mode={styles.card}/>,
+        <Name setName={setName} name={name} mode={styles.card}/>,
+        <Date setDate={setDate} date={date} mode={styles.card}/>,
         <Gender setGender={setGender} gender={gender} mode={styles.card} drop={droplabels[0]}/>,
         <Lerntyp setLerntypArt={setLerntypArt} lerntypArt={lerntypArt} mode={styles.card} drop={droplabels[1]}/>,
         <Lernspeed setLernSpeed={setLernSpeed} lernSpeed={lernSpeed} mode={styles.card} drop={droplabels[2]}/>,
@@ -48,16 +53,42 @@ function Registrierung(props) {
         modul: modul
     }
 
-    const handleCount = () => {
-        if(count === 6) {
-            props.exist()
-        }
-        checkBox()
-        setCount(count + 1);
-        handleNext()
+    const handleOpen = () => {
+        setOpen(true);
     };
 
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const checkData = [name,date, gender, lerntypArt,lernSpeed,modul,bio]
+
+    const modal = (
+        <div style={styles.body}>
+            <Paper style={styles.modalCard}>
+                <h1>😱</h1>
+                <Typography>
+                   Bitte fülle die vorgegebenen Felder aus, um die Registrierung abzuschließen
+                </Typography>
+                <Typography style={styles.hinweis}>Klicke irgendwo hin um fortzufahren</Typography>
+                <SimpleModal />
+            </Paper>
+        </div>
+    )
+
     const checkBox = () => {
+        if (checkData[count] === ''){
+           handleOpen()
+        }
+        else{
+            if(count === 6) {
+                props.exist()
+            }
+            else{
+                setCount(count + 1);
+                handleNext()
+            }
+        }
 
     }
 
@@ -85,16 +116,21 @@ function Registrierung(props) {
                     </Step>
                 ))}
             </Stepper>
+            <Modal
+                open={open}
+                onClose={handleClose}>
+                {modal}
+            </Modal>
             {components[count]}
             <div>
                 { components[count-1] ? (
                     <div style={styles.button}>
                     <Button onClick={handleCountBack}>Zurück</Button>
-                    <Button onClick={handleCount}>Weiter</Button>
+                    <Button onClick={checkBox}>Weiter</Button>
                     </div>
                 ):(
                     <div style={styles.button}>
-                    <Button onClick={handleCount}>Weiter</Button>
+                    <Button onClick={checkBox}>Weiter</Button>
                     </div>
                 )}
             </div>
@@ -121,6 +157,14 @@ const styles = {
         justifyContent: "center",
         alignItems:"center",
     },
+    modalCard: {
+        marginTop: "15%",
+        padding: "2%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems:"center",
+    },
     stepper:{
         marginBottom: "5%",
     },
@@ -132,5 +176,10 @@ const styles = {
     },
     button:{
         marginTop: "15%"
+    },
+    hinweis:{
+        marginTop: "2%",
+        fontSize: "small",
+        color: "#9a9a9a"
     }
 }

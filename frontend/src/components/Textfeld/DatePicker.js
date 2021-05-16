@@ -23,6 +23,7 @@ export default function DatePickers(props) {
                 id="date"
                 label="Geburtstag"
                 type="date"
+                value={props.inhalt}
                 className={classes.textField}
                 onChange={props.change}
                 InputLabelProps={{

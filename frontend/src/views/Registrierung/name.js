@@ -12,6 +12,7 @@ function Name(props) {
             <Paper style={props.mode}>
                 <Typography style={styles.font}>Wie heißt du?</Typography>
                 <InputFeld
+                    inhalt={props.name}
                 onChange={handleName}
                 />
             </Paper>

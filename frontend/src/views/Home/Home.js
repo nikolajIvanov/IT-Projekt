@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
-import SetNewUser from "../../api/SetNewUser";
 
 class Home extends Component {
     render() {
         return (
             <div>
                 <h1 className="App">Willkommen</h1>
-                <SetNewUser/>
             </div>
         );
     }
