@@ -8,15 +8,15 @@ const modula = [
         label: '',
     },
     {
-        value: 'programmieren',
+        value: 1,
         label: 'Programmieren',
     },
     {
-        value: 'data-science',
+        value: 2,
         label: 'Data Science',
     },
     {
-        value: 'marketing',
+        value: 3,
         label: 'Marketing',
     },
 ]

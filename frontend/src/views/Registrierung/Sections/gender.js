@@ -8,15 +8,15 @@ const genders = [
         label: '',
     },
     {
-        value: 'mann',
+        value: 1,
         label: 'Mann',
     },
     {
-        value: 'frau',
+        value: 2,
         label: 'Frau',
     },
     {
-        value: 'divers',
+        value: 3,
         label: 'Divers',
     },
 

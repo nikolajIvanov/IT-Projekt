@@ -8,22 +8,28 @@ const lerntypArten = [
         label: '',
     },
     {
-        value: 'visuell',
+        value: 1,
         label: 'Visuell',
     },
     {
-        value: 'audio',
-        label: 'Audio',
+        value: 2,
+        label: 'Auditiv',
     },
     {
-        value: 'wiederholung',
-        label: 'Wiederholung',
+        value: 3,
+        label: 'Kommunikativ',
     },
     {
-        value: 'bulimie',
-        label: 'Bulimie',
+        value: 4,
+        label: 'Motorisch',
     },
+    {
+        value: 5,
+        label: 'Mischform'
+    }
 ]
+
+//TODO Infofeld für die Lerntypen
 
 function Lerntyp(props) {
 
@@ -32,7 +38,7 @@ function Lerntyp(props) {
     };
     return (
         <Paper style={props.mode}>
-            <Typography style={styles.font}>Wie lernst du?</Typography>
+            <Typography style={styles.font}>Welcher Lerntyp bist du?</Typography>
             <DropDown
                 handleChange = {handleLerntypArt}
                 input = {props.lerntypArt}
