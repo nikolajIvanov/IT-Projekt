@@ -1,5 +1,5 @@
 from src.server.Administration import Administration
-from src.server.bo.Nutzer import Nutzer
+from src.server.bo.User import User
 adm = Administration()
 payload = {
     "authId": "ders neu",
@@ -11,7 +11,7 @@ payload = {
     "profilBild": "5",
     "beschreibung": "6"
 }
-nutzer = Nutzer.from_dict(payload)
+nutzer = User.from_dict(payload)
 adm.create_user_by_authId(nutzer)
 
 

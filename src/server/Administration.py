@@ -1,6 +1,6 @@
 # Import aller BusinessObject Klassen
 
-from .bo.Nutzer import Nutzer
+from .bo.User import User
 
 
 # Import aller Mapper Klassen
@@ -49,7 +49,7 @@ class Administration(object):
             return mapper.find_by_name(value)
 
     def update(self, name, email):
-        user = Nutzer()
+        user = User()
         user.set_name(name)
         user.set_email(email)
         user.set_id(1)

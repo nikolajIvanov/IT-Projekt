@@ -1,7 +1,7 @@
 from .model import user, api
 from flask_restx import Resource
 from server.Administration import Administration
-from server.bo.Nutzer import Nutzer
+from server.bo.User import User
 
 
 class UsersApi(Resource):
@@ -18,7 +18,7 @@ class UsersApi(Resource):
     @api.marshal_with(user)
     def post(self):
         adm = Administration()
-        proposal = Nutzer.from_dict(api.payload)
+        proposal = User.from_dict(api.payload)
 
         if proposal is not None:
 

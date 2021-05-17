@@ -1,4 +1,4 @@
-from server.bo.Nutzer import Nutzer
+from server.bo.User import User
 from server.db.Mapper import Mapper
 import datetime
 
@@ -15,7 +15,7 @@ class NutzerMapper(Mapper):
         tuples = cursor.fetchall()
 
         for (id, name, email) in tuples:
-            user = Nutzer()
+            user = User()
             user.set_id(id)
             user.set_name(name)
             user.set_email(email)
@@ -43,7 +43,7 @@ class NutzerMapper(Mapper):
         tuples1 = cursor.fetchall()
 
         (id, bild, name, geburtsdatum, email, beschreibung, lerntyp,) = tuples[0]
-        user = Nutzer()
+        user = User()
         user.set_id(id)
         user.set_profilBild(bild)
         user.set_name(name)
@@ -73,7 +73,7 @@ class NutzerMapper(Mapper):
         tuples = cursor.fetchall()
 
         (id, name, email) = tuples[0]
-        user = Nutzer()
+        user = User()
         user.set_id(id)
         user.set_name(name)
         user.set_email(email)

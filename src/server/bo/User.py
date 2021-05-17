@@ -1,7 +1,7 @@
 from src.server.bo.Profil import Profil
 
 
-class Nutzer(Profil):
+class User(Profil):
     def __init__(self):
         super().__init__()
         self.__email = ""
@@ -39,7 +39,7 @@ class Nutzer(Profil):
     @staticmethod
     def from_dict(dictionary=dict()):
         """"Umwandeln eines Python dict() in einen Customer()."""
-        obj = Nutzer()
+        obj = User()
         obj.set_authId(dictionary["authId"])
         obj.set_modul(dictionary["modul"])
         obj.set_profilBild(dictionary["profilBild"])
