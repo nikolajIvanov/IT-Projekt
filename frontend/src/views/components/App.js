@@ -1,18 +1,16 @@
 import React, {Component} from 'react';
 import '../../assets/App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Home from "../../Home";
-import Gruppen from "../../Gruppen";
-import Profile from "../../Profile";
-import Navigation from "../../Navigation";
+import Home from "../Home/Home";
+import Gruppen from "../Suche/Gruppen";
+import Profile from "../Profil/Profile";
+import Navigation from "../Navigation";
 import '../../assets/App.css';
 import firebase from "../../api/Firebase";
-import Chat2 from '../../ChatTest2';
-import Login2 from '../../Login 2';
-import SignUp from '../../SignUP'
-import InputFeld from "../../components/Textfeld/InputFeld";
-import DropDown from "../../components/Textfeld/Dropdown";
-import Registrierung from "./Registrierung";
+import Chat2 from '../Chat/ChatTest2';
+import Login2 from '../LogIn/Login 2';
+import SignUp from '../SignUp/SignUP'
+import Registrierung from "../Registrierung/Registrierung";
 
 
 
@@ -27,10 +25,10 @@ class App extends React.Component {
             passwordError :'',
             hasAccount: false,
             text: 'Hi',
+            //TODO die Prüfung von exist soll über ein API call erfolgen der Prüft ob ein Name
+            // vorhanden ist (Rückschluss= alles muss da sein)
+            exist: false,
             }
-
-
-
         this.setHasAccount = this.setHasAccount.bind(this);
         this.handleLogOut = this.handleLogOut.bind(this);
         this.setEmail = this.setEmail.bind(this);
@@ -43,6 +41,15 @@ class App extends React.Component {
 
     componentDidMount() {
         this.authListener()
+    }
+
+    setExist = () => {
+        this.setState({
+            exist: true
+        })
+        return(
+            <p>Done</p>
+        )
     }
 
     setEmailError(value){
@@ -117,8 +124,6 @@ class App extends React.Component {
             .auth().signOut();
     }
 
-
-
     authListener(){
         firebase.auth().onAuthStateChanged(user => {
                 if (user) {
@@ -158,23 +163,28 @@ class App extends React.Component {
     return(
         <div>
             {this.state.user ? (
-                    <Router>
-                        <Navigation logOut={this.handleLogOut}/>
-                        <Switch>
-                            <Route path="/" exact component={Home}/>
-                            <Route path="/gruppen"  component={Gruppen}/>
-                            <Route path="/profile"  component={Profile}/>
-                            <Route path="/chat"  component={Chat2}/>
-                        </Switch>
-                        <InputFeld text = {this.state.text} />
-                        <Registrierung/>
-                    </Router>
+                <>
+                {this.state.exist ? (
+                        <Router>
+                            <Navigation logOut={this.handleLogOut}/>
+                            <Switch>
+                                <Route path="/" exact component={Home}/>
+                                <Route path="/gruppen"  component={Gruppen}/>
+                                <Route path="/profile"  component={Profile}/>
+                                <Route path="/chat"  component={Chat2}/>
+                            </Switch>
+                        </Router>
+                ):(
+                    <>
+                        <Registrierung exist={this.setExist}/>
+                    </>
+                )}
+                </>
             ) : (
                 <div>
                     {this.state.hasAccount ? (
                         <>
                             <Login2
-
                                 email={this.state.email}
                                 password={this.state.password}
                                 handleLogIn={this.handleLogIn}
