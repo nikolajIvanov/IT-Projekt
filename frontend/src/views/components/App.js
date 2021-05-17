@@ -185,7 +185,6 @@ class App extends React.Component {
                     {this.state.hasAccount ? (
                         <>
                             <Login2
-
                                 email={this.state.email}
                                 password={this.state.password}
                                 handleLogIn={this.handleLogIn}

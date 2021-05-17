@@ -80,9 +80,9 @@ class NutzerMapper(Mapper):
         pass
 
     def insert(self, user):
-        """Einfügen eines Nutzer-Objekts in die Datenbank.
+        """Einfügen eines User-Objekts in die Datenbank.
 
-        :param user: Ein Nutzer Objekt wird übergeben
+        :param user: Ein User Objekt wird übergeben
         :return:
         """
         cursor = self._cnx.cursor()
@@ -91,12 +91,12 @@ class NutzerMapper(Mapper):
 
         for (maxid) in tuples:
             if maxid[0] is not None:
-                """Wenn Nutzer in der Datenbank exestieren, suchen wir die höchste ID und zählen diese
-                um 1 hoch, damit garantieren wir, dass der neue Nutzer eine neue ID erhält.
+                """Wenn User in der Datenbank exestieren, suchen wir die höchste ID und zählen diese
+                um 1 hoch, damit garantieren wir, dass der neue User eine neue ID erhält.
                 """
                 user.set_id(maxid[0] + 1)
             else:
-                """Falls noch kein Nutzer in der Datenbank exestiert, wird der neue Nutzer mit der ID 1 in der
+                """Falls noch kein User in der Datenbank exestiert, wird der neue User mit der ID 1 in der
                 Datenbank gespeichert.
                 """
                 user.set_id(1)

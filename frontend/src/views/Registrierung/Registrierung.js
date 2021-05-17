@@ -1,46 +1,52 @@
 import React from 'react';
-import {Button, Modal, Paper, Step, StepLabel, Stepper, Typography} from "@material-ui/core";
+import {Modal, Paper, Step, StepLabel, Stepper, Typography} from "@material-ui/core";
 import Date from "./Sections/date";
 import Gender from "./Sections/gender";
 import Name from "./Sections/name";
 import Lerntyp from "./Sections/lerntyp";
-import Lernspeed from "./Sections/lernspeed";
+import Bild from "./Sections/bild";
 import Module from "./Sections/module";
 import Bio from "./Sections/bio";
 import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
+import firebase from "firebase";
+import User from "../../bo/User";
+import TeamUpApi from "../../api/TeamUpApi"
 
+//Labels die über den DropDown Buttons der Komponenten stehen
 const droplabels = [
-    "Gender" , "Lerntyp", "Lernspeed", "Module"
+    "Gender" , "Lerntyp", "Bild", "Module"
 ]
 
+//Werte die als Stepper Bezeichnungen genutzt werden - Reihenfolge ist wichtig!
 function getSteps() {
-    return ['Name', 'Geburtstag', 'Gender', 'Lerntyp', 'Lernspeed', 'Module', 'Bio'];
+    return ['Name', 'Geburtstag', 'Gender', 'Lerntyp', 'Bild', 'Module', 'Bio'];
 }
 
-function SimpleModal() {
-    return null;
-}
-
+//Übergeordnete Komponente für den Registrierungsprozess
 function Registrierung(props) {
+    //Konstanten der Komponenten und ihre state-Handler
     const [activeStep, setActiveStep] = React.useState(0);
     const [count, setCount] = React.useState(0);
     const [name, setName] = React.useState('');
     const [bio, setBio] = React.useState('');
     const [date, setDate] = React.useState('');
     const [gender, setGender] = React.useState('');
-    const [lernSpeed, setLernSpeed] = React.useState('');
+    const [bild, setBild] = React.useState('');
     const [lerntypArt, setLerntypArt] = React.useState('');
     const [modul, setModul] = React.useState('');
     const [open, setOpen] = React.useState(false);
     const steps = getSteps();
 
-    //TODO Bild-Componente statt Lernspeed
+    //Object Instantiierungen für User und API
+    const user = new User()
+
+    //Komponenten die im Laufe des Registrierungsprozess über checkBox gerendert werden
     const components = [
         <Name setName={setName} name={name} mode={styles.card}/>,
         <Date setDate={setDate} date={date} mode={styles.card}/>,
         <Gender setGender={setGender} gender={gender} mode={styles.card} drop={droplabels[0]}/>,
         <Lerntyp setLerntypArt={setLerntypArt} lerntypArt={lerntypArt} mode={styles.card} drop={droplabels[1]}/>,
-        <Lernspeed setLernSpeed={setLernSpeed} lernSpeed={lernSpeed} mode={styles.card} drop={droplabels[2]}/>,
+        <Bild setBild={setBild} bild={bild} mode={styles.card}/>,
         <Module setModul={setModul} modul={modul} mode={styles.card} drop={droplabels[3]}/>,
         <Bio setBio={setBio} mode={styles.card}/>
     ]
@@ -49,23 +55,31 @@ function Registrierung(props) {
     const infos = {
         name: name,
         gender: gender,
-        date: date,
-        bio: bio,
+        geburtstag: date,
+        modul: modul,
+        beschreibung: bio,
         lerntyp: lerntypArt,
-        lernspeed: lernSpeed,
-        modul: modul
+        bild: bild,
+        authId: firebase.auth().currentUser.uid,
+        email: firebase.auth().currentUser.email,
     }
 
+
+
+    //Öffnet das Modal
     const handleOpen = () => {
         setOpen(true);
     };
 
+    //Schließt das Modal
     const handleClose = () => {
         setOpen(false);
     };
 
-    const checkData = [name,date, gender, lerntypArt,lernSpeed,modul,bio]
+    //Wird benutzt um zu überprüfen ob die aktuelle Komponente leer ist
+    const checkData = [name, date, gender, lerntypArt, bild, modul,bio]
 
+    //modal ist ein Object, dass gerendert wird falls die Modalvariable "open" true ist.
     const modal = (
         <div style={styles.body}>
             <Paper style={styles.modalCard}>
@@ -74,11 +88,12 @@ function Registrierung(props) {
                    Bitte fülle die vorgegebenen Felder aus, um die Registrierung abzuschließen
                 </Typography>
                 <Typography style={styles.hinweis}>Klicke irgendwo hin um fortzufahren</Typography>
-                <SimpleModal />
             </Paper>
         </div>
     )
 
+    //Die Checkbox prüft welche Komponente momentan in der Registrierung angezeigt wird und ob die Input werte leer sind
+    //Falls leere werte übergeben werden wird ein Modal über handleOpen() aufgerufen
     const checkBox = () => {
         if (checkData[count] === ''){
            handleOpen()
@@ -86,6 +101,9 @@ function Registrierung(props) {
         else{
             //TODO auf length setzen
             if(count === 6) {
+                user.setAll(infos)
+                TeamUpApi.getAPI().setUser(user.getAll())
+                console.log(user.getAll())
                 props.exist()
             }
             else{
@@ -95,20 +113,16 @@ function Registrierung(props) {
         }
     }
 
+    //setzt den Komponenten-Counter und den Stepper einen wert zurück
     const handleCountBack = () => {
         setCount(count - 1);
-        handleBack()
-    };
-
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-
+    //setzt den Stepper einen wert vor
+    const handleNext = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    };
 
     return (
         <div style={styles.body}>
