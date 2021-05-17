@@ -46,3 +46,5 @@ CREATE TABLE `userInModul` (
     PRIMARY KEY (userId, modulId)
 
 );
+
+INSERT INTO  lerntyp (typ)  VALUES ('Visuell'),('Auditiv'), ('Kommunikativ'),('Motorisch'), ('Mischform')
