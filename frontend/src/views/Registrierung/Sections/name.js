@@ -13,7 +13,7 @@ function Name(props) {
                 <Typography style={styles.font}>Wie heißt du?</Typography>
                 <InputFeld
                     inhalt={props.name}
-                onChange={handleName}
+                    onChange={handleName}
                 />
             </Paper>
     );

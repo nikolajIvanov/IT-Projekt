@@ -1,14 +1,16 @@
 import React from 'react';
-import {Button, Modal, Paper, Step, StepLabel, Stepper, Typography} from "@material-ui/core";
+import {Modal, Paper, Step, StepLabel, Stepper, Typography} from "@material-ui/core";
 import Date from "./Sections/date";
 import Gender from "./Sections/gender";
 import Name from "./Sections/name";
 import Lerntyp from "./Sections/lerntyp";
-import Lernspeed from "./Sections/lernspeed";
+import Bild from "./Sections/bild";
 import Module from "./Sections/module";
 import Bio from "./Sections/bio";
 import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
 import firebase from "firebase";
+import User from "../../bo/User";
+import TeamUpApi from "../../api/TeamUpApi"
 
 const droplabels = [
     "Gender" , "Lerntyp", "Bild", "Module"
@@ -35,13 +37,16 @@ function Registrierung(props) {
     const [open, setOpen] = React.useState(false);
     const steps = getSteps();
 
-    //TODO Bild-Componente statt Lernspeed
+    const user = new User()
+    const api = new TeamUpApi()
+
+    //TODO Bild-Componente statt Bild
     const components = [
         <Name setName={setName} name={name} mode={styles.card}/>,
         <Date setDate={setDate} date={date} mode={styles.card}/>,
         <Gender setGender={setGender} gender={gender} mode={styles.card} drop={droplabels[0]}/>,
         <Lerntyp setLerntypArt={setLerntypArt} lerntypArt={lerntypArt} mode={styles.card} drop={droplabels[1]}/>,
-        <Bild setName={setName} name={name} mode={styles.card}/>,
+        <Bild setBild={setBild} bild={bild} mode={styles.card}/>,
         <Module setModul={setModul} modul={modul} mode={styles.card} drop={droplabels[3]}/>,
         <Bio setBio={setBio} mode={styles.card}/>
     ]
@@ -51,12 +56,15 @@ function Registrierung(props) {
         name: name,
         gender: gender,
         date: date,
+        modul: modul,
         beschreibung: bio,
         lerntyp: lerntypArt,
-        bild: "",
+        bild: bild,
+        authId: firebase.auth().currentUser.uid,
         email: firebase.auth().currentUser.email,
-        authId: firebase.auth().currentUser.uid
     }
+
+
 
     const handleOpen = () => {
         setOpen(true);
@@ -66,7 +74,7 @@ function Registrierung(props) {
         setOpen(false);
     };
 
-    const checkData = [name,date, gender, lerntypArt,bild,modul,bio]
+    const checkData = [name, date, gender, lerntypArt, bild, modul,bio]
 
     const modal = (
         <div style={styles.body}>
@@ -88,6 +96,8 @@ function Registrierung(props) {
         else{
             //TODO auf length setzen
             if(count === 6) {
+                user.setAll(infos)
+                api.postUser(user.getAll())
                 props.exist()
             }
             else{

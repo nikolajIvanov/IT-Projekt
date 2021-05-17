@@ -9,7 +9,7 @@ export default class User extends BusinessObject {
         this.modul = "";
         this.beschreibung = "";
         this.gender = "";
-        this.geburtstag = "";
+        this.geburtstag = null;
         this.email = "";
         this.istinGruppe = [];
         this.authId = "";
@@ -97,7 +97,7 @@ export default class User extends BusinessObject {
     setAll(user){
         this.name = user.name;
         this.gender = user.gender;
-        this.date = user.date;
+        this.geburtstag = user.date;
         this.beschreibung = user.beschreibung;
         this.lerntyp = user.lerntyp;
         this.modul = user.modul;

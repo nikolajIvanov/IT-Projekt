@@ -20,8 +20,9 @@ export default function InputFeld(props) {
                 <TextField
                     id="standard-error-helper-text"
                     label={props.text}
+                    value={props.inhalt}
                     defaultValue={props.inputValue}
-
+                    onChange={props.onChange}
                 />
             </div>
         </form>
