@@ -1,6 +1,6 @@
 import React from 'react';
 import {Paper, Typography} from "@material-ui/core";
-import InputFeld from "../../components/Textfeld/InputFeld";
+import InputFeld from "../../../components/Textfeld/InputFeld";
 
 function Name(props) {
 

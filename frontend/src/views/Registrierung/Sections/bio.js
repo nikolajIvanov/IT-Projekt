@@ -1,5 +1,5 @@
 import React from 'react';
-import MultiLine from "../../components/Textfeld/MultiLine";
+import MultiLine from "../../../components/Textfeld/MultiLine";
 import {Paper, Typography} from "@material-ui/core";
 
 function Bio(props) {

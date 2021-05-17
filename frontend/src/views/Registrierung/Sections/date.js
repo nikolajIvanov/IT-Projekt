@@ -1,5 +1,5 @@
 import React from 'react';
-import DatePickers from "../../components/Textfeld/DatePicker";
+import DatePickers from "../../../components/Textfeld/DatePicker";
 import {Paper, Typography} from "@material-ui/core";
 
 function Date(props) {

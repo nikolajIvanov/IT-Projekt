@@ -1,6 +1,6 @@
 import React from 'react';
 import {Paper, Typography} from "@material-ui/core";
-import DropDown from "../../components/Textfeld/Dropdown";
+import DropDown from "../../../components/Textfeld/Dropdown";
 
 const modula = [
     {

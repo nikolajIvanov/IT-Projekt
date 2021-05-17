@@ -1,12 +1,12 @@
 import React from 'react';
 import {Button, Modal, Paper, Step, StepLabel, Stepper, Typography} from "@material-ui/core";
-import Date from "./date";
-import Gender from "./gender";
-import Name from "./name";
-import Lerntyp from "./lerntyp";
-import Lernspeed from "./lernspeed";
-import Module from "./module";
-import Bio from "./bio";
+import Date from "./Sections/date";
+import Gender from "./Sections/gender";
+import Name from "./Sections/name";
+import Lerntyp from "./Sections/lerntyp";
+import Lernspeed from "./Sections/lernspeed";
+import Module from "./Sections/module";
+import Bio from "./Sections/bio";
 import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
 
 const droplabels = [
@@ -34,6 +34,7 @@ function Registrierung(props) {
     const [open, setOpen] = React.useState(false);
     const steps = getSteps();
 
+    //TODO Bild-Componente statt Lernspeed
     const components = [
         <Name setName={setName} name={name} mode={styles.card}/>,
         <Date setDate={setDate} date={date} mode={styles.card}/>,
@@ -83,6 +84,7 @@ function Registrierung(props) {
            handleOpen()
         }
         else{
+            //TODO auf length setzen
             if(count === 6) {
                 props.exist()
             }
