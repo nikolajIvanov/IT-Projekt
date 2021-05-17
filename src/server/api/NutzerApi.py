@@ -8,16 +8,16 @@ class NutzerApi(Resource):
     @api.marshal_with(user)
     def get(self, authId):
         adm = Administration()
-        nutzer = adm.get_user_by_authId(authId)
-        return nutzer
+        return adm.get_user_by_authId(authId)
 
     def delete(self):
         pass
 
     @api.expect(user, validate=True)
-    def put(self,**kwargs):
+    @api.marshal_with(user)
+    def put(self, authId):
         adm = Administration()
         nutzer = Nutzer.from_dict(api.payload)
-        adm.update_user_by_authId(nutzer)
+        return adm.update_user_by_authId(nutzer)
 
 

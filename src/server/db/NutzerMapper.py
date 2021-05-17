@@ -25,10 +25,8 @@ class NutzerMapper(Mapper):
         cursor.close()
 
         return result
-    # TODO Methode läuft nicht
+
     def find_by_key(self, key):
-        # TODO braucht man result?
-        result = None
         # TODO Tabelle Lerntyp befüllen: https://mitteldeutsches-institut.de/lerntypen/
         cursor = self._cnx.cursor(prepared=True)
         query = """SELECT users.id, users.bild, users.name, users.geburtsdatum, users.email, users.beschreibung, 
@@ -53,17 +51,18 @@ class NutzerMapper(Mapper):
         user.set_email(email)
         user.set_beschreibung(beschreibung)
         user.set_lerntyp(lerntyp)
+        user.set_authId(key)
 
         for i in tuples1:
             for x in i:
                 user.set_module_append(x)
 
-        result = user
+
 
         self._cnx.commit()
         cursor.close()
 
-        return result
+        return user
 
     def find_by_name(self, name):
         result = None
@@ -146,6 +145,8 @@ class NutzerMapper(Mapper):
             cursor.execute(query2, (data))
         self._cnx.commit()
         cursor.close()
+
+        return self.find_by_key(nutzer.get_authId())
 
 
 

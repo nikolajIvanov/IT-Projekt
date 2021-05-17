@@ -12,7 +12,7 @@ bo = api.model('BusinessObject', {
 profil = api.inherit('Profil', bo, {
     'name': fields.String(attribute=lambda x: x.get_name(), description='Name eines Benutzers'),
     'lerntyp': fields.String(attribute=lambda x: x.get_lerntyp(), description='Lerntyp eines Benutzers'),
-    'modul': fields.List(fields.String,attribute=lambda x: x.get_modul(), description='Module eines Benutzers'),
+    'modul': fields.List(fields.String, attribute=lambda x: x.get_modul(), description='Module eines Benutzers'),
     'profilBild': fields.String(attribute=lambda x: x.get_profilBild(), description='Bild eines Benutzers'),
     'beschreibung': fields.String(attribute=lambda x: x.get_beschreibung(), description='beschreibung eines Benutzers')
 

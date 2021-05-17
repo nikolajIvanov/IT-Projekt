@@ -16,13 +16,13 @@ class NutzerListApi(Resource):
 
     @api.expect(user, validate=True)
     @api.marshal_with(user)
-    def post(self, **kwargs):
+    def post(self):
         adm = Administration()
         proposal = Nutzer.from_dict(api.payload)
 
         if proposal is not None:
-            u = adm.create_user_by_authId(proposal)
-            return u
+
+            return adm.create_user_by_authId(proposal)
         else:
             return '', 500
 
