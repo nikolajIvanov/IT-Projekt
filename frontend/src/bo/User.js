@@ -3,15 +3,16 @@ import BusinessObject from "./BusinessObject";
 export default class User extends BusinessObject {
     constructor() {
         super();
-        this.bild = ""; // TODO: Format muss geändert werden -> BLOB
+        this.bild = null;
         this.name = "";
         this.lerntyp = "";
         this.modul = "";
         this.beschreibung = "";
-        this.geburtstag = ""; // TODO: Format muss geändert werden -> DATE
+        this.gender = "";
+        this.geburtstag = "";
         this.email = "";
-        this.istinGruppe = ""; // TODO: Format muss geändert werden -> ARRAY
-        this.uid = "";
+        this.istinGruppe = [];
+        this.authId = "";
     }
 
     getName(){
@@ -66,15 +67,43 @@ export default class User extends BusinessObject {
         return this.istinGruppe;
     }
 
-    setGruppen() {
-        // TODO: Wie übergebe ich ein Array?
+    setGruppen(gruppe) {
+       this.istinGruppe.add(gruppe);
     }
 
-    getUID(){
-        return this.uid;
+    getAuthId(){
+        return this.authId;
     }
 
-    setUID(newUID) {
-        this.uid = newUID;
+    setAuthId(newAuthId) {
+        this.authId = newAuthId;
+    }
+
+    //Getter-Setter alle #Profildaten
+    getAll(){
+        return {
+            name: this.name,
+            gender: this.gender,
+            date: this.date,
+            bio: this.bio,
+            lerntyp: this.lerntyp,
+            modul: this.modul,
+            bild: this.bild,
+            istinGruppe: this.istinGruppe,
+            authId: this.authId,
+            email: this.email
+        }
+    }
+    setAll(user){
+        this.name = user.name;
+        this.gender = user.gender;
+        this.date = user.date;
+        this.beschreibung = user.beschreibung;
+        this.lerntyp = user.lerntyp;
+        this.modul = user.modul;
+        this.bild = user.bild;
+        this.istinGruppe = user.istinGruppe;
+        this.authId = user.authId;
+        this.email = user.email;
     }
 }

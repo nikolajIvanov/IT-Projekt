@@ -8,13 +8,14 @@ import Lernspeed from "./Sections/lernspeed";
 import Module from "./Sections/module";
 import Bio from "./Sections/bio";
 import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
+import firebase from "firebase";
 
 const droplabels = [
-    "Gender" , "Lerntyp", "Lernspeed", "Module"
+    "Gender" , "Lerntyp", "Bild", "Module"
 ]
 
 function getSteps() {
-    return ['Name', 'Geburtstag', 'Gender', 'Lerntyp', 'Lernspeed', 'Module', 'Bio'];
+    return ['Name', 'Geburtstag', 'Gender', 'Lerntyp', 'Bild', 'Module', 'Bio'];
 }
 
 function SimpleModal() {
@@ -28,7 +29,7 @@ function Registrierung(props) {
     const [bio, setBio] = React.useState('');
     const [date, setDate] = React.useState('');
     const [gender, setGender] = React.useState('');
-    const [lernSpeed, setLernSpeed] = React.useState('');
+    const [bild, setBild] = React.useState('');
     const [lerntypArt, setLerntypArt] = React.useState('');
     const [modul, setModul] = React.useState('');
     const [open, setOpen] = React.useState(false);
@@ -40,7 +41,7 @@ function Registrierung(props) {
         <Date setDate={setDate} date={date} mode={styles.card}/>,
         <Gender setGender={setGender} gender={gender} mode={styles.card} drop={droplabels[0]}/>,
         <Lerntyp setLerntypArt={setLerntypArt} lerntypArt={lerntypArt} mode={styles.card} drop={droplabels[1]}/>,
-        <Lernspeed setLernSpeed={setLernSpeed} lernSpeed={lernSpeed} mode={styles.card} drop={droplabels[2]}/>,
+        <Bild setName={setName} name={name} mode={styles.card}/>,
         <Module setModul={setModul} modul={modul} mode={styles.card} drop={droplabels[3]}/>,
         <Bio setBio={setBio} mode={styles.card}/>
     ]
@@ -50,10 +51,11 @@ function Registrierung(props) {
         name: name,
         gender: gender,
         date: date,
-        bio: bio,
+        beschreibung: bio,
         lerntyp: lerntypArt,
-        lernspeed: lernSpeed,
-        modul: modul
+        bild: "",
+        email: firebase.auth().currentUser.email,
+        authId: firebase.auth().currentUser.uid
     }
 
     const handleOpen = () => {
@@ -64,7 +66,7 @@ function Registrierung(props) {
         setOpen(false);
     };
 
-    const checkData = [name,date, gender, lerntypArt,lernSpeed,modul,bio]
+    const checkData = [name,date, gender, lerntypArt,bild,modul,bio]
 
     const modal = (
         <div style={styles.body}>

@@ -1,6 +1,8 @@
-
+import User from "../bo/User";
 
 class TeamUpApi {
+
+    user = new User();
 
     static #api = null;
 
@@ -35,6 +37,11 @@ class TeamUpApi {
 
     getUser(authId) {
         return
+    }
+
+    setUser(){
+        this.#fetchAdvanced(this.postUser(), this.user.getAll())
+
     }
 
 }
