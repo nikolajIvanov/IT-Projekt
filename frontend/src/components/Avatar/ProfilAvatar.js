@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     small: {
-        width: theme.spacing(3),
-        height: theme.spacing(3),
+        width: theme.spacing(5),
+        height: theme.spacing(5),
     },
     large: {
         width: theme.spacing(10),
@@ -25,7 +25,7 @@ function ProfilAvatar(props) {
         <div className={classes.root}>
             <Avatar
                 src={props.img}
-            alt="Profilbild"
+                alt="Profilbild"
                 className={classes.large}
             />
         </div>

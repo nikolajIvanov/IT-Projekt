@@ -23,10 +23,9 @@ export default class TeamUpApi {
         return this.#api;
     }
 
-
     #fetchAdvanced = (url, init) => fetch(url, init)
         .then(res => {
-            // The Promise returned from fetch() won’t reject on HTTP error status even if the response is an HTTP 404 or 500.
+            //HTTP Error werden nicht zurück gewiesen
             if (!res.ok) {
             throw Error(`${res.status} ${res.statusText}`);
             }
@@ -39,7 +38,7 @@ export default class TeamUpApi {
     }
 
     setUser(user){
-        this.#fetchAdvanced(this.postUser(), user)
+        this.#fetchAdvanced(this.postUser(), user).then(r =>
+        console.log(r))
     }
-
 }

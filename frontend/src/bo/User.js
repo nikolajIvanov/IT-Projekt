@@ -84,8 +84,8 @@ export default class User extends BusinessObject {
         return {
             name: this.name,
             gender: this.gender,
-            date: this.date,
-            bio: this.bio,
+            geburtstag: this.geburtstag,
+            beschreibung: this.beschreibung,
             lerntyp: this.lerntyp,
             modul: this.modul,
             bild: this.bild,

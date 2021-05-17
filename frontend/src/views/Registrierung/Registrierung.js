@@ -12,19 +12,19 @@ import firebase from "firebase";
 import User from "../../bo/User";
 import TeamUpApi from "../../api/TeamUpApi"
 
+//Labels die über den DropDown Buttons der Komponenten stehen
 const droplabels = [
     "Gender" , "Lerntyp", "Bild", "Module"
 ]
 
+//Werte die als Stepper Bezeichnungen genutzt werden - Reihenfolge ist wichtig!
 function getSteps() {
     return ['Name', 'Geburtstag', 'Gender', 'Lerntyp', 'Bild', 'Module', 'Bio'];
 }
 
-function SimpleModal() {
-    return null;
-}
-
+//Übergeordnete Komponente für den Registrierungsprozess
 function Registrierung(props) {
+    //Konstanten der Komponenten und ihre state-Handler
     const [activeStep, setActiveStep] = React.useState(0);
     const [count, setCount] = React.useState(0);
     const [name, setName] = React.useState('');
@@ -37,10 +37,10 @@ function Registrierung(props) {
     const [open, setOpen] = React.useState(false);
     const steps = getSteps();
 
+    //Object Instantiierungen für User und API
     const user = new User()
-    const api = new TeamUpApi()
 
-    //TODO Bild-Componente statt Bild
+    //Komponenten die im Laufe des Registrierungsprozess über checkBox gerendert werden
     const components = [
         <Name setName={setName} name={name} mode={styles.card}/>,
         <Date setDate={setDate} date={date} mode={styles.card}/>,
@@ -55,7 +55,7 @@ function Registrierung(props) {
     const infos = {
         name: name,
         gender: gender,
-        date: date,
+        geburtstag: date,
         modul: modul,
         beschreibung: bio,
         lerntyp: lerntypArt,
@@ -66,16 +66,20 @@ function Registrierung(props) {
 
 
 
+    //Öffnet das Modal
     const handleOpen = () => {
         setOpen(true);
     };
 
+    //Schließt das Modal
     const handleClose = () => {
         setOpen(false);
     };
 
+    //Wird benutzt um zu überprüfen ob die aktuelle Komponente leer ist
     const checkData = [name, date, gender, lerntypArt, bild, modul,bio]
 
+    //modal ist ein Object, dass gerendert wird falls die Modalvariable "open" true ist.
     const modal = (
         <div style={styles.body}>
             <Paper style={styles.modalCard}>
@@ -84,11 +88,12 @@ function Registrierung(props) {
                    Bitte fülle die vorgegebenen Felder aus, um die Registrierung abzuschließen
                 </Typography>
                 <Typography style={styles.hinweis}>Klicke irgendwo hin um fortzufahren</Typography>
-                <SimpleModal />
             </Paper>
         </div>
     )
 
+    //Die Checkbox prüft welche Komponente momentan in der Registrierung angezeigt wird und ob die Input werte leer sind
+    //Falls leere werte übergeben werden wird ein Modal über handleOpen() aufgerufen
     const checkBox = () => {
         if (checkData[count] === ''){
            handleOpen()
@@ -97,7 +102,7 @@ function Registrierung(props) {
             //TODO auf length setzen
             if(count === 6) {
                 user.setAll(infos)
-                api.postUser(user.getAll())
+                TeamUpApi.getAPI().setUser(user.getAll())
                 console.log(user.getAll())
                 props.exist()
             }
@@ -108,20 +113,16 @@ function Registrierung(props) {
         }
     }
 
+    //setzt den Komponenten-Counter und den Stepper einen wert zurück
     const handleCountBack = () => {
         setCount(count - 1);
-        handleBack()
-    };
-
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-
+    //setzt den Stepper einen wert vor
+    const handleNext = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    };
 
     return (
         <div style={styles.body}>
