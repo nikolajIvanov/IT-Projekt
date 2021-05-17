@@ -4,7 +4,7 @@ from server.Administration import Administration
 from server.bo.Nutzer import Nutzer
 
 
-class NutzerApi(Resource):
+class UserApi(Resource):
     @api.marshal_with(user)
     def get(self, authId):
         adm = Administration()

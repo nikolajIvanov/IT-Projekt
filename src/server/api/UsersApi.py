@@ -4,7 +4,7 @@ from server.Administration import Administration
 from server.bo.Nutzer import Nutzer
 
 
-class NutzerListApi(Resource):
+class UsersApi(Resource):
     @api.marshal_list_with(user)
     def get(self):
         """Auslesen aller Nutzer-Objekte
