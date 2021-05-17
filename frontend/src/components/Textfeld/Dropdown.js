@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
 
 
 
@@ -29,7 +28,7 @@ export default function DropDown(props) {
                     SelectProps={{
                         native: true,
                     }}
-                    helperText="Triff eine Entscheidung!"
+                    helperText="Wähle eine Kategorie"
                     variant="outlined"
                 >
                     {props.map.map((option) => (

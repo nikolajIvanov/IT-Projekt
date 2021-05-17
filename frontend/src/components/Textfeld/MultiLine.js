@@ -11,24 +11,19 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function MultiLine() {
+export default function MultiLine(props) {
     const classes = useStyles();
-    const [value, setValue] = React.useState('Controlled');
-
-    const handleChange = (event) => {
-        setValue(event.target.value);
-    };
 
     return (
         <form className={classes.root} noValidate autoComplete="off">
             <div>
                 <TextField
                     id="outlined-multiline-static"
-                    label="Beschreibungstext"
+                    label="Beschreibung"
                     multiline
                     rows={4}
-                    defaultValue="Erzähle uns etwas über dich..."
                     variant="outlined"
+                    onChange={props.change}
                 />
             </div>
         </form>

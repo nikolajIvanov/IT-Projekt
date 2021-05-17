@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function DatePickers() {
+export default function DatePickers(props) {
     const classes = useStyles();
 
     return (
@@ -23,8 +23,9 @@ export default function DatePickers() {
                 id="date"
                 label="Geburtstag"
                 type="date"
-                defaultValue="2000-01-01"
+                value={props.inhalt}
                 className={classes.textField}
+                onChange={props.change}
                 InputLabelProps={{
                     shrink: true,
                 }}
