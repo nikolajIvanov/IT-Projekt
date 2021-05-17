@@ -98,6 +98,7 @@ function Registrierung(props) {
             if(count === 6) {
                 user.setAll(infos)
                 api.postUser(user.getAll())
+                console.log(user.getAll())
                 props.exist()
             }
             else{
