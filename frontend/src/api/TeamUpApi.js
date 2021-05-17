@@ -5,7 +5,7 @@ export default class TeamUpApi {
 
     static #api = null;
 
-    #serverBaseURL = '/api';
+    #serverBaseURL = '';
 
     // User vom Backend holen
     getUser = (authId) => `${this.#serverBaseURL}/users/${authId}`;
@@ -38,7 +38,18 @@ export default class TeamUpApi {
     }
 
     setUser(user){
-        this.#fetchAdvanced(this.postUser(), user).then(r =>
-        console.log(r))
+        return this.#add(this.postUser(), user)
+    }
+
+
+    #add = (url, businessObject) =>{
+        return this.#fetchAdvanced(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(businessObject)
+        }).then(r => console.log(r))
     }
 }

@@ -3,13 +3,13 @@ import BusinessObject from "./BusinessObject";
 export default class User extends BusinessObject {
     constructor() {
         super();
-        this.bild = null;
+        this.profilBild = null;
         this.name = "";
         this.lerntyp = "";
-        this.modul = "";
+        this.modul = [];
         this.beschreibung = "";
         this.gender = "";
-        this.geburtstag = null;
+        this.geburtsdatum = null;
         this.email = "";
         this.istinGruppe = [];
         this.authId = "";
@@ -48,11 +48,11 @@ export default class User extends BusinessObject {
     }
 
     getGeburtstag() {
-        return this.geburtstag;
+        return this.geburtsdatum;
     }
 
     setGeburtstag(newGeburtstag) {
-        this.geburtstag = newGeburtstag;
+        this.geburtsdatum = newGeburtstag;
     }
 
     getEmail() {
@@ -83,13 +83,13 @@ export default class User extends BusinessObject {
     getAll(){
         return {
             name: this.name,
-            gender: this.gender,
-            geburtstag: this.geburtstag,
+            //gender: this.gender,
+            geburtsdatum: this.geburtsdatum,
             beschreibung: this.beschreibung,
             lerntyp: this.lerntyp,
             modul: this.modul,
-            bild: this.bild,
-            istinGruppe: this.istinGruppe,
+            profilBild: this.profilBild,
+            //istinGruppe: this.istinGruppe,
             authId: this.authId,
             email: this.email
         }
@@ -97,11 +97,11 @@ export default class User extends BusinessObject {
     setAll(user){
         this.name = user.name;
         this.gender = user.gender;
-        this.geburtstag = user.date;
+        this.geburtsdatum = user.geburtsdatum;
         this.beschreibung = user.beschreibung;
         this.lerntyp = user.lerntyp;
-        this.modul = user.modul;
-        this.bild = user.bild;
+        this.modul.push(user.modul);
+        this.profilBild = user.profilBild;
         this.istinGruppe = user.istinGruppe;
         this.authId = user.authId;
         this.email = user.email;

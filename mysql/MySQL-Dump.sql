@@ -27,7 +27,7 @@ CREATE TABLE `users` (
     `timeStamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `authId` varchar(128) NOT NULL DEFAULT '',
     /*Niko schaut sich Blolb an für Bild*/
-    `bild` blob NOT NULL ,
+    `bild` LONGBLOB NOT NULL ,
     `name` varchar(128) NOT NULL DEFAULT '',
      /* Geburtstag muss gesetzt werden im FROTNEND deswegen müssen wir im BE kein Default definieren */
     `geburtsdatum` DATE NOT NULL DEFAULT '01.01.1900',

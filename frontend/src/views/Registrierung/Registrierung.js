@@ -55,11 +55,11 @@ function Registrierung(props) {
     const infos = {
         name: name,
         gender: gender,
-        geburtstag: date,
+        geburtsdatum: date,
         modul: modul,
         beschreibung: bio,
         lerntyp: lerntypArt,
-        bild: bild,
+        profilBild: bild,
         authId: firebase.auth().currentUser.uid,
         email: firebase.auth().currentUser.email,
     }
