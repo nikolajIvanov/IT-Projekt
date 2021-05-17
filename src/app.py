@@ -23,7 +23,7 @@ def handleMessage(msg):
 # Api Endpunkte werden mit der Funktion add_resource an Flask übergeben
 api.add_resource(TestApi, '/test-api/<int:number>')
 api.add_resource(UsersApi, '/users')
-api.add_resource(UserApi, '/user/<string:authId>')
+api.add_resource(UserApi, '/users/<string:authId>')
 api.add_resource(NutzerByNameApi, '/nutzer-by-name/<string:name>')
 
 if __name__ == '__main__':
