@@ -113,7 +113,7 @@ class UserMapper(Mapper):
         # Auslesen der User Daten
         daten = (nutzer.get_authId(), nutzer.get_profilBild(), nutzer.get_name(),
                  datetime.datetime.strptime(nutzer.get_geburtsdatum(),'%Y-%m-%d'),
-                 nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.gender())
+                 nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender())
 
         # Ausführen des SQL-Befehls um die User Daten auf die Datenbank zu schreiben
         cursor.execute(query, (daten))

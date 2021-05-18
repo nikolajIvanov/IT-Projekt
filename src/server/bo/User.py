@@ -55,5 +55,6 @@ class User(Profil):
         obj.set_geburtsdatum(dictionary["geburtsdatum"])
         obj.set_name(dictionary["name"])
         obj.set_email(dictionary["email"])
+        obj.set_gender(dictionary["gender"])
 
         return obj
