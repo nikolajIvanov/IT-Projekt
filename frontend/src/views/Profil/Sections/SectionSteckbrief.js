@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import {makeStyles} from "@material-ui/core/styles";
 import MultiLine from "../../../components/Textfeld/MultiLine";
 import InputFeld from "../../../components/Textfeld/InputFeld";
+import DatePicker from "../../../components/Textfeld/DatePicker"
 
 const useStyles =  makeStyles((theme) =>{
    root: {
@@ -11,7 +12,13 @@ const useStyles =  makeStyles((theme) =>{
    }
 });
 
+
+
 export default function SectionSteckbrief(props) {
+
+    const handleChange = (e) => {
+        props.dateChange(e.target.value)
+    }
     const classes = useStyles();
     return (
         <div>
@@ -20,11 +27,11 @@ export default function SectionSteckbrief(props) {
                 <MultiLine/>
                 <Grid container spacing={2} direction="row" justify="center" alignItems="center">
                     <Typography>Alter: </Typography>
-                    <InputFeld inputValue={props.alter}/>
+                    <DatePicker inhalt={props.alter} change={handleChange}/>
                 </Grid>
                 <Grid container spacing={2} direction="row" justify="center" alignItems="center">
                     <Typography>Module: </Typography>
-                    <InputFeld inputValue={props.module}/>
+                    <InputFeld inhalt={props.module}/>
                 </Grid>
             </Grid>
         </div>

@@ -11,6 +11,7 @@ import Chat2 from '../Chat/ChatTest2';
 import Login2 from '../LogIn/Login 2';
 import SignUp from '../SignUp/SignUP'
 import Registrierung from "../Registrierung/Registrierung";
+import TeamUpApi from "../../api/TeamUpApi";
 
 
 
@@ -27,7 +28,7 @@ class App extends React.Component {
             text: 'Hi',
             //TODO die Prüfung von exist soll über ein API call erfolgen der Prüft ob ein Name
             // vorhanden ist (Rückschluss= alles muss da sein)
-            exist: false,
+            exist: true,
             }
         this.setHasAccount = this.setHasAccount.bind(this);
         this.handleLogOut = this.handleLogOut.bind(this);
@@ -39,17 +40,23 @@ class App extends React.Component {
         this.switch = this.switch.bind(this)
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.authListener()
+        /**const check =  await TeamUpApi.getAPI().getUser(firebase.auth().currentUser.uid)
+        if(check === ''){
+            this.setState({
+                exist: false
+            })
+        }
+        else{
+            this.setExist()
+        }*/
     }
 
     setExist = () => {
         this.setState({
             exist: true
         })
-        return(
-            <p>Done</p>
-        )
     }
 
     setEmailError(value){
