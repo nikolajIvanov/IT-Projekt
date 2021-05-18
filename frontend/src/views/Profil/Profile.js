@@ -37,7 +37,9 @@ class Profile extends React.Component {
     }
     setDate = (date) => {
         this.setState({
-           date : date
+            user:{
+                geburtsdatum : date
+            }
         });
 }
 
