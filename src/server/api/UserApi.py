@@ -10,8 +10,9 @@ class UserApi(Resource):
         adm = Administration()
         return adm.get_user_by_authId(authId)
 
-    def delete(self):
-        pass
+    def delete(self, authId):
+        adm = Administration()
+        return adm.delete_user_by_authId(authId)
 
     @api.expect(user, validate=True)
     @api.marshal_with(user)

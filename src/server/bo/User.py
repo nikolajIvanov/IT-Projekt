@@ -7,6 +7,7 @@ class User(Profil):
         self.__email = ""
         self.__authId = ""
         self.__geburtsdatum = ""
+        self.__gender = ""
 
     def get_email(self):
         return self.__email
@@ -25,6 +26,12 @@ class User(Profil):
 
     def set_geburtsdatum(self, datum):
         self.__geburtsdatum = datum
+
+    def get_gender(self):
+        return self.__gender
+
+    def set_gender(self, gender):
+        self.__gender = gender
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz.

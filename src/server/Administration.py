@@ -18,14 +18,28 @@ class Administration(object):
         Nutzer-spezifische Methoden
     """
     def create_user_by_authId(self, nutzer):
-
+        """
+        :param nutzer: Ist die authId
+        :return: Alle Objekte des Nutzers
+        """
         with NutzerMapper() as mapper:
             return mapper.insert_by_authId(nutzer)
 
     def update_user_by_authId(self,nutzer):
-
+        """
+        :param nutzer: Ist die authId
+        :return: Alle Objekte des Nutzers (aktualisiert)
+        """
         with NutzerMapper() as mapper:
             return mapper.update_by_authId(nutzer)
+
+    def delete_user_by_authId(self, nutzer):
+        """
+        :param nutzer: Ist die authId
+        :return:
+        """
+        with NutzerMapper() as mapper:
+            return mapper.delete_by_authId(nutzer)
 
     def get_all_users(self):
         """

@@ -34,6 +34,7 @@ CREATE TABLE `users` (
     `email` varchar(128) NOT NULL DEFAULT '',
     `beschreibung` varchar(128) NOT NULL DEFAULT '',
     `lerntypId` int(11) NOT NULL DEFAULT 999,
+    `gender` varchar(128) NOT NULL DEFAULT '',
      FOREIGN KEY (lerntypId) REFERENCES lerntyp (id)
  );
 
