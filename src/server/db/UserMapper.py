@@ -62,7 +62,7 @@ class UserMapper(Mapper):
         user.set_email(email)
         user.set_beschreibung(beschreibung)
         user.set_lerntyp(lerntyp)
-        user.ser_gender(gender)
+        user.set_gender(gender)
         user.set_authId(key)
 
         # Auflösen der zweiten SQL Antwort (Module des User) und setzen des Parameters
