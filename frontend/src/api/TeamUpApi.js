@@ -8,7 +8,7 @@ export default class TeamUpApi {
     #serverBaseURL = '';
 
     // User vom Backend holen
-    getUser = (authId) => `${this.#serverBaseURL}/users/${authId}`;
+    getUserURL = (authId) => `${this.#serverBaseURL}/users/${authId}`;
     // User updaten
     putUser = (authId) => `${this.#serverBaseURL}/users/${authId}`;
     // User löschen
@@ -34,11 +34,17 @@ export default class TeamUpApi {
     )
 
     getUser(authId) {
-        return
+        return this.#getSingle(this.getUserURL(authId))
     }
 
     setUser(user){
         return this.#add(this.postUser(), user)
+    }
+
+    #getSingle = (url) => {
+        return this.#fetchAdvanced(url).then( responseJSON => {
+            return responseJSON;
+            })
     }
 
 

@@ -8,6 +8,8 @@ import SectionSteckbrief from "./Sections/SectionSteckbrief";
 import SectionLerntyp from "./Sections/SectionLerntyp";
 import SectionLerngruppe from "./Sections/SectionLerngruppe";
 import User from "../../bo/User";
+import TeamUpApi from "../../api/TeamUpApi";
+import firebase from 'firebase';
 
 const styles = theme => ({
     root: {
@@ -27,22 +29,38 @@ const styles = theme => ({
 });
 
 class Profile extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            user: {}
+        }
+    }
+    setDate = (date) => {
+        this.setState({
+           date : date
+        });
+}
 
-    componentDidMount() {
-
+    async componentDidMount() {
+        const user = await TeamUpApi.getAPI().getUser(firebase.auth().currentUser.uid)
+        this.setState({
+            user: user
+        })
+        console.log(this.state.user)
     }
 
     render(){
         const { classes } = this.props;
-        const user = new User()
+
         return (
             <div className={classes}>
                 <Grid container direction="column" justify="center" spacing={5} alignItems="center">
                     <Grid item xs={3}>
-                        <SectionAvatar userName={user.getName()}/>
+                        <SectionAvatar userName={this.state.user.name}/>
                     </Grid>
                     <Grid item xs={3}>
-                        <SectionSteckbrief alter={user.getGeburtstag()} module={user.getBeschreibung()}/>
+                        <SectionSteckbrief alter={this.state.user.geburtsdatum} module={this.state.user.modul}
+                                           dateChange={this.setDate} />
                     </Grid>
                     <Grid item xs={3}>
                         <SectionLerntyp/>
