@@ -3,7 +3,7 @@ from server.db.Mapper import Mapper
 import datetime
 
 
-class NutzerMapper(Mapper):
+class UserMapper(Mapper):
 
     def __init__(self):
         super().__init__()

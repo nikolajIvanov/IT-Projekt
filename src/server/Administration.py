@@ -4,7 +4,7 @@ from .bo.User import User
 
 
 # Import aller Mapper Klassen
-from .db.UserMapper import NutzerMapper
+from .db.UserMapper import UserMapper
 
  #TODO Überlegen ob man was anderes braucht als get user bei Id
 class Administration(object):
@@ -22,7 +22,7 @@ class Administration(object):
         :param nutzer: Ist die authId
         :return: Alle Objekte des Nutzers
         """
-        with NutzerMapper() as mapper:
+        with UserMapper() as mapper:
             return mapper.insert_by_authId(nutzer)
 
     def update_user_by_authId(self,nutzer):
@@ -30,7 +30,7 @@ class Administration(object):
         :param nutzer: Ist die authId
         :return: Alle Objekte des Nutzers (aktualisiert)
         """
-        with NutzerMapper() as mapper:
+        with UserMapper() as mapper:
             return mapper.update_by_authId(nutzer)
 
     def delete_user_by_authId(self, nutzer):
@@ -38,7 +38,7 @@ class Administration(object):
         :param nutzer: Ist die authId
         :return:
         """
-        with NutzerMapper() as mapper:
+        with UserMapper() as mapper:
             return mapper.delete_by_authId(nutzer)
 
     def get_all_users(self):
@@ -46,7 +46,7 @@ class Administration(object):
 
         :return: Alle Objekte unsere Nutzer
         """
-        with NutzerMapper() as mapper:
+        with UserMapper() as mapper:
             return mapper.find_all()
 
     def get_user_by_authId(self, number):
@@ -55,11 +55,11 @@ class Administration(object):
         :param number: Ist die UserID
         :return:
         """
-        with NutzerMapper() as mapper:
+        with UserMapper() as mapper:
             return mapper.find_by_key(number)
 
     def get_user_by_name(self, value):
-        with NutzerMapper() as mapper:
+        with UserMapper() as mapper:
             return mapper.find_by_name(value)
 
     def update(self, name, email):
@@ -68,7 +68,7 @@ class Administration(object):
         user.set_email(email)
         user.set_id(1)
 
-        with NutzerMapper() as mapper:
+        with UserMapper() as mapper:
             return mapper.update(user)
 
    # def get_Modul_by_authId(self,  authId):
