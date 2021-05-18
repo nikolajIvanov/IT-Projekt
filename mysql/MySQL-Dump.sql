@@ -49,4 +49,5 @@ CREATE TABLE `userInModul` (
 );
 
 INSERT INTO  lerntyp (typ)  VALUES ('Visuell'),('Auditiv'), ('Kommunikativ'),('Motorisch'), ('Mischform');
-INSERT INTO  modul(bezeichnung) VALUES ('marketing')
+INSERT INTO  modul(bezeichnung) VALUES ('marketing'), ('programmieren'), ('data-science')
+

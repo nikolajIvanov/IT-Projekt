@@ -83,7 +83,7 @@ export default class User extends BusinessObject {
     getAll(){
         return {
             name: this.name,
-            //gender: this.gender,
+            gender: this.gender,
             geburtsdatum: this.geburtsdatum,
             beschreibung: this.beschreibung,
             lerntyp: this.lerntyp,
