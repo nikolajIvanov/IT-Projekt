@@ -7,7 +7,6 @@ import SectionAvatar from "./Sections/SectionAvatar";
 import SectionSteckbrief from "./Sections/SectionSteckbrief";
 import SectionLerntyp from "./Sections/SectionLerntyp";
 import SectionLerngruppe from "./Sections/SectionLerngruppe";
-import User from "../../bo/User";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from 'firebase';
 
@@ -58,14 +57,14 @@ class Profile extends React.Component {
             <div className={classes}>
                 <Grid container direction="column" justify="center" spacing={5} alignItems="center">
                     <Grid item xs={3}>
-                        <SectionAvatar userName={this.state.user.name}/>
+                        <SectionAvatar userName={this.state.user.name} img={this.state.user.profilBild}/>
                     </Grid>
                     <Grid item xs={3}>
                         <SectionSteckbrief alter={this.state.user.geburtsdatum} module={this.state.user.modul}
                                            dateChange={this.setDate} />
                     </Grid>
                     <Grid item xs={3}>
-                        <SectionLerntyp/>
+                        <SectionLerntyp lerntyp={this.state.user.lerntyp}/>
                     </Grid>
                     <Grid item xs={3}>
                         <SectionLerngruppe/>
