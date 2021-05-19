@@ -2,12 +2,13 @@ CREATE DATABASE IF NOT EXISTS `TeamUP` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `TeamUP`;
 
 --
--- Tabelenstruktur für die Tabelle `users
+-- Tabellenstruktur für die Tabelle `users
 --
 DROP TABLE IF EXISTS `userInModul`;
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `modul`;
 DROP TABLE IF EXISTS `lerntyp`;
+DROP TABLE IF EXISTS `lerngruppe`;
 
 
 CREATE TABLE `lerntyp` (
@@ -26,7 +27,7 @@ CREATE TABLE `users` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     `timeStamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `authId` varchar(128) NOT NULL DEFAULT '',
-    /*Niko schaut sich Blolb an für Bild*/
+    /*Niko schaut sich Blob an für Bild*/
     `bild` LONGBLOB NOT NULL ,
     `name` varchar(128) NOT NULL DEFAULT '',
      /* Geburtstag muss gesetzt werden im FROTNEND deswegen müssen wir im BE kein Default definieren */
@@ -48,6 +49,45 @@ CREATE TABLE `userInModul` (
 
 );
 
-INSERT INTO  lerntyp (typ)  VALUES ('Visuell'),('Auditiv'), ('Kommunikativ'),('Motorisch'), ('Mischform');
-INSERT INTO  modul(bezeichnung) VALUES ('marketing'), ('programmieren'), ('data-science')
+INSERT INTO  lerntyp (typ)  VALUES
+    ('Visuell'),
+    ('Auditiv'),
+    ('Kommunikativ'),
+    ('Motorisch'),
+    ('Mischform');
 
+INSERT INTO  modul(bezeichnung) VALUES
+    ('Marketing'),
+    ('Programmieren'),
+    ('Data-Science');
+
+
+CREATE TABLE `lerngruppe` (
+    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `timeStamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `bild` LONGBLOB NOT NULL,
+    `name` varchar(128) NOT NULL DEFAULT '',
+    `lerntypId` int(11) NOT NULL DEFAULT 999,
+    `modulId` int(11) NOT NULL,
+    `beschreibung` varchar(128) NOT NULL DEFAULT '',
+    FOREIGN KEY (lerntypId) REFERENCES lerntyp (id),
+    FOREIGN KEY (modulId) REFERENCES modul (id)
+);
+
+CREATE TABLE `userInLerngruppe`
+(
+    `userId`       int(11) NOT NULL,
+    `lerngruppeId` int(11) NOT NULL,
+    FOREIGN KEY (userId) REFERENCES users (id),
+    FOREIGN KEY (lerngruppeId) REFERENCES lerngruppe (id),
+    PRIMARY KEY (userId, lerngruppeId)
+);
+
+CREATE TABLE `adminInLerngruppe`
+(
+    `userId`       int(11) NOT NULL,
+    `lerngruppeId` int(11) NOT NULL,
+    FOREIGN KEY (userId) REFERENCES users (id),
+    FOREIGN KEY (lerngruppeId) REFERENCES lerngruppe (id),
+    PRIMARY KEY (userId, lerngruppeId)
+);

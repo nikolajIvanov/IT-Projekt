@@ -1,35 +1,44 @@
-from server.bo.BusinessObject import BusinessObject
+from server.bo.Profil import Profil
 
 
-class Lerngruppe(BusinessObject):
+class Lerngruppe(Profil):
 
     def __init__(self):
         super().__init__()
-        self.__name = ''
-        self.__beschreibung = ''
-        self.__profilbild = None
-        self.__admin = dict()
+        self.__mitglieder = []
+        self.__admin = ""
 
-    def getName(self):
-        return self.__name
+    def get_mitglieder(self):
+        return self.__mitglieder
 
-    def setName(self, value):
-        self.__name = value
+    def set_mitglieder(self, value):
+        self.__mitglieder = value
 
-    def getBeschreibung(self):
-        return self.__beschreibung
-
-    def setBeschreibung(self, beschreibung):
-        self.__beschreibung = beschreibung
-
-    def getProfilbild(self):
-        return self.__profilbild
-
-    def setProfilbild(self, profilbild):
-        self.__profilbild = profilbild
-
-    def getAdmin(self):
+    def get_admin(self):
         return self.__admin
 
-    def setAdmin(self, admin):
+    def set_admin(self, admin):
         self.__admin = admin
+
+    def __str__(self):
+        """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz.
+
+        Diese besteht aus der ID, dem Namen, den Lerntyp und den Modulen der Superklasse ergänzt durch die GoogleId
+
+        des jeweiligen Kunden."""
+        # TODO LERNTYP MODUL dazu allgemein attribute anschaun pls
+        return "Customer: {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_name(), self.get_lerntyp(),
+                                                         self.get_modul(), self.get_mitglieder(), self.get_admin())
+
+    @staticmethod
+    def from_dict(dictionary=dict()):
+        """"Umwandeln eines Python dict() in eine Lerngruppe()."""
+        obj = Lerngruppe()
+        obj.set_modul(dictionary["modul"])
+        obj.set_profilBild(dictionary["profilBild"])
+        obj.set_beschreibung(dictionary["beschreibung"])
+        obj.set_lerntyp(dictionary["lerntyp"])
+        obj.set_name(dictionary["name"])
+        obj.set_mitglieder(dictionary["mitglieder"])
+        obj.set_admin(dictionary["admin"])
+        return obj
