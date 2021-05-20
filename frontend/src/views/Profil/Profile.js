@@ -70,7 +70,7 @@ class Profile extends React.Component {
                     <Grid item xs={3}>
                         <SectionLerngruppe/>
                     </Grid>
-                    <ButtonBestätigen />
+                    <ButtonBestätigen inhalt={"Update"}/>
                 </Grid>
             </div>
         );
