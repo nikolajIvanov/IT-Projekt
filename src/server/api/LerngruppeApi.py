@@ -4,11 +4,11 @@ from server.Administration import Administration
 from server.bo.Lerngruppe import Lerngruppe
 
 
-class UserApi(Resource):
+class LerngruppeApi(Resource):
     @api.marshal_with(Lerngruppe)
-    def get(self, authId):
+    def get(self, name):
         adm = Administration()
-        return adm.get_Lerngruppe_by_authId(authId)
+        return adm.get_Lerngruppe_by_name(name)
 
     def delete(self, authId):
         adm = Administration()

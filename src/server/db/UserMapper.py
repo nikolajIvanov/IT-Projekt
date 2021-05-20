@@ -144,7 +144,7 @@ class UserMapper(Mapper):
     def update_by_authId(self, nutzer):
         """
         :param nutzer: Ist das Nutzerobjekt
-        :return: Alle Objekte des User
+        :return: Das soeben geupdatete Objekt wird wieder nach vorne gegeben
         """
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)

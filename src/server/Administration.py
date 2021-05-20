@@ -1,6 +1,7 @@
 # Import aller BusinessObject Klassen
 
 from .bo.User import User
+from .bo.Lerngruppe import Lerngruppe
 
 
 # Import aller Mapper Klassen
@@ -77,15 +78,15 @@ class Administration(object):
      #       return mapper.get_modulForUser(authId)
 
 
-    def create_lerngruppe_by_authId(self, authId):
+    def create_lerngruppe(self, lerngruppe):
         """
-        :param nutzer: Ist die authId
+        :param lerngruppe: Objekt der Klasse Lerngruppe mit allen Attributen
         :return: Alle Objekte des Nutzers
         """
         with LerngruppeMapper() as mapper:
-            return mapper.insert_by_authId(authId)
+            return mapper.insert_by_authId(lerngruppe)
 
 
-    def get_Lerngruppe_by_name(self, value):
+    def get_Lerngruppe_by_name(self, name):
         with LerngruppeMapper() as mapper:
-            return mapper.find_by_name(value)
+            return mapper.find_by_name(name)

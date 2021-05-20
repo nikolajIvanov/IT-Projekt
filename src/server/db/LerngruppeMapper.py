@@ -31,14 +31,13 @@ class LerngruppeMapper(Mapper):
         cursor = self._cnx.cursor()
         """TODO: Welche Datenbank?"""
 
-        command = "SELECT id, name, beschreibung, profilbild, admin FROM `test-bank`.users WHERE name LIKE '{}'" \
-                  "ORDER BY  name".format(name)
+        command =
+
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         (id, name, beschreibung, profilbild, admin) = tuples[0]
         lerngruppe = Lerngruppe()
-        lerngruppe.set_id(id)
         lerngruppe.setName(name)
         lerngruppe.setBeschreibung(beschreibung)
         lerngruppe.setProfilbild(profilbild)
@@ -50,10 +49,9 @@ class LerngruppeMapper(Mapper):
 
         return result
 
-    def insert_with_authId(self, authId):
+    def insert_with_authId(self, lerngruppe):
         """
-        :param nutzer: Ist das Nutzerobjekt
-        :return: Alle Objekte des User
+        :param lerngruppe: Objekt der Klasse Lerngruppe
         """
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
@@ -61,6 +59,8 @@ class LerngruppeMapper(Mapper):
         # Erstellen des SQL-Befehls
         query = """INSERT INTO teamup.lerngruppe (name, beschreibung, bild,
                     lerntypId, modulId) VALUES (%s ,%s ,%s ,%s ,%s)"""
+
+        """admin fehlt?"""
 
         # Auslesen der Lerngruppen Daten
         daten = (lerngruppe.get_name(), Lerngruppe.get_beschreibung(),
