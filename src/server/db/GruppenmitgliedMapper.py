@@ -16,3 +16,14 @@ class GruppenmitgliedMapper(Mapper):
         cursor.close()
 
         return result
+
+
+
+query2 = """INSERT INTO teamup.userinmodul( userId, modulId) VALUES (%s, %s)"""
+# Auslesen und speichern der users.id und modul.id
+data = (self.get_Id_by_authId(nutzer.get_authId()), self.get_modulId_by_modul(i))
+# (Bitte kein Komma nach data) Ausführen des SQL-Befehls
+cursor.execute(query2, (data))
+# Schließen der Datenbankverbindung
+self._cnx.commit()
+cursor.close()

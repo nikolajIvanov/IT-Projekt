@@ -1,6 +1,5 @@
 from server.bo.Profil import Profil
 
-
 class Lerngruppe(Profil):
 
     def __init__(self):

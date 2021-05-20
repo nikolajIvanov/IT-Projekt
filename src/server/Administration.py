@@ -5,6 +5,7 @@ from .bo.User import User
 
 # Import aller Mapper Klassen
 from .db.UserMapper import UserMapper
+from .db.LerngruppeMapper import LerngruppeMapper
 
  #TODO Überlegen ob man was anderes braucht als get user bei Id
 class Administration(object):
@@ -74,3 +75,17 @@ class Administration(object):
    # def get_Modul_by_authId(self,  authId):
     #    with NutzerMapper() as mapper:
      #       return mapper.get_modulForUser(authId)
+
+
+    def create_lerngruppe_by_authId(self, authId):
+        """
+        :param nutzer: Ist die authId
+        :return: Alle Objekte des Nutzers
+        """
+        with LerngruppeMapper() as mapper:
+            return mapper.insert_by_authId(authId)
+
+
+    def get_Lerngruppe_by_name(self, value):
+        with LerngruppeMapper() as mapper:
+            return mapper.find_by_name(value)

@@ -25,7 +25,6 @@ class LerngruppeMapper(Mapper):
 
         return result
 
-
     def find_by_name(self, name):
         result = None
 
@@ -50,3 +49,25 @@ class LerngruppeMapper(Mapper):
         cursor.close()
 
         return result
+
+    def insert_with_authId(self, authId):
+        """
+        :param nutzer: Ist das Nutzerobjekt
+        :return: Alle Objekte des User
+        """
+        # Öffnen der Datenbankverbindung
+        cursor = self._cnx.cursor(prepared=True)
+
+        # Erstellen des SQL-Befehls
+        query = """INSERT INTO teamup.lerngruppe (name, beschreibung, bild,
+                    lerntypId, modulId) VALUES (%s ,%s ,%s ,%s ,%s)"""
+
+        # Auslesen der Lerngruppen Daten
+        daten = (lerngruppe.get_name(), Lerngruppe.get_beschreibung(),
+                 Lerngruppe.get_profilBild(), Lerngruppe.get_lerntyp(), Lerngruppe.get_modul())
+
+        # Ausführen des SQL-Befehls um die Lerngruppen-Daten auf die Datenbank zu schreiben
+        cursor.execute(query, (daten))
+        # Schließen der Datenbankverbindung
+        self._cnx.commit()
+        cursor.close()

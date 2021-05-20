@@ -26,6 +26,9 @@ api.add_resource(UsersApi, '/users')
 api.add_resource(UserApi, '/users/<string:authId>')
 api.add_resource(NutzerByNameApi, '/nutzer-by-name/<string:name>')
 
+api.add_ressource(GruppenApi,'/Lerngruppe')
+api.add_ressource(GruppenApi'/Lerngruppe/<string:')
+
 if __name__ == '__main__':
     # app.run(debug=True)
     socketIo.run(app, debug=True)
