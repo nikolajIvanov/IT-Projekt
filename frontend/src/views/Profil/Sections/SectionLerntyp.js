@@ -1,14 +1,14 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import AddIcon from "../../../components/Icon/AddIcon";
+import H3 from "../../../components/Typography/H3";
 
 
 export default function SectionLerntyp(props) {
     return (
         <div>
             <Grid container direction="column" justify="center" alignItems="center">
-                <Typography>Lerntyp</Typography>
+                <H3 text={props.text}/>
                 <div style={styles.lerntypBox}>
                     <label>{props.lerntyp}</label>
                     <AddIcon />

@@ -1,25 +1,7 @@
 import React from 'react';
 import {Paper, Typography} from "@material-ui/core";
 import DropDown from "../../../components/Textfeld/Dropdown";
-
-const modula = [
-    {
-        value:'',
-        label: '',
-    },
-    {
-        value: "programmieren",
-        label: 'Programmieren',
-    },
-    {
-        value: "data-science",
-        label: 'Data Science',
-    },
-    {
-        value: "marketing",
-        label: 'Marketing',
-    },
-]
+import Mod from "../../../components/Konstante(DropDown)/Module";
 
 function Module(props) {
 
@@ -33,7 +15,7 @@ function Module(props) {
                 <DropDown
                     handleChange = {handleModul}
                     input = {props.modul}
-                    map = {modula}
+                    map = {Mod}
                     droplabel = {props.drop}
                 />
             </Paper>

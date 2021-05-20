@@ -10,13 +10,13 @@ import SectionLerngruppe from "./Sections/SectionLerngruppe";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from 'firebase';
 import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
+import User from "../../bo/User";
 
 const styles = theme => ({
     root: {
-        width: '100%',
-        maxWidth: 360,
-        background: "lightgray",
+        maxWidth: '100%',
         margin: "auto",
+        overflow: "none"
     },
     test: {
         width: '20%'
@@ -35,14 +35,29 @@ class Profile extends React.Component {
             user: {}
         }
     }
+
+    handleClick  = async () => {
+        const user = new User()
+        user.setAll(this.state.user)
+        await TeamUpApi.getAPI().setUser(user.getAll())
+    }
+
     setDate = (date) => {
         this.setState({
             user:{
                 geburtsdatum : date
             }
         });
+
 }
 
+    setModul = (date) => {
+        this.setState({
+            user: {
+                module: module
+            }
+        });
+    }
     async componentDidMount() {
         const user = await TeamUpApi.getAPI().getUser(firebase.auth().currentUser.uid)
         this.setState({
@@ -55,23 +70,21 @@ class Profile extends React.Component {
         const { classes } = this.props;
 
         return (
-            <div className={classes}>
-                <Grid container direction="column" justify="center" spacing={5} alignItems="center">
-                    <Grid item xs={3}>
-                        <SectionAvatar userName={this.state.user.name} img={this.state.user.profilBild}/>
-                    </Grid>
+            <div className={classes.root}>
+                <SectionAvatar userName={this.state.user.name} img={this.state.user.profilBild} text={"Name"}/>
+                <Grid container direction="column" justify="center" spacing={1} alignItems="center">
                     <Grid item xs={3}>
                         <SectionSteckbrief alter={this.state.user.geburtsdatum} module={this.state.user.modul}
-                                           dateChange={this.setDate} />
+                                           dateChange={this.setDate} modulChange={this.setModul} text={"Steckbrief"}/>
                     </Grid>
                     <Grid item xs={3}>
-                        <SectionLerntyp lerntyp={this.state.user.lerntyp}/>
+                        <SectionLerntyp lerntyp={this.state.user.lerntyp} text={"Lerntyp"}/>
                     </Grid>
                     <Grid item xs={3}>
-                        <SectionLerngruppe/>
+                        <SectionLerngruppe text={"Lerngruppen"}/>
                     </Grid>
-                    <ButtonBestätigen inhalt={"Update"}/>
                 </Grid>
+                <ButtonBestätigen inhalt={"Update"} onClick={this.handleClick}/>
             </div>
         );
     }
