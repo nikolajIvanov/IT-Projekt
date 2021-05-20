@@ -12,6 +12,7 @@ import Login2 from '../LogIn/Login 2';
 import SignUp from '../SignUp/SignUP'
 import Registrierung from "../Registrierung/Registrierung";
 import TeamUpApi from "../../api/TeamUpApi";
+import User from "../../bo/User";
 
 
 
@@ -21,6 +22,8 @@ class App extends React.Component {
         this.state = {
             email : '',
             password :'',
+            //Object Instantiierungen für User und API
+            sendUser: new User(),
             user: '',
             emailError: '',
             passwordError :'',
@@ -40,17 +43,9 @@ class App extends React.Component {
         this.switch = this.switch.bind(this)
     }
 
-    async componentDidMount() {
+
+    componentDidMount() {
         this.authListener()
-        /**const check =  await TeamUpApi.getAPI().getUser(firebase.auth().currentUser.uid)
-        if(check === ''){
-            this.setState({
-                exist: false
-            })
-        }
-        else{
-            this.setExist()
-        }*/
     }
 
     setExist = () => {
@@ -89,6 +84,22 @@ class App extends React.Component {
         })
     }
 
+     checkIfExist = async () => {
+        const check =  await TeamUpApi.getAPI().getUser(firebase.auth().currentUser.uid)
+        if(check.name === "" || check.onError()){
+            this.setState({
+                exist: false
+            })
+        }
+        else{
+            this.setExist()
+        }
+    }
+
+    setUp = async () => {
+        const check =  await TeamUpApi.getAPI().setUser(firebase.auth().currentUser.uid)
+    }
+
     //TODO Errormeldungen noch personalisieren
 
     handleLogIn(){
@@ -106,7 +117,8 @@ class App extends React.Component {
                     case "auth/wrong-password":
                         this.setPasswordError(err.message);
                 }
-            })
+            });
+        this.checkIfExist();
     }
 
     handleSignUp(){
@@ -123,7 +135,8 @@ class App extends React.Component {
                     case "auth/weak-password":
                         this.setPasswordError(err.message);
                 }
-            })
+            });
+        this.setUp();
     }
 
     handleLogOut(){
