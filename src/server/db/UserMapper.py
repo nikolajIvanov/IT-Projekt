@@ -139,7 +139,7 @@ class UserMapper(Mapper):
         cursor.close()
 
         # Rückgabe aller Userdaten
-        return self.find_by_key (nutzer.get_authId())
+        return self.find_by_key(nutzer.get_authId())
 
     def update_by_authId(self, nutzer):
         """
