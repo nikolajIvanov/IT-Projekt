@@ -128,7 +128,7 @@ class UserMapper(Mapper):
         module = nutzer.get_modul()
         # Datenbankeintrag für jedes Modul erzeugen
         for i in module:
-            # SQL-Befehl um den DAtenbankeintrag zu erstellen
+            # SQL-Befehl um den Datenbankeintrag zu erstellen
             query1 = """INSERT INTO teamup.userinmodul( userId, modulId) VALUES (%s, %s)"""
             # Auslesen und speichern der users.id und modul.id
             data = (self.get_Id_by_authId(nutzer.get_authId()), self.get_modulId_by_modul(i))
@@ -222,9 +222,6 @@ class UserMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-
-
-
     """def get_modulForUser(self, authId):
 
         cursor = self._cnx.cursor()
@@ -292,4 +289,18 @@ class UserMapper(Mapper):
         cursor.close()
         # Rückgabe der UserId
         return userid[0]
+
+    def delete_gruppe_by_id(self, authId):
+        """
+        :param authId:
+        :return: void
+        """
+        pass
+
+    def join_gruppe_by_id(self, authId):
+        """
+        :param authId:
+        :return:
+        """
+        pass
 

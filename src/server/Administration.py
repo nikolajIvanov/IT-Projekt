@@ -69,7 +69,6 @@ class Administration(object):
         user.set_name(name)
         user.set_email(email)
         user.set_id(1)
-
         with UserMapper() as mapper:
             return mapper.update(user)
 
@@ -78,6 +77,7 @@ class Administration(object):
      #       return mapper.get_modulForUser(authId)
 
 
+    #lerngruppe besteht aus Admin, zweites Mitglied, modul, Beschreibung....
     def create_lerngruppe(self, lerngruppe):
         """
         :param lerngruppe: Objekt der Klasse Lerngruppe mit allen Attributen
@@ -86,7 +86,8 @@ class Administration(object):
         with LerngruppeMapper() as mapper:
             return mapper.insert_by_authId(lerngruppe)
 
-
     def get_Lerngruppe_by_name(self, name):
         with LerngruppeMapper() as mapper:
             return mapper.find_by_name(name)
+
+

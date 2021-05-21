@@ -12,12 +12,15 @@ class LerngruppeMapper(Mapper):
         cursor.execute("SELECT id, name, beschreibung, profilbild, admin from lerngruppe")
         tuples = cursor.fetchall()
 
-        for (id, name, beschreibung, profilbild, admin) in tuples:
+        for (id, modul, name, beschreibung, profilbild, admin, mitglieder) in tuples:
             lerngruppe = Lerngruppe()
             lerngruppe.set_id(id)
-            lerngruppe.setName(name)
-            lerngruppe.setBeschreibung(beschreibung)
-            lerngruppe.setAdmin(admin)
+            lerngruppe.set_modul(modul)
+            lerngruppe.set_name(name)
+            lerngruppe.set_beschreibung(beschreibung)
+            lerngruppe.set_profilBild(profilbild)
+            lerngruppe.set_admin(admin)
+            lerngruppe.set_mitglieder(mitglieder)
             result.append(lerngruppe)
 
         self._cnx.commit()
@@ -31,9 +34,7 @@ class LerngruppeMapper(Mapper):
         cursor = self._cnx.cursor()
         """TODO: Welche Datenbank?"""
 
-        command =
-
-        cursor.execute(command)
+        cursor.execute("")
         tuples = cursor.fetchall()
 
         (id, name, beschreibung, profilbild, admin) = tuples[0]
@@ -58,16 +59,17 @@ class LerngruppeMapper(Mapper):
 
         # Erstellen des SQL-Befehls
         query = """INSERT INTO teamup.lerngruppe (name, beschreibung, bild,
-                    lerntypId, modulId) VALUES (%s ,%s ,%s ,%s ,%s)"""
-
-        """admin fehlt?"""
+                    lerntypId, modulId, admin) VALUES (%s ,%s ,%s ,%s ,%s, %s, %s)"""
 
         # Auslesen der Lerngruppen Daten
         daten = (lerngruppe.get_name(), Lerngruppe.get_beschreibung(),
-                 Lerngruppe.get_profilBild(), Lerngruppe.get_lerntyp(), Lerngruppe.get_modul())
+                 Lerngruppe.get_profilBild(), Lerngruppe.get_lerntyp(), Lerngruppe.get_modul(),
+                 lerngruppe.get_admin())
 
         # Ausführen des SQL-Befehls um die Lerngruppen-Daten auf die Datenbank zu schreiben
         cursor.execute(query, (daten))
         # Schließen der Datenbankverbindung
         self._cnx.commit()
         cursor.close()
+
+

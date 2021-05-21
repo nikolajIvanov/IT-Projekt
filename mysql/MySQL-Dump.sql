@@ -4,12 +4,14 @@ USE `TeamUP`;
 --
 -- Tabellenstruktur für die Tabelle `users
 --
+DROP TABLE IF EXISTS `userInLerngruppe`;
+DROP TABLE IF EXISTS `adminInLerngruppe`;
+DROP TABLE IF EXISTS `lerngruppeInModul`;
 DROP TABLE IF EXISTS `userInModul`;
+DROP TABLE IF EXISTS `lerngruppe`;
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `modul`;
 DROP TABLE IF EXISTS `lerntyp`;
-DROP TABLE IF EXISTS `lerngruppe`;
-
 
 CREATE TABLE `lerntyp` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -69,6 +71,7 @@ CREATE TABLE `lerngruppe` (
     `name` varchar(128) NOT NULL DEFAULT '',
     `lerntypId` int(11) NOT NULL DEFAULT 999,
     `modulId` int(11) NOT NULL,
+    `admin` varchar(128) NOT NULL DEFAULT '',
     `beschreibung` varchar(128) NOT NULL DEFAULT '',
     FOREIGN KEY (lerntypId) REFERENCES lerntyp (id),
     FOREIGN KEY (modulId) REFERENCES modul (id)
@@ -91,3 +94,14 @@ CREATE TABLE `adminInLerngruppe`
     FOREIGN KEY (lerngruppeId) REFERENCES lerngruppe (id),
     PRIMARY KEY (userId, lerngruppeId)
 );
+
+CREATE TABLE `lerngruppeInModul`
+(
+    `lerngruppeId`  int(11) NOT NULL,
+    `modulId`       int(11) NOT NULL,
+    FOREIGN KEY (lerngruppeId) REFERENCES lerngruppe (id),
+    FOREIGN KEY (modulId) REFERENCES modul (id),
+    PRIMARY KEY (lerngruppeId, modulId)
+);
+
+
