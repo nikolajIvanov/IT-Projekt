@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import '../../assets/App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "../Home/Home";
-import Gruppen from "../Suche/Gruppen";
 import Profile from "../Profil & Gruppe/Profile";
+import Gruppen from "../Profil & Gruppe/Gruppe"
 import Navigation from "../Navigation";
 import '../../assets/App.css';
 import firebase from "../../api/Firebase";
@@ -31,7 +31,7 @@ class App extends React.Component {
             text: 'Hi',
             //TODO die Prüfung von exist soll über ein API call erfolgen der Prüft ob ein Name
             // vorhanden ist (Rückschluss= alles muss da sein)
-            exist: true,
+            exist: false,
             }
         this.setHasAccount = this.setHasAccount.bind(this);
         this.handleLogOut = this.handleLogOut.bind(this);
