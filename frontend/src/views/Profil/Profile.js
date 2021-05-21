@@ -9,6 +9,7 @@ import SectionLerntyp from "./Sections/SectionLerntyp";
 import SectionLerngruppe from "./Sections/SectionLerngruppe";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from 'firebase';
+import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
 
 const styles = theme => ({
     root: {
@@ -69,6 +70,7 @@ class Profile extends React.Component {
                     <Grid item xs={3}>
                         <SectionLerngruppe/>
                     </Grid>
+                    <ButtonBestätigen inhalt={"Update"}/>
                 </Grid>
             </div>
         );

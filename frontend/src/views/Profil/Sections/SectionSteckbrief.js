@@ -12,8 +12,6 @@ const useStyles =  makeStyles((theme) =>{
    }
 });
 
-
-
 export default function SectionSteckbrief(props) {
 
     const handleChange = (e) => {
@@ -24,7 +22,7 @@ export default function SectionSteckbrief(props) {
         <div>
             <Grid container direction="column" justify="space-between" alignItems="center">
                 <Typography>Steckbrief</Typography>
-                <MultiLine/>
+                <MultiLine />
                 <Grid container spacing={2} direction="row" justify="center" alignItems="center">
                     <Typography>Alter: </Typography>
                     <DatePicker inhalt={props.alter} change={handleChange}/>
