@@ -43,7 +43,7 @@ class Profil(BusinessObject):
         return self.__modul
 
     def set_modul(self, module):
-        """Fügt dem Profil neue Module hinzu.
+        """Fügt dem Profil & Gruppe neue Module hinzu.
 
         :param module: Module
         """

@@ -41,6 +41,10 @@ export default class TeamUpApi {
         return this.#add(this.postUser(), user)
     }
 
+    updateUser(user){
+        return this.#update(this.putUser(user.getID(authId)), user);
+    }
+
     #getSingle = (url) => {
         return this.#fetchAdvanced(url).then( responseJSON => {
             return responseJSON;
@@ -57,5 +61,16 @@ export default class TeamUpApi {
             },
             body: JSON.stringify(businessObject)
         }).then(r => console.log(r))
+    }
+
+    #update = (url, businessObject)=>{
+        return this.#fetchAdvanced(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(businessObject)
+            }).then(r => console.log(r))
     }
 }

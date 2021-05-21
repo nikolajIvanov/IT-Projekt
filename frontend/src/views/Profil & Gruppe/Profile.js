@@ -42,6 +42,7 @@ class Profile extends React.Component {
         await TeamUpApi.getAPI().setUser(user.getAll())
     }
 
+
     setDate = (date) => {
         this.setState({
             user:{
@@ -75,7 +76,7 @@ class Profile extends React.Component {
                 <Grid container direction="column" justify="center" spacing={1} alignItems="center">
                     <Grid item xs={3}>
                         <SectionSteckbrief alter={this.state.user.geburtsdatum} module={this.state.user.modul}
-                                           dateChange={this.setDate} modulChange={this.setModul} text={"Steckbrief"}/>
+                                           dateChange={this.setDate} modulChange={this.setModul} text={"Steckbrief"} />
                     </Grid>
                     <Grid item xs={3}>
                         <SectionLerntyp lerntyp={this.state.user.lerntyp} text={"Lerntyp"}/>

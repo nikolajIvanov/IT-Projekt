@@ -3,7 +3,7 @@ import '../../assets/App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "../Home/Home";
 import Gruppen from "../Suche/Gruppen";
-import Profile from "../Profil/Profile";
+import Profile from "../Profil & Gruppe/Profile";
 import Navigation from "../Navigation";
 import '../../assets/App.css';
 import firebase from "../../api/Firebase";
