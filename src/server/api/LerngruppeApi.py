@@ -10,13 +10,15 @@ class LerngruppeApi(Resource):
         adm = Administration()
         return adm.get_Lerngruppe_by_name(name)
 
-    def delete(self, authId):
+    def delete(self, name):
         adm = Administration()
-        return adm.delete_user_by_authId(authId)
+        return adm.delete_user_by_authId()
 
-    @api.expect(user, validate=True)
-    @api.marshal_with(user)
-    def put(self, authId):
+    def update(self, name):
+
+    @api.expect(lerngruppe, validate=True)
+    @api.marshal_with(lerngruppe)
+    def put(self, name):
         adm = Administration()
         nutzer = User.from_dict(api.payload)
         return adm.update_user_by_authId(nutzer)
