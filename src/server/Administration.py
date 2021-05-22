@@ -90,6 +90,8 @@ class Administration(object):
         with LerngruppeMapper() as mapper:
             return mapper.find_by_name(name)
 
+    # Eine bestimmte Lerngruppe mit dem Parameter namen löschen
+
     def delete_user_by_authId(self, name):
         """
         :param name: Ist der lerngruppen

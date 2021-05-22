@@ -125,7 +125,7 @@ class LerngruppeMapper(Mapper, ABC):
 
         return gruppen_id
 
-    def insert_user_with_authid(self, lerngruppe):
+    def insert_user(self, lerngruppe):
         """
         :param lerngruppe:
         :return gruppen_id:
