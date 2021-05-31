@@ -6,8 +6,7 @@ function tag(props) {
     return (
         <div>
             <Button
-                onClick={props.onClick}
-                style={style.button}>{props.inhalt}<CloseIcon/></Button>
+                style={style.button}>{props.inhalt}<CloseIcon onClick={props.onClick}/></Button>
         </div>
     );
 }
