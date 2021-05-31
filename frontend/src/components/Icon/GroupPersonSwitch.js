@@ -1,30 +1,30 @@
 import React from 'react';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-  },
-}));
 
 
-export default function BasicButtonGroup() {
-  const classes = useStyles();
+export default function ToggleButtons() {
+  const [alignment, setAlignment] = React.useState('left');
+
+  const handleAlignment = (event, newAlignment) => {
+    setAlignment(newAlignment);
+  };
 
   return (
-    <div className={classes.root}>
-      <ButtonGroup color="primary" aria-label="contained primary button group">
-        <Button id='Gruppe' variant="outlined">Gruppe</Button>
-        <Button id='Person' variant="contained">Person</Button>
-      </ButtonGroup>
+    <ToggleButtonGroup
+      value={alignment}
+      exclusive
+      onChange={handleAlignment}
+      color="primary"
+    >
 
-    </div>
+      <ToggleButton value="person" aria-label="left aligned">
+        <Button>Person</Button>
+      </ToggleButton>
+      <ToggleButton value="gruppe" aria-label="centered">
+        <Button>Gruppe</Button>
+      </ToggleButton>
+    </ToggleButtonGroup>
   );
 }
