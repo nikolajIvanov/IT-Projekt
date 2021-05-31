@@ -1,4 +1,5 @@
 import Button from "@material-ui/core/Button";
+import CloseIcon from '@material-ui/icons/Close';
 import React from 'react';
 
 function tag(props) {
@@ -6,7 +7,7 @@ function tag(props) {
         <div>
             <Button
                 onClick={props.onClick}
-                style={style.button}>{props.inhalt}</Button>
+                style={style.button}>{props.inhalt}<CloseIcon/></Button>
         </div>
     );
 }
