@@ -8,6 +8,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import GroupListElement from './GroupListElement';
 import SearchBar from "../../components/Textfeld/SearchBar";
 import GroupPersonSwitch from "../../components/Icon/GroupPersonSwitch"
+import TestGruppen from "./TestGruppen";
 
 const styles = theme => ({
     root: {
@@ -25,10 +26,7 @@ class Gruppen extends React.Component {
             <div className={classes.root}>
                 <GroupPersonSwitch/>
                 <SearchBar/>
-                <GroupListElement tagIcon1="Programmieren" tagIcon2="Grundlagen" beschreibung="Python Grundlagen"
-                                    details="In dieser Gruppe lernst du die Python Grundlagen"
-                                    infos="Mitglieder-Ican 14 / Schneller Lerner / Programmieren"/>
-
+                <TestGruppen/>
             </div>
         );
     }
