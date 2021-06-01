@@ -1,17 +1,19 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import ProfilAvatar from "../../components/Avatar/ProfilAvatar";
 import TagIcon from "../../components/Icon/TagIcon";
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    maxWidth: '100ch',
-    backgroundColor: theme.palette.background.paper,
+    maxWidth: 600,
+    margin: "auto",
+    orderWidth: '2px',
+    borderRadius: '16',
   },
   inline: {
     display: 'inline',
@@ -22,8 +24,9 @@ export default function AlignItemsList(probs) {
   const classes = useStyles();
 
   return (
-    <List className={classes.root}>
-      <ListItem alignItems="center">
+    <div className={classes.root}>
+      <Divider variant="middle" component="li" />
+      <ListItem className={classes.root} alignItems="center">
         <ProfilAvatar/>
         <ListItemText
           primary= {probs.beschreibung}
@@ -44,6 +47,8 @@ export default function AlignItemsList(probs) {
           }
         />
       </ListItem>
-    </List>
+      <Divider variant="middle" component="li" />
+    </div>
   );
 }
+

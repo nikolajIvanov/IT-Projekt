@@ -1,7 +1,7 @@
 import React from 'react';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import Button from '@material-ui/core/Button';
+
 
 
 export default function ToggleButtons() {
@@ -16,14 +16,13 @@ export default function ToggleButtons() {
       value={alignment}
       exclusive
       onChange={handleAlignment}
-      color="primary"
-    >
+      color="primary">
 
       <ToggleButton value="person" aria-label="left aligned">
-        <Button>Person</Button>
+        Person
       </ToggleButton>
       <ToggleButton value="gruppe" aria-label="centered">
-        <Button>Gruppe</Button>
+        Gruppe
       </ToggleButton>
     </ToggleButtonGroup>
   );

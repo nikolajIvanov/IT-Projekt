@@ -16,6 +16,7 @@ export default tag;
 const style = {
     button :{
         backgroundColor: "lightgrey",
-        color: "black"
+        color: "black",
+        size: "small",
     }
 }
