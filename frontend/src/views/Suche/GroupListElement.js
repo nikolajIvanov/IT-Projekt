@@ -3,14 +3,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import ProfilAvatar from "../../components/Avatar/ProfilAvatar";
+import TagIcon from "../../components/Icon/TagIcon";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    maxWidth: '36ch',
+    maxWidth: '100ch',
     backgroundColor: theme.palette.background.paper,
   },
   inline: {
@@ -18,17 +18,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AlignItemsList() {
+export default function AlignItemsList(probs) {
   const classes = useStyles();
 
   return (
     <List className={classes.root}>
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Python Basic" src="/static/images/avatar/1.jpg" />
-        </ListItemAvatar>
+      <ListItem alignItems="center">
+        <ProfilAvatar/>
         <ListItemText
-          primary="Python Grundlagen"
+          primary= {probs.beschreibung}
           secondary={
             <React.Fragment>
               <Typography
@@ -37,9 +35,11 @@ export default function AlignItemsList() {
                 className={classes.inline}
                 color="textPrimary"
               >
-                In dieser Gruppe lernst du die Python Grundlagen
+                {probs.details}
               </Typography>
-              {" — I'll be in your neighborhood doing errands this…"}
+              <TagIcon inhalt={probs.tagIcon1}/>
+              <TagIcon inhalt={probs.tagIcon2}/>
+              {probs.infos}
             </React.Fragment>
           }
         />

@@ -9,6 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/Image';
 import WorkIcon from '@material-ui/icons/Work';
 import BeachAccessIcon from '@material-ui/icons/BeachAccess';
+import GroupListElement from './GroupListElement';
 
 const styles = theme => ({
     root: {
@@ -24,6 +25,7 @@ class Gruppen extends React.Component {
     render(){
         const { classes } = this.props;
         return (
+            <div>
             <List className={classes.root}>
                 <ListItem>
                     <ListItemAvatar>
@@ -50,6 +52,10 @@ class Gruppen extends React.Component {
                     <ListItemText primary="Vacation" secondary="July 20, 2014" />
                 </ListItem>
             </List>
+                <GroupListElement tagIcon1="Programmieren" tagIcon2="Grundlagen" beschreibung="Python Grundlagen"
+                                    details="In dieser Gruppe lernst du die Python Grundlagen" infos="Mitglieder-Ican 14 / Schneller Lerner / Programmieren"/>
+
+            </div>
         );
     }
 }
