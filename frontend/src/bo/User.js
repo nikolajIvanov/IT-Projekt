@@ -1,50 +1,13 @@
-import BusinessObject from "./BusinessObject";
+import Profil from "./Profil";
 
-export default class User extends BusinessObject {
+export default class User extends Profil {
     constructor() {
         super();
-        this.profilBild = null;
-        this.name = "";
-        this.lerntyp = "";
-        this.modul = [];
-        this.beschreibung = "";
         this.gender = "";
         this.geburtsdatum = null;
         this.email = "";
         this.istinGruppe = [];
         this.authId = "";
-    }
-
-    getName(){
-        return this.name;
-    }
-
-    setName(newname) {
-        this.name = newname;
-    }
-
-    getLerntyp() {
-        return this.lerntyp;
-    }
-
-    setLerntyp(newLerntyp) {
-        this.lerntyp = newLerntyp;
-    }
-
-    getModul() {
-        return this.modul;
-    }
-
-    setModul(newModul) {
-        this.modul = newModul;
-    }
-
-    getBeschreibung() {
-        return this.beschreibung ;
-    }
-
-    setBeschreibung(newBeschreibung) {
-        this.beschreibung = newBeschreibung;
     }
 
     getGeburtstag() {
