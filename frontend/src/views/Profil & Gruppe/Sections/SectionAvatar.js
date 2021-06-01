@@ -1,13 +1,26 @@
 import React from 'react';
 import ProfilAvatar from "../../../components/Avatar/ProfilAvatar";
-import H1 from "../../../components/Typography/H1";
+import InputFeld from "../../../components/Textfeld/InputFeld";
 
 
 function SectionAvatar(props) {
+
+    const handleBildChange = (e) => {
+        let newUser = props.apiUser;
+        newUser.setProfilBild(e.target.value)
+        props.handleChange(newUser)
+    }
+
+    const handleNameChange = (e) => {
+        let newUser = props.apiUser;
+        newUser.setName(e.target.value)
+        props.handleChange(newUser)
+    }
+
     return (
         <div style={styles.avatar}>
-            <ProfilAvatar img={props.img}/>
-            <H1 text={props.text}/>
+            <ProfilAvatar img={props.apiUser.getProfilBild()} handleChange={handleBildChange}/> {/*TODO: Prüfen wie man das Bild ändert */}
+            <InputFeld text={props.apiUser.getName()} onChange={handleNameChange}/>
         </div>
     );
 }

@@ -5,7 +5,7 @@ import React from 'react';
 function H1(props) {
     return (
         <div>
-            <Typography variant="h1">{props.text}</Typography>
+            <Typography variant="h1" onChange={props.handleChange}>{props.text}</Typography>
         </div>
     );
 }

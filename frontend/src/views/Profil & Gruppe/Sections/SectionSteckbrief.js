@@ -18,25 +18,38 @@ const useStyles =  makeStyles((theme) =>{
 export default function SectionSteckbrief(props) {
 
     const handleDateChange = (e) => {
-        props.dateChange(e.target.value)
+        let newUser = props.apiUser;
+        newUser.setGeburtstag(e.target.value)
+        props.handleChange(newUser)
+        //props.dateChange(e.target.value)
     }
 
     const handleModulChange = (e) => {
-        props.modulChange(e.target.value)
+        let newUser = props.apiUser;
+        newUser.setModul(e.target.value)
+        props.handleChange(newUser)
+        //props.modulChange(e.target.value)
+    }
+
+    const handleBeschreibungChange = (e) => {
+    let newUser = props.apiUser;
+    newUser.setBeschreibung(e.target.value)
+    props.handleChange(newUser)
+    //props.modulChange(e.target.value)
     }
     const classes = useStyles();
     return (
         <div>
             <Grid container direction="column" justify="space-between" alignItems="center">
                 <H3 text={"Steckbrief"}/>
-                <MultiLine />
+                <MultiLine handleChange={handleBeschreibungChange} />
                 <Grid container spacing={2} direction="row" justify="center" alignItems="center">
                     <P text={"Alter"} />
-                    <DatePicker inhalt={props.alter} change={handleDateChange}/>
+                    <DatePicker inhalt={props.apiUser.getGeburtstag()} handleChange={handleDateChange}/>
                 </Grid>
                 <Grid container spacing={2} direction="row" justify="center" alignItems="center">
                     <P text={"Modul"} />
-                    <DropDown map={Mod} input={props.module} handleChange={handleModulChange}/>
+                    <DropDown map={Mod} input={props.apiUser.getModul()} handleChange={handleModulChange}/>
                 </Grid>
             </Grid>
         </div>

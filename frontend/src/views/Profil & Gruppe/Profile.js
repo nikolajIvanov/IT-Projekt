@@ -40,38 +40,14 @@ class Profile extends React.Component {
         const user = new User()
         user.setAll(this.state.apiUser)
         console.log(user)
-        //await TeamUpApi.getAPI().updateUser(firebase.auth().currentUser.uid, user.getAll())
+        await TeamUpApi.getAPI().updateUser(firebase.auth().currentUser.uid, user.getAll())
     }
 
-    setDate = (date) => {
+    handleChange = (user) => {
         this.setState({
-            apiUser:{
-                geburtsdatum : date
-            }
-        });
-    }
-
-    setModul = (module) => {
-        this.setState({
-            apiUser: {
-                module: [...this.state.apiUser.module, module]
-            }
+            apiUser: user
         })
-        /*this.setState({
-            apiUser: {
-                module: [...this.state.apiUser.module, module]
-            }
-        });*/
     }
-
-
-    /* async componentDidMount() {
-        const user = await TeamUpApi.getAPI().getUser(firebase.auth().currentUser.uid)
-        this.setState({
-            user: user
-        })
-        console.log(this.state.user)
-    } */
 
     async componentDidMount() {
         await TeamUpApi.getAPI().getUser(firebase.auth().currentUser.uid).then(user =>{
@@ -89,11 +65,10 @@ class Profile extends React.Component {
         return (
             <div className={classes.root}>
                 { apiUser ?  <>
-                <SectionAvatar img={apiUser.getProfilBild()} text={apiUser.getName()}/>
+                <SectionAvatar apiUser={apiUser} handleChange={this.handleChange}/>
                 <Grid container direction="column" justify="center" spacing={1} alignItems="center">
                     <Grid item xs={3}>
-                        <SectionSteckbrief alter={apiUser.getGeburtstag()} module={apiUser.getModul()}
-                                           dateChange={this.setDate} modulChange={this.setModul} text={"Steckbrief"} />
+                        <SectionSteckbrief apiUser={apiUser} handleChange={this.handleChange} text={"Steckbrief"} />
                     </Grid>
                     <Grid item xs={3}>
                         <SectionLerntyp lerntyp={apiUser.getLerntyp()} text={"Lerntyp"}/>

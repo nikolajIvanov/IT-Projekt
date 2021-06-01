@@ -25,7 +25,7 @@ export default function DatePickers(props) {
                 type="date"
                 value={props.inhalt}
                 className={classes.textField}
-                onChange={props.change}
+                onChange={props.handleChange}
                 InputLabelProps={{
                     shrink: true,
                 }}

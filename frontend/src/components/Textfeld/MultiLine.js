@@ -22,7 +22,7 @@ export default function MultiLine(props) {
                     multiline
                     rows={4}
                     variant="outlined"
-                    onChange={props.change}
+                    onChange={props.handleChange}
                 />
             </div>
         </form>
