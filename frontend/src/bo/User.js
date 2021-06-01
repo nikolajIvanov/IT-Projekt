@@ -1,6 +1,6 @@
 import Profil from "./Profil";
 
-export default class User extends Profil {
+export default class UserBO extends Profil {
     constructor() {
         super();
         this.gender = "";
@@ -69,4 +69,21 @@ export default class User extends Profil {
         this.authId = user.authId;
         this.email = user.email;
     }
+
+    static fromJSON(user) {
+        let result = [];
+        if (Array.isArray(user)) {
+          user.forEach((u) => {
+            Object.setPrototypeOf(u, UserBO.prototype);
+            result.push(u);
+          })
+        } else {
+          // Es handelt sich offenbar um ein singuläres Objekt
+          let u = user;
+          Object.setPrototypeOf(u, UserBO.prototype); //automatisches Konvertieren des JSON-Inhalts in ein UserBO Objekt
+          result.push(u);
+        }
+
+        return result;
+      }
 }

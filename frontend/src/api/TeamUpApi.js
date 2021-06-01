@@ -1,5 +1,5 @@
-import User from "../bo/User";
-const user = new User();
+import UserBO from "../bo/User";
+//const user = new User();
 
 export default class TeamUpApi {
 
@@ -34,7 +34,7 @@ export default class TeamUpApi {
     )
 
     getUser(authId) {
-        return this.#getSingle(this.getUserURL(authId))
+        return this.#getSingle(this.getUserURL(authId), UserBO)
     }
 
     setUser(user){
@@ -45,10 +45,13 @@ export default class TeamUpApi {
         return this.#update(this.getUserURL(authId), user);
     }
 
-    #getSingle = (url) => {
+    #getSingle = (url, BO) => {
         return this.#fetchAdvanced(url).then( responseJSON => {
-            return responseJSON;
+            let responseBO = BO.fromJSON(responseJSON)[0];
+            return new Promise(function(resolve){
+                resolve(responseBO);
             })
+        })
     }
 
     #add = (url, businessObject) =>{

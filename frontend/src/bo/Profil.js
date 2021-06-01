@@ -10,6 +10,14 @@ export default class Profil extends BusinessObject {
         this.beschreibung = "";
     }
 
+    getProfilBild(){
+        return this.profilBild;
+    }
+
+    setProfilBild(bild){
+        this.profilBild = bild;
+    }
+
     getName(){
         return this.name;
     }

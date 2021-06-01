@@ -32,61 +32,78 @@ class Profile extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            user: {}
+            apiUser: false
         }
     }
 
     handleClick  = async () => {
         const user = new User()
-        user.setAll(this.state.user)
+        user.setAll(this.state.apiUser)
         console.log(user)
         //await TeamUpApi.getAPI().updateUser(firebase.auth().currentUser.uid, user.getAll())
     }
 
     setDate = (date) => {
         this.setState({
-            user:{
+            apiUser:{
                 geburtsdatum : date
-            }
-        });
-
-}
-
-    setModul = (date) => {
-        this.setState({
-            user: {
-                module: module
             }
         });
     }
 
-    async componentDidMount() {
+    setModul = (module) => {
+        this.setState({
+            apiUser: {
+                module: [...this.state.apiUser.module, module]
+            }
+        })
+        /*this.setState({
+            apiUser: {
+                module: [...this.state.apiUser.module, module]
+            }
+        });*/
+    }
+
+
+    /* async componentDidMount() {
         const user = await TeamUpApi.getAPI().getUser(firebase.auth().currentUser.uid)
         this.setState({
             user: user
         })
         console.log(this.state.user)
+    } */
+
+    async componentDidMount() {
+        await TeamUpApi.getAPI().getUser(firebase.auth().currentUser.uid).then(user =>{
+           this.setState({
+            apiUser: user
+        });
+            })
+        console.log(this.state.apiUser)
     }
 
     render(){
         const { classes } = this.props;
+        const { apiUser}= this.state;
 
         return (
             <div className={classes.root}>
-                <SectionAvatar userName={this.state.user.name} img={this.state.user.profilBild} text={this.state.user.name}/>
+                { apiUser ?  <>
+                <SectionAvatar img={apiUser.getProfilBild()} text={apiUser.getName()}/>
                 <Grid container direction="column" justify="center" spacing={1} alignItems="center">
                     <Grid item xs={3}>
-                        <SectionSteckbrief alter={this.state.user.geburtsdatum} module={this.state.user.modul}
+                        <SectionSteckbrief alter={apiUser.getGeburtstag()} module={apiUser.getModul()}
                                            dateChange={this.setDate} modulChange={this.setModul} text={"Steckbrief"} />
                     </Grid>
                     <Grid item xs={3}>
-                        <SectionLerntyp lerntyp={this.state.user.lerntyp} text={"Lerntyp"}/>
+                        <SectionLerntyp lerntyp={apiUser.getLerntyp()} text={"Lerntyp"}/>
                     </Grid>
                     <Grid item xs={3}>
                         <SectionLerngruppe text={"Lerngruppen"}/>
                     </Grid>
                 </Grid>
                 <ButtonBestätigen inhalt={"Update"} onClick={this.handleClick}/>
+                </> : null }
             </div>
         );
     }
