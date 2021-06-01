@@ -55,15 +55,15 @@ export default class Profil extends BusinessObject {
         }
     }
     setAll(gruppe){
-        this.name = user.name;
-        this.gender = user.gender;
-        this.geburtsdatum = user.geburtsdatum;
-        this.beschreibung = user.beschreibung;
-        this.lerntyp = user.lerntyp;
-        this.modul.push(user.modul);
-        this.profilBild = user.profilBild;
-        this.istinGruppe = user.istinGruppe;
-        this.authId = user.authId;
-        this.email = user.email;
+        this.name = gruppe.name;
+        this.gender = gruppe.gender;
+        this.geburtsdatum = gruppe.geburtsdatum;
+        this.beschreibung = gruppe.beschreibung;
+        this.lerntyp = gruppe.lerntyp;
+        this.modul.push(gruppe.modul);
+        this.profilBild = gruppe.profilBild;
+        this.istinGruppe = gruppe.istinGruppe;
+        this.authId = gruppe.authId;
+        this.email = gruppe.email;
     }
 }
