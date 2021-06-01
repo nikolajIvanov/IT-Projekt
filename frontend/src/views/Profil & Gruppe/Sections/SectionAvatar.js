@@ -1,6 +1,5 @@
 import React from 'react';
 import ProfilAvatar from "../../../components/Avatar/ProfilAvatar";
-import Typography from '@material-ui/core/Typography';
 import H1 from "../../../components/Typography/H1";
 
 

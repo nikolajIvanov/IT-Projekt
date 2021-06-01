@@ -10,7 +10,7 @@ export default class TeamUpApi {
     // User vom Backend holen
     getUserURL = (authId) => `${this.#serverBaseURL}/users/${authId}`;
     // User updaten
-    putUser = (authId) => `${this.#serverBaseURL}/users/${authId}`;
+    // putUser = (authId) => `${this.#serverBaseURL}/users/${authId}`;
     // User löschen
     deleteUser = (authId) => `${this.#serverBaseURL}/users/${authId}`;
     // Neuen User Anlegen
@@ -41,8 +41,8 @@ export default class TeamUpApi {
         return this.#add(this.postUser(), user)
     }
 
-    updateUser(user){
-        return this.#update(this.putUser(user.getID(authId)), user);
+    updateUser(authId, user){
+        return this.#update(this.getUserURL(authId), user);
     }
 
     #getSingle = (url) => {
@@ -50,7 +50,6 @@ export default class TeamUpApi {
             return responseJSON;
             })
     }
-
 
     #add = (url, businessObject) =>{
         return this.#fetchAdvanced(url, {
