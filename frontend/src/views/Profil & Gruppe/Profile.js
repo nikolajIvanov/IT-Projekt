@@ -39,9 +39,9 @@ class Profile extends React.Component {
     handleClick  = async () => {
         const user = new User()
         user.setAll(this.state.user)
-        await TeamUpApi.getAPI().setUser(user.getAll())
+        console.log(user)
+        //await TeamUpApi.getAPI().updateUser(firebase.auth().currentUser.uid, user.getAll())
     }
-
 
     setDate = (date) => {
         this.setState({
@@ -59,6 +59,7 @@ class Profile extends React.Component {
             }
         });
     }
+
     async componentDidMount() {
         const user = await TeamUpApi.getAPI().getUser(firebase.auth().currentUser.uid)
         this.setState({
@@ -72,7 +73,7 @@ class Profile extends React.Component {
 
         return (
             <div className={classes.root}>
-                <SectionAvatar userName={this.state.user.name} img={this.state.user.profilBild} text={"Name"}/>
+                <SectionAvatar userName={this.state.user.name} img={this.state.user.profilBild} text={this.state.user.name}/>
                 <Grid container direction="column" justify="center" spacing={1} alignItems="center">
                     <Grid item xs={3}>
                         <SectionSteckbrief alter={this.state.user.geburtsdatum} module={this.state.user.modul}
