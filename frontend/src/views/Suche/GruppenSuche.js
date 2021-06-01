@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/styles';
 import SearchBar from "../../components/Textfeld/SearchBar";
 import GroupPersonSwitch from "../../components/Icon/GroupPersonSwitch"
 import TestGruppen from "./TestGruppen";
+import FilterIcon from "../../components/Icon/FilterIcon";
 
 const styles = theme => ({
     root: {
@@ -21,6 +22,7 @@ class Gruppen extends React.Component {
             <div className={classes.root}>
                 <GroupPersonSwitch/>
                 <SearchBar/>
+                <FilterIcon/>
                 <TestGruppen/>
             </div>
         );
