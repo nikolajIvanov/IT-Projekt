@@ -32,8 +32,8 @@ class Profile extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            apiUser: false,
-            disabled: null
+            disabled: null,
+            apiUser: false
         }
     }
 
