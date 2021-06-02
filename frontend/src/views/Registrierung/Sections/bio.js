@@ -11,7 +11,7 @@ function Bio(props) {
             <Paper style={props.mode}>
                 <Typography style={styles.font}>Erzähle etwas über dich.</Typography>
                 <MultiLine
-                change={handleBio}
+                handleChange={handleBio}
                 />
             </Paper>
     );
