@@ -2,7 +2,6 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import {makeStyles} from "@material-ui/core/styles";
 import MultiLine from "../../../components/Textfeld/MultiLine";
-import InputFeld from "../../../components/Textfeld/InputFeld";
 import DatePicker from "../../../components/Textfeld/DatePicker"
 import H3 from "../../../components/Typography/H3";
 import P from "../../../components/Typography/P";
@@ -18,24 +17,21 @@ const useStyles =  makeStyles((theme) =>{
 export default function SectionSteckbrief(props) {
 
     const handleDateChange = (e) => {
-        let newUser = props.apiUser;
-        newUser.setGeburtstag(e.target.value)
-        props.handleChange(newUser)
-        //props.dateChange(e.target.value)
+        let newObject = props.apiObject;
+        newObject.setGeburtstag(e.target.value)
+        props.handleChange(newObject)
     }
 
     const handleModulChange = (e) => {
-        let newUser = props.apiUser;
-        newUser.setModul(e.target.value)
-        props.handleChange(newUser)
-        //props.modulChange(e.target.value)
+        let newObject = props.apiObject;
+        newObject.setModul(e.target.value)
+        props.handleChange(newObject)
     }
 
     const handleBeschreibungChange = (e) => {
-    let newUser = props.apiUser;
-    newUser.setBeschreibung(e.target.value)
-    props.handleChange(newUser)
-    //props.modulChange(e.target.value)
+    let newObject = props.apiObject;
+    newObject.setBeschreibung(e.target.value)
+    props.handleChange(newObject)
     }
     const classes = useStyles();
     return (
@@ -45,11 +41,11 @@ export default function SectionSteckbrief(props) {
                 <MultiLine disabled={props.disabled} handleChange={handleBeschreibungChange} />
                 <Grid container spacing={2} direction="row" justify="center" alignItems="center">
                     <P text={"Alter"} />
-                    <DatePicker inhalt={props.apiUser.getGeburtstag()} handleChange={handleDateChange}/>
+                    <DatePicker inhalt={props.apiObject.getGeburtstag()} handleChange={handleDateChange}/>
                 </Grid>
                 <Grid container spacing={2} direction="row" justify="center" alignItems="center">
                     <P text={"Modul"} />
-                    <DropDown map={Mod} input={props.apiUser.getModul()} handleChange={handleModulChange}/>
+                    <DropDown map={Mod} input={props.apiObject.getModul()} handleChange={handleModulChange}/>
                 </Grid>
             </Grid>
         </div>

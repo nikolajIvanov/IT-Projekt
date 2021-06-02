@@ -2,14 +2,24 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import AddIcon from "../../../components/Icon/AddIcon";
 import H3 from "../../../components/Typography/H3";
+import DropDown from "../../../components/Textfeld/Dropdown";
+import Lerntypen from "../../../components/Konstante(DropDown)/Lerntypen";
 
 
 export default function SectionLerntyp(props) {
+
+    const handleModulChange = (e) => {
+        let newObject = props.apiObject;
+        newObject.setLerntyp(e.target.value)
+        props.handleChange(newObject)
+    }
+
     return (
         <div>
             <Grid container direction="column" justify="center" alignItems="center">
                 <H3 text={props.text}/>
                 <div style={styles.lerntypBox}>
+                    <DropDown map={Lerntypen} input={props.apiObject.getLerntyp()} handleChange={handleModulChange}/>
                     <label>{props.lerntyp}</label>
                     <AddIcon />
                 </div>
