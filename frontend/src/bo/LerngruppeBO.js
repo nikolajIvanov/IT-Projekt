@@ -34,7 +34,6 @@ export default class LerngruppeBO extends Profil {
     }
     setAll(lerngruppe){
         this.name = lerngruppe.name;
-        this.gender = lerngruppe.gender;
         this.beschreibung = lerngruppe.beschreibung;
         this.lerntyp = lerngruppe.lerntyp;
         this.modul.push(lerngruppe.modul);
