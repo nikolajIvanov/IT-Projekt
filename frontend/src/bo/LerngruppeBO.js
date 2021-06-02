@@ -34,11 +34,11 @@ export default class LerngruppeBO extends Profil {
     }
     setAll(lerngruppe){
         this.name = lerngruppe.name;
-        this.gender = user.gender;
-        this.beschreibung = user.beschreibung;
-        this.lerntyp = user.lerntyp;
-        this.modul.push(user.modul);
-        this.profilBild = user.profilBild;
+        this.gender = lerngruppe.gender;
+        this.beschreibung = lerngruppe.beschreibung;
+        this.lerntyp = lerngruppe.lerntyp;
+        this.modul.push(lerngruppe.modul);
+        this.profilBild = lerngruppe.profilBild;
         this.miglieder.push(lerngruppe.mitglieder);
         this.admin.push(lerngruppe.admin);
 
@@ -53,7 +53,7 @@ export default class LerngruppeBO extends Profil {
         } else {
           // Es handelt sich offenbar um ein singuläres Objekt
           let u = user;
-          Object.setPrototypeOf(u, UserBO.prototype); //automatisches Konvertieren des JSON-Inhalts in ein UserBO Objekt
+          Object.setPrototypeOf(u, LerngruppeBO.prototype); //automatisches Konvertieren des JSON-Inhalts in ein UserBO Objekt
           result.push(u);
         }
 
