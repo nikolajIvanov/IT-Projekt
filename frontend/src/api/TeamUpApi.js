@@ -1,4 +1,5 @@
 import UserBO from "../bo/User";
+import LerngruppeBO from "../bo/LerngruppeBO";
 //const user = new User();
 
 export default class TeamUpApi {
@@ -9,12 +10,23 @@ export default class TeamUpApi {
 
     // User vom Backend holen
     getUserURL = (authId) => `${this.#serverBaseURL}/users/${authId}`;
+
     // User updaten
     // putUser = (authId) => `${this.#serverBaseURL}/users/${authId}`;
     // User löschen
     deleteUser = (authId) => `${this.#serverBaseURL}/users/${authId}`;
     // Neuen User Anlegen
     postUser = () => `${this.#serverBaseURL}/users`;
+
+    //Gruppe vom Backend holen
+    getGruppeUrl = (gruppenName) => `${this.#serverBaseURL}/Lerngruppe/${gruppenName}`;
+    //Gruppe Updaten
+    updateGruppeUrl =(gruppenName) => `${this.#serverBaseURL}/LerngruppeBO/${gruppenName}`;
+    // Gruppe löschen
+    deleteGruppeUrl = (gruppenName) => `${this.#serverBaseURL}/LerngruppeBO/${gruppenName}`;
+    // Neue Gruppe anlegen
+    postGruppeUrl = (gruppenName) => `${this.#serverBaseURL}/LerngruppeBO/${gruppenName}`;
+
 
     static getAPI() {
         if (this.#api == null) {
@@ -44,6 +56,20 @@ export default class TeamUpApi {
     updateUser(authId, user){
         return this.#update(this.getUserURL(authId), user);
     }
+
+    getGruppe(name){
+        return this.#getSingle(this.getGruppeUrl(name), LerngruppeBO);
+
+    }
+
+    setGruppe(lerngruppe){
+        return this.#add(this.postGruppeUrl(), lerngruppe);
+    }
+
+    updateGruppe(name, lerngruppe){
+        return this.#update(this.updateGruppeUrl(name),lerngruppe)
+    }
+    //TODO Delete Gruppe einfügen
 
     #getSingle = (url, BO) => {
         return this.#fetchAdvanced(url).then( responseJSON => {
