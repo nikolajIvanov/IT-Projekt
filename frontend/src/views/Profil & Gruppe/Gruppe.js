@@ -11,6 +11,7 @@ import TeamUpApi from "../../api/TeamUpApi";
 import firebase from 'firebase';
 import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
 import User from "../../bo/User";
+import LerngruppeBO from "../../bo/LerngruppeBO";
 
 
 const styles = theme => ({
@@ -32,6 +33,16 @@ const styles = theme => ({
 class Gruppen extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            apiGruppe: null
+        }
+    }
+
+    handleClick  = async () => {
+        const lerngruppe = new LerngruppeBO()
+        lerngruppe.setAll(this.state.apiGruppe)
+        console.log(lerngruppe)
+        await TeamUpApi.getAPI().updateGruppe(lerngruppe.getName(), lerngruppe.getAll())
     }
 
     render(){
