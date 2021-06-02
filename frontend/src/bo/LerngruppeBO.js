@@ -38,7 +38,7 @@ export default class LerngruppeBO extends Profil {
         this.lerntyp = lerngruppe.lerntyp;
         this.modul.push(lerngruppe.modul);
         this.profilBild = lerngruppe.profilBild;
-        this.miglieder.push(lerngruppe.mitglieder);
+        this.mitglieder.push(lerngruppe.mitglieder);
         this.admin.push(lerngruppe.admin);
 
     }
