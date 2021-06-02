@@ -10,11 +10,6 @@ DROP TABLE IF EXISTS `modul`;
 DROP TABLE IF EXISTS `lerntyp`;
 
 
-CREATE TABLE `lerntyp` (
-    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-    `typ` varchar(128) NOT NULL DEFAULT ''
-);
-
 
 CREATE TABLE `modul` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -33,9 +28,9 @@ CREATE TABLE `users` (
     `geburtsdatum` DATE NOT NULL DEFAULT '01.01.1900',
     `email` varchar(128) NOT NULL DEFAULT '',
     `beschreibung` varchar(128) NOT NULL DEFAULT '',
-    `lerntypId` int(11) NOT NULL DEFAULT 999,
-    `gender` varchar(128) NOT NULL DEFAULT '',
-     FOREIGN KEY (lerntypId) REFERENCES lerntyp (id)
+    `lerntyp` varchar(128) NOT NULL DEFAULT '',
+    `gender` varchar(128) NOT NULL DEFAULT ''
+
  );
 
 
@@ -48,6 +43,6 @@ CREATE TABLE `userInModul` (
 
 );
 
-INSERT INTO  lerntyp (typ)  VALUES ('Visuell'),('Auditiv'), ('Kommunikativ'),('Motorisch'), ('Mischform');
+
 INSERT INTO  modul(bezeichnung) VALUES ('marketing'), ('programmieren'), ('data-science')
 

@@ -36,7 +36,7 @@ class UserMapper(Mapper):
         cursor = self._cnx.cursor(prepared=True)
         # erstellen des SQL-Befehls um die User Daten abzufragen
         query = """SELECT users.id, users.bild, users.name, users.geburtsdatum, users.email, users.beschreibung, 
-               lerntyp.typ, users.gender FROM teamup.users JOIN teamup.lerntyp on users.lerntypId = lerntyp.id WHERE authId=%s"""
+               users.lerntyp, users.gender FROM teamup.users WHERE authId=%s"""
 
         # erstellen des SQL-Befehls um abzufragen welche Module einem User zugeordnet sind
         query1 ="""SELECT modul.bezeichnung From ((teamup.modul JOIN teamup.userinmodul 
@@ -108,7 +108,7 @@ class UserMapper(Mapper):
 
         # Erstellen des SQL-Befehls
         query = """INSERT INTO teamup.users (authId, bild, name, geburtsdatum, email,
-                beschreibung, lerntypId, gender) VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s, %s)"""
+                beschreibung, lerntyp, gender) VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s, %s)"""
 
         # Auslesen der User Daten
         daten = (nutzer.get_authId(), nutzer.get_profilBild(), nutzer.get_name(),
@@ -151,7 +151,7 @@ class UserMapper(Mapper):
 
         # Erstellen des SQL-Befehls
         query = """UPDATE teamup.users SET authId=%s, bild=%s, name=%s, geburtsdatum=%s, email=%s,
-                       beschreibung=%s, lerntypId=%s, gender=%s WHERE authId=%s"""
+                       beschreibung=%s, lerntyp=%s, gender=%s WHERE authId=%s"""
         # Auslesend der authId zur weitern verwendung
         authId = nutzer.get_authId()
         # Auslesen und speichern der restlichen User Daten
