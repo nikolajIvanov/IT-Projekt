@@ -32,7 +32,7 @@ class Profile extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            disabled: null,
+            disabled: "disabled",
             apiUser: false
         }
     }
@@ -52,10 +52,10 @@ class Profile extends React.Component {
 
     async componentDidMount() {
         await TeamUpApi.getAPI().getUser(firebase.auth().currentUser.uid).then(user =>{
-           this.setState({
-            apiUser: user
-        });
-            })
+            this.setState({
+                apiUser: user
+            });
+        })
         console.log(this.state.apiUser)
 
         if (firebase.auth().currentUser.uid === this.state.apiUser.authId) {
@@ -70,19 +70,19 @@ class Profile extends React.Component {
         return (
             <div className={classes.root}>
                 { apiUser ?  <>
-                <SectionAvatar apiUser={apiUser} handleChange={this.handleChange}/>
-                <Grid container direction="column" justify="center" spacing={1} alignItems="center">
-                    <Grid item xs={3}>
-                        <SectionSteckbrief apiUser={apiUser} handleChange={this.handleChange} text={"Steckbrief"} />
+                    <SectionAvatar apiUser={apiUser} handleChange={this.handleChange}/>
+                    <Grid container direction="column" justify="center" spacing={1} alignItems="center">
+                        <Grid item xs={3}>
+                            <SectionSteckbrief disabled={this.state.disabled} apiUser={apiUser} handleChange={this.handleChange} text={"Steckbrief"} />
+                        </Grid>
+                        <Grid item xs={3}>
+                            <SectionLerntyp lerntyp={apiUser.getLerntyp()} text={"Lerntyp"}/>
+                        </Grid>
+                        <Grid item xs={3}>
+                            <SectionLerngruppe text={"Lerngruppen"}/>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={3}>
-                        <SectionLerntyp lerntyp={apiUser.getLerntyp()} text={"Lerntyp"}/>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <SectionLerngruppe text={"Lerngruppen"}/>
-                    </Grid>
-                </Grid>
-                <ButtonBestätigen inhalt={"Update"} onClick={this.handleClick}/>
+                    <ButtonBestätigen inhalt={"Update"} onClick={this.handleClick}/>
                 </> : null }
             </div>
         );

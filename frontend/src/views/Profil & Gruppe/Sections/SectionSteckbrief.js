@@ -42,7 +42,7 @@ export default function SectionSteckbrief(props) {
         <div>
             <Grid container direction="column" justify="space-between" alignItems="center">
                 <H3 text={"Steckbrief"}/>
-                <MultiLine handleChange={handleBeschreibungChange} />
+                <MultiLine disabled={props.disabled} handleChange={handleBeschreibungChange} />
                 <Grid container spacing={2} direction="row" justify="center" alignItems="center">
                     <P text={"Alter"} />
                     <DatePicker inhalt={props.apiUser.getGeburtstag()} handleChange={handleDateChange}/>

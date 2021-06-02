@@ -17,6 +17,7 @@ export default function MultiLine(props) {
         <form className={classes.root} noValidate autoComplete="off">
             <div>
                 <TextField
+                    {... props.disabled}
                     id="beschreibung"
                     label="Beschreibung"
                     multiline
