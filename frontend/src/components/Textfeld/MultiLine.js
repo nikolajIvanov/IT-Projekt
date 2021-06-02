@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+// Atomic Design für ein Multi Line Textfeld. Die Variablen werden dynamisch mittels props angepasst.
 export default function MultiLine(props) {
     const classes = useStyles();
     return (

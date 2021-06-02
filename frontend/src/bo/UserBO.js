@@ -1,5 +1,7 @@
 import Profil from "./Profil";
 
+
+// Business User Klasse in der alle Werte für einen konkreten User gespeichert und verarbeitet werden.
 export default class UserBO extends Profil {
     constructor() {
         super();
@@ -70,6 +72,8 @@ export default class UserBO extends Profil {
         this.email = user.email;
     }
 
+    // Wird beim Aufruf einer PUT und POST Methode vom Backend aufgerufen und speichert die einzelnen Werte der
+    // JSON in ein Klassenobjekt UserBO.
     static fromJSON(user) {
         let result = [];
         if (Array.isArray(user)) {

@@ -14,20 +14,24 @@ const useStyles =  makeStyles((theme) =>{
    }
 });
 
+// Dient als Molekül für die Seite Profil und Gruppe.
 export default function SectionSteckbrief(props) {
 
+    // Speichert die neuen Werte für  die Variable: Geburtstag
     const handleDateChange = (e) => {
         let newObject = props.apiObject;
         newObject.setGeburtstag(e.target.value)
         props.handleChange(newObject)
     }
 
+    // Speichert die neuen Werte für  die Variable: Modul
     const handleModulChange = (e) => {
         let newObject = props.apiObject;
         newObject.setModul(e.target.value)
         props.handleChange(newObject)
     }
 
+    // Speichert die neuen Werte für  die Variable: Beschreibung
     const handleBeschreibungChange = (e) => {
     let newObject = props.apiObject;
     newObject.setBeschreibung(e.target.value)
