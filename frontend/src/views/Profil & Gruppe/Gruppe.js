@@ -11,7 +11,6 @@ import TeamUpApi from "../../api/TeamUpApi";
 import firebase from 'firebase';
 import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
 import User from "../../bo/User";
-import LerngruppeBO from "../../bo/LerngruppeBO";
 
 
 const styles = theme => ({

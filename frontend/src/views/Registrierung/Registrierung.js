@@ -9,7 +9,7 @@ import Module from "./Sections/module";
 import Bio from "./Sections/bio";
 import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
 import firebase from "firebase";
-import User from "../../bo/User";
+import User from "../../bo/UserBO";
 import TeamUpApi from "../../api/TeamUpApi"
 
 //Labels die über den DropDown Buttons der Komponenten stehen
