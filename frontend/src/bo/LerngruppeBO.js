@@ -1,6 +1,6 @@
 import Profil from "./Profil";
 
-export default class Lerngruppe extends Profil {
+export default class LerngruppeBO extends Profil {
      constructor() {
         super();
         this.mitglieder = [];
@@ -47,7 +47,7 @@ export default class Lerngruppe extends Profil {
         let result = [];
         if (Array.isArray(user)) {
           user.forEach((u) => {
-            Object.setPrototypeOf(u, Lerngruppe.prototype);
+            Object.setPrototypeOf(u, LerngruppeBO.prototype);
             result.push(u);
           })
         } else {
