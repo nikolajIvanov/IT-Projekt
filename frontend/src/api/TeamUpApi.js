@@ -1,4 +1,4 @@
-import UserBO from "../bo/User";
+import UserBO from "../bo/UserBO";
 import LerngruppeBO from "../bo/LerngruppeBO";
 //const user = new User();
 

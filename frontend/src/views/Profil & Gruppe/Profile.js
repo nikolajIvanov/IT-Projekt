@@ -10,7 +10,7 @@ import SectionLerngruppe from "./Sections/SectionLerngruppe";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from 'firebase';
 import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
-import User from "../../bo/User";
+import UserBO from "../../bo/UserBO";
 
 const styles = theme => ({
     root: {
@@ -32,13 +32,13 @@ class Profile extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            disabled: true,
+            disabled: false,
             apiUser: null
         }
     }
 
     handleClick  = async () => {
-        const user = new User()
+        const user = new UserBO()
         user.setAll(this.state.apiUser)
         console.log(user)
         await TeamUpApi.getAPI().updateUser(firebase.auth().currentUser.uid, user.getAll())
@@ -57,9 +57,9 @@ class Profile extends React.Component {
             });
         })
         console.log(this.state.apiUser)
-
+        // TODO: Der switch zwischen Anzeige und änderung muss noch angepasst werden.
         if (firebase.auth().currentUser.uid === this.state.apiUser.authId) {
-            this.state.disabled = "true"
+            this.state.disabled = false
         }
     }
 

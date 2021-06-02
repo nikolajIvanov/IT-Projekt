@@ -10,7 +10,7 @@ import SectionLerngruppe from "./Sections/SectionLerngruppe";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from 'firebase';
 import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
-import User from "../../bo/User";
+import User from "../../bo/UserBO";
 
 
 const styles = theme => ({

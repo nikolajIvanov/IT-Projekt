@@ -12,7 +12,7 @@ import Login2 from '../LogIn/Login 2';
 import SignUp from '../SignUp/SignUP'
 import Registrierung from "../Registrierung/Registrierung";
 import TeamUpApi from "../../api/TeamUpApi";
-import User from "../../bo/User";
+import User from "../../bo/UserBO";
 
 
 
