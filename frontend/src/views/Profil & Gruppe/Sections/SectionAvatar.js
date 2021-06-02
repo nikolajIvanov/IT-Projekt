@@ -6,21 +6,21 @@ import InputFeld from "../../../components/Textfeld/InputFeld";
 function SectionAvatar(props) {
 
     const handleBildChange = (e) => {
-        let newUser = props.apiUser;
+        let newUser = props.apiObject;
         newUser.setProfilBild(e.target.value)
         props.handleChange(newUser)
     }
 
     const handleNameChange = (e) => {
-        let newUser = props.apiUser;
+        let newUser = props.apiObject;
         newUser.setName(e.target.value)
         props.handleChange(newUser)
     }
 
     return (
         <div style={styles.avatar}>
-            <ProfilAvatar img={props.apiUser.getProfilBild()} handleChange={handleBildChange}/> {/*TODO: Prüfen wie man das Bild ändert */}
-            <InputFeld text={props.apiUser.getName()} onChange={handleNameChange}/>
+            <ProfilAvatar img={props.apiObject.getProfilBild()} handleChange={handleBildChange}/> {/*TODO: Prüfen wie man das Bild ändert */}
+            <InputFeld text={props.apiObject.getName()} onChange={handleNameChange}/>
         </div>
     );
 }

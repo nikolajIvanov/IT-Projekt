@@ -33,7 +33,7 @@ class Profile extends React.Component {
         super(props)
         this.state = {
             disabled: true,
-            apiUser: false
+            apiUser: null
         }
     }
 
@@ -70,13 +70,14 @@ class Profile extends React.Component {
         return (
             <div className={classes.root}>
                 { apiUser ?  <>
-                    <SectionAvatar apiUser={apiUser} handleChange={this.handleChange}/>
+                    <SectionAvatar apiObject={apiUser} handleChange={this.handleChange}/>
                     <Grid container direction="column" justify="center" spacing={1} alignItems="center">
                         <Grid item xs={3}>
-                            <SectionSteckbrief disabled={this.state.disabled} apiUser={apiUser} handleChange={this.handleChange} text={"Steckbrief"} />
+                            <SectionSteckbrief disabled={this.state.disabled} apiObject={apiUser}
+                                               handleChange={this.handleChange} text={"Steckbrief"} />
                         </Grid>
                         <Grid item xs={3}>
-                            <SectionLerntyp lerntyp={apiUser.getLerntyp()} text={"Lerntyp"}/>
+                            <SectionLerntyp apiObject={apiUser} text={"Lerntyp"} handleChange={this.handleChange}/>
                         </Grid>
                         <Grid item xs={3}>
                             <SectionLerngruppe text={"Lerngruppen"}/>
