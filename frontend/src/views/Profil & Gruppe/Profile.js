@@ -32,7 +32,8 @@ class Profile extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            apiUser: false
+            apiUser: false,
+            disabled: null
         }
     }
 
@@ -56,6 +57,10 @@ class Profile extends React.Component {
         });
             })
         console.log(this.state.apiUser)
+
+        if (firebase.auth().currentUser.uid === this.state.apiUser.authId) {
+            this.state.disabled = "true"
+        }
     }
 
     render(){
