@@ -11,14 +11,21 @@ class UserMapper(Mapper):
     def find_all(self):
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, name, email FROM users")
+        cursor.execute("SELECT id, authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, "
+                       "gender FROM TeamUP.users")
         tuples = cursor.fetchall()
 
-        for (id, name, email) in tuples:
+        for (id, authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender) in tuples:
             user = User()
             user.set_id(id)
+            user.set_authId(authId)
+            user.set_profilBild(bild)
             user.set_name(name)
+            user.set_geburtsdatum(geburtsdatum)
             user.set_email(email)
+            user.set_beschreibung(beschreibung)
+            user.set_lerntyp(lerntyp)
+            user.set_gender(gender)
             result.append(user)
 
         self._cnx.commit()
@@ -36,10 +43,10 @@ class UserMapper(Mapper):
         cursor = self._cnx.cursor(prepared=True)
         # erstellen des SQL-Befehls um die User Daten abzufragen
         query = """SELECT users.id, users.bild, users.name, users.geburtsdatum, users.email, users.beschreibung, 
-               users.lerntyp, users.gender FROM teamup.users WHERE authId=%s"""
+               users.lerntyp, users.gender FROM TeamUP.users WHERE authId=%s"""
 
         # erstellen des SQL-Befehls um abzufragen welche Module einem User zugeordnet sind
-        query1 ="""SELECT modul.bezeichnung From ((teamup.modul JOIN teamup.userinmodul 
+        query1 = """SELECT modul.bezeichnung From ((TeamUP.modul JOIN TeamUP.userinmodul 
                 ON modul.id = userinmodul.modulId) 
                 JOIN teamup.users ON userinmodul.userId = users.id ) WHERE authId=%s"""
 
@@ -70,7 +77,6 @@ class UserMapper(Mapper):
             for x in i:
                 user.set_module_append(x)
 
-
         # Datenbankverbindung schließen
         self._cnx.commit()
         cursor.close()
@@ -82,7 +88,7 @@ class UserMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, email FROM `test-bank`.users WHERE name LIKE '{}' ORDER BY  name".format(name)
+        command = "SELECT id, name, email FROM TeamUP.users WHERE name LIKE '{}' ORDER BY  name".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -107,12 +113,12 @@ class UserMapper(Mapper):
         cursor = self._cnx.cursor(prepared=True)
 
         # Erstellen des SQL-Befehls
-        query = """INSERT INTO teamup.users (authId, bild, name, geburtsdatum, email,
+        query = """INSERT INTO TeamUP.users (authId, bild, name, geburtsdatum, email,
                 beschreibung, lerntyp, gender) VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s, %s)"""
 
         # Auslesen der User Daten
         daten = (nutzer.get_authId(), nutzer.get_profilBild(), nutzer.get_name(),
-                 datetime.datetime.strptime(nutzer.get_geburtsdatum(),'%Y-%m-%d'),
+                 datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'),
                  nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender())
 
         # Ausführen des SQL-Befehls um die User Daten auf die Datenbank zu schreiben
@@ -128,8 +134,8 @@ class UserMapper(Mapper):
         module = nutzer.get_modul()
         # Datenbankeintrag für jedes Modul erzeugen
         for i in module:
-            # SQL-Befehl um den DAtenbankeintrag zu erstellen
-            query1 = """INSERT INTO teamup.userinmodul( userId, modulId) VALUES (%s, %s)"""
+            # SQL-Befehl um den Datenbankeintrag zu erstellen
+            query1 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
             # Auslesen und speichern der users.id und modul.id
             data = (self.get_Id_by_authId(nutzer.get_authId()), self.get_modulId_by_modul(i))
             # (Bitte kein Komma nach data) Ausführen des SQL- Befehls
@@ -139,21 +145,23 @@ class UserMapper(Mapper):
         cursor.close()
 
         # Rückgabe aller Userdaten
-        return self.find_by_key (nutzer.get_authId())
+        return self.find_by_key(nutzer.get_authId())
 
     def update_by_authId(self, nutzer):
         """
         :param nutzer: Ist das Nutzerobjekt
-        :return: Alle Objekte des User
+        :return: Das soeben geupdatete Objekt wird wieder nach vorne gegeben
         """
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
 
         # Erstellen des SQL-Befehls
-        query = """UPDATE teamup.users SET authId=%s, bild=%s, name=%s, geburtsdatum=%s, email=%s,
+        query = """UPDATE TeamUP.users SET authId=%s, bild=%s, name=%s, geburtsdatum=%s, email=%s,
                        beschreibung=%s, lerntyp=%s, gender=%s WHERE authId=%s"""
+
         # Auslesend der authId zur weitern verwendung
         authId = nutzer.get_authId()
+
         # Auslesen und speichern der restlichen User Daten
         daten = (authId, nutzer.get_profilBild(), nutzer.get_name(),
                  datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'),
@@ -166,12 +174,12 @@ class UserMapper(Mapper):
         cursor.close()
 
         # Auslesen und speichern der User.Id für später verwendung
-        userid= self.get_Id_by_authId(authId)
+        userid = self.get_Id_by_authId(authId)
 
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
         # Erstellen des SQL-Befehls um alle bestehenden einträge des User in userInModule zu löschen
-        query1 = """DELETE FROM teamup.userinmodul WHERE userId=%s"""
+        query1 = """DELETE FROM TeamUP.userinmodul WHERE userId=%s"""
         # Ausführen des SQL-Befehls
         cursor.execute(query1, (userid,))
         # Schließen der Datenbankverbindung
@@ -186,7 +194,7 @@ class UserMapper(Mapper):
         # Für jedes Modul ein Datenbankeintrag erzeugen
         for i in module:
             # Erstellen des SQL-Befehls
-            query2 = """INSERT INTO teamup.userinmodul( userId, modulId) VALUES (%s, %s)"""
+            query2 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
             # Auslesen und speichern der users.id und modul.id
             data = (self.get_Id_by_authId(nutzer.get_authId()), self.get_modulId_by_modul(i))
             # (Bitte kein Komma nach data) Ausführen des SQL-Befehls
@@ -212,7 +220,7 @@ class UserMapper(Mapper):
         # Erstellen des SQL-Befehls um die Einträge in der users Datenbank zu löschen
         query = """DELETE FROM TeamUP.users WHERE id=%s"""
         # Erstellen des SQL-Befehls um die Einträge in der userInModul Datenbank zu löschen
-        query1 = """DELETE FROM teamup.userinmodul WHERE userId=%s"""
+        query1 = """DELETE FROM TeamUP.userinmodul WHERE userId=%s"""
         # Ausführen des ersten SQL-Befehls
         cursor.execute(query, (userid))
         # Ausführen des zweiten SQL-Befehls
@@ -222,30 +230,25 @@ class UserMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-
-
-
-    """def get_modulForUser(self, authId):
+    def get_modulForUser(self, authId):
 
         cursor = self._cnx.cursor()
-        #SQL Query nochmal prüfen
-        #query =  SELECT userInModul.modulID FROM teamup.userInModul JOIN teamup.users on
-         #       users.id = userInModul.userId WHERE authId=%s
-        query = SELECT modul.bezeichnung From ((teamup.modul JOIN teamup.userinmodul ON modul.id = userinmodul.modulId) 
-                JOIN teamup.users ON userinmodul.userId = users.id ) WHERE authId=%s
+
+        query = """SELECT modul.bezeichnung From ((TeamUP.modul JOIN TeamUP.userinmodul ON modul.id = userinmodul.modulId) 
+                JOIN TeamUP.users ON userinmodul.userId = users.id ) WHERE authId=%s"""
 
         cursor.execute(query, (authId,))
         tuples = cursor.fetchall()
 
-        user = Nutzer()
+        user = User()
         for i in tuples:
             for x in i:
-             user.set_modul(x)
+                user.set_modul(x)
 
         self._cnx.commit()
         cursor.close()
 
-        return user"""
+        return user
 
     def get_modulId_by_modul(self, modul):
         """
@@ -256,7 +259,7 @@ class UserMapper(Mapper):
         cursor = self._cnx.cursor(prepared=True)
 
         # Erstellen des SQL-Befehls
-        query = """SELECT modul.id FROM teamup.modul WHERE bezeichnung=%s"""
+        query = """SELECT modul.id FROM TeamUP.modul WHERE bezeichnung=%s"""
 
         # Ausführen des SQL-Befehls
         cursor.execute(query, (modul,))
@@ -279,7 +282,7 @@ class UserMapper(Mapper):
         cursor = self._cnx.cursor(prepared=True)
 
         # Erstellen des SQL-Befehls
-        query = """SELECT users.id FROM teamup.users WHERE authId=%s"""
+        query = """SELECT users.id FROM TeamUP.users WHERE authId=%s"""
 
         # Ausführen des SQL-Befehls
         cursor.execute(query, (authId,))
@@ -293,3 +296,16 @@ class UserMapper(Mapper):
         # Rückgabe der UserId
         return userid[0]
 
+    def delete_gruppe_by_id(self, authId):
+        """
+        :param authId:
+        :return: void
+        """
+        pass
+
+    def join_gruppe_by_id(self, authId):
+        """
+        :param authId:
+        :return:
+        """
+        pass

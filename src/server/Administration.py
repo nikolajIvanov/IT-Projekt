@@ -1,22 +1,26 @@
 # Import aller BusinessObject Klassen
 
 from .bo.User import User
-
+from .bo.Lerngruppe import Lerngruppe
 
 # Import aller Mapper Klassen
 from .db.UserMapper import UserMapper
+from .db.LerngruppeMapper import LerngruppeMapper
 
- #TODO Überlegen ob man was anderes braucht als get user bei Id
+
+# TODO Überlegen ob man was anderes braucht als get user bei Id
 class Administration(object):
     """Diese Klasse aggregiert nahezu sämtliche Applikationslogik (Engl. Business Logic).
 
     """
+
     def __init__(self):
         pass
 
     """
         Nutzer-spezifische Methoden
     """
+
     def create_user_by_authId(self, nutzer):
         """
         :param nutzer: Ist die authId
@@ -25,7 +29,7 @@ class Administration(object):
         with UserMapper() as mapper:
             return mapper.insert_by_authId(nutzer)
 
-    def update_user_by_authId(self,nutzer):
+    def update_user_by_authId(self, nutzer):
         """
         :param nutzer: Ist die authId
         :return: Alle Objekte des Nutzers (aktualisiert)
@@ -67,10 +71,102 @@ class Administration(object):
         user.set_name(name)
         user.set_email(email)
         user.set_id(1)
-
         with UserMapper() as mapper:
             return mapper.update(user)
 
-   # def get_Modul_by_authId(self,  authId):
+    # def get_Modul_by_authId(self,  authId):
     #    with NutzerMapper() as mapper:
-     #       return mapper.get_modulForUser(authId)
+    #       return mapper.get_modulForUser(authId)
+
+# lerngruppe besteht aus Admin, zweites Mitglied, modul, Beschreibung....
+
+    def create_lerngruppe(self, lerngruppe):
+        """
+        :param lerngruppe: Objekt der Klasse Lerngruppe mit allen Attributen
+        :return: Alle Objekte des Nutzers
+        """
+        with LerngruppeMapper() as mapper:
+            return mapper.insert_by_authId(lerngruppe)
+    
+    # Alle Lerngruppen anzeigen lassen
+    
+    def get_all_lerngruppen(self):
+        """
+        :return: 
+        """
+        with LerngruppeMapper() as mapper:
+            return mapper.find_all()
+        
+    # Eine bestimmte Lerngruppe durch den Parameter namen anzeigen lassen
+
+    def get_Lerngruppe_by_name(self, name):
+        with LerngruppeMapper() as mapper:
+            return mapper.find_by_name(name)
+
+    def get_Lerngruppe_by_id(self, id):
+        with LerngruppeMapper() as mapper:
+            return mapper.find_by_id(id)
+
+    # Eine bestimmte Lerngruppe mit dem Parameter namen löschen
+
+    def delete_lerngruppe_by_name(self, name):
+        """
+        :param name: Ist der lerngruppen
+        :return:
+        """
+        with LerngruppeMapper() as mapper:
+            return mapper.delete_gruppe(name)
+
+    def delete_lerngruppe_by_id(self, id):
+        """
+        :param name: Ist die ID der Lerngruppe
+        :return:
+        """
+        with LerngruppeMapper() as mapper:
+            return mapper.delete_gruppe(id)
+
+    # Löschen eines Gruppenmitglieds
+        
+    def delete_user_by_list(self, lerngruppe):
+        """
+        :param lerngruppe: lerngruppenobjekt
+        :return: 
+        """
+        with LerngruppeMapper() as mapper:
+            return mapper.delete_user_from_lerngruppe(lerngruppe)
+
+    # Die Informationen einer bestimmten Lerngruppe updaten
+        
+    def update_lerngruppe_by_name(self, lerngruppe):
+        """
+        :param lerngruppe:
+        :return:
+        """
+        with LerngruppeMapper() as mapper:
+            return mapper.update_info_from_lerngruppe(lerngruppe)
+
+    def update_lerngruppe_by_id(self, lerngruppe):
+        """
+        :param lerngruppe:
+        :return:
+        """
+        with LerngruppeMapper() as mapper:
+            return mapper.update_info_from_lerngruppe_by_id(lerngruppe)
+
+    # Alle Lerngruppennamen anzeigen lassen
+
+    def get_lerngruppennamen(self, lerngruppe):
+        """
+        :param lerngruppe:
+        :return:
+        """
+        with LerngruppeMapper() as mapper:
+            return mapper.check_name(lerngruppe)
+
+    def create_new_mitglied(self, lerngruppe):
+        """
+        :param lerngruppe:
+        :return:
+        """
+        with LerngruppeMapper() as mapper:
+            return mapper.insert_use(lerngruppe)

@@ -12,7 +12,9 @@ import Login2 from '../LogIn/Login 2';
 import SignUp from '../SignUp/SignUP'
 import Registrierung from "../Registrierung/Registrierung";
 import TeamUpApi from "../../api/TeamUpApi";
-import User from "../../bo/UserBO";
+import GruppenSuche from "../Suche/GruppenSuche";
+import UserBO from "../../bo/UserBO";
+import Match from "../Suche/Match";
 
 
 
@@ -23,7 +25,7 @@ class App extends React.Component {
             email : '',
             password :'',
             //Object Instantiierungen für User und API
-            sendUser: new User(),
+            sendUser: new UserBO(),
             user: '',
             emailError: '',
             passwordError :'',
@@ -192,6 +194,8 @@ class App extends React.Component {
                                 <Route path="/gruppen"  component={Gruppen}/>
                                 <Route path="/profile"  component={Profile}/>
                                 <Route path="/chat"  component={Chat2}/>
+                                <Route path="/gruppensuche" component={GruppenSuche}/>
+                                <Route path="/matching" component={Match}/>
                             </Switch>
                         </Router>
                 ):(

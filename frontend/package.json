@@ -5,6 +5,7 @@
   "proxy": "http://127.0.0.1:5000",
   "dependencies": {
     "@date-io/date-fns": "^2.10.8",
+    "@material-ui/lab": "^4.0.0-alpha.58",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.3",

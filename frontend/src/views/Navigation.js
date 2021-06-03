@@ -6,6 +6,8 @@ import GroupIcon from '@material-ui/icons/Group';
 import PersonIcon from '@material-ui/icons/Person';
 import HomeIcon from '@material-ui/icons/Home';
 import ChatIcon from '@material-ui/icons/Chat';
+import SearchIcon from '@material-ui/icons/Search';
+import AccessibleIcon from '@material-ui/icons/Accessible';
 import { Link } from "react-router-dom"
 
 class Navigation extends Component {
@@ -27,6 +29,12 @@ class Navigation extends Component {
                     </Link>
                     <Link to="/chat">
                         <BottomNavigationAction label="Chat" icon={<ChatIcon />} />
+                    </Link>
+                    <Link to="/gruppensuche">
+                        <BottomNavigationAction label="Gruppen Suche" icon={<SearchIcon/>}/>
+                    </Link>
+                    <Link to="/matching">
+                        <BottomNavigationAction label="Matching" icon={<AccessibleIcon/>}/>
                     </Link>
                     <BottomNavigationAction label="Logout" icon={<ExitToAppIcon/>}
                                             onClick={this.props.logOut}/>
