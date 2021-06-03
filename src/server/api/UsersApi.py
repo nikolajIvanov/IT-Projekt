@@ -14,7 +14,8 @@ class UsersApi(Resource):
         nutzer = adm.get_all_users()
         return nutzer
 
-    @api.expect(user, validate=True)
+    # @api.expect(user, validate=True)
+    @api.expect(user)
     @api.marshal_with(user)
     def post(self):
         adm = Administration()
