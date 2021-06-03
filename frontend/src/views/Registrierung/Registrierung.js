@@ -85,7 +85,7 @@ function Registrierung(props) {
     };
 
     //Wird benutzt um zu überprüfen ob die aktuelle Komponente leer ist
-    const checkData = [name, date, gender, lerntypArt, bild, modul,bio]
+    const checkData = [name, date, gender, semester, studiengang, lerntypArt, bild, modul, bio]
 
     //modal ist ein Object, dass gerendert wird falls die Modalvariable "open" true ist.
     const modal = (
@@ -150,8 +150,8 @@ function Registrierung(props) {
             <div>
                 { components[count-1] ? (
                     <div style={styles.button}>
-                    <ButtonBestätigen onClick={handleCountBack} inhalt={"Zurück"} style={styles.einzelButton}/>
-                    <ButtonBestätigen onClick={checkBox} inhalt={"Weiter"} style={styles.einzelButton}/>
+                    <ButtonBestätigen onClick={handleCountBack} inhalt={"Zurück"} />
+                    <ButtonBestätigen onClick={checkBox} inhalt={"Weiter"}/>
                     </div>
                 ):(
                     <div style={styles.button}>

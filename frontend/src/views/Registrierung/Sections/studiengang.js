@@ -11,11 +11,11 @@ function Studiengang(props) {
     };
 
     return (
-        <Paper style={props.studiengang}>
+        <Paper style={props.mode}>
             <Typography style={theme.font.register}>Was studierst du?</Typography>
             <DropDown
                 handleChange = {handleSemester}
-                input = {props.modul}
+                input = {props.studiengang}
                 map = {Drop}
                 droplabel = {props.drop}
             />

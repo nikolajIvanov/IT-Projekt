@@ -8,8 +8,6 @@ export default class Profil extends BusinessObject {
         this.lerntyp = "";
         this.modul = [];
         this.beschreibung = "";
-        this.semstester = null;
-        this.studiengang = null;
     }
 
     getProfilBild(){
@@ -52,22 +50,6 @@ export default class Profil extends BusinessObject {
         this.beschreibung = newBeschreibung;
     }
 
-    getSemester(){
-        return this.semstester
-    }
-
-    setSemester(newSemester){
-        this.semstester = newSemester
-    }
-
-    getStudiengang(){
-        return this.studiengang
-    }
-
-    setStudiengang(newStudiengang){
-        this.studiengang = newStudiengang
-    }
-
 
     //Getter-Setter alle #Profildaten
     getAll(){
@@ -77,8 +59,6 @@ export default class Profil extends BusinessObject {
             lerntyp: this.lerntyp,
             modul: this.modul,
             profilBild: this.profilBild,
-            semester: this.semstester,
-            studiengang: this.studiengang
         }
     }
     setAll(gruppe){
@@ -87,7 +67,5 @@ export default class Profil extends BusinessObject {
         this.lerntyp = gruppe.lerntyp;
         this.modul.push(gruppe.modul);
         this.profilBild = gruppe.profilBild;
-        this.semstester = gruppe.semester;
-        this.studiengang = gruppe.studiengang
     }
 }

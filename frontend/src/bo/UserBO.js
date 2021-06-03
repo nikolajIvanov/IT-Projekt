@@ -10,6 +10,8 @@ export default class UserBO extends Profil {
         this.email = "";
         this.istinGruppe = [];
         this.authId = "";
+        this.semester = null;
+        this.studiengang = null;
     }
 
     getGeburtstag() {
@@ -44,6 +46,22 @@ export default class UserBO extends Profil {
         this.authId = newAuthId;
     }
 
+    getSemester(){
+        return this.semester
+    }
+
+    setSemester(newSemester){
+        this.semester = newSemester
+    }
+
+    getStudiengang(){
+        return this.studiengang
+    }
+
+    setStudiengang(newStudiengang){
+        this.studiengang = newStudiengang
+    }
+
     //Getter-Setter alle #Profildaten
     getAll(){
         return {
@@ -56,7 +74,9 @@ export default class UserBO extends Profil {
             profilBild: this.profilBild,
             //istinGruppe: this.istinGruppe,
             authId: this.authId,
-            email: this.email
+            email: this.email,
+            semester: this.semester,
+            studiengang: this.studiengang
         }
     }
     setAll(user){
@@ -70,6 +90,8 @@ export default class UserBO extends Profil {
         this.istinGruppe = user.istinGruppe;
         this.authId = user.authId;
         this.email = user.email;
+        this.semester = user.semester;
+        this.studiengang = user.studiengang
     }
 
     // Wird beim Aufruf einer PUT und POST Methode vom Backend aufgerufen und speichert die einzelnen Werte der

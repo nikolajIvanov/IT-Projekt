@@ -11,11 +11,11 @@ function Semester(props) {
     };
 
     return (
-        <Paper style={props.semester}>
+        <Paper style={props.mode}>
             <Typography style={theme.font.register}>In welchem Semester bist du?</Typography>
             <DropDown
                 handleChange = {handleSemester}
-                input = {props.modul}
+                input = {props.semester}
                 map = {Drop}
                 droplabel = {props.drop}
             />
