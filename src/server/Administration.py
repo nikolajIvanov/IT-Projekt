@@ -103,6 +103,10 @@ class Administration(object):
         with LerngruppeMapper() as mapper:
             return mapper.find_by_name(name)
 
+    def get_Lerngruppe_by_id(self, id):
+        with LerngruppeMapper() as mapper:
+            return mapper.find_by_id(id)
+
     # Eine bestimmte Lerngruppe mit dem Parameter namen löschen
 
     def delete_lerngruppe_by_name(self, name):
@@ -112,6 +116,14 @@ class Administration(object):
         """
         with LerngruppeMapper() as mapper:
             return mapper.delete_gruppe(name)
+
+    def delete_lerngruppe_by_id(self, id):
+        """
+        :param name: Ist die ID der Lerngruppe
+        :return:
+        """
+        with LerngruppeMapper() as mapper:
+            return mapper.delete_gruppe(id)
 
     # Löschen eines Gruppenmitglieds
         
@@ -132,6 +144,14 @@ class Administration(object):
         """
         with LerngruppeMapper() as mapper:
             return mapper.update_info_from_lerngruppe(lerngruppe)
+
+    def update_lerngruppe_by_id(self, lerngruppe):
+        """
+        :param lerngruppe:
+        :return:
+        """
+        with LerngruppeMapper() as mapper:
+            return mapper.update_info_from_lerngruppe_by_id(lerngruppe)
 
     # Alle Lerngruppennamen anzeigen lassen
 

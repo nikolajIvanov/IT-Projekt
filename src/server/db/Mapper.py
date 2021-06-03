@@ -30,3 +30,4 @@ class Mapper(AbstractContextManager, ABC):
 
     def delete(self):
         pass
+

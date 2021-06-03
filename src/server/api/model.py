@@ -3,7 +3,7 @@ from flask_restx import Api, fields
 
 
 app = Flask(__name__)
-api = Api(app)
+api: Api = Api(app)
 
 bo = api.model('BusinessObject', {
     'id': fields.Integer(attribute=lambda x: x.get_id(), description='Der Unique Identifier eines Business Object'),
