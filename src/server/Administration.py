@@ -78,7 +78,7 @@ class Administration(object):
     #    with NutzerMapper() as mapper:
     #       return mapper.get_modulForUser(authId)
 
-    # lerngruppe besteht aus Admin, zweites Mitglied, modul, Beschreibung....
+# lerngruppe besteht aus Admin, zweites Mitglied, modul, Beschreibung....
 
     def create_lerngruppe(self, lerngruppe):
         """

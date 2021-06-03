@@ -6,6 +6,8 @@ from server.api.test_api import TestApi
 from server.api.UsersApi import UsersApi
 from server.api.UserApi import UserApi
 from server.api.LerngruppeApi import LerngruppeApi
+from server.api.LerngruppenApi import LerngruppenApi
+from server.api.LerngruppenmitgliedApi import LerngruppenmitgliedApi
 from server.api.NutzerByNameApi import NutzerByNameApi
 from server.api.model import api, app
 
@@ -27,8 +29,9 @@ api.add_resource(UsersApi, '/users')
 api.add_resource(UserApi, '/users/<string:authId>')
 api.add_resource(NutzerByNameApi, '/nutzer-by-name/<string:name>')
 
-api.add_ressource(LerngruppeApi, '/lerngruppe')
+api.add_ressource(LerngruppenApi, '/lerngruppen')
 api.add_ressource(LerngruppeApi, '/lerngruppe/<string:name>')
+api.add_ressource(LerngruppenmitgliedApi, '/lerngruppen-mitglied/<string:name>')
 
 if __name__ == '__main__':
     # app.run(debug=True)
