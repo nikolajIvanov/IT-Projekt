@@ -75,15 +75,6 @@ CREATE TABLE `userInLerngruppe`
     PRIMARY KEY (userId, lerngruppeId)
 );
 
-CREATE TABLE `adminInLerngruppe`
-(
-    `userId`       int(11) NOT NULL,
-    `lerngruppeId` int(11) NOT NULL,
-    FOREIGN KEY (userId) REFERENCES users (id),
-    FOREIGN KEY (lerngruppeId) REFERENCES lerngruppe (id),
-    PRIMARY KEY (userId, lerngruppeId)
-);
-
 CREATE TABLE `lerngruppeInModul`
 (
     `lerngruppeId`  int(11) NOT NULL,
