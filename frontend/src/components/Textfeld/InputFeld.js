@@ -24,6 +24,7 @@ export default function InputFeld(props) {
                     value={props.inhalt}
                     defaultValue={props.inputValue}
                     onChange={props.onChange}
+                    style={props.style}
                 />
             </div>
         </form>

@@ -9,11 +9,13 @@ export default class TeamUpApi {
     #serverBaseURL = '';
 
     // Die URL für einen konkreten User.
-    getUserURL = (authId) => `${this.#serverBaseURL}/users/${authId}`;
+    #getUserURL = (authId) => `${this.#serverBaseURL}/users/${authId}`;
     // User löschen
-    deleteUser = (authId) => `${this.#serverBaseURL}/users/${authId}`;
+    #deleteUser = (authId) => `${this.#serverBaseURL}/users/${authId}`;
     // Neuen User Anlegen
-    postUser = () => `${this.#serverBaseURL}/users`;
+    #postUser = () => `${this.#serverBaseURL}/users`;
+
+    #allUsersURL = () => `${this.#serverBaseURL}/users`;
 
     //Gruppe vom Backend holen
     getGruppeUrl = (gruppenName) => `${this.#serverBaseURL}/Lerngruppe/${gruppenName}`;
@@ -45,17 +47,21 @@ export default class TeamUpApi {
     )
     // Ein einzelner User wird vom Backend ans Frontend übergeben. Die Daten werden in einer Klasse gespeichert.
     getUser(authId) {
-        return this.#getSingle(this.getUserURL(authId), UserBO)
+        return this.#getSingle(this.#getUserURL(authId), UserBO)
+    }
+
+    getAllUsers(){
+        return this.#getAll(this.#allUsersURL(), UserBO);
     }
 
     // Dient zum Anlagen eines neuen User. Als Übergabeparameter wird ein befülltes User Objekt erwartet.
     setUser(user){
-        return this.#add(this.postUser(), user)
+        return this.#add(this.#postUser(), user)
     }
 
     // Ruft im Backend einen konkreten User auf und updatet die Werte, die im Übergabeparameter vorhanden sind.
     updateUser(authId, user){
-        return this.#update(this.getUserURL(authId), user);
+        return this.#update(this.#getUserURL(authId), user);
     }
 
     getGruppe(name){
@@ -78,6 +84,15 @@ export default class TeamUpApi {
             let responseBO = BO.fromJSON(responseJSON)[0];
             return new Promise(function(resolve){
                 resolve(responseBO);
+            })
+        })
+    }
+
+    #getAll = (url, BO) => {
+        return this.#fetchAdvanced(url).then((responseJSON) => {
+            let responseBOs = BO.fromJSON(responseJSON);
+            return new Promise(function (resolve) {
+                resolve(responseBOs);
             })
         })
     }

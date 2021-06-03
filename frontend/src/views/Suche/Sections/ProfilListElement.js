@@ -6,7 +6,6 @@ import theme from "../../../theme";
 import Grid from "@material-ui/core/Grid";
 import {Paper} from "@material-ui/core";
 
-// TODO: Muss komplett erstellt werden.
 export default function ProfilListElement(props) {
   const users = props.apiUsers;
 
