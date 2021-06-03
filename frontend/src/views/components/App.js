@@ -14,6 +14,7 @@ import Registrierung from "../Registrierung/Registrierung";
 import TeamUpApi from "../../api/TeamUpApi";
 import GruppenSuche from "../Suche/GruppenSuche";
 import UserBO from "../../bo/UserBO";
+import Match from "../Suche/Match";
 
 
 
@@ -32,7 +33,7 @@ class App extends React.Component {
             text: 'Hi',
             //TODO die Prüfung von exist soll über ein API call erfolgen der Prüft ob ein Name
             // vorhanden ist (Rückschluss= alles muss da sein)
-            exist: false,
+            exist: true,
             }
         this.setHasAccount = this.setHasAccount.bind(this);
         this.handleLogOut = this.handleLogOut.bind(this);
@@ -194,6 +195,7 @@ class App extends React.Component {
                                 <Route path="/profile"  component={Profile}/>
                                 <Route path="/chat"  component={Chat2}/>
                                 <Route path="/gruppensuche" component={GruppenSuche}/>
+                                <Route path="/matching" component={Match}/>
                             </Switch>
                         </Router>
                 ):(
