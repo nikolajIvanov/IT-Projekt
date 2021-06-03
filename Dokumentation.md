@@ -3,7 +3,7 @@
 ## Frontend:
 
 ## Backend:
-###Lerngruppe-Mapper:
+###LerngruppeBO-Mapper:
 + Die Lerngruppen bezeichnung ist unikat, deshalb existiert im Mapper 
 kein findbyID.
 
