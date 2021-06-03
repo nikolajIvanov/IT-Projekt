@@ -1,5 +1,5 @@
 import React from 'react';
-import H2 from "../../../components/Typography/H2";
+import H2 from "../../../components/Typography/h2";
 
 export default function SectionLerngruppe(props) {
     return (

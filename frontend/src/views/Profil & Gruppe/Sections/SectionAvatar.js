@@ -20,7 +20,7 @@ function SectionAvatar(props) {
     return (
         <div style={styles.avatar}>
             <ProfilAvatar img={props.apiObject.getProfilBild()} handleChange={handleBildChange}/> {/*TODO: Prüfen wie man das Bild ändert */}
-            <InputFeld text={props.apiObject.getName()} onChange={handleNameChange}/>
+            <InputFeld inhalt={props.apiObject.getName()} onChange={handleNameChange}/>
         </div>
     );
 }

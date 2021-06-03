@@ -10,29 +10,20 @@ import SectionLerngruppe from "./Sections/SectionLerngruppe";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from 'firebase';
 import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
+import {Paper} from "@material-ui/core";
 import UserBO from "../../bo/UserBO";
+import theme from '../../theme'
 
-const styles = theme => ({
-    root: {
-        maxWidth: '100%',
-        margin: "auto",
-        overflow: "none"
-    },
-    test: {
-        width: '20%'
-    },
-    grid: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
-    }
-});
+const styles = {
+    root: theme.root,
+    card:theme.card
+}
 
 class Profile extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            disabled: true,
+            disabled: false,
             apiUser: null
         }
     }
@@ -75,27 +66,28 @@ class Profile extends React.Component {
         return (
             <div className={classes.root}>
                 {/* Überprüft ob die Daten vom User geladen sind und fügt sie dann in die Komponenten ein. */}
-                { apiUser ?  <>
+                { apiUser ?  <Paper style={styles.card}>
                     <SectionAvatar apiObject={apiUser} handleChange={this.handleChange}/>
                     <Grid container direction="column" justify="center" spacing={1} alignItems="center">
-                        <Grid item xs={3}>
+                        <Grid style={styles.root} item xs={3}>
                             <SectionSteckbrief disabled={this.state.disabled} apiObject={apiUser}
                                                handleChange={this.handleChange} text={"Steckbrief"} />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid style={styles.root} item xs={3}>
                             <SectionLerntyp apiObject={apiUser} text={"Lerntyp"} handleChange={this.handleChange}/>
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid style={styles.root} item xs={3}>
                             <SectionLerngruppe text={"Lerngruppen"}/>
                         </Grid>
                     </Grid>
                     <ButtonBestätigen disabled={this.state.disabled} inhalt={"Update"} onClick={this.handleClick}/>
-                </> : null }
+                </Paper> : null }
             </div>
         );
     }
 }
 
+//Bindet das classes object an die Komponente Profile
 Profile.propTypes = {
     classes: PropTypes.object.isRequired,
 };

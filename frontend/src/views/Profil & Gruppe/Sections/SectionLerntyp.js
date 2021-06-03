@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import AddIcon from "../../../components/Icon/AddIcon";
-import H3 from "../../../components/Typography/H3";
+import H3 from "../../../components/Typography/h3";
 import DropDown from "../../../components/Textfeld/Dropdown";
 import Lerntypen from "../../../components/Konstante(DropDown)/Lerntypen";
 

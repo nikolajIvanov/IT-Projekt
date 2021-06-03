@@ -3,16 +3,10 @@ import Grid from '@material-ui/core/Grid';
 import {makeStyles} from "@material-ui/core/styles";
 import MultiLine from "../../../components/Textfeld/MultiLine";
 import DatePicker from "../../../components/Textfeld/DatePicker"
-import H3 from "../../../components/Typography/H3";
-import P from "../../../components/Typography/P";
+import H4 from "../../../components/Typography/h4";
+import P from "../../../components/Typography/p";
 import DropDown from "../../../components/Textfeld/Dropdown";
 import Mod from "../../../components/Konstante(DropDown)/Module";
-
-const useStyles =  makeStyles((theme) =>{
-   root: {
-
-   }
-});
 
 // Dient als Molekül für die Seite Profil und Gruppe.
 export default function SectionSteckbrief(props) {
@@ -37,14 +31,13 @@ export default function SectionSteckbrief(props) {
     newObject.setBeschreibung(e.target.value)
     props.handleChange(newObject)
     }
-    const classes = useStyles();
     return (
         <div>
             <Grid container direction="column" justify="space-between" alignItems="center">
-                <H3 text={"Steckbrief"}/>
+                <H4 text={"Steckbrief"}/>
                 <MultiLine disabled={props.disabled} handleChange={handleBeschreibungChange} />
                 <Grid container spacing={2} direction="row" justify="center" alignItems="center">
-                    <P text={"Alter"} />
+                    <P text={"Alter: 26"} />
                     <DatePicker inhalt={props.apiObject.getGeburtstag()} handleChange={handleDateChange}/>
                 </Grid>
                 <Grid container spacing={2} direction="row" justify="center" alignItems="center">
