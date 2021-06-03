@@ -13,6 +13,7 @@ import SignUp from '../SignUp/SignUP'
 import Registrierung from "../Registrierung/Registrierung";
 import TeamUpApi from "../../api/TeamUpApi";
 import User from "../../bo/User";
+import GruppenSuche from "../Suche/GruppenSuche";
 
 
 
@@ -192,6 +193,7 @@ class App extends React.Component {
                                 <Route path="/gruppen"  component={Gruppen}/>
                                 <Route path="/profile"  component={Profile}/>
                                 <Route path="/chat"  component={Chat2}/>
+                                <Route path="/gruppensuche" component={GruppenSuche}/>
                             </Switch>
                         </Router>
                 ):(
