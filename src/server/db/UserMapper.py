@@ -151,10 +151,9 @@ class UserMapper(Mapper):
 
         # Erstellen des SQL-Befehls
         query = """UPDATE teamup.users SET authId=%s, bild=%s, name=%s, geburtsdatum=%s, email=%s,
-                       beschreibung=%s, lerntypId=%s, gender=%s WHERE authId=%s"""
-
-        # Auslesend der authId zur weiteren verwendung
                        beschreibung=%s, lerntyp=%s, gender=%s WHERE authId=%s"""
+
+
         # Auslesend der authId zur weitern verwendung
         authId = nutzer.get_authId()
 
@@ -226,19 +225,17 @@ class UserMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    """def get_modulForUser(self, authId):
+    def get_modulForUser(self, authId):
 
         cursor = self._cnx.cursor()
-        #SQL Query nochmal prüfen
-        #query =  SELECT userInModul.modulID FROM teamup.userInModul JOIN teamup.users on
-         #       users.id = userInModul.userId WHERE authId=%s
-        query = SELECT modul.bezeichnung From ((teamup.modul JOIN teamup.userinmodul ON modul.id = userinmodul.modulId) 
-                JOIN teamup.users ON userinmodul.userId = users.id ) WHERE authId=%s
+
+        query = """SELECT modul.bezeichnung From ((teamup.modul JOIN teamup.userinmodul ON modul.id = userinmodul.modulId) 
+                JOIN teamup.users ON userinmodul.userId = users.id ) WHERE authId=%s"""
 
         cursor.execute(query, (authId,))
         tuples = cursor.fetchall()
 
-        user = Nutzer()
+        user = User()
         for i in tuples:
             for x in i:
              user.set_modul(x)
@@ -246,7 +243,7 @@ class UserMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-        return user"""
+        return user
 
     def get_modulId_by_modul(self, modul):
         """
