@@ -12,9 +12,8 @@ import Login2 from '../LogIn/Login 2';
 import SignUp from '../SignUp/SignUP'
 import Registrierung from "../Registrierung/Registrierung";
 import TeamUpApi from "../../api/TeamUpApi";
-import User from "../../bo/User";
 import GruppenSuche from "../Suche/GruppenSuche";
-import User from "../../bo/UserBO";
+import UserBO from "../../bo/UserBO";
 
 
 
@@ -25,7 +24,7 @@ class App extends React.Component {
             email : '',
             password :'',
             //Object Instantiierungen für User und API
-            sendUser: new User(),
+            sendUser: new UserBO(),
             user: '',
             emailError: '',
             passwordError :'',
@@ -33,7 +32,7 @@ class App extends React.Component {
             text: 'Hi',
             //TODO die Prüfung von exist soll über ein API call erfolgen der Prüft ob ein Name
             // vorhanden ist (Rückschluss= alles muss da sein)
-            exist: true,
+            exist: false,
             }
         this.setHasAccount = this.setHasAccount.bind(this);
         this.handleLogOut = this.handleLogOut.bind(this);
