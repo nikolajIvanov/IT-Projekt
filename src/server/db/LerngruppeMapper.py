@@ -1,11 +1,8 @@
-from abc import ABC
-
 from server.bo.Lerngruppe import Lerngruppe
 from server.db.Mapper import Mapper
 
 
-# TODO warum abc import ?
-class LerngruppeMapper(Mapper, ABC):
+class LerngruppeMapper(Mapper):
 
     def __init__(self):
         super().__init__()
@@ -15,7 +12,7 @@ class LerngruppeMapper(Mapper, ABC):
         cursor = self._cnx.cursor()
 
         # Daten von lerngruppe
-        cursor.execute("SELECT id, modulId, lerntypId, name, beschreibung, bild, admin from TeamUP.lerngruppe")
+        cursor.execute("SELECT id, modulId, lerntyp, name, beschreibung, bild, admin from TeamUP.lerngruppe")
         tuples = cursor.fetchall()
 
         for (id, modul, name, beschreibung, profilbild, admin) in tuples:
@@ -47,7 +44,7 @@ class LerngruppeMapper(Mapper, ABC):
         gruppen_id = cursor.fetchall()
 
         # Query um alle informationen einer bestimmten lerngruppe zu bekommen
-        query = """SELECT id, modulId, lerntypId, name, beschreibung, bild, admin from TeamUP.lerngruppe
+        query = """SELECT id, modulId, lerntyp, name, beschreibung, bild, admin from TeamUP.lerngruppe
         WHERE name = (%s)"""
 
         # daten für die Query
@@ -84,7 +81,7 @@ class LerngruppeMapper(Mapper, ABC):
 
         # Erstellen des SQL-Befehls für TABLE lerngruppe
         query1 = """INSERT INTO teamup.lerngruppe (name, beschreibung, bild,
-                    lerntypId, modulId, admin) VALUES (%s ,%s ,%s ,%s ,%s, %s)"""
+                    lerntyp, modulId, admin) VALUES (%s ,%s ,%s ,%s ,%s, %s)"""
 
         # Erstellen des SQL-Befehls für TABLE adminInLerngruppe für den admin
         query2 = """INSERT INTO teamup.adminInLerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
@@ -198,7 +195,7 @@ class LerngruppeMapper(Mapper, ABC):
 
         # Erstellen des SQL-Befehls um lerngruppendaten zu holen
         query = """UPDATE teamup.lerngruppe SET bild=%s, name=%s, beschreibung=%s, admin=%s,
-                        lerntypId=%s WHERE lerngruppe.id=%s"""
+                        lerntyp=%s WHERE lerngruppe.id=%s"""
 
         # Auslesen und speichern der restlichen User Daten
         daten = (lerngruppe.get_profilBild(), lerngruppe.get_name(), lerngruppe.get_beschreibung(),

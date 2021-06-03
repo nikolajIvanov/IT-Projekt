@@ -22,7 +22,6 @@ class Mapper(AbstractContextManager, ABC):
     def find_all(self):
         pass
 
-    @abstractmethod
     def find_by_key(self):
         pass
 
