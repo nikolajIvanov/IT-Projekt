@@ -127,16 +127,18 @@ class LerngruppeMapper(Mapper):
                   lerngruppe.get_admin())
 
         # LerngruppenID bekommen über name
-        query5 = """SELECT id FROM teamup.lerngruppe WHERE id = (%s) """
+        query5 = """SELECT id FROM teamup.lerngruppe WHERE name = (%s) """
 
         # Lerngruppenname für SELECT-Abfrage von query5
-        daten3 = lerngruppe.get_id()
+        daten3 = lerngruppe.get_name()
 
         # Ausführen des SQL-Befehls für lerngruppe
         cursor.execute(query1, daten1)
+        self._cnx.commit()
 
         # gruppen_id is die ID um den admin und user in die TABLES speichern zu können
         cursor.execute(query5, daten3)
+        self._cnx.commit()
         gruppen_id = cursor.fetchone()
 
         # Daten für adminInLerngruppe & userInLerngruppe
@@ -144,6 +146,7 @@ class LerngruppeMapper(Mapper):
 
         # Ausführen des SQL-Befehls für adminInLerngruppe
         cursor.execute(query2, daten2)
+        self._cnx.commit()
 
         # Ausführen des SQL-Befehls für userInLerngruppe
         cursor.execute(query3, daten2)
