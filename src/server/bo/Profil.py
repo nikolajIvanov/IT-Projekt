@@ -40,16 +40,18 @@ class Profil(BusinessObject):
         self.__lerntyp = typ
 
     def get_modul(self):
+
         return self.__modul
 
     def set_modul(self, module):
-        """Fügt dem Profil & Gruppe neue Module hinzu.
+        """Fügt dem Profil neue Module hinzu.
 
         :param module: Module
         """
         self.__modul = module
 
     def set_module_append(self, module):
+
         self.__modul.append(module)
 
     def get_profilBild(self):
