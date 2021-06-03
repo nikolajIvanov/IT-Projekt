@@ -11,15 +11,17 @@ import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
 import firebase from "firebase";
 import User from "../../bo/UserBO";
 import TeamUpApi from "../../api/TeamUpApi"
+import Semester from "./Sections/semester";
+import Studiengang from "./Sections/studiengang";
 
 //Labels die über den DropDown Buttons der Komponenten stehen
 const droplabels = [
-    "Gender" , "Lerntyp", "Bild", "Module"
+    "Gender" , "Lerntyp", "Bild", "Module", 'Semester', "Studiengang",
 ]
 
 //Werte die als Stepper Bezeichnungen genutzt werden - Reihenfolge ist wichtig!
 function getSteps() {
-    return ['Name', 'Geburtstag', 'Gender', 'Lerntyp', 'Bild', 'Module', 'Bio'];
+    return ['Name', 'Geburtstag', 'Gender', 'Semester', 'Studiengang', 'Lerntyp', 'Bild', 'Module', 'Bio'];
 }
 
 //Übergeordnete Komponente für den Registrierungsprozess
@@ -34,6 +36,8 @@ function Registrierung(props) {
     const [bild, setBild] = React.useState('');
     const [lerntypArt, setLerntypArt] = React.useState('');
     const [modul, setModul] = React.useState('');
+    const [semester, setSemester] = React.useState('');
+    const [studiengang, setStudiengang] = React.useState('')
     const [open, setOpen] = React.useState(false);
     const steps = getSteps();
 
@@ -45,6 +49,8 @@ function Registrierung(props) {
         <Name setName={setName} name={name} mode={styles.card}/>,
         <Date setDate={setDate} date={date} mode={styles.card}/>,
         <Gender setGender={setGender} gender={gender} mode={styles.card} drop={droplabels[0]}/>,
+        <Semester setSemester={setSemester} semester={semester} drop={droplabels[4]} mode={styles.card}/>,
+        <Studiengang setStudiengang={setStudiengang} studiengang={studiengang} drop={droplabels[5]} mode={styles.card}/>,
         <Lerntyp setLerntypArt={setLerntypArt} lerntypArt={lerntypArt} mode={styles.card} drop={droplabels[1]}/>,
         <Bild setBild={setBild} bild={bild} mode={styles.card}/>,
         <Module setModul={setModul} modul={modul} mode={styles.card} drop={droplabels[3]}/>,
@@ -60,6 +66,8 @@ function Registrierung(props) {
         beschreibung: bio,
         lerntyp: lerntypArt,
         profilBild: bild,
+        semester: semester,
+        studiengang: studiengang,
         authId: firebase.auth().currentUser.uid,
         email: firebase.auth().currentUser.email,
     }
@@ -100,7 +108,7 @@ function Registrierung(props) {
         }
         else{
             //TODO auf length setzen
-            if(count === 6) {
+            if(count === 8) {
                 user.setAll(infos)
                 TeamUpApi.getAPI().setUser(user.getAll())
                 console.log(user.getAll())

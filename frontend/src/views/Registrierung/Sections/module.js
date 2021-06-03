@@ -2,6 +2,7 @@ import React from 'react';
 import {Paper, Typography} from "@material-ui/core";
 import DropDown from "../../../components/Textfeld/Dropdown";
 import Mod from "../../../components/Konstante(DropDown)/Module";
+import theme from "../../../theme";
 
 function Module(props) {
 
@@ -11,7 +12,7 @@ function Module(props) {
 
     return (
             <Paper style={props.mode}>
-                <Typography style={styles.font}>Was willst du lernen?</Typography>
+                <Typography style={theme.font.register}>Was willst du lernen?</Typography>
                 <DropDown
                     handleChange = {handleModul}
                     input = {props.modul}
@@ -23,10 +24,3 @@ function Module(props) {
 }
 
 export default Module;
-
-const styles = {
-    font:{
-        color: "#898989",
-        marginBottom: "5%"
-    }
-}

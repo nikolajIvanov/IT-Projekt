@@ -29,7 +29,7 @@ class App extends React.Component {
             user: '',
             emailError: '',
             passwordError :'',
-            hasAccount: false,
+            hasAccount: true,
             text: 'Hi',
             //TODO die Prüfung von exist soll über ein API call erfolgen der Prüft ob ein Name
             // vorhanden ist (Rückschluss= alles muss da sein)

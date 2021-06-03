@@ -1,12 +1,10 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import {makeStyles} from "@material-ui/core/styles";
 import MultiLine from "../../../components/Textfeld/MultiLine";
 import DatePicker from "../../../components/Textfeld/DatePicker"
-import H4 from "../../../components/Typography/h4";
-import P from "../../../components/Typography/p";
 import DropDown from "../../../components/Textfeld/Dropdown";
 import Mod from "../../../components/Konstante(DropDown)/Module";
+import theme from '../../../theme'
 
 // Dient als Molekül für die Seite Profil und Gruppe.
 export default function SectionSteckbrief(props) {
@@ -33,15 +31,20 @@ export default function SectionSteckbrief(props) {
     }
     return (
         <div>
-            <Grid container direction="column" justify="space-between" alignItems="center">
-                <H4 text={"Steckbrief"}/>
+            <Grid style={theme.root} container>
                 <MultiLine disabled={props.disabled} handleChange={handleBeschreibungChange} />
-                <Grid container spacing={2} direction="row" justify="center" alignItems="center">
-                    <P text={"Alter: 26"} />
+                <Grid style={theme.root} container spacing={12} >
+                    <p style={theme.h3.bold}>Alter:</p>
                     <DatePicker inhalt={props.apiObject.getGeburtstag()} handleChange={handleDateChange}/>
                 </Grid>
-                <Grid container spacing={2} direction="row" justify="center" alignItems="center">
-                    <P text={"Modul"} />
+                <Grid style={theme.root} container spacing={12} >
+                    <p style={theme.h3.bold}>Semester:</p>
+                </Grid>
+                <Grid style={theme.root} container spacing={12} >
+                    <p style={theme.h3.bold}>Studiengang:</p>
+                </Grid>
+                <Grid style={theme.root} container spacing={12} >
+                    <p style={theme.h3.bold}>Ich suche:</p>
                     <DropDown map={Mod} input={props.apiObject.getModul()} handleChange={handleModulChange}/>
                 </Grid>
             </Grid>

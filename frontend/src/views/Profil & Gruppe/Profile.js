@@ -1,7 +1,5 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/styles';
 import "../../assets/App.css"
 import SectionAvatar from "./Sections/SectionAvatar";
 import SectionSteckbrief from "./Sections/SectionSteckbrief";
@@ -13,11 +11,6 @@ import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
 import {Paper} from "@material-ui/core";
 import UserBO from "../../bo/UserBO";
 import theme from '../../theme'
-
-const styles = {
-    root: theme.root,
-    card:theme.card
-}
 
 class Profile extends React.Component {
     constructor(props) {
@@ -60,23 +53,22 @@ class Profile extends React.Component {
     }
 
     render(){
-        const { classes } = this.props;
         const { apiUser}= this.state;
 
         return (
-            <div className={classes.root}>
+            <div style={theme.root}>
                 {/* Überprüft ob die Daten vom User geladen sind und fügt sie dann in die Komponenten ein. */}
-                { apiUser ?  <Paper style={styles.card}>
+                { apiUser ?  <Paper style={theme.card}>
                     <SectionAvatar apiObject={apiUser} handleChange={this.handleChange}/>
-                    <Grid container direction="column" justify="center" spacing={1} alignItems="center">
-                        <Grid style={styles.root} item xs={3}>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12}>
                             <SectionSteckbrief disabled={this.state.disabled} apiObject={apiUser}
                                                handleChange={this.handleChange} text={"Steckbrief"} />
                         </Grid>
-                        <Grid style={styles.root} item xs={3}>
+                        <Grid style={theme.root} item xs={12}>
                             <SectionLerntyp apiObject={apiUser} text={"Lerntyp"} handleChange={this.handleChange}/>
                         </Grid>
-                        <Grid style={styles.root} item xs={3}>
+                        <Grid style={theme.root} item xs={12}>
                             <SectionLerngruppe text={"Lerngruppen"}/>
                         </Grid>
                     </Grid>
@@ -87,9 +79,4 @@ class Profile extends React.Component {
     }
 }
 
-//Bindet das classes object an die Komponente Profile
-Profile.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(Profile);
+export default (Profile);

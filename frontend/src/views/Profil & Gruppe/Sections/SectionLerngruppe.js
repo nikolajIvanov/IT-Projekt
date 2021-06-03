@@ -1,10 +1,10 @@
 import React from 'react';
-import H2 from "../../../components/Typography/h2";
+import theme from '../../../theme'
 
 export default function SectionLerngruppe(props) {
     return (
         <div>
-            <H2 text={props.text}/>
+            <p style={theme.h1.bold}>{props.text}</p>
         </div>
     );
 }

@@ -21,7 +21,7 @@ export default function DatePickers(props) {
         <form className={classes.container} noValidate>
             <TextField
                 id="date"
-                label="Geburtstag"
+                label="Alter"
                 type="date"
                 value={props.inhalt}
                 className={classes.textField}
