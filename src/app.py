@@ -29,9 +29,9 @@ api.add_resource(UsersApi, '/users')
 api.add_resource(UserApi, '/users/<string:authId>')
 api.add_resource(NutzerByNameApi, '/nutzer-by-name/<string:name>')
 
-api.add_ressource(LerngruppenApi, '/lerngruppen')
-api.add_ressource(LerngruppeApi, '/lerngruppe/<string:name>')
-api.add_ressource(LerngruppenmitgliedApi, '/lerngruppen-mitglied/<string:name>')
+api.add_resource(LerngruppenApi, '/lerngruppen')
+api.add_resource(LerngruppeApi, '/lerngruppe/<string:name>')
+api.add_resource(LerngruppenmitgliedApi, '/lerngruppen-mitglied/<string:name>')
 
 if __name__ == '__main__':
     # app.run(debug=True)

@@ -103,7 +103,7 @@ class LerngruppeMapper(Mapper):
 
         return result
 
-    def init_with_authid(self, lerngruppe):
+    def insert_by_authId(self, lerngruppe):
         """
         :param lerngruppe: Objekt der Klasse Lerngruppe
         :return lerngruppenID aus Datenbank
@@ -122,22 +122,22 @@ class LerngruppeMapper(Mapper):
         query3 = """INSERT INTO teamup.userInLerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
 
         # Daten für lerngruppe
-        daten1 = (lerngruppe.get_name(), Lerngruppe.get_beschreibung(),
-                  Lerngruppe.get_profilBild(), Lerngruppe.get_lerntyp(), Lerngruppe.get_modul(),
+        daten1 = (lerngruppe.get_name(), lerngruppe.get_beschreibung(),
+                  lerngruppe.get_profilBild(), lerngruppe.get_lerntyp(), lerngruppe.get_modul(),
                   lerngruppe.get_admin())
 
         # LerngruppenID bekommen über name
-        query5 = """SELECT id FROM teamup.lerngruppe WHERE name = (%s) """
+        query5 = """SELECT id FROM teamup.lerngruppe WHERE id = (%s) """
 
         # Lerngruppenname für SELECT-Abfrage von query5
-        daten3 = lerngruppe.get_name()
+        daten3 = lerngruppe.get_id()
 
         # Ausführen des SQL-Befehls für lerngruppe
         cursor.execute(query1, daten1)
 
         # gruppen_id is die ID um den admin und user in die TABLES speichern zu können
         cursor.execute(query5, daten3)
-        gruppen_id = cursor.fetchall()
+        gruppen_id = cursor.fetchone()
 
         # Daten für adminInLerngruppe & userInLerngruppe
         daten2 = (lerngruppe.get_admin(), gruppen_id)
