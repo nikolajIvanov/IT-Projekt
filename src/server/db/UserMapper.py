@@ -128,7 +128,7 @@ class UserMapper(Mapper):
         module = nutzer.get_modul()
         # Datenbankeintrag für jedes Modul erzeugen
         for i in module:
-            # SQL-Befehl um den DAtenbankeintrag zu erstellen
+            # SQL-Befehl um den Datenbankeintrag zu erstellen
             query1 = """INSERT INTO teamup.userinmodul( userId, modulId) VALUES (%s, %s)"""
             # Auslesen und speichern der users.id und modul.id
             data = (self.get_Id_by_authId(nutzer.get_authId()), self.get_modulId_by_modul(i))
@@ -139,12 +139,12 @@ class UserMapper(Mapper):
         cursor.close()
 
         # Rückgabe aller Userdaten
-        return self.find_by_key (nutzer.get_authId())
+        return self.find_by_key(nutzer.get_authId())
 
     def update_by_authId(self, nutzer):
         """
         :param nutzer: Ist das Nutzerobjekt
-        :return: Alle Objekte des User
+        :return: Das soeben geupdatete Objekt wird wieder nach vorne gegeben
         """
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
@@ -152,8 +152,10 @@ class UserMapper(Mapper):
         # Erstellen des SQL-Befehls
         query = """UPDATE teamup.users SET authId=%s, bild=%s, name=%s, geburtsdatum=%s, email=%s,
                        beschreibung=%s, lerntypId=%s, gender=%s WHERE authId=%s"""
-        # Auslesend der authId zur weitern verwendung
+
+        # Auslesend der authId zur weiteren verwendung
         authId = nutzer.get_authId()
+
         # Auslesen und speichern der restlichen User Daten
         daten = (authId, nutzer.get_profilBild(), nutzer.get_name(),
                  datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'),
@@ -222,9 +224,6 @@ class UserMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-
-
-
     """def get_modulForUser(self, authId):
 
         cursor = self._cnx.cursor()
@@ -292,4 +291,18 @@ class UserMapper(Mapper):
         cursor.close()
         # Rückgabe der UserId
         return userid[0]
+
+    def delete_gruppe_by_id(self, authId):
+        """
+        :param authId:
+        :return: void
+        """
+        pass
+
+    def join_gruppe_by_id(self, authId):
+        """
+        :param authId:
+        :return:
+        """
+        pass
 
