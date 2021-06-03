@@ -1,6 +1,6 @@
 import BusinessObject from "./BusinessObject";
 
-export default class Profil extends BusinessObject {
+export default class ProfilBO extends BusinessObject {
     constructor() {
         super();
         this.profilBild = null;

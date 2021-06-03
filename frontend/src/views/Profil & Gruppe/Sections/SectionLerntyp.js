@@ -19,7 +19,7 @@ export default function SectionLerntyp(props) {
         <div>
             <Grid container direction="column" justify="center" alignItems="center">
                 <p style={theme.h1.bold}>{props.text}</p>
-                <div style={styles.lerntypBox}>
+                <div style={theme.root}>
                     <DropDown map={Lerntypen} input={props.apiObject.getLerntyp()} handleChange={handleLerntypChange}/>
                     <label>{props.lerntyp}</label>
                     <AddIcon />
@@ -27,14 +27,4 @@ export default function SectionLerntyp(props) {
             </Grid>
         </div>
     );
-}
-
-const styles = {
-    lerntypBox: {
-        marginTop: '20%',
-        display: "flex",
-        flexDirection: 'column',
-        justifyContent: "center",
-        alignItems: "center"
-    }
 }

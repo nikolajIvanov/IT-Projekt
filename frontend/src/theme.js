@@ -5,6 +5,11 @@ const theme = {
             justifyContent: "center",
             alignItems:"center",
         },
+        leftAligned:{
+            display: "flex",
+            justifyContent: "center",
+            alignItems:"center",
+        },
         primary:{
             main: '#2D89FF97'
         },

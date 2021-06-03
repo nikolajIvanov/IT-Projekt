@@ -1,6 +1,6 @@
-import Profil from "./Profil";
+import ProfilBO from "./ProfilBO";
 
-export default class LerngruppeBO extends Profil {
+export default class LerngruppeBO extends ProfilBO {
      constructor() {
         super();
         this.mitglieder = [];

@@ -1,8 +1,8 @@
-import Profil from "./Profil";
+import ProfilBO from "./ProfilBO";
 
 
 // Business User Klasse in der alle Werte für einen konkreten User gespeichert und verarbeitet werden.
-export default class UserBO extends Profil {
+export default class UserBO extends ProfilBO {
     constructor() {
         super();
         this.gender = "";

@@ -35,7 +35,7 @@ class Profile extends React.Component {
             apiUser: user
         })
     }
-    // Wird beim Aufruf der Seite Profil als erstes Aufgerufen und es werden alle Informationen über den aktuellen
+    // Wird beim Aufruf der Seite ProfilBO als erstes Aufgerufen und es werden alle Informationen über den aktuellen
     // User geladen und in den state gespeichert.
     async componentDidMount() {
         await TeamUpApi.getAPI().getUser(firebase.auth().currentUser.uid).then(user =>{
@@ -44,7 +44,7 @@ class Profile extends React.Component {
             });
         })
         console.log(this.state.apiUser)
-        // Prüft ob man in seinem eigenen Profil ist oder in einem anderen. Je nachdem wird die Ansicht verändert.
+        // Prüft ob man in seinem eigenen ProfilBO ist oder in einem anderen. Je nachdem wird die Ansicht verändert.
         // TODO: Der switch zwischen Anzeige und änderung muss noch angepasst werden.
         if (firebase.auth().currentUser.uid === this.state.apiUser.authId) {
             //this.state.disabled = false
@@ -53,7 +53,7 @@ class Profile extends React.Component {
     }
 
     render(){
-        const { apiUser}= this.state;
+        const {apiUser}= this.state;
 
         return (
             <div style={theme.root}>

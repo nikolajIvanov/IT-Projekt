@@ -4,9 +4,10 @@ import MultiLine from "../../../components/Textfeld/MultiLine";
 import DatePicker from "../../../components/Textfeld/DatePicker"
 import DropDown from "../../../components/Textfeld/Dropdown";
 import Mod from "../../../components/Konstante(DropDown)/Module";
+import Lerntypen from "../../../components/Konstante(DropDown)/Lerntypen";
 import theme from '../../../theme'
 
-// Dient als Molekül für die Seite Profil und Gruppe.
+// Dient als Molekül für die Seite ProfilBO und Gruppe.
 export default function SectionSteckbrief(props) {
 
     // Speichert die neuen Werte für  die Variable: Geburtstag
@@ -29,6 +30,7 @@ export default function SectionSteckbrief(props) {
     newObject.setBeschreibung(e.target.value)
     props.handleChange(newObject)
     }
+
     return (
         <div>
             <Grid style={theme.root} container>
@@ -37,11 +39,13 @@ export default function SectionSteckbrief(props) {
                     <p style={theme.h3.bold}>Alter:</p>
                     <DatePicker inhalt={props.apiObject.getGeburtstag()} handleChange={handleDateChange}/>
                 </Grid>
-                <Grid style={theme.root} container spacing={12} >
+                <Grid style={theme.root} container spacing={12}>
                     <p style={theme.h3.bold}>Semester:</p>
+                    <DropDown map={Mod}/>
                 </Grid>
                 <Grid style={theme.root} container spacing={12} >
                     <p style={theme.h3.bold}>Studiengang:</p>
+                    <DropDown map={Mod}/>
                 </Grid>
                 <Grid style={theme.root} container spacing={12} >
                     <p style={theme.h3.bold}>Ich suche:</p>

@@ -9,7 +9,7 @@ bo = api.model('BusinessObject', {
     'id': fields.Integer(attribute=lambda x: x.get_id(), description='Der Unique Identifier eines Business Object'),
 })
 
-profil = api.inherit('Profil', bo, {
+profil = api.inherit('ProfilBO', bo, {
     'name': fields.String(attribute=lambda x: x.get_name(), description='Name eines Benutzers'),
     'lerntyp': fields.String(attribute=lambda x: x.get_lerntyp(), description='Lerntyp eines Benutzers'),
     'modul': fields.List(fields.String, attribute=lambda x: x.get_modul(), description='Module eines Benutzers'),

@@ -25,7 +25,7 @@ class Navigation extends Component {
                         <BottomNavigationAction label="Gruppe" icon={<GroupIcon />} />
                     </Link>
                     <Link to="/profile">
-                        <BottomNavigationAction label="Profil" icon={<PersonIcon />} />
+                        <BottomNavigationAction label="ProfilBO" icon={<PersonIcon />} />
                     </Link>
                     <Link to="/chat">
                         <BottomNavigationAction label="Chat" icon={<ChatIcon />} />
