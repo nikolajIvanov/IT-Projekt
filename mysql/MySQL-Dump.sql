@@ -53,7 +53,7 @@ CREATE TABLE `userInModul` (
 INSERT INTO  modul(bezeichnung) VALUES
     ('Marketing'),
     ('Programmieren'),
-    ('Data-Science');
+    ('Data Science');
 
 
 CREATE TABLE `lerngruppe` (

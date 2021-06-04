@@ -1,0 +1,85 @@
+{
+	"info": {
+		"_postman_id": "084723b7-25c2-4582-8f72-b52eeeee00bb",
+		"name": "Lerngruppe",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Alle Lerngruppen",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/lerngruppen",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"lerngruppen"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lerngruppe erstellen",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n     \"modul\":1,\n     \"profilBild\":\"Bild1\",\n     \"beschreibung\":\"Beste Gruppe\",\n     \"lerntyp\":\"Auditiv\",\n     \"name\":\"Max\",\n     \"mitglieder\":\"Thomas\",\n     \"admin\":\"3\" \n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/lerngruppen",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"lerngruppen"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

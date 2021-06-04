@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f8d5544a-1e76-4fd4-9895-1b84f6112550",
+		"_postman_id": "410407ea-26a2-4271-b2cf-fb53b1835839",
 		"name": "User",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -17,7 +17,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/nutzer/4",
+					"raw": "http://127.0.0.1:5000/users/1",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -27,8 +27,8 @@
 					],
 					"port": "5000",
 					"path": [
-						"nutzer",
-						"4"
+						"users",
+						"1"
 					]
 				}
 			},
@@ -131,7 +131,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"name\": \"Markus\",\n  \"email\": \"markus@markus.de\"\n}",
+					"raw": "{\n  \"authId\":123,\n  \"modul\":[\"Marketing\"],\n  \"profilBild\":\"Bild1\",\n  \"beschreibung\":\"BlaBla\",\n  \"lerntyp\":\"Auditiv\",\n  \"geburtsdatum\":\"1990-12-01\",\n  \"name\": \"Markus\",\n  \"email\": \"markus@markus.de\",\n  \"gender\":\"Mann\",\n  \"semester\":1,\n  \"studiengang\":\"WI\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -150,6 +150,38 @@
 					"port": "5000",
 					"path": [
 						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User updaten",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"authId\":123,\n  \"modul\":[\"Marketing\", \"Data Science\"],\n  \"profilBild\":\"Bild1\",\n  \"beschreibung\":\"BlaBla\",\n  \"lerntyp\":\"Auditiv\",\n  \"geburtsdatum\":\"1990-12-01\",\n  \"name\": \"Markus\",\n  \"email\": \"markus@markus.de\",\n  \"gender\":\"Mann\",\n  \"semester\":1,\n  \"studiengang\":\"WI\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/users/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"users",
+						"1"
 					]
 				}
 			},

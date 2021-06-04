@@ -35,11 +35,11 @@ class User(Profil):
     def set_gender(self, gender):
         self.__gender = gender
 
-    def get_semester(self, semester):
-        self.__semester = semester
-
     def get_semester(self):
         return self.__semester
+
+    def set_semester(self, semester):
+        self.__semester = semester
 
     def set_studiengang(self, studiengang):
         self.__studiengang = studiengang
@@ -54,8 +54,8 @@ class User(Profil):
 
         des jeweiligen Kunden."""
         # TODO LERNTYP MODUL dazu allgemein attribute anschaun pls
-        return "Customer: {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_authId(), self.get_name(), self.get_email(),
-                                                     self.get_lerntyp(), self.get_modul())
+        return "Customer: {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_authId(), self.get_name(),
+                                                         self.get_email(), self.get_lerntyp(), self.get_modul())
 
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -70,5 +70,7 @@ class User(Profil):
         obj.set_name(dictionary["name"])
         obj.set_email(dictionary["email"])
         obj.set_gender(dictionary["gender"])
+        obj.set_semester(dictionary["semester"])
+        obj.set_studiengang(dictionary["studiengang"])
 
         return obj

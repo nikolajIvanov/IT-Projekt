@@ -14,11 +14,12 @@ class UserApi(Resource):
         adm = Administration()
         return adm.delete_user_by_authId(authId)
 
-    @api.expect(user, validate=True)
+    # @api.expect(user, validate=True)
+    @api.expect(user)
     @api.marshal_with(user)
     def put(self, authId):
         adm = Administration()
         nutzer = User.from_dict(api.payload)
-        return adm.update_user_by_id(nutzer)
+        return adm.update_user_by_authId(nutzer)
 
 
