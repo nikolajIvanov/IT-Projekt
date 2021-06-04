@@ -68,7 +68,7 @@ class Administration(object):
         :return:
         """
         with UserMapper() as mapper:
-            return mapper.find_by_key(number)
+            return mapper.find_by_authId(number)
 
     def get_user_by_id(self, number):
         """
@@ -103,7 +103,7 @@ class Administration(object):
         :return: Alle Objekte des Nutzers
         """
         with LerngruppeMapper() as mapper:
-            return mapper.insert_by_authId(lerngruppe)
+            return mapper.insert_lerngruppe(lerngruppe)
     
     # Alle Lerngruppen anzeigen lassen
     
@@ -186,4 +186,4 @@ class Administration(object):
         :return:
         """
         with LerngruppeMapper() as mapper:
-            return mapper.insert_use(lerngruppe)
+            return mapper.insert_user(lerngruppe)

@@ -8,7 +8,7 @@ class UserApi(Resource):
     @api.marshal_with(user)
     def get(self, authId):
         adm = Administration()
-        return adm.get_user_by_id(authId)
+        return adm.get_user_by_authId(authId)
 
     def delete(self, authId):
         adm = Administration()

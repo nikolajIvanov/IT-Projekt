@@ -36,7 +36,7 @@ class UserMapper(Mapper):
 
         return result
 
-    def find_by_key(self, key):
+    def find_by_authId(self, key):
         """
         :param key: Ist die authId
         :return: Alle Objekte des User
@@ -365,28 +365,6 @@ class UserMapper(Mapper):
 
         return user
 
-    def get_modulId_by_modul(self, modul):
-        """
-        :param modul: Ist das Modul (string)
-        :return: modulid
-        """
-        # Öffnen der Datenbankverbindung
-        cursor = self._cnx.cursor(prepared=True)
-
-        # Erstellen des SQL-Befehls
-        query = """SELECT modul.id FROM TeamUP.modul WHERE bezeichnung=%s"""
-
-        # Ausführen des SQL-Befehls
-        cursor.execute(query, (modul,))
-
-        # Speichern der SQL Antwort
-        modulId = cursor.fetchone()
-
-        # Schließen der Datenbankverbindung
-        self._cnx.commit()
-        cursor.close()
-        # Rückgabe der Modulid
-        return modulId[0]
 
     def get_Id_by_authId(self, authId):
         """
