@@ -10,6 +10,11 @@ const theme = {
             justifyContent: "center",
             alignItems:"center",
         },
+        profileBorder:{
+            width: "50%",
+            marginTop: "2%",
+            marginBottom: "2%"
+        },
         primary:{
             main: '#2D89FF97'
         },
@@ -23,7 +28,6 @@ const theme = {
             }
         },
         card:{
-            width: "60%",
             padding: "2%",
             display: "flex",
             flexDirection: "column",
@@ -44,7 +48,7 @@ const theme = {
             },
             bold:{
                 fontSize: 'x-large',
-                fontWeight: 'bold'
+                fontWeight: 'bold',
             },
         },
         h3:{

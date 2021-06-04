@@ -1,6 +1,7 @@
 import React from 'react';
 import ProfilAvatar from "../../../components/Avatar/ProfilAvatar";
 import InputFeld from "../../../components/Textfeld/InputFeld";
+import theme from "../../../theme";
 
 
 function SectionAvatar(props) {
@@ -18,7 +19,7 @@ function SectionAvatar(props) {
     }
 
     return (
-        <div style={styles.avatar}>
+        <div style={theme.card}>
             <ProfilAvatar img={props.apiObject.getProfilBild()} handleChange={handleBildChange}/> {/*TODO: Prüfen wie man das Bild ändert */}
             <InputFeld inhalt={props.apiObject.getName()} onChange={handleNameChange}/>
         </div>
@@ -26,12 +27,3 @@ function SectionAvatar(props) {
 }
 
 export default SectionAvatar;
-
-const styles = {
-    avatar: {
-        display: "flex",
-        flexDirection: 'column',
-        alignItems: "center",
-        justifyContent: "center"
-    }
-}
