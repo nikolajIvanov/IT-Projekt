@@ -33,7 +33,9 @@ CREATE TABLE `users` (
     `email` varchar(128) NOT NULL DEFAULT '',
     `beschreibung` varchar(128) NOT NULL DEFAULT '',
     `lerntyp` varchar(128) NOT NULL DEFAULT '',
-    `gender` varchar(128) NOT NULL DEFAULT ''
+    `gender` varchar(128) NOT NULL DEFAULT '',
+    `semester` int(11) NOT NULL ,
+    `studiengang` varchar(128) NOT NULL DEFAULT ''
 
  );
 
@@ -62,20 +64,10 @@ CREATE TABLE `lerngruppe` (
     `lerntyp` varchar(128) NOT NULL DEFAULT 999,
     `modulId` int(11) NOT NULL,
     `admin` varchar(128) NOT NULL DEFAULT '',
-    `beschreibung` varchar(128) NOT NULL DEFAULT '',
-    FOREIGN KEY (modulId) REFERENCES modul (id)
+    `beschreibung` varchar(128) NOT NULL DEFAULT ''
 );
 
 CREATE TABLE `userInLerngruppe`
-(
-    `userId`       int(11) NOT NULL,
-    `lerngruppeId` int(11) NOT NULL,
-    FOREIGN KEY (userId) REFERENCES users (id),
-    FOREIGN KEY (lerngruppeId) REFERENCES lerngruppe (id),
-    PRIMARY KEY (userId, lerngruppeId)
-);
-
-CREATE TABLE `adminInLerngruppe`
 (
     `userId`       int(11) NOT NULL,
     `lerngruppeId` int(11) NOT NULL,
@@ -92,5 +84,3 @@ CREATE TABLE `lerngruppeInModul`
     FOREIGN KEY (modulId) REFERENCES modul (id),
     PRIMARY KEY (lerngruppeId, modulId)
 );
-
-
