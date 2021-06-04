@@ -33,6 +33,7 @@ class Lerngruppe(Profil):
     def from_dict(dictionary=dict()):
         """"Umwandeln eines Python dict() in eine Lerngruppe()."""
         obj = Lerngruppe()
+        obj.set_id(dictionary["id"])
         obj.set_modul(dictionary["modul"])
         obj.set_profilBild(dictionary["profilBild"])
         obj.set_beschreibung(dictionary["beschreibung"])
