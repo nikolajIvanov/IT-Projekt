@@ -120,7 +120,7 @@ class App extends React.Component {
                         this.setPasswordError(err.message);
                 }
             });
-       //this.checkIfExist();
+        //this.checkIfExist();
     }
 
     handleSignUp(){
