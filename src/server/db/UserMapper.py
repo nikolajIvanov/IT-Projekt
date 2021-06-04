@@ -8,6 +8,29 @@ class UserMapper(Mapper):
     def __init__(self):
         super().__init__()
 
+    def get_modulId_by_modul(self, modul):
+        """
+        :param modul: Ist das Modul (string)
+        :return: modulid
+        """
+        # Öffnen der Datenbankverbindung
+        cursor = self._cnx.cursor(prepared=True)
+
+        # Erstellen des SQL-Befehls
+        query = """SELECT modul.id FROM TeamUP.modul WHERE bezeichnung=%s"""
+
+        # Ausführen des SQL-Befehls
+        cursor.execute(query, (modul,))
+
+        # Speichern der SQL Antwort
+        modulId = cursor.fetchone()
+
+        # Schließen der Datenbankverbindung
+        self._cnx.commit()
+        cursor.close()
+        # Rückgabe der Modulid
+        return modulId[0]
+
     def find_all(self):
         result = []
         cursor = self._cnx.cursor()
@@ -204,7 +227,7 @@ class UserMapper(Mapper):
         cursor.close()
 
         # Rückgabe aller Userdaten
-        return self.find_by_key(nutzer.get_authId())
+        return self.find_by_authId(nutzer.get_authId())
 
     def update_by_authId(self, nutzer):
         """
@@ -263,7 +286,7 @@ class UserMapper(Mapper):
         cursor.close()
 
         # Rückgabe der Userdaten (aktualisiert)
-        return self.find_by_key(nutzer.get_authId())
+        return self.find_by_authId(nutzer.get_authId)
 
     def update_by_id(self, nutzer):
         """

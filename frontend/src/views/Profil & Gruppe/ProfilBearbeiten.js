@@ -55,9 +55,6 @@ class ProfilBearbeiten extends React.Component {
     }
 
 
-
-
-
     // Kümmert sich um die Änderungen, die der User auf der Seite macht und speichert sie im state
     handleChange = (user) => {
         this.setState({
