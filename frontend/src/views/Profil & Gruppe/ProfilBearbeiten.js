@@ -8,7 +8,7 @@ import SectionLerngruppe from "./Sections/SectionLerngruppe";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from 'firebase';
 import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
-import {Card, CardActions, CardContent} from "@material-ui/core";
+import {Card, CardActions, CardContent, Modal, Paper, Typography} from "@material-ui/core";
 import UserBO from "../../bo/UserBO";
 import theme from '../../theme'
 import ButtonSpeichern from "../../components/Button/ButtonSpeichern";
@@ -18,7 +18,8 @@ class ProfilBearbeiten extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            apiUser: null
+            apiUser: null,
+            modalOpen: false
         }
     }
     // Wenn der Nutzer auf den Button "Update" klickt, wird diese Methode aufgerufen.
@@ -36,8 +37,24 @@ class ProfilBearbeiten extends React.Component {
         const user = new UserBO()
         user.setAll(this.state.apiUser)
         console.log(user)
-        //TeamupAPI
+        await TeamUpApi.getAPI().deleteUser(firebase.auth().currentUser.uid)
     }
+
+    löschenModal = () => {
+        this.setState({
+            modalOpen: true
+        })
+        return(
+            <div style={theme.root}>
+                <Paper style={theme.modalCard}>
+                    <h1>Wollen Sie ihr Profil wirklich löschen</h1>
+                    <ButtonBestätigen inhalt={"Bestätigen"}/>
+                </Paper>
+            </div>
+        )
+    }
+
+
 
 
 
@@ -88,8 +105,28 @@ class ProfilBearbeiten extends React.Component {
                     </Grid>
                     </CardContent>
                         <CardActions style={theme.root}>
+                            <ButtonLöschen inhalt={"Löschen"} onClick={this.löschenModal}/>
                             <ButtonSpeichern inhalt={"Update"} onClick={this.handleUpdate}/>
-                            <ButtonLöschen inhalt={"Löschen"} onClick={this.handleClick}/>
+                            { this.state.modalOpen ?
+                                <Modal open={true}>
+                                    <div style={theme.root}>
+                                        <Paper style={theme.modalCard}>
+                                                <p style={theme.h3.bold}>Willst du uns wirklich verlassen? 😢 </p>
+                                            <p style={theme.p}>Du verlierst dadurch deinen Zugang zu TeamUP</p>
+                                            <Grid container spacing={1} style={theme.root}>
+                                                <Grid item sx={6}>
+                                                    <ButtonLöschen inhalt={"Bestätigen"}/>
+                                                </Grid>
+                                                <Grid item sx={6}>
+                                                <ButtonBestätigen inhalt={"Doch bleiben"}
+                                                                  onClick={() => this.setState({
+                                                                      modalOpen: false
+                                                                  })}/>
+                                                </Grid>
+                                            </Grid>
+                                        </Paper>
+                                    </div>
+                                </Modal> : null}
                         </CardActions>
                 </Card> : null }
             </div>
