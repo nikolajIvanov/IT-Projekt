@@ -40,7 +40,6 @@ class Profil(BusinessObject):
         self.__lerntyp = typ
 
     def get_modul(self):
-
         return self.__modul
 
     def set_modul(self, module):

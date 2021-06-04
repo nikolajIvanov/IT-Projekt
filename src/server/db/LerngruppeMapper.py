@@ -38,10 +38,10 @@ class LerngruppeMapper(Mapper):
         cursor.execute("SELECT id, lerntyp, name, beschreibung, bild, admin from TeamUP.lerngruppe")
         tuples = cursor.fetchall()
 
-        for (id, modul, name, beschreibung, profilbild, admin) in tuples:
+        for (id, lerntyp, name, beschreibung, profilbild, admin) in tuples:
             lerngruppe = Lerngruppe()
             lerngruppe.set_id(id)
-            lerngruppe.set_modul(modul)
+            lerngruppe.set_lerntyp(lerntyp)
             lerngruppe.set_name(name)
             lerngruppe.set_beschreibung(beschreibung)
             lerngruppe.set_profilBild(profilbild)
@@ -98,19 +98,16 @@ class LerngruppeMapper(Mapper):
         cursor = self._cnx.cursor()
 
         # Query um alle informationen einer bestimmten lerngruppe zu bekommen
-        query = """SELECT lerntyp, name, beschreibung, bild, admin from TeamUP.lerngruppe
-        WHERE id = (%s)"""
+        query = """SELECT lerntyp, name, beschreibung, bild, admin from TeamUP.lerngruppe WHERE id = (%s)"""
 
-        # daten für die Query
-        data = gruppenId
-
-        cursor.execute(query, (data,))
+        cursor.execute(query, (gruppenId,))
 
         # lerngruppendaten
         tupel = cursor.fetchall()
 
         (lerntyp, name, beschreibung, bild, admin) = tupel[0]
         lerngruppe = Lerngruppe()
+        lerngruppe.set_id(gruppenId)
         lerngruppe.set_lerntyp(lerntyp)
         lerngruppe.set_name(name)
         lerngruppe.set_beschreibung(beschreibung)

@@ -5,12 +5,12 @@ from server.bo.Lerngruppe import Lerngruppe
 
 
 class LerngruppeApi(Resource):
-    @api.marshal_with(Lerngruppe)
+    @api.marshal_with(lerngruppe)
     def get(self, id):
         adm = Administration()
         return adm.get_Lerngruppe_by_id(id)
 
-    @api.marshal_with(Lerngruppe)
+    @api.marshal_with(lerngruppe)
     def delete(self, name):
         adm = Administration()
         return adm.delete_lerngruppe_by_name(name)

@@ -11,8 +11,7 @@ class UsersApi(Resource):
         :return: nutzer
         """
         adm = Administration()
-        nutzer = adm.get_all_users()
-        return nutzer
+        return adm.get_all_users()
 
     # @api.expect(user, validate=True)
     @api.expect(user)
