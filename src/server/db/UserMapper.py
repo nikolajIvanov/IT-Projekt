@@ -286,7 +286,7 @@ class UserMapper(Mapper):
         cursor.close()
 
         # Rückgabe der Userdaten (aktualisiert)
-        return self.find_by_authId(nutzer.get_authId)
+        return self.find_by_authId(authId)
 
     def update_by_id(self, nutzer):
         """
