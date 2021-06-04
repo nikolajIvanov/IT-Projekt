@@ -239,7 +239,7 @@ class UserMapper(Mapper):
 
         # Erstellen des SQL-Befehls
         query = """UPDATE TeamUP.users SET authId=%s, bild=%s, name=%s, geburtsdatum=%s, email=%s,
-                       beschreibung=%s, lerntyp=%s, gender=%s WHERE authId=%s"""
+                       beschreibung=%s, lerntyp=%s, gender=%s, semester=%s WHERE authId=%s"""
 
         # Auslesend der authId zur weiteren verwendung
         authId = nutzer.get_authId()
@@ -247,7 +247,8 @@ class UserMapper(Mapper):
         # Auslesen und speichern der restlichen User Daten
         daten = (authId, nutzer.get_profilBild(), nutzer.get_name(),
                  datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'),
-                 nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(), authId)
+                 nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(),
+                 nutzer.get_semester,authId)
 
         # Ausführen des SQL-Behls
         cursor.execute(query, (daten))
