@@ -16,8 +16,18 @@ const theme = {
             marginBottom: "2%"
         },
         button:{
-            backgroundColor: '#2D89FF97',
-            color: "white"
+            primary: {
+                backgroundColor: '#2D89FF97',
+                color: "white"
+            },
+            secondary:{
+                backgroundColor: '#E2E2E296',
+                color: "black"
+            },
+            delete:{
+                backgroundColor: '#FF030397',
+                color: "white"
+            }
         },
         primary:{
             main: '#2D89FF97'
@@ -35,6 +45,14 @@ const theme = {
             padding: "2%",
             display: "flex",
             flexDirection: "column",
+            alignItems:"center",
+        },
+        modalCard: {
+            marginTop: "15%",
+            padding: "2%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
             alignItems:"center",
         },
         h1:{

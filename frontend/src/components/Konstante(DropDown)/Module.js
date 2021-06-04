@@ -5,15 +5,15 @@ const Module = [
         label: '',
     },
     {
-        value: "programmieren",
+        value: "Programmieren",
         label: 'Programmieren',
     },
     {
-        value: "data-science",
+        value: "Data Science",
         label: 'Data Science',
     },
     {
-        value: "marketing",
+        value: "Marketing",
         label: 'Marketing',
     },
 ]

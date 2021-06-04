@@ -9,7 +9,7 @@ function ButtonBestätigen(props) {
         <div>
             <Button
                 onClick={props.onClick}
-                style={theme.button}
+                style={theme.button.primary}
                 disabled={props.disabled}
                 >
                 {props.inhalt}

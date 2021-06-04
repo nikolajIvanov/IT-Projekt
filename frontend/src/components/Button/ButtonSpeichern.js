@@ -9,7 +9,7 @@ function ButtonSpeichern(props) {
         <div>
             <Button
                 onClick={props.onClick}
-                style={theme.button}
+                style={theme.button.secondary}
                 disabled={props.disabled}
                 startIcon={<Save />}
             >
