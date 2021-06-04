@@ -18,13 +18,13 @@ export default function MultiLine(props) {
         <form className={classes.root} noValidate autoComplete="off">
             <div>
                 <TextField
-                    disabled={props.disabled}
                     id="beschreibung"
-                    label="Beschreibung"
+                    label="Bio"
                     multiline
                     rows={4}
-                    variant="outlined"
                     onChange={props.handleChange}
+                    defaultValue={props.inhalt}
+                    variant="outlined"
                 />
             </div>
         </form>

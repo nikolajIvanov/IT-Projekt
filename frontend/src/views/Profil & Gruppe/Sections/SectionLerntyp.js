@@ -17,8 +17,8 @@ export default function SectionLerntyp(props) {
 
     return (
         <div style={theme.card}>
-            <p style={theme.h2.bold}>Lerntyp:</p>
-            <Grid container spacing={1}>
+            <p style={theme.h3.bold}>Lerntyp:</p>
+            <Grid container spacing={1} style={theme.card}>
                 <Grid item sx={6}>
                     <DropDown map={Lerntypen} input={props.apiObject.getLerntyp()} handleChange={handleLerntypChange}/>
                 </Grid>

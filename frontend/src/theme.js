@@ -15,6 +15,10 @@ const theme = {
             marginTop: "2%",
             marginBottom: "2%"
         },
+        button:{
+            backgroundColor: '#2D89FF97',
+            color: "white"
+        },
         primary:{
             main: '#2D89FF97'
         },

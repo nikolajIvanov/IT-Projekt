@@ -36,7 +36,7 @@ export default function SectionSteckbrief(props) {
         <div>
             <Grid style={theme.root} container spacing={1}>
                 <Grid style={theme.root} item xs={12}>
-                    <MultiLine disabled={props.disabled} handleChange={handleBeschreibungChange} />
+                    <MultiLine disabled={props.disabled} inhalt={props.apiObject.getBeschreibung()} handleChange={handleBeschreibungChange} />
                 </Grid>
                 <Grid item xs={6}>
                     <p style={theme.h3.bold}>Alter:</p>

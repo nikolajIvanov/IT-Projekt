@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import '../../assets/App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "../Home/Home";
-import Profile from "../Profil & Gruppe/Profile";
+import Profile from "../Profil & Gruppe/ProfilBearbeiten";
 import Gruppen from "../Profil & Gruppe/Gruppe"
 import Navigation from "../Navigation";
 import '../../assets/App.css';
