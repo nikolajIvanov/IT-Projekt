@@ -61,6 +61,7 @@ class User(Profil):
     def from_dict(dictionary=dict()):
         """"Umwandeln eines Python dict() in einen Customer()."""
         obj = User()
+        obj.set_id(dictionary["id"])
         obj.set_authId(dictionary["authId"])
         obj.set_modul(dictionary["modul"])
         obj.set_profilBild(dictionary["profilBild"])
