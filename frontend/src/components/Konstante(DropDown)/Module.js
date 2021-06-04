@@ -1,10 +1,6 @@
 
 const Module = [
     {
-        value:'',
-        label: '',
-    },
-    {
         value: "Programmieren",
         label: 'Programmieren',
     },

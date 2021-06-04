@@ -1,5 +1,5 @@
-import UserBO from "../bo/UserBO";
 import LerngruppeBO from "../bo/LerngruppeBO";
+import UserBO from "../bo/UserBO";
 
 // Die komplette API Logik wird über diese Klasse gehandelt und an die jeweiligen Frontend Seiten übergeben.
 export default class TeamUpApi {
@@ -57,7 +57,7 @@ export default class TeamUpApi {
 
     // Ruft im Backend einen konkreten User auf und updatet die Werte, die im Übergabeparameter vorhanden sind.
     updateUser(authId, user){
-        return this.#update(this.#userURL(authId), user);
+        return this.#update(this.#userURL(authId), user, UserBO);
     }
 
     deleteUser(authId){
@@ -110,7 +110,7 @@ export default class TeamUpApi {
     }
 
     // Generische Methode um ein vorhandenes Objekt im Backend zu updaten (PUT Methode).
-    #update = (url, businessObject)=>{
+    #update = (url, businessObject, BO)=>{
         return this.#fetchAdvanced(url, {
             method: 'PUT',
             headers: {
@@ -118,7 +118,14 @@ export default class TeamUpApi {
                 'Content-type': 'application/json',
             },
             body: JSON.stringify(businessObject)
-            }).then(r => console.log(r))
+            }).then( responseJSON => {
+            let responseBO = BO.fromJSON(responseJSON)[0];
+            return new Promise(function(resolve){
+                resolve(responseBO);
+            })
+        })
+
+
     }
     // Generische Methode um ein vorhandenes Objekt im Backend zu löschen (DELETE Methode).
     // Vom Backend wir ein Statuscode übermittelt um zu überprüfen ob das Löschen geklappt hat.
