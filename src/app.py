@@ -8,8 +8,9 @@ from server.api.UserApi import UserApi
 from server.api.LerngruppeApi import LerngruppeApi
 from server.api.LerngruppenApi import LerngruppenApi
 from server.api.LerngruppenmitgliedApi import LerngruppenmitgliedApi
-from server.api.NutzerByNameApi import NutzerByNameApi
 from server.api.model import api, app
+from server.api.StudiengangApi import StudiengangApi
+from server.api.ModulApi import ModulApi
 
 
 CORS(app, resources=r'/*')
@@ -31,6 +32,9 @@ api.add_resource(UserApi, '/users/<string:authId>')
 api.add_resource(LerngruppenApi, '/lerngruppen')
 api.add_resource(LerngruppeApi, '/lerngruppe/<int:id>')
 api.add_resource(LerngruppenmitgliedApi, '/lerngruppen-mitglied/<string:name>')
+
+api.add_resource(StudiengangApi, '/studiengang')
+api.add_resource(ModulApi, '/modul/<string:studiengang>')
 
 if __name__ == '__main__':
     # app.run(debug=True)

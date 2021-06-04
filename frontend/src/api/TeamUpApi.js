@@ -13,14 +13,10 @@ export default class TeamUpApi {
     // Die URL für alle User.
     #allUsersURL = () => `${this.#serverBaseURL}/users`;
 
-    //Gruppe vom Backend holen
-    getGruppeUrl = (gruppenName) => `${this.#serverBaseURL}/Lerngruppe/${gruppenName}`;
-    //Gruppe Updaten
-    updateGruppeUrl =(gruppenName) => `${this.#serverBaseURL}/LerngruppeBO/${gruppenName}`;
-    // Gruppe löschen
-    deleteGruppeUrl = (gruppenName) => `${this.#serverBaseURL}/LerngruppeBO/${gruppenName}`;
+    // Die URL für eine Konkrete Lerngruppe
+    #gruppeUrl = (gruppenId) => `${this.#serverBaseURL}/lerngruppe/${gruppenId}`;
     // Neue Gruppe anlegen
-    postGruppeUrl = (gruppenName) => `${this.#serverBaseURL}/LerngruppeBO/${gruppenName}`;
+    #allGruppenUrl = () => `${this.#serverBaseURL}/lerngruppen`;
 
     // Wird bei jedem API Aufruf als erstes aufgerufen. Es erzeugt ein Objekt der Klasse TeamUpApi um somit die
     // einzelnen Objektmethoden aufrufen zu können.
@@ -64,16 +60,16 @@ export default class TeamUpApi {
         return this.#delete(this.#userURL(authId));
     }
 
-    getGruppe(name){
-        return this.#getSingle(this.getGruppeUrl(name), LerngruppeBO);
+    getGruppe(gruppenId){
+        return this.#getSingle(this.#gruppeUrl(gruppenId), LerngruppeBO);
     }
 
     setGruppe(lerngruppe){
-        return this.#add(this.postGruppeUrl(), lerngruppe);
+        return this.#add(this.#allGruppenUrl(), lerngruppe);
     }
 
-    updateGruppe(name, lerngruppe){
-        return this.#update(this.updateGruppeUrl(name),lerngruppe)
+    updateGruppe(gruppenId, lerngruppe){
+        return this.#update(this.#gruppeUrl(gruppenId),lerngruppe)
     }
 
     //TODO Delete Gruppe einfügen

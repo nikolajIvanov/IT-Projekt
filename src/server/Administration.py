@@ -6,6 +6,8 @@ from .bo.Lerngruppe import Lerngruppe
 # Import aller Mapper Klassen
 from .db.UserMapper import UserMapper
 from .db.LerngruppeMapper import LerngruppeMapper
+from .db.StudiengangMapper import StudiengangMapper
+from .db.ModulMapper import ModulMapper
 
 
 # TODO Überlegen ob man was anderes braucht als get user bei Id
@@ -195,3 +197,11 @@ class Administration(object):
         """
         with LerngruppeMapper() as mapper:
             return mapper.insert_user(lerngruppe)
+
+    def get_all_studiengang(self):
+        with StudiengangMapper() as mapper:
+            return mapper.find_all()
+
+    def get_modul_by_studiengang(self, studiengang):
+        with ModulMapper() as mapper:
+            return mapper.get_studiengangId_by_studiengang(studiengang)

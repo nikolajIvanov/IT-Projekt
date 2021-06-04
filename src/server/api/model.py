@@ -30,3 +30,11 @@ lerngruppe = api.inherit('Lerngruppe', profil, {
     'mitglieder': fields.List(fields.String, attribute=lambda x: x.get_mitglieder(), description='Mitglieder einer Lerngruppe'),
     'admin': fields.String(attribute=lambda x: x.get_admin(), description='Administrator einer Lerngruppe'),
 })
+
+studiengang = api.inherit('StudiengangBO', bo, {
+    'studiengang': fields.String(attribute=lambda x: x.get_studiengang(), description='Administrator einer Lerngruppe'),
+})
+
+modul = api.inherit('ModulBO', bo, {
+    'modul': fields.String(attribute=lambda x: x.get_modul(), description='Administrator einer Lerngruppe'),
+})
