@@ -64,8 +64,7 @@ CREATE TABLE `lerngruppe` (
     `lerntyp` varchar(128) NOT NULL DEFAULT 999,
     `modulId` int(11) NOT NULL,
     `admin` varchar(128) NOT NULL DEFAULT '',
-    `beschreibung` varchar(128) NOT NULL DEFAULT '',
-    FOREIGN KEY (modulId) REFERENCES modul (id)
+    `beschreibung` varchar(128) NOT NULL DEFAULT ''
 );
 
 CREATE TABLE `userInLerngruppe`
