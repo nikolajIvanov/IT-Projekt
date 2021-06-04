@@ -8,7 +8,7 @@ class UserApi(Resource):
     @api.marshal_with(user)
     def get(self, authId):
         adm = Administration()
-        return adm.get_user_by_authId(authId)
+        return adm.get_user_by_id(authId)
 
     def delete(self, authId):
         adm = Administration()
@@ -19,6 +19,6 @@ class UserApi(Resource):
     def put(self, authId):
         adm = Administration()
         nutzer = User.from_dict(api.payload)
-        return adm.update_user_by_authId(nutzer)
+        return adm.update_user_by_id(nutzer)
 
 

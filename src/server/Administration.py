@@ -37,6 +37,14 @@ class Administration(object):
         with UserMapper() as mapper:
             return mapper.update_by_authId(nutzer)
 
+    def update_user_by_id(self, nutzer):
+        """
+        :param nutzer: Ist die Id
+        :return: Alle Objekte des Nutzers (aktualisiert)
+        """
+        with UserMapper() as mapper:
+            return mapper.update_by_id(nutzer)
+
     def delete_user_by_authId(self, nutzer):
         """
         :param nutzer: Ist die authId
@@ -61,6 +69,15 @@ class Administration(object):
         """
         with UserMapper() as mapper:
             return mapper.find_by_key(number)
+
+    def get_user_by_id(self, number):
+        """
+
+        :param number: Ist die UserID
+        :return:
+        """
+        with UserMapper() as mapper:
+            return mapper.find_by_id(number)
 
     def get_user_by_name(self, value):
         with UserMapper() as mapper:

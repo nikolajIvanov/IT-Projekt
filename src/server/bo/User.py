@@ -8,6 +8,8 @@ class User(Profil):
         self.__authId = ""
         self.__geburtsdatum = ""
         self.__gender = ""
+        self.__semester = ""
+        self.__studiengang = ""
 
     def get_email(self):
         return self.__email
@@ -32,6 +34,18 @@ class User(Profil):
 
     def set_gender(self, gender):
         self.__gender = gender
+
+    def get_semester(self, semester):
+        self.__semester = semester
+
+    def get_semester(self):
+        return self.__semester
+
+    def set_studiengang(self, studiengang):
+        self.__studiengang = studiengang
+
+    def get_studiengang(self):
+        return self.__studiengang
 
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz.
