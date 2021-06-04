@@ -4,15 +4,15 @@ const Studiengang = [
         label: '',
     },
     {
-        value: "wi",
-        label: 'WI',
+        value: "Wirtschaftsinformatik",
+        label: 'Wirtschaftsinformatik',
     },
     {
-        value: "id",
+        value: "Informationsdesign",
         label: 'Informationsdesign',
     },
     {
-        value: "omm",
+        value: "Online-Medien-Management",
         label: 'Online-Medien-Management',
     },
 ]

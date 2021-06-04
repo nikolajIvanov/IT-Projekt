@@ -8,7 +8,7 @@ import SectionLerngruppe from "./Sections/SectionLerngruppe";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from 'firebase';
 import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
-import {Paper} from "@material-ui/core";
+import {Card, CardActions, CardContent} from "@material-ui/core";
 import UserBO from "../../bo/UserBO";
 import theme from '../../theme'
 
@@ -58,25 +58,30 @@ class Profile extends React.Component {
         return (
             <div style={theme.root}>
                 {/* Überprüft ob die Daten vom User geladen sind und fügt sie dann in die Komponenten ein. */}
-                { apiUser ?  <Paper style={theme.card}>
+                { apiUser ?
+                    <Card style={theme.profileBorder}>
+                    <CardContent>
                     <SectionAvatar apiObject={apiUser} handleChange={this.handleChange}/>
                     <Grid container spacing={3}>
-                        <Grid item xs={12}>
+                        <Grid style={theme.root} item xs={12}>
                             <SectionSteckbrief disabled={this.state.disabled} apiObject={apiUser}
                                                handleChange={this.handleChange} text={"Steckbrief"} />
                         </Grid>
                         <Grid style={theme.root} item xs={12}>
-                            <SectionLerntyp apiObject={apiUser} text={"Lerntyp"} handleChange={this.handleChange}/>
+                            <SectionLerntyp apiObject={apiUser} handleChange={this.handleChange}/>
                         </Grid>
                         <Grid style={theme.root} item xs={12}>
                             <SectionLerngruppe text={"Lerngruppen"}/>
                         </Grid>
                     </Grid>
+                    </CardContent>
+                        <CardActions style={theme.root}>
                     <ButtonBestätigen disabled={this.state.disabled} inhalt={"Update"} onClick={this.handleClick}/>
-                </Paper> : null }
+                        </CardActions>
+                </Card> : null }
             </div>
         );
-    }
+    };
 }
 
 export default (Profile);

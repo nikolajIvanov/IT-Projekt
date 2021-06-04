@@ -16,14 +16,16 @@ export default function SectionLerntyp(props) {
     }
 
     return (
-        <div>
-            <Grid container direction="column" justify="center" alignItems="center">
-                <p style={theme.h1.bold}>{props.text}</p>
-                <div style={theme.root}>
+        <div style={theme.card}>
+            <p style={theme.h2.bold}>Lerntyp:</p>
+            <Grid container spacing={1}>
+                <Grid item sx={6}>
                     <DropDown map={Lerntypen} input={props.apiObject.getLerntyp()} handleChange={handleLerntypChange}/>
+                </Grid>
+                <Grid item sx={6}>
                     <label>{props.lerntyp}</label>
                     <AddIcon />
-                </div>
+                </Grid>
             </Grid>
         </div>
     );
