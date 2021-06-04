@@ -11,6 +11,7 @@ class LerngruppenmitgliedApi(Resource):
         return adm.delete_user_by_list(name)
 
     @api.marshal_with(lerngruppe)
-    def post(self, name):
+    def post(self, ):
         adm = Administration()
-        return adm.create_new_mitglied(name)
+        proposal = Lerngruppe.from_dict(api.payload)
+        return adm.create_new_mitglied(proposal)
