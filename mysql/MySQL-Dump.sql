@@ -12,6 +12,8 @@ DROP TABLE IF EXISTS `lerngruppe`;
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `modul`;
 DROP TABLE IF EXISTS `lerntyp`;
+DROP TABLE IF EXISTS `semester`;
+DROP TABLE IF EXISTS `studiengang`;
 
 
 
@@ -33,7 +35,9 @@ CREATE TABLE `users` (
     `email` varchar(128) NOT NULL DEFAULT '',
     `beschreibung` varchar(128) NOT NULL DEFAULT '',
     `lerntyp` varchar(128) NOT NULL DEFAULT '',
-    `gender` varchar(128) NOT NULL DEFAULT ''
+    `gender` varchar(128) NOT NULL DEFAULT '',
+    `semester` int(11) NOT NULL DEFAULT '',
+    `studiengang` varchar(128) NOT NULL DEFAULT ''
 
  );
 
@@ -83,5 +87,3 @@ CREATE TABLE `lerngruppeInModul`
     FOREIGN KEY (modulId) REFERENCES modul (id),
     PRIMARY KEY (lerngruppeId, modulId)
 );
-
-
