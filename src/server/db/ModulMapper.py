@@ -70,10 +70,10 @@ class ModulMapper(Mapper):
 
         # Auflösen der ersten SQL Antwort (User) und setzen der Parameter
         for (id, modul) in tuples:
-            modul = ModulBO()
-            modul.set_id(id)
-            modul.set_modul(modul)
-            result.append(modul)
+            obj = ModulBO()
+            obj.set_id(id)
+            obj.set_modul(modul)
+            result.append(obj)
 
         # Datenbankverbindung schließen
         self._cnx.commit()
