@@ -7,12 +7,35 @@ class LerngruppeMapper(Mapper):
     def __init__(self):
         super().__init__()
 
+    def get_modulId_by_modul(self, modul):
+        """
+        :param modul: Ist das Modul (string)
+        :return: modulid
+        """
+        # Öffnen der Datenbankverbindung
+        cursor = self._cnx.cursor(prepared=True)
+
+        # Erstellen des SQL-Befehls
+        query = """SELECT modul.id FROM TeamUP.modul WHERE bezeichnung=%s"""
+
+        # Ausführen des SQL-Befehls
+        cursor.execute(query, (modul,))
+
+        # Speichern der SQL Antwort
+        modulId = cursor.fetchone()
+
+        # Schließen der Datenbankverbindung
+        self._cnx.commit()
+        cursor.close()
+        # Rückgabe der Modulid
+        return modulId[0]
+
     def find_all(self):
         result = []
         cursor = self._cnx.cursor()
 
         # Daten von lerngruppe
-        cursor.execute("SELECT id, modulId, lerntyp, name, beschreibung, bild, admin from TeamUP.lerngruppe")
+        cursor.execute("SELECT id, lerntyp, name, beschreibung, bild, admin from TeamUP.lerngruppe")
         tuples = cursor.fetchall()
 
         for (id, modul, name, beschreibung, profilbild, admin) in tuples:
@@ -44,7 +67,7 @@ class LerngruppeMapper(Mapper):
         gruppen_id = cursor.fetchall()
 
         # Query um alle informationen einer bestimmten lerngruppe zu bekommen
-        query = """SELECT id, modulId, lerntyp, name, beschreibung, bild, admin from TeamUP.lerngruppe
+        query = """SELECT id,lerntyp, name, beschreibung, bild, admin from TeamUP.lerngruppe
         WHERE name = (%s)"""
 
         # daten für die Query
@@ -72,38 +95,35 @@ class LerngruppeMapper(Mapper):
         return result
 
     def find_by_id(self, gruppenId):
-        result = []
         cursor = self._cnx.cursor()
 
         # Query um alle informationen einer bestimmten lerngruppe zu bekommen
-        query = """SELECT id, modulId, lerntyp, name, beschreibung, bild, admin from TeamUP.lerngruppe
+        query = """SELECT lerntyp, name, beschreibung, bild, admin from TeamUP.lerngruppe
         WHERE id = (%s)"""
 
         # daten für die Query
         data = gruppenId
 
-        cursor.execute(query, data)
+        cursor.execute(query, (data,))
 
         # lerngruppendaten
         tupel = cursor.fetchall()
 
-        (id, modul, name, beschreibung, profilbild, admin, mitglieder) = tupel[0]
+        (lerntyp, name, beschreibung, bild, admin) = tupel[0]
         lerngruppe = Lerngruppe()
-        lerngruppe.set_id(id)
-        lerngruppe.set_modul(modul)
+        lerngruppe.set_lerntyp(lerntyp)
         lerngruppe.set_name(name)
         lerngruppe.set_beschreibung(beschreibung)
-        lerngruppe.set_profilBild(profilbild)
+        lerngruppe.set_profilBild(bild)
         lerngruppe.set_admin(admin)
-        lerngruppe.set_mitglieder(mitglieder)
-        result.append(lerngruppe)
+        #TODO MODULE UND MITGLIEDER WIEDERGEBEN
 
         self._cnx.commit()
         cursor.close()
 
-        return result
+        return lerngruppe
 
-    def insert_by_authId(self, lerngruppe):
+    def insert_lerngruppe(self, lerngruppe):
         """
         :param lerngruppe: Objekt der Klasse Lerngruppe
         :return lerngruppenID aus Datenbank
@@ -112,82 +132,64 @@ class LerngruppeMapper(Mapper):
         cursor = self._cnx.cursor(prepared=True)
 
         # Erstellen des SQL-Befehls für TABLE lerngruppe
-        query1 = """INSERT INTO teamup.lerngruppe (name, beschreibung, bild,
-                    lerntyp, modulId, admin) VALUES (%s ,%s ,%s ,%s ,%s, %s)"""
-
-        # Erstellen des SQL-Befehls für TABLE adminInLerngruppe für den admin
-        query2 = """INSERT INTO teamup.adminInLerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
-
+        query = """INSERT INTO teamup.lerngruppe (name, beschreibung, bild,
+                    lerntyp,admin) VALUES (%s ,%s ,%s ,%s ,%s)"""
         # Erstellen des SQL-Befehls für TABLE userInLerngruppe für den admin
-        query3 = """INSERT INTO teamup.userInLerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
 
         # Daten für lerngruppe
-        daten1 = (lerngruppe.get_name(), lerngruppe.get_beschreibung(),
-                  lerngruppe.get_profilBild(), lerngruppe.get_lerntyp(), lerngruppe.get_modul(),
-                  lerngruppe.get_admin())
-
-        # LerngruppenID bekommen über name
-        query5 = """SELECT id FROM teamup.lerngruppe WHERE name = (%s) """
-
-        # Lerngruppenname für SELECT-Abfrage von query5
-        daten3 = lerngruppe.get_name()
+        daten = (lerngruppe.get_name(), lerngruppe.get_beschreibung(),
+                 lerngruppe.get_profilBild(), lerngruppe.get_lerntyp(),
+                 lerngruppe.get_admin())
 
         # Ausführen des SQL-Befehls für lerngruppe
-        cursor.execute(query1, daten1)
+        cursor.execute(query, daten)
+
+        gruppenId = cursor.lastrowid
+
         self._cnx.commit()
+        cursor.close()
+        cursor = self._cnx.cursor(prepared=True)
 
-        # gruppen_id is die ID um den admin und user in die TABLES speichern zu können
-        cursor.execute(query5, daten3)
-        self._cnx.commit()
-        gruppen_id = cursor.fetchone()
+        gruppenMitglieder = lerngruppe.get_mitglieder()
 
-        # Daten für adminInLerngruppe & userInLerngruppe
-        daten2 = (lerngruppe.get_admin(), gruppen_id)
+        #Schleife setzt mitglieder in die UserInLerngruppe Tabelle
+        for i in gruppenMitglieder:
+            query1 = """INSERT INTO teamup.userinlerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
+            data1 = (i, gruppenId)
+            cursor.execute(query1,(data1))
 
-        # Ausführen des SQL-Befehls für adminInLerngruppe
-        cursor.execute(query2, daten2)
-        self._cnx.commit()
-
-        # Ausführen des SQL-Befehls für userInLerngruppe
-        cursor.execute(query3, daten2)
-
-        # Schließen der Datenbankverbindung
         self._cnx.commit()
         cursor.close()
 
-        return gruppen_id
+        cursor = self._cnx.cursor(prepared=True)
+
+        gruppenModule = lerngruppe.get_modul()
+        for i in gruppenModule:
+            query2 = """INSERT INTO teamup.lerngruppeinmodul (lerngruppeId, modulId) VALUES (%s, %s) """
+            data2 = (gruppenId, self.get_modulId_by_modul(i))
+            cursor.execute(query2,(data2))
+
+        self._cnx.commit()
+        cursor.close()
+    #TODO RETurn was soll returned werden
+        return self.find_by_id(gruppenId)
 
     def insert_user(self, lerngruppe):
         """
         :param lerngruppe:
         :return gruppen_id:
         """
-
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
+        gruppenMitglieder = lerngruppe.get_mitglieder()
+        for i in gruppenMitglieder:
+            query1 = """INSERT INTO teamup.userinlerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
+            data1 = (i, lerngruppe.get_id())
+            cursor.execute(query1,(data1))
 
-        # LerngruppenID bekommen über name
-        query1 = """SELECT id FROM teamup.lerngruppe WHERE name = (%s) """
-
-        # gruppen_id is die ID um den admin und user in die TABLES speichern zu können
-        cursor.execute(query1, lerngruppe.get_name())
-        gruppen_id = cursor.fetchall()
-
-        # Erstellen des SQL-Befehls für TABLE userInLerngruppe
-        query2 = """INSERT INTO teamup.userInLerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
-
-        # Mitglieds UID & GruppenID für die speicherung in TABLE userInLerngruppe
-        # Mitglied muss über die API via set_mitglieder gespeichert werden, d.h. ist das Mitglied
-        # in dieser Liste als einiges Element vorhanden
-        data = (lerngruppe.get_mitglieder(), gruppen_id)
-
-        cursor.execute(query2, data)
-
-        # Schließen der Datenbankverbindung
         self._cnx.commit()
         cursor.close()
-
-        return gruppen_id
+        return lerngruppe.get_id()
 
     def delete_user_from_lerngruppe(self, lerngruppe):
         """
@@ -221,37 +223,41 @@ class LerngruppeMapper(Mapper):
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
 
-        # LerngruppenID bekommen über name
-        query1 = """SELECT id FROM teamup.lerngruppe WHERE name = (%s) """
-
-        # gruppen_id is die ID um den admin und user in die TABLES speichern zu können
-        cursor.execute(query1, lerngruppe.get_name())
-        gruppen_id = cursor.fetchall()
-
         # Erstellen des SQL-Befehls um lerngruppendaten zu holen
         query = """UPDATE teamup.lerngruppe SET bild=%s, name=%s, beschreibung=%s, admin=%s,
                         lerntyp=%s WHERE lerngruppe.id=%s"""
-
         # Auslesen und speichern der restlichen User Daten
         daten = (lerngruppe.get_profilBild(), lerngruppe.get_name(), lerngruppe.get_beschreibung(),
-                 lerngruppe.get_admin(), lerngruppe.get_lerntyp())
-
-        # Erstellen des SQL-Befehls um das Lerngruppenmodul anzupassen
-        query1 = """UPDATE teamup.lerngruppeInModul SET modulId=%s  
-                    WHERE lerngruppeId=%s """
-
-        # Daten für das Update der TABLE lerngruppeInModul
-        daten1 = (gruppen_id, lerngruppe.get_modul())
-
-        # Ausführen des SQL-Befehls für die lerngruppen TABLE Daten
-        cursor.execute(query, daten)
-
-        # Ausführen des SQL-Befehls für die lerngruppeInModul TABLE Daten
-        cursor.execute(query1, daten1)
-
+                 lerngruppe.get_admin(), lerngruppe.get_lerntyp(), lerngruppe.get_id())
+        cursor.execute(query,(daten))
+        self._cnx.commit()
+        cursor.close()
+        # Erstellen des SQL-Befehls um alle bestehenden einträge der Gruppe in gruppeInModule zu löschen
+        query1 = """DELETE FROM TeamUP.userinmodul WHERE userId=%s"""
+        # Ausführen des SQL-Befehls
+        cursor.execute(query1, (lerngruppe.get_id(),))
         # Schließen der Datenbankverbindung
         self._cnx.commit()
         cursor.close()
+
+        # Öffnen einer Datenbankverbindung
+        cursor = self._cnx.cursor(prepared=True)
+        # Auslesen und speicher welche Module zu dieser Gruppe gehören
+        module = lerngruppe.get_modul()
+
+        # Für jedes Modul ein Datenbankeintrag erzeugen
+        for i in module:
+            # Erstellen des SQL-Befehls
+            query2 = """INSERT INTO TeamUP.lerngruppeinmodul(lerngruppeId, modulId)  VALUES (%s, %s)"""
+            # Auslesen und speichern der users.id und modul.id
+            data = (lerngruppe.get_id(), self.get_modulId_by_modul(i))
+            # (Bitte kein Komma nach data) Ausführen des SQL-Befehls
+            cursor.execute(query2, (data))
+        # Schließen der Datenbankverbindung
+        self._cnx.commit()
+        cursor.close()
+
+
 
     def update_info_from_lerngruppe(self, lerngruppe):
 
