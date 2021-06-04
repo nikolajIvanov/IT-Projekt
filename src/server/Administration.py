@@ -53,6 +53,14 @@ class Administration(object):
         with UserMapper() as mapper:
             return mapper.delete_by_authId(nutzer)
 
+    def delete_user_by_id(self, nutzer):
+        """
+        :param nutzer: Ist der zu löschende Nutzer
+        :return:
+        """
+        with UserMapper() as mapper:
+            return mapper.delete_by_id(nutzer)
+
     def get_all_users(self):
         """
 
