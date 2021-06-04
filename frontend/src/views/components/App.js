@@ -33,7 +33,7 @@ class App extends React.Component {
             text: 'Hi',
             //TODO die Prüfung von exist soll über ein API call erfolgen der Prüft ob ein Name
             // vorhanden ist (Rückschluss= alles muss da sein)
-            exist: false,
+            exist: true,
             }
         this.setHasAccount = this.setHasAccount.bind(this);
         this.handleLogOut = this.handleLogOut.bind(this);
@@ -120,7 +120,7 @@ class App extends React.Component {
                         this.setPasswordError(err.message);
                 }
             });
-        this.checkIfExist();
+       //this.checkIfExist();
     }
 
     handleSignUp(){
@@ -138,7 +138,7 @@ class App extends React.Component {
                         this.setPasswordError(err.message);
                 }
             });
-        this.setUp();
+        //this.setUp();
     }
 
     handleLogOut(){

@@ -13,13 +13,15 @@ import UserBO from "../../bo/UserBO";
 import theme from '../../theme'
 import ButtonSpeichern from "../../components/Button/ButtonSpeichern";
 import ButtonLöschen from "../../components/Button/ButtonLöschen";
+import Module from "../Registrierung/Sections/module";
 
 class ProfilBearbeiten extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             apiUser: null,
-            modalOpen: false
+            modalOpen: false,
+            update: false
         }
     }
     // Wenn der Nutzer auf den Button "Update" klickt, wird diese Methode aufgerufen.
@@ -29,7 +31,13 @@ class ProfilBearbeiten extends React.Component {
         const user = new UserBO()
         user.setAll(this.state.apiUser)
         console.log(user)
-        await TeamUpApi.getAPI().updateUser(firebase.auth().currentUser.uid, user.getAll())
+        await TeamUpApi.getAPI().updateUser(firebase.auth().currentUser.uid, user.getAll()).then(user =>{
+            this.setState({
+                apiUser: user,
+                update: true
+            });
+        })
+
     }
 
     //Button-Klick löst einen TeamUP-API call aus der den über die Nutzer aus der DB löscht
@@ -88,6 +96,7 @@ class ProfilBearbeiten extends React.Component {
                     <Card style={theme.profileBorder}>
                     <CardContent>
                     <SectionAvatar apiObject={apiUser} handleChange={this.handleChange}/>
+                        <Module/>
                     <Grid container spacing={3}>
                         <Grid style={theme.root} item xs={12}>
                             <SectionSteckbrief apiObject={apiUser}
@@ -124,11 +133,27 @@ class ProfilBearbeiten extends React.Component {
                                         </Paper>
                                     </div>
                                 </Modal> : null}
+                            {this.state.update ?
+                                <Modal open={true}>
+                                    <Paper style={theme.modalCard}>
+                                        <p style={theme.h3.bold}>Dein Update war erfolgreich</p>
+                                        <Grid container spacing={1} style={theme.root}>
+                                            <Grid item sx={12}>
+                                                <ButtonBestätigen inhalt={"Zurück"}
+                                                                  onClick={() => this.setState({
+                                                                      update: false
+                                                                  })}/>
+                                            </Grid>
+                                        </Grid>
+                                    </Paper>
+                                </Modal>
+                                : null
+                            }
                         </CardActions>
                 </Card> : null }
             </div>
         );
-    };
+    }
 }
 
 export default (ProfilBearbeiten);
