@@ -7,37 +7,31 @@ import Grid from "@material-ui/core/Grid";
 import {Paper} from "@material-ui/core";
 
 // TODO: Muss komplett erstellt werden.
-export default function ProfilListElement(props) {
-  const users = props.apiUsers;
+export default function GroupListElement(props) {
+  const gruppen = props.apiGruppe;
 
-  const listItems = users.map((user) =>
+  const listItems = gruppen.map((gruppe) =>
           (
               <Paper style={{marginBottom:"10%"}}>
                   <ListItem>
                       <Grid container spacing={1}>
                           <Grid  item xs={12} style={theme.root}>
-                          <ProfilAvatar img={user.getProfilBild()}/>
+                          <ProfilAvatar img={gruppe.getProfilBild()}/>
                           </Grid>
                           <Grid  item xs={12}>
-                              <p style={theme.h2.bold}>{user.getName()} </p>
+                              <p style={theme.h2.bold}>{gruppe.getName()} </p>
                           </Grid>
                           <Grid  item xs={12}>
-                              <p style={theme.h3.bold}>Semester: {user.getName()} </p>
+                              <p style={theme.h3.bold}>Lerninteresse: {gruppe.getName()} </p>
                           </Grid>
                           <Grid  item xs={12}>
-                              <p style={theme.h3.bold}>Studiengang: {user.getName()} </p>
-                          </Grid>
-                          <Grid  item xs={12}>
-                              <p style={theme.h3.bold}>Lerninteresse: {user.getName()} </p>
-                          </Grid>
-                          <Grid  item xs={12}>
-                              <p style={theme.h3.bold}>Ich suche: {user.getModul()} </p>
+                              <p style={theme.h3.bold}>Wir lernen: {gruppe.getModul()} </p>
                           </Grid>
                           <Grid  item xs={12}>
                              <p style={theme.h2.bold}>Lerntyp</p>
                           </Grid>
                           <Grid  item xs={12}>
-                              <p style={theme.h3.bold}>{user.getLerntyp()}</p>
+                              <p style={theme.h3.bold}>{gruppe.getLerntyp()}</p>
                           </Grid>
                       </Grid>
                   </ListItem>

@@ -20,7 +20,9 @@ class Match extends Component {
     constructor(props) {
     super(props)
     this.state = {
-        apiUsers: null
+        apiUsers: null,
+        isPerson: true,
+        apiGruppen: null
         }
     }
 
@@ -35,16 +37,27 @@ class Match extends Component {
         this.getData()
     }
 
+    onClick = (e) => {
+    this.setState(previousState => {
+      return {
+        isPerson: !previousState.isPerson
+      }
+    })
+    }
+
     render(){
         const { classes } = this.props;
-        const { apiUsers }= this.state;
+        const { apiUsers, isPerson }= this.state;
         return (
             <div className={classes.root}>
                 {apiUsers ? <>
                     <GroupPersonSwitch/>
                     <SearchBar/>
                     <FilterIcon/>
+                    <button onClick={this.onClick}>Klick mich</button>
+                    { isPerson ?
                     <ProfilListElement apiUsers={apiUsers}/>
+                    : console.log(isPerson)}
                 </> : null }
             </div>
         );

@@ -9,12 +9,8 @@ export default class TeamUpApi {
     #serverBaseURL = '';
 
     // Die URL für einen konkreten User.
-    #getUserURL = (authId) => `${this.#serverBaseURL}/users/${authId}`;
-    // User löschen
-    #deleteUser = (authId) => `${this.#serverBaseURL}/users/${authId}`;
-    // Neuen User Anlegen
-    #postUser = () => `${this.#serverBaseURL}/users`;
-
+    #userURL = (authId) => `${this.#serverBaseURL}/users/${authId}`;
+    // Die URL für alle User.
     #allUsersURL = () => `${this.#serverBaseURL}/users`;
 
     //Gruppe vom Backend holen
@@ -47,7 +43,7 @@ export default class TeamUpApi {
     )
     // Ein einzelner User wird vom Backend ans Frontend übergeben. Die Daten werden in einer Klasse gespeichert.
     getUser(authId) {
-        return this.#getSingle(this.#getUserURL(authId), UserBO)
+        return this.#getSingle(this.#userURL(authId), UserBO)
     }
 
     getAllUsers(){
@@ -56,17 +52,20 @@ export default class TeamUpApi {
 
     // Dient zum Anlagen eines neuen User. Als Übergabeparameter wird ein befülltes User Objekt erwartet.
     setUser(user){
-        return this.#add(this.#postUser(), user)
+        return this.#add(this.#allUsersURL(), user)
     }
 
     // Ruft im Backend einen konkreten User auf und updatet die Werte, die im Übergabeparameter vorhanden sind.
     updateUser(authId, user){
-        return this.#update(this.#getUserURL(authId), user);
+        return this.#update(this.#userURL(authId), user);
+    }
+
+    deleteUser(authId){
+        return this.#delete(this.#userURL(authId));
     }
 
     getGruppe(name){
         return this.#getSingle(this.getGruppeUrl(name), LerngruppeBO);
-
     }
 
     setGruppe(lerngruppe){
@@ -76,6 +75,7 @@ export default class TeamUpApi {
     updateGruppe(name, lerngruppe){
         return this.#update(this.updateGruppeUrl(name),lerngruppe)
     }
+
     //TODO Delete Gruppe einfügen
 
     // Generische Methode um einen einzelnen Wert vom Backend ans Frontend zu übergeben.
@@ -96,6 +96,7 @@ export default class TeamUpApi {
             })
         })
     }
+
     // Generische Methode um ein neues Objekt im Backend anzulegen (POST Methode).
     #add = (url, businessObject) =>{
         return this.#fetchAdvanced(url, {
@@ -118,5 +119,14 @@ export default class TeamUpApi {
             },
             body: JSON.stringify(businessObject)
             }).then(r => console.log(r))
+    }
+    // Generische Methode um ein vorhandenes Objekt im Backend zu löschen (DELETE Methode).
+    // Vom Backend wir ein Statuscode übermittelt um zu überprüfen ob das Löschen geklappt hat.
+    #delete = (url) => {
+        return this.#fetchAdvanced(url, {
+            method: 'DELETE'
+        }).then((responseStatusCode) => {
+            return(responseStatusCode)
+        })
     }
 }
