@@ -248,7 +248,7 @@ class UserMapper(Mapper):
         daten = (authId, nutzer.get_profilBild(), nutzer.get_name(),
                  datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'),
                  nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(),
-                 nutzer.get_semester(), nutzer.get_studiengang() , authId)
+                 nutzer.get_semester(), nutzer.get_studiengang(), authId)
 
         # Ausführen des SQL-Behls
         cursor.execute(query, (daten))
@@ -257,7 +257,7 @@ class UserMapper(Mapper):
         cursor.close()
 
         # Auslesen und speichern der User.Id für später verwendung
-        userid = self.get_Id_by_authId(authId)
+        userid = nutzer.get_id()
 
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
@@ -279,7 +279,7 @@ class UserMapper(Mapper):
             # Erstellen des SQL-Befehls
             query2 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
             # Auslesen und speichern der users.id und modul.id
-            data = (self.get_Id_by_authId(nutzer.get_authId()), self.get_modulId_by_modul(i))
+            data = (userid, self.get_modulId_by_modul(i))
             # (Bitte kein Komma nach data) Ausführen des SQL-Befehls
             cursor.execute(query2, (data))
         # Schließen der Datenbankverbindung
