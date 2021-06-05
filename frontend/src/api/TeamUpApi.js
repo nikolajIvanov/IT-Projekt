@@ -1,5 +1,6 @@
 import LerngruppeBO from "../bo/LerngruppeBO";
 import UserBO from "../bo/UserBO";
+import StudiengangBO from "../bo/StudiengangBO";
 
 // Die komplette API Logik wird über diese Klasse gehandelt und an die jeweiligen Frontend Seiten übergeben.
 export default class TeamUpApi {
@@ -14,9 +15,15 @@ export default class TeamUpApi {
     #allUsersURL = () => `${this.#serverBaseURL}/users`;
 
     // Die URL für eine Konkrete Lerngruppe
-    #gruppeUrl = (gruppenId) => `${this.#serverBaseURL}/lerngruppe/${gruppenId}`;
+    #gruppeURL = (gruppenId) => `${this.#serverBaseURL}/lerngruppe/${gruppenId}`;
     // Neue Gruppe anlegen
-    #allGruppenUrl = () => `${this.#serverBaseURL}/lerngruppen`;
+    #allGruppenURL = () => `${this.#serverBaseURL}/lerngruppen`;
+
+    //Studiengang URL
+    #studiengangURL = () => `${this.#serverBaseURL}/studiengang`;
+
+    //Module URL
+    #module = (studiengang) => `${this.#serverBaseURL}/modul/${studiengang}`;
 
     // Wird bei jedem API Aufruf als erstes aufgerufen. Es erzeugt ein Objekt der Klasse TeamUpApi um somit die
     // einzelnen Objektmethoden aufrufen zu können.
@@ -61,15 +68,19 @@ export default class TeamUpApi {
     }
 
     getGruppe(gruppenId){
-        return this.#getSingle(this.#gruppeUrl(gruppenId), LerngruppeBO);
+        return this.#getSingle(this.#gruppeURL(gruppenId), LerngruppeBO);
     }
 
     setGruppe(lerngruppe){
-        return this.#add(this.#allGruppenUrl(), lerngruppe);
+        return this.#add(this.#allGruppenURL(), lerngruppe);
     }
 
     updateGruppe(gruppenId, lerngruppe){
-        return this.#update(this.#gruppeUrl(gruppenId),lerngruppe)
+        return this.#update(this.#gruppeURL(gruppenId),lerngruppe)
+    }
+
+    getStudiengang(){
+        return this.#getAll(this.#studiengangURL(), StudiengangBO)
     }
 
     //TODO Delete Gruppe einfügen

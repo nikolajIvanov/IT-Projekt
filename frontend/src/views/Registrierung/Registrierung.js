@@ -21,7 +21,7 @@ const droplabels = [
 
 //Werte die als Stepper Bezeichnungen genutzt werden - Reihenfolge ist wichtig!
 function getSteps() {
-    return ['Name', 'Geburtstag', 'Gender', 'Semester', 'Studiengang', 'Lerntyp', 'Bild', 'Module', 'Bio'];
+    return ['Name', 'Geburtstag', 'Gender', 'Studiengang', 'Semester', 'Module', 'Lerntyp', 'Bild', 'Bio'];
 }
 
 //Übergeordnete Komponente für den Registrierungsprozess
@@ -49,11 +49,11 @@ function Registrierung(props) {
         <Name setName={setName} name={name} mode={styles.card}/>,
         <Date setDate={setDate} date={date} mode={styles.card}/>,
         <Gender setGender={setGender} gender={gender} mode={styles.card} drop={droplabels[0]}/>,
-        <Semester setSemester={setSemester} semester={semester} drop={droplabels[4]} mode={styles.card}/>,
         <Studiengang setStudiengang={setStudiengang} studiengang={studiengang} drop={droplabels[5]} mode={styles.card}/>,
+        <Semester setSemester={setSemester} semester={semester} drop={droplabels[4]} mode={styles.card}/>,
+        <Module setModul={setModul} modul={modul} mode={styles.card} drop={droplabels[3]}/>,
         <Lerntyp setLerntypArt={setLerntypArt} lerntypArt={lerntypArt} mode={styles.card} drop={droplabels[1]}/>,
         <Bild setBild={setBild} bild={bild} mode={styles.card}/>,
-        <Module setModul={setModul} modul={modul} mode={styles.card} drop={droplabels[3]}/>,
         <Bio setBio={setBio} mode={styles.card}/>
     ]
 
@@ -85,7 +85,7 @@ function Registrierung(props) {
     };
 
     //Wird benutzt um zu überprüfen ob die aktuelle Komponente leer ist
-    const checkData = [name, date, gender, semester, studiengang, lerntypArt, bild, modul, bio]
+    const checkData = [name, date, gender, studiengang, semester, modul, lerntypArt, bild, bio]
 
     //modal ist ein Object, dass gerendert wird falls die Modalvariable "open" true ist.
     const modal = (
