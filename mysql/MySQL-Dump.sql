@@ -93,5 +93,6 @@ CREATE TABLE `modulInStudiengang`
 CREATE TABLE `lerntyp` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     `bild` MEDIUMBLOB NOT NULL ,
-    `typ` varchar(128) NOT NULL DEFAULT ''
+    `typ` varchar(128) NOT NULL DEFAULT '',
+    `beschreibung` varchar(3000) NOT NULL DEFAULT ''
 );
