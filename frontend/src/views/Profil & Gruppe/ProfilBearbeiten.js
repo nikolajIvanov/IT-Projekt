@@ -93,7 +93,7 @@ class ProfilBearbeiten extends React.Component {
         return (
             <div style={theme.root}>
                 {/* Überprüft ob die Daten vom User geladen sind und fügt sie dann in die Komponenten ein. */}
-                { apiUser ?
+                {apiUser ?
                     <Card style={theme.profileBorder}>
                     <CardContent>
                     <SectionAvatar apiObject={apiUser} handleChange={this.handleChange}/>

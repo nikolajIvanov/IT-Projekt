@@ -66,7 +66,7 @@ class GruppeBearbeiten extends React.Component {
 
         return (
             <div style={theme.root}>
-                { apiGruppe ?
+                {apiGruppe ?
                     <Card style={theme.profileBorder}>
                         <CardContent>
                             <SectionAvatar apiObject={apiGruppe} handleChange={this.handleChange}/>

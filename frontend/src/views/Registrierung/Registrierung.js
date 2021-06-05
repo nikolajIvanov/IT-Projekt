@@ -61,6 +61,7 @@ function Registrierung(props) {
 
     //TODO Api Call aufruf und übergabe von Infos über BO (Nutzer) ans Backend
     const infos = {
+        id: 0,
         name: name,
         vorname: vorname,
         gender: gender,
