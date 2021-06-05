@@ -27,7 +27,7 @@ user = api.inherit('Nutzer', profil, {
 })
 
 lerngruppe = api.inherit('Lerngruppe', profil, {
-    'mitglieder': fields.List(fields.String, attribute=lambda x: x.get_mitglieder(), description='Mitglieder einer Lerngruppe'),
+    'mitglieder': fields.List(fields.Integer, attribute=lambda x: x.get_mitglieder(), description='Mitglieder einer Lerngruppe'),
     'admin': fields.String(attribute=lambda x: x.get_admin(), description='Administrator einer Lerngruppe'),
 })
 
