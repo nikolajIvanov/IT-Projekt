@@ -2,14 +2,13 @@ import React from 'react';
 import {Paper, Typography} from "@material-ui/core";
 import theme from "../../../theme";
 import DropDown from "../../../components/Textfeld/Dropdown";
-import Drop from "../../../components/Konstante(DropDown)/Studiengang";
 import TeamUpApi from "../../../api/TeamUpApi";
 
 class Studiengang extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            studiengang : [],
+            studiengang : null,
         }
     }
 
@@ -20,17 +19,20 @@ class Studiengang extends React.Component{
     componentDidMount = async() => {
         await TeamUpApi.getAPI().getStudiengang()
             .then((studiengang) => {
-                const middle = {}
+                const middle = [{key:"-1", value:"-Studiengang-" }]
                 studiengang.forEach(i => {
-                    middle[i.getID()] = i.getStudiengang();
+                    middle.push({
+                        key: i.getID(),
+                        value: i.getStudiengang()
+                    })
                 })
-                console.log(middle)
                 return middle
             })
             .then((res) => {
-               this.setState({
-                    studiengang: [res]
-                })
+                    this.setState({
+                        studiengang : res
+                    })
+                console.log(this.state.studiengang)
             }
         );
     }
@@ -43,7 +45,7 @@ class Studiengang extends React.Component{
                     <Typography style={theme.font.register}>Was studierst du?</Typography>
                     <DropDown
                         handleChange={this.handleSemester}
-                        input={studiengang}
+                        input={this.props.studium}
                         map={studiengang}
                         droplabel={this.props.drop}
                     />

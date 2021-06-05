@@ -9,8 +9,8 @@ const Module = [
         label: "Data Science",
     },
     {
-        value:"Marketing",
-        label:"Marketing",
+        value:"Marketing & Organisation",
+        label:"Marketing & Organisation",
     }]
 
 

@@ -33,7 +33,7 @@ export default function DropDown(props) {
                 >
                     {props.map.map((option) => (
                         <option key={option.value} value={option.value}>
-                            {option.label}
+                            {option.value}
                         </option>
                     ))}
                 </TextField>

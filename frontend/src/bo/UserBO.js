@@ -65,6 +65,7 @@ export default class UserBO extends ProfilBO {
     //Getter-Setter alle #Profildaten
     getAll(){
         return {
+            id: this.id,
             name: this.name,
             gender: this.gender,
             geburtsdatum: this.geburtsdatum,

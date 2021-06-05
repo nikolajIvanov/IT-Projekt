@@ -49,7 +49,7 @@ function Registrierung(props) {
         <Name setName={setName} name={name} mode={styles.card}/>,
         <Date setDate={setDate} date={date} mode={styles.card}/>,
         <Gender setGender={setGender} gender={gender} mode={styles.card} drop={droplabels[0]}/>,
-        <Studiengang setStudiengang={setStudiengang} studiengang={studiengang} drop={droplabels[5]} mode={styles.card}/>,
+        <Studiengang setStudiengang={setStudiengang} studium={studiengang} drop={droplabels[5]} mode={styles.card}/>,
         <Semester setSemester={setSemester} semester={semester} drop={droplabels[4]} mode={styles.card}/>,
         <Module setModul={setModul} modul={modul} mode={styles.card} drop={droplabels[3]}/>,
         <Lerntyp setLerntypArt={setLerntypArt} lerntypArt={lerntypArt} mode={styles.card} drop={droplabels[1]}/>,
