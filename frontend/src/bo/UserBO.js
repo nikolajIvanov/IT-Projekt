@@ -91,6 +91,7 @@ export default class UserBO extends ProfilBO {
         }
     }
     setAll(user){
+        this.id = user.id;
         this.name = user.name;
         this.vorname = user.vorname;
         this.gender = user.gender;
