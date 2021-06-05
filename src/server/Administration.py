@@ -62,7 +62,7 @@ class Administration(object):
         :return:
         """
         with UserMapper() as mapper:
-            return mapper.delete_by_id(nutzer)
+            return mapper.delete_by_authId(nutzer)
 
     def get_all_users(self):
         """

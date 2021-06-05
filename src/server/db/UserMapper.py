@@ -345,7 +345,7 @@ class UserMapper(Mapper):
         # Rückgabe der Userdaten (aktualisiert)
         return self.find_by_key(nutzer.get_authId())
 
-    def delete_by_authId(self, nutzer):
+    def delete_by_authId(self, authId):
         """
         :param nutzer: Ist das Nutzerobjekt
         :return:
@@ -354,7 +354,32 @@ class UserMapper(Mapper):
         cursor = self._cnx.cursor(prepared=True)
 
         # Auslesen und speichern der User.id
-        userid = self.get_Id_by_authId(nutzer.get_authId())
+        userid = self.get_Id_by_authId(authId)
+
+        # Erstellen des SQL-Befehls um die Einträge in der users Datenbank zu löschen
+        query = """DELETE FROM TeamUP.users WHERE id=%s"""
+        # Erstellen des SQL-Befehls um die Einträge in der userInModul Datenbank zu löschen
+        query1 = """DELETE FROM TeamUP.userinmodul WHERE userId=%s"""
+        # Erstellen des SQL-Befehls um die Einträge in der userInLerngruppe Datenbank zu löschen
+        query2 = """DELETE FROM TeamUP.userInLerngruppe WHERE userId=%s"""
+        # Ausführen des ersten SQL-Befehls
+        cursor.execute(query1, (userid,))
+        # Ausführen des zweiten SQL-Befehls
+        cursor.execute(query2, (userid,))
+        # Ausführen des ersten SQL-Befehls
+        cursor.execute(query, (userid,))
+
+        # Schließen der Datenbankverbindung
+        self._cnx.commit()
+        cursor.close()
+
+    def delete_by_id(self, nutzer):
+        """
+        :param nutzer: Ist das Nutzerobjekt
+        :return:
+        """
+        # Öffnen der Datenbankverbindung
+        cursor = self._cnx.cursor(prepared=True)
 
         # Erstellen des SQL-Befehls um die Einträge in der users Datenbank zu löschen
         query = """DELETE FROM TeamUP.users WHERE id=%s"""

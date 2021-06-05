@@ -304,8 +304,6 @@ class LerngruppeMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-
-
     def update_info_from_lerngruppe(self, lerngruppe):
 
         # Öffnen der Datenbankverbindung
