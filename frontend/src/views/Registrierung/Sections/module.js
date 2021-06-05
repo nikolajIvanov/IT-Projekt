@@ -30,10 +30,6 @@ function Module(props){
         }
     }
 
-    const getResult = () => {
-        console.log(props.modul)
-    }
-
         return (
             <Paper style={props.mode}>
                 {Mod ? <>
@@ -50,7 +46,6 @@ function Module(props){
                         />
                     )}
                     </FormGroup>
-                    <Button onClick={getResult}>Hier</Button>
                 </> : <Typography>Ups</Typography>}
             </Paper>
         );

@@ -1,18 +1,30 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Grid from '@material-ui/core/Grid';
 import MultiLine from "../../../components/Textfeld/MultiLine";
-import DatePicker from "../../../components/Textfeld/DatePicker"
 import DropDown from "../../../components/Textfeld/Dropdown";
-import Mod from "../../../components/Konstante(DropDown)/Module";
 import Semester from "../../../components/Konstante(DropDown)/Semester";
-import Studiengang from "../../../components/Konstante(DropDown)/Studiengang";
 import theme from '../../../theme'
 import SubSectionModule from "./SubSectionModule";
-import Typography from "@material-ui/core/Typography";
 import {List, ListItem} from "@material-ui/core";
+import TeamUpApi from "../../../api/TeamUpApi";
 
 // Dient als Molekül für die Seite ProfilBO und Gruppe.
 export default function SectionSteckbrief(props) {
+    const [studien, setStudien] = React.useState([])
+
+    useEffect(async () => {
+        await TeamUpApi.getAPI().getStudiengang()
+            .then((studiengang) => {
+                const middle = []
+                studiengang.forEach(i => {
+                    middle.push({
+                        key: i.getID(),
+                        value: i.getStudiengang()
+                    })
+                })
+                setStudien(middle)
+            })
+    }, [])
 
     // Speichert die neuen Werte für  die Variable: Geburtstag
     const handleDateChange = (e) => {
@@ -50,6 +62,12 @@ export default function SectionSteckbrief(props) {
     props.handleChange(newObject)
     }
 
+    const handleModul = (e) => {
+        let newObject = props.apiObject;
+        newObject.setModul(e)
+        props.handleChange(newObject)
+    }
+
     return (
         <div style={theme.card}>
             <MultiLine disabled={props.disabled}
@@ -74,20 +92,23 @@ export default function SectionSteckbrief(props) {
                         <p style={theme.h3.bold}>Studiengang:</p>
                     </Grid>
                     <Grid style={theme.leftAligned} item xs={6} >
-                        <DropDown map={Studiengang}
+                        <DropDown map={studien}
                                   input={props.apiObject.getStudiengang()}
                                   handleChange={handleStudiengangChange}/>
                     </Grid>
                     <Grid style={theme.root} item xs={12}>
-                        <p style={theme.h3.bold}>Ich suche:</p>
+                        <p style={theme.h3.bold}>Meine Lernmodule:</p>
                     </Grid>
                     <Grid style={theme.root} item xs={12}>
-                        <List>
-                            <ListItem>Was?</ListItem>
+                        <List style={theme.card}>
+                            {props.apiObject.getModul().map((mod) =>
+                                <ListItem style={{textAlign: "center"}}>{mod}</ListItem>
+                            )}
                         </List>
                     </Grid>
                 <Grid style={theme.root} item xs={12}>
-                    <SubSectionModule/>
+                    <SubSectionModule setModul={handleModul} modul={props.apiObject.getModul()}
+                                      studiengang={props.apiObject.getStudiengang()}/>
                 </Grid>
             </Grid>
         </div>

@@ -20,7 +20,7 @@ class Studiengang extends React.Component{
     componentDidMount = async() => {
         await TeamUpApi.getAPI().getStudiengang()
             .then((studiengang) => {
-                const middle = [{key:"-1", value:"-Studiengang-" }]
+                const middle = []
                 studiengang.forEach(i => {
                     middle.push({
                         key: i.getID(),
