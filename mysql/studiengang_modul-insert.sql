@@ -1,43 +1,23 @@
 USE `TeamUP`;
 
-
-INSERT INTO modul(bezeichnung) VALUES
-    /* Wirtschaftsinformatik */
-    ('Marketing & Organisation'),
-    ('Programmieren'),
-    ('Data Science'),
-    ('Grundlagen Wirtschaftsinformatik'),
-    ('Grundlagen Datenbanken'),
-    ('Algorithmen & Datenstrukturen'),
-    /* Online-Medien-Management */
-    ('Externes und Internes Rechnungswesen'),
-    ('Wirtschaftswissenschaftliche Grundlagen'),
-    ('Technologische Grundlagen'),
-    ('Multimedia Storytelling'),
-    ('E-Business'),
-    ('Online-Anwendungen'),
-    ('Mediensysteme');
-
-
 INSERT INTO studiengang(studiengang) VALUES
+    ('Audiovisuelle Medien'),
+    ('Crossmedia-Redaktion/Public Relations'),
+    ('Deutsch-chinesischer Studiengang Medien und Technologie'),
+    ('Informationsdesign'),
+    ('Infomationswissenschaften'),
+    ('Integriertes Produktdesign'),
+    ('Mediapublishing'),
+    ('Medieninformatik'),
+    ('Medienwirtschaft'),
+    ('Mobile Medien'),
+    ('Online-Medien-Management'),
+    ('Print Media Technologies'),
+    ('Verpackungstechnik'),
+    ('Werbung & Marktkommunikation'),
     ('Wirtschaftsinformatik und digitale Medien'),
-    ('Online-Medien-Management');
+    ('Wirtschaftsingenieurwesen Medien');
 
-INSERT INTO modulInStudiengang(studiengangId, modulId) VALUES
-    (1, 1),
-    (1, 2),
-    (1, 3),
-    (1, 4),
-    (1, 5),
-    (1, 6),
-    (1, 7),
-    (2, 8),
-    (2, 9),
-    (2, 10),
-    (2, 11),
-    (2, 12),
-    (2, 13),
-    (2, 1);
 
 INSERT INTO lerntyp(bild, typ, beschreibung) VALUES
     ('Bild1', 'Visuell', 'Der visuelle Lerntyp lernt am besten über das Sehen. Lesen, Anschauen und Beobachten sind für
