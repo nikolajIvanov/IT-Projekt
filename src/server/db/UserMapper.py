@@ -66,26 +66,21 @@ class UserMapper(Mapper):
         :param key: Ist die authId
         :return: Alle Objekte des User
         """
-        # TODO Tabelle Lerntyp befüllen: https://mitteldeutsches-institut.de/lerntypen/
         # öffnen der DB verbindung
         cursor = self._cnx.cursor(prepared=True)
         # erstellen des SQL-Befehls um die User Daten abzufragen
         query = """SELECT users.id, users.bild, users.name, users.geburtsdatum, users.email, users.beschreibung, 
-               users.lerntyp, users.gender, users.semester, users.studiengang, users.vorname FROM TeamUP.users WHERE authId=%s"""
+                    users.lerntyp, users.gender, users.semester, users.studiengang, users.vorname FROM TeamUP.users 
+                    WHERE authId=%s"""
 
         # erstellen des SQL-Befehls um abzufragen welche Module einem User zugeordnet sind
-        query1 = """SELECT modul.bezeichnung From ((TeamUP.modul JOIN TeamUP.userinmodul 
-                    ON modul.id = userinmodul.modulId) 
-                    JOIN teamup.users ON userinmodul.userId = users.id ) WHERE teamup.users.authId=%s"""
+        query_modul = """SELECT modul.bezeichnung FROM TeamUP.modul JOIN TeamUP.userInModul  uIM 
+                            ON modul.id = uIM.modulId WHERE uIM.userId=%s"""
 
         # Ausführen des ersten SQL-Befehls
         cursor.execute(query, (key,))
         # Speichern der SQL Antwort
         tuples = cursor.fetchall()
-        # Ausführen des zweiten SQL-Befehls
-        cursor.execute(query1, (key,))
-        # Speichern der SQL Antwort
-        tuples1 = cursor.fetchall()
 
         # Auflösen der ersten SQL Antwort (User) und setzen der Parameter
         (id, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang, vorname) = tuples[0]
@@ -100,11 +95,16 @@ class UserMapper(Mapper):
         user.set_gender(gender)
         user.set_semester(semester)
         user.set_studiengang(studiengang)
-        user.set_studiengang(vorname)
+        user.set_vorname(vorname)
         user.set_authId(key)
 
+        # Ausführen des zweiten SQL-Befehls
+        cursor.execute(query_modul, (id,))
+        # Speichern der SQL Antwort
+        tuple_modul = cursor.fetchall()
+
         # Auflösen der zweiten SQL Antwort (Module des User) und setzen des Parameters
-        for i in tuples1:
+        for i in tuple_modul:
             for x in i:
                 user.set_module_append(x)
 
