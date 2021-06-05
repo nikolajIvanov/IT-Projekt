@@ -25,13 +25,13 @@ export default function GroupListElement(props) {
                               <p style={theme.h3.bold}>Lerninteresse: {gruppe.getName()} </p>
                           </Grid>
                           <Grid  item xs={12}>
-                              <p style={theme.h3.bold}>Wir lernen: {gruppe.getModul()} </p>
+                              <p style={theme.h3.bold}>Wir lernen: {gruppe.getName()} </p>
                           </Grid>
                           <Grid  item xs={12}>
                              <p style={theme.h2.bold}>Lerntyp</p>
                           </Grid>
                           <Grid  item xs={12}>
-                              <p style={theme.h3.bold}>{gruppe.getLerntyp()}</p>
+                              <p style={theme.h3.bold}>{gruppe.getName()}</p>
                           </Grid>
                       </Grid>
                   </ListItem>

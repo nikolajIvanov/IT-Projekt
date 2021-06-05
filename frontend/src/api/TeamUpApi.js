@@ -71,6 +71,10 @@ export default class TeamUpApi {
         return this.#getSingle(this.#gruppeURL(gruppenId), LerngruppeBO);
     }
 
+    getAllGruppe(){
+        return this.#getAll(this.#allGruppenURL(), LerngruppeBO);
+    }
+
     setGruppe(lerngruppe){
         return this.#add(this.#allGruppenURL(), lerngruppe);
     }

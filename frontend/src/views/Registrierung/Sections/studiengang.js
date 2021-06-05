@@ -9,7 +9,7 @@ class Studiengang extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            studiengang : null,
+            studiengang : [],
         }
     }
 
@@ -18,21 +18,21 @@ class Studiengang extends React.Component{
     };
 
     componentDidMount = async() => {
-        console.log(TeamUpApi.getAPI().getStudiengang())
         await TeamUpApi.getAPI().getStudiengang()
             .then((studiengang) => {
                 const middle = {}
-                for (let obj in studiengang) {
-                    //middle[obj.getID()] = obj.getStudiengang()
-                    console.log(obj)
-                }
+                studiengang.forEach(i => {
+                    middle[i.getID()] = i.getStudiengang();
+                })
+                console.log(middle)
+                return middle
             })
-            .then((res) =>
-            this.setState({
-                studiengang: res
-            })
-        )
-        console.log(this.state.studiengang)
+            .then((res) => {
+               this.setState({
+                    studiengang: [res]
+                })
+            }
+        );
     }
 
     render() {
@@ -51,7 +51,7 @@ class Studiengang extends React.Component{
                 }
             </Paper>
         );
-    };
-};
+    }
+}
 
 export default Studiengang;

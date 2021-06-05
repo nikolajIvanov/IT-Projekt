@@ -6,6 +6,7 @@ import GroupPersonSwitch from "../../components/Icon/GroupPersonSwitch"
 import FilterIcon from "../../components/Icon/FilterIcon";
 import TeamUpApi from "../../api/TeamUpApi";
 import ProfilListElement from "./Sections/ProfilListElement";
+import GroupListElement from "./Sections/GroupListElement";
 
 const styles = theme => ({
     root: {
@@ -34,6 +35,13 @@ class Match extends Component {
             });
         })
     }
+    getGruppen = () => {
+        TeamUpApi.getAPI().getAllGruppe().then(lerngruppen =>{
+            this.setState({
+                apiGruppen: lerngruppen
+            });
+        })
+    }
 
     // Ladet direkt die User Daten aus dem Backend
     componentDidMount() {
@@ -50,7 +58,7 @@ class Match extends Component {
 
     render(){
         const { classes } = this.props;
-        const { apiUsers, isPerson }= this.state;
+        const { apiUsers, isPerson, apiGruppen }= this.state;
 
         return (
             <div className={classes.root}>
@@ -60,7 +68,7 @@ class Match extends Component {
                     <FilterIcon/>
                     { isPerson ?
                     <ProfilListElement apiUsers={apiUsers}/>
-                    : console.log(isPerson)}
+                    : <GroupListElement apiGruppe={apiGruppen}/>}
                 </> : null }
             </div>
         );
