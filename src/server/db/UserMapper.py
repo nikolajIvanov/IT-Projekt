@@ -23,25 +23,31 @@ class UserMapper(Mapper):
         cursor.execute(query, (modul,))
 
         # Speichern der SQL Antwort
-        modulId = cursor.fetchone()
+        modulid = cursor.fetchone()
 
         # Schließen der Datenbankverbindung
         self._cnx.commit()
         cursor.close()
         # Rückgabe der Modulid
-        return modulId[0]
+        return modulid[0]
 
     def find_all(self):
+        """
+        Methode um alle User und die dazugehörigen Module aus der Datenbank zu holen
+        :return: Eine Liste mit allen Usern in Objekten gespeichert
+        """
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT id, authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, "
                        "gender, semester, studiengang, vorname FROM TeamUP.users")
         tuples = cursor.fetchall()
 
-        for (id, authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang,
-             vorname) \
-                in tuples:
-            user = User()
+        for (user_id, authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang,
+             vorname) in tuples:
+            user = UserMapper.create_userBO(id=user_id, authId=authId, bild=bild, name=name, geburtsdatum=geburtsdatum,
+                                            email=email, beschreibung=beschreibung, lerntyp=lerntyp, gender=gender,
+                                            semester=semester, studiengang=studiengang, vorname=vorname)
+            """ user = User()
             user.set_id(id)
             user.set_authId(authId)
             user.set_profilBild(bild)
@@ -54,6 +60,7 @@ class UserMapper(Mapper):
             user.set_semester(semester)
             user.set_studiengang(studiengang)
             user.set_vorname(vorname)
+            """
             result.append(user)
 
         self._cnx.commit()
@@ -61,13 +68,14 @@ class UserMapper(Mapper):
 
         return result
 
-    def find_by_authId(self, key):
+    def find_by_authId(self, user_authid):
         """
-        :param key: Ist die authId
-        :return: Alle Objekte des User
+        :param user_authid: GoogleID eines bestimmten Users
+        :return: Gibt ein User Objekt mit allen Werten eines konkreten Users zurück
         """
         # öffnen der DB verbindung
         cursor = self._cnx.cursor(prepared=True)
+
         # erstellen des SQL-Befehls um die User Daten abzufragen
         query = """SELECT users.id, users.bild, users.name, users.geburtsdatum, users.email, users.beschreibung, 
                     users.lerntyp, users.gender, users.semester, users.studiengang, users.vorname FROM TeamUP.users 
@@ -78,12 +86,15 @@ class UserMapper(Mapper):
                             ON modul.id = uIM.modulId WHERE uIM.userId=%s"""
 
         # Ausführen des ersten SQL-Befehls
-        cursor.execute(query, (key,))
+        cursor.execute(query, (user_authid,))
+
         # Speichern der SQL Antwort
         tuples = cursor.fetchall()
 
         # Auflösen der ersten SQL Antwort (User) und setzen der Parameter
-        (id, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang, vorname) = tuples[0]
+        (user_id, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester,
+         studiengang, vorname) = tuples[0]
+        """        
         user = User()
         user.set_id(id)
         user.set_profilBild(bild)
@@ -97,9 +108,13 @@ class UserMapper(Mapper):
         user.set_studiengang(studiengang)
         user.set_vorname(vorname)
         user.set_authId(key)
+        """
+        user = UserMapper.create_userBO(id=user_id, authId=user_authid, bild=bild, name=name, geburtsdatum=geburtsdatum,
+                                        email=email, beschreibung=beschreibung, lerntyp=lerntyp, gender=gender,
+                                        semester=semester, studiengang=studiengang, vorname=vorname)
 
         # Ausführen des zweiten SQL-Befehls
-        cursor.execute(query_modul, (id,))
+        cursor.execute(query_modul, (user_id,))
         # Speichern der SQL Antwort
         tuple_modul = cursor.fetchall()
 
@@ -115,16 +130,17 @@ class UserMapper(Mapper):
         # Rückgabe des User
         return user
 
-    def find_by_id(self, id):
+    def find_by_id(self, user_id):
         """
-        :param key: Ist die id
+        :param user_id: Ist die id
         :return: Alle Objekte des User
         """
         # öffnen der DB verbindung
         cursor = self._cnx.cursor(prepared=True)
         # erstellen des SQL-Befehls um die User Daten abzufragen
         query = """SELECT users.authId, users.bild, users.name, users.geburtsdatum, users.email, users.beschreibung, 
-               users.lerntyp, users.gender, users.semester, users.studiengang, users.vorname FROM TeamUP.users WHERE users.id=%s"""
+                    users.lerntyp, users.gender, users.semester, users.studiengang, users.vorname 
+                    FROM TeamUP.users WHERE users.id=%s"""
 
         # erstellen des SQL-Befehls um abzufragen welche Module einem User zugeordnet sind
         query1 = """SELECT modul.bezeichnung From ((TeamUP.modul JOIN TeamUP.userinmodul 
@@ -132,16 +148,18 @@ class UserMapper(Mapper):
                 JOIN teamup.users ON userinmodul.userId = users.id ) WHERE users.id=%s"""
 
         # Ausführen des ersten SQL-Befehls
-        cursor.execute(query, (id,))
+        cursor.execute(query, (user_id,))
         # Speichern der SQL Antwort
         tuples = cursor.fetchall()
         # Ausführen des zweiten SQL-Befehls
-        cursor.execute(query1, (id,))
+        cursor.execute(query1, (user_id,))
         # Speichern der SQL Antwort
         tuples1 = cursor.fetchall()
 
         # Auflösen der ersten SQL Antwort (User) und setzen der Parameter
-        (authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang, vorname) = tuples[0]
+        (authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester,
+         studiengang, vorname) = tuples[0]
+        """        
         user = User()
         user.set_id(id)
         user.set_profilBild(bild)
@@ -155,6 +173,10 @@ class UserMapper(Mapper):
         user.set_studiengang(studiengang)
         user.set_vorname(vorname)
         user.set_authId(authId)
+        """
+        user = UserMapper.create_userBO(id=user_id, authId=authId, bild=bild, name=name, geburtsdatum=geburtsdatum,
+                                        email=email, beschreibung=beschreibung, lerntyp=lerntyp, gender=gender,
+                                        semester=semester, studiengang=studiengang, vorname=vorname)
 
         # Auflösen der zweiten SQL Antwort (Module des User) und setzen des Parameters
         for i in tuples1:
@@ -170,24 +192,22 @@ class UserMapper(Mapper):
 
     # TODO Wird das noch benötigt?
     def find_by_name(self, name):
-        result = None
 
         cursor = self._cnx.cursor()
         command = "SELECT id, name, email FROM TeamUP.users WHERE name LIKE '{}' ORDER BY  name".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        (id, name, email) = tuples[0]
+        (user_id, name, email) = tuples[0]
         user = User()
-        user.set_id(id)
+        user.set_id(user_id)
         user.set_name(name)
         user.set_email(email)
-        result = user
 
         self._cnx.commit()
         cursor.close()
 
-        return result
+        return user
 
     def insert_by_authId(self, nutzer):
         """
@@ -209,7 +229,7 @@ class UserMapper(Mapper):
                  nutzer.get_semester(), nutzer.get_studiengang(), nutzer.get_vorname())
 
         # Ausführen des SQL-Befehls um die User Daten auf die Datenbank zu schreiben
-        cursor.execute(query, (daten))
+        cursor.execute(query, daten)
         # Schließen der Datenbankverbindung
         self._cnx.commit()
         cursor.close()
@@ -226,7 +246,7 @@ class UserMapper(Mapper):
             # Auslesen und speichern der users.id und modul.id
             data = (self.get_Id_by_authId(nutzer.get_authId()), self.get_modulId_by_modul(i))
             # (Bitte kein Komma nach data) Ausführen des SQL- Befehls
-            cursor.execute(query1, (data))
+            cursor.execute(query1, data)
         # Schließen der Datenbankverbindung
         self._cnx.commit()
         cursor.close()
@@ -247,16 +267,16 @@ class UserMapper(Mapper):
                        beschreibung=%s, lerntyp=%s, gender=%s,semester=%s, studiengang=%s, vorname=%s WHERE authId=%s"""
 
         # Auslesend der authId zur weitern verwendung
-        authId = nutzer.get_authId()
+        authid = nutzer.get_authId()
 
         # Auslesen und speichern der restlichen User Daten
-        daten = (authId, nutzer.get_profilBild(), nutzer.get_name(),
+        daten = (authid, nutzer.get_profilBild(), nutzer.get_name(),
                  datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'),
                  nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(),
-                 nutzer.get_semester(), nutzer.get_studiengang(), nutzer.get_vorname(), authId)
+                 nutzer.get_semester(), nutzer.get_studiengang(), nutzer.get_vorname(), authid)
 
-        # Ausführen des SQL-Behls
-        cursor.execute(query, (daten))
+        # Ausführen des SQL-Befehls
+        cursor.execute(query, daten)
         # Schließen der Datenbankverbindung
         self._cnx.commit()
         cursor.close()
@@ -286,13 +306,13 @@ class UserMapper(Mapper):
             # Auslesen und speichern der users.id und modul.id
             data = (userid, self.get_modulId_by_modul(i))
             # (Bitte kein Komma nach data) Ausführen des SQL-Befehls
-            cursor.execute(query2, (data))
+            cursor.execute(query2, data)
         # Schließen der Datenbankverbindung
         self._cnx.commit()
         cursor.close()
 
         # Rückgabe der Userdaten (aktualisiert)
-        return self.find_by_authId(authId)
+        return self.find_by_authId(authid)
 
     def update_by_id(self, nutzer):
         """
@@ -304,7 +324,8 @@ class UserMapper(Mapper):
 
         # Erstellen des SQL-Befehls
         query = """UPDATE TeamUP.users SET authId=%s, bild=%s, name=%s, geburtsdatum=%s, email=%s,
-                       beschreibung=%s, lerntyp=%s, gender=%s, semester=%s, studiengang=%s, vorname=%s WHERE users.id=%s"""
+                       beschreibung=%s, lerntyp=%s, gender=%s, semester=%s, studiengang=%s, vorname=%s 
+                       WHERE users.id=%s"""
 
         # Auslesen und speichern der restlichen User Daten
         daten = (nutzer.get_authId, nutzer.get_profilBild(), nutzer.get_name(),
@@ -312,9 +333,8 @@ class UserMapper(Mapper):
                  nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(),
                  nutzer.get_semester(), nutzer.get_studiengang(), nutzer.get_vorname(), nutzer.get_id())
 
-
-        # Ausführen des SQL-Behls
-        cursor.execute(query, (daten))
+        # Ausführen des SQL-Befehls
+        cursor.execute(query, daten)
         # Schließen der Datenbankverbindung
         self._cnx.commit()
         cursor.close()
@@ -342,7 +362,7 @@ class UserMapper(Mapper):
             # Auslesen und speichern der users.id und modul.id
             data = (nutzer.get_id(), self.get_modulId_by_modul(i))
             # (Bitte kein Komma nach data) Ausführen des SQL-Befehls
-            cursor.execute(query2, (data))
+            cursor.execute(query2, data)
         # Schließen der Datenbankverbindung
         self._cnx.commit()
         cursor.close()
@@ -350,16 +370,15 @@ class UserMapper(Mapper):
         # Rückgabe der Userdaten (aktualisiert)
         return self.find_by_key(nutzer.get_authId())
 
-    def delete_by_authId(self, authId):
+    def delete_by_authId(self, user_authid):
         """
-        :param nutzer: Ist das Nutzerobjekt
-        :return:
+        :param user_authid: Die GoogleID des zu löschenden Users
         """
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
 
         # Auslesen und speichern der User.id
-        userid = self.get_Id_by_authId(authId)
+        userid = self.get_Id_by_authId(user_authid)
 
         # Erstellen des SQL-Befehls um die Einträge in der users Datenbank zu löschen
         query = """DELETE FROM TeamUP.users WHERE id=%s"""
@@ -378,9 +397,9 @@ class UserMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    def delete_by_id(self, nutzer):
+    def delete_by_id(self, userid):
         """
-        :param nutzer: Ist das Nutzerobjekt
+        :param userid: Ist das Nutzerobjekt
         :return:
         """
         # Öffnen der Datenbankverbindung
@@ -391,9 +410,9 @@ class UserMapper(Mapper):
         # Erstellen des SQL-Befehls um die Einträge in der userInModul Datenbank zu löschen
         query1 = """DELETE FROM TeamUP.userinmodul WHERE userId=%s"""
         # Ausführen des ersten SQL-Befehls
-        cursor.execute(query, (userid))
+        cursor.execute(query, (userid,))
         # Ausführen des zweiten SQL-Befehls
-        cursor.execute(query1, (userid))
+        cursor.execute(query1, (userid,))
 
         # Schließen der Datenbankverbindung
         self._cnx.commit()
@@ -403,8 +422,9 @@ class UserMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        query = """SELECT modul.bezeichnung From ((TeamUP.modul JOIN TeamUP.userinmodul ON modul.id = userinmodul.modulId) 
-                JOIN TeamUP.users ON userinmodul.userId = users.id ) WHERE authId=%s"""
+        query = """SELECT modul.bezeichnung From ((TeamUP.modul JOIN TeamUP.userinmodul 
+                    ON modul.id = userinmodul.modulId) 
+                    JOIN TeamUP.users ON userinmodul.userId = users.id ) WHERE authId=%s"""
 
         cursor.execute(query, (authId,))
         tuples = cursor.fetchall()
@@ -418,7 +438,6 @@ class UserMapper(Mapper):
         cursor.close()
 
         return user
-
 
     def get_Id_by_authId(self, authId):
         """
@@ -456,3 +475,25 @@ class UserMapper(Mapper):
         :return:
         """
         pass
+
+    @staticmethod
+    def create_userBO(**kwargs):
+        """
+        Allgemeine Klassenmethode zur erstellung eines User Objektes.
+        :param kwargs: Bekommt alle Werte aus der User Tabelle
+        :return: Gibt ein befülltes User Objekt zurück
+        """
+        obj = User()
+        obj.set_id(kwargs["id"])
+        obj.set_profilBild(kwargs["bild"])
+        obj.set_name(kwargs["name"])
+        obj.set_geburtsdatum(kwargs["geburtsdatum"])
+        obj.set_email(kwargs["email"])
+        obj.set_beschreibung(kwargs["beschreibung"])
+        obj.set_lerntyp(kwargs["lerntyp"])
+        obj.set_gender(kwargs["gender"])
+        obj.set_semester(kwargs["semester"])
+        obj.set_studiengang(kwargs["studiengang"])
+        obj.set_vorname(kwargs["vorname"])
+        obj.set_authId(kwargs["authId"])
+        return obj
