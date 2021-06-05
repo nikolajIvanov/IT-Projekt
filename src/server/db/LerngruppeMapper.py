@@ -205,7 +205,7 @@ class LerngruppeMapper(Mapper):
 
         gruppenMitglieder = lerngruppe.get_mitglieder()
 
-        #Schleife setzt mitglieder in die UserInLerngruppe Tabelle
+        # Schleife setzt mitglieder in die UserInLerngruppe Tabelle
         for i in gruppenMitglieder:
             query1 = """INSERT INTO teamup.userinlerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
             data1 = (i, gruppenId)
@@ -224,7 +224,7 @@ class LerngruppeMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
-    #TODO RETurn was soll returned werden
+    # TODO RETurn was soll returned werden
         return self.find_by_id(gruppenId)
 
     def insert_user(self, lerngruppe):

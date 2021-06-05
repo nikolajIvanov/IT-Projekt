@@ -28,6 +28,7 @@ CREATE TABLE `users` (
     /*Niko schaut sich Blob an für Bild*/
     `bild` LONGBLOB NOT NULL ,
     `name` varchar(128) NOT NULL DEFAULT '',
+    `vorname` varchar(128) NOT NULL DEFAULT '',
      /* Geburtstag muss gesetzt werden im FROTNEND deswegen müssen wir im BE kein Default definieren */
     `geburtsdatum` DATE NOT NULL DEFAULT '01.01.1900',
     `email` varchar(128) NOT NULL DEFAULT '',
