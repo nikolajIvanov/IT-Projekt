@@ -2,6 +2,8 @@ import React from 'react';
 import ProfilAvatar from "../../../components/Avatar/ProfilAvatar";
 import InputFeld from "../../../components/Textfeld/InputFeld";
 import theme from "../../../theme";
+import Grid from "@material-ui/core/Grid";
+import {Paper} from "@material-ui/core";
 
 
 function SectionAvatar(props) {
@@ -26,9 +28,17 @@ function SectionAvatar(props) {
 
     return (
         <div style={theme.card}>
-            <ProfilAvatar img={props.apiObject.getProfilBild()} handleChange={handleBildChange}/> {/*TODO: Prüfen wie man das Bild ändert */}
-            <InputFeld inhalt={props.apiObject.getVorname()} onChange={handleVorname}/>
-            <InputFeld inhalt={props.apiObject.getName()} onChange={handleNameChange}/>
+            <Grid container style={theme.root}>
+                <Grid item xs={12} style={theme.root}>
+                    <ProfilAvatar img={props.apiObject.getProfilBild()} handleChange={handleBildChange}/>
+                </Grid>
+                <Grid item xs={6} style={theme.rightAligned}>
+                    <InputFeld inhalt={props.apiObject.getVorname()} onChange={handleVorname}/>
+                </Grid>
+                <Grid item xs={6} style={theme.leftAligned}>
+                    <InputFeld inhalt={props.apiObject.getName()} onChange={handleNameChange}/>
+                </Grid>
+            </Grid>
         </div>
     );
 }

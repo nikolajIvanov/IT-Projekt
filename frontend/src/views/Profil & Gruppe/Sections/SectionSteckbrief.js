@@ -5,8 +5,9 @@ import DropDown from "../../../components/Textfeld/Dropdown";
 import Semester from "../../../components/Konstante(DropDown)/Semester";
 import theme from '../../../theme'
 import SubSectionModule from "./SubSectionModule";
-import {List, ListItem} from "@material-ui/core";
+import {Card, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
 import TeamUpApi from "../../../api/TeamUpApi";
+import ClassIcon from '@material-ui/icons/Class';
 
 // Dient als Molekül für die Seite ProfilBO und Gruppe.
 export default function SectionSteckbrief(props) {
@@ -70,39 +71,65 @@ export default function SectionSteckbrief(props) {
 
     return (
         <div style={theme.card}>
+
+            {/*Textfeld für die Beschreibung des Profils*/}
+
             <MultiLine disabled={props.disabled}
                        inhalt={props.apiObject.getBeschreibung()}
                        handleChange={handleBeschreibungChange} />
-            <Grid style={theme.row} container spacing={2}>
-                    <Grid style={theme.rightAligned} item xs={6} >
+
+            {/* Container für Alter, Semester und Studiengang des Studenten*/}
+        <Card style={{padding: "5%"}}>
+            <Grid style={theme.root} container spacing={3}>
+                    <Grid style={theme.rightAligned} item xs={6} sm={4} >
                         <p style={theme.h3.bold}>Alter:</p>
                     </Grid>
-                    <Grid style={theme.leftAligned} item xs={6} >
+                        <Grid style={theme.root} item xs={6} sm={1} >
+                            <p style={theme.h3.bold}>-</p>
+                        </Grid>
+                    <Grid style={theme.leftAligned} item xs={6} sm={7} >
                         <p style={theme.h3.bold}>26</p>
                     </Grid>
-                    <Grid  style={theme.rightAligned} item xs={6} >
+                    <Grid  style={theme.rightAligned} item xs={6} sm={4}>
                         <p style={theme.h3.bold}>Semester:</p>
                     </Grid>
-                    <Grid style={theme.leftAligned} item xs={6} >
+                        <Grid style={theme.root} item xs={6} sm={1} >
+                            <p style={theme.h3.bold}>-</p>
+                        </Grid>
+                    <Grid style={theme.leftAligned} item xs={6} sm={7}>
                         <DropDown map={Semester}
                                   input={props.apiObject.getSemester()}
                                   handleChange={handleSemesterChange}/>
                     </Grid>
-                    <Grid style={theme.rightAligned} item xs={6} >
+                    <Grid style={theme.rightAligned} item xs={6} sm={4}>
                         <p style={theme.h3.bold}>Studiengang:</p>
                     </Grid>
-                    <Grid style={theme.leftAligned} item xs={6} >
+                        <Grid style={theme.root} item xs={6} sm={1} >
+                            <p style={theme.h3.bold}>-</p>
+                        </Grid>
+                    <Grid style={theme.leftAligned} item xs={6} sm={7}>
                         <DropDown map={studien}
                                   input={props.apiObject.getStudiengang()}
                                   handleChange={handleStudiengangChange}/>
                     </Grid>
+            </Grid>
+        </Card>
+
+            {/*Grid Container mit  Lernmodulen und dem der Komponenten für die Auswahl der Module*/}
+            <Card style={{padding: "5%", marginTop: "5%"}}>
+                <Grid container>
                     <Grid style={theme.root} item xs={12}>
                         <p style={theme.h3.bold}>Meine Lernmodule:</p>
                     </Grid>
                     <Grid style={theme.root} item xs={12}>
                         <List style={theme.card}>
                             {props.apiObject.getModul().map((mod) =>
-                                <ListItem style={{textAlign: "center"}}>{mod}</ListItem>
+                                <ListItem>
+                                    <ListItemIcon>
+                                        <ClassIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText>{mod}</ListItemText>
+                                </ListItem>
                             )}
                         </List>
                     </Grid>
@@ -111,6 +138,7 @@ export default function SectionSteckbrief(props) {
                                       studiengang={props.apiObject.getStudiengang()}/>
                 </Grid>
             </Grid>
+            </Card>
         </div>
     );
 }

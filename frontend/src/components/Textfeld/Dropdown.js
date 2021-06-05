@@ -1,12 +1,11 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
 
 
 const Styles = ({
     button: {
-            width: "calc(100% - 10px)",
+            width: "15vw",
         },
 });
 

@@ -8,7 +8,7 @@ export default function SectionLerngruppe(props) {
         <div>
             <Grid container spacing={1} style={theme.root}>
                 <Grid item sx={6}>
-                    <p style={theme.h2.bold}>{props.text}</p>
+                    <p style={theme.h2.bold}>Lerngruppe</p>
                 </Grid>
                 <Grid item sx={6}>
                     <IconButton aria-label="show more"><ExpandMoreIcon /></IconButton>
