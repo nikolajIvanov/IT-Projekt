@@ -39,7 +39,7 @@ function SubSectionModule(props) {
                     <Paper style={theme.modalCard}>
                         <p style={theme.h3.bold}>Was willst du lernen? 🧐</p>
                         {Mod ? <>
-                        <FormGroup>
+                        <FormGroup style={theme.scrollBox}>
                             {Mod.map((mod) =>
                                 <FormControlLabel
                                     control={<Switch checked={props.modul.includes(mod.value)}

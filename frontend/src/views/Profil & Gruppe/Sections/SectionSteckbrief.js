@@ -122,16 +122,18 @@ export default function SectionSteckbrief(props) {
                         <p style={theme.h3.bold}>Meine Lernmodule:</p>
                     </Grid>
                     <Grid style={theme.root} item xs={12}>
-                        <List style={theme.card}>
-                            {props.apiObject.getModul().map((mod) =>
-                                <ListItem>
-                                    <ListItemIcon>
-                                        <ClassIcon/>
-                                    </ListItemIcon>
-                                    <ListItemText>{mod}</ListItemText>
-                                </ListItem>
-                            )}
-                        </List>
+                        <div style={theme.scrollBox}>
+                            <List style={theme.card}>
+                                {props.apiObject.getModul().map((mod) =>
+                                    <ListItem>
+                                        <ListItemIcon>
+                                            <ClassIcon/>
+                                        </ListItemIcon>
+                                        <ListItemText>{mod}</ListItemText>
+                                    </ListItem>
+                                )}
+                            </List>
+                        </div>
                     </Grid>
                 <Grid style={theme.root} item xs={12}>
                     <SubSectionModule setModul={handleModul} modul={props.apiObject.getModul()}

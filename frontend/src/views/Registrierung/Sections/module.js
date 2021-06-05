@@ -34,7 +34,7 @@ function Module(props){
             <Paper style={props.mode}>
                 {Mod ? <>
                     <Typography style={theme.font.register}>Was willst du lernen?</Typography>
-                    <FormGroup>
+                    <FormGroup style={theme.scrollBox}>
                 {Mod.map((mod) =>
                         <FormControlLabel
                             control={<Switch checked={props.modul.includes(mod.value)}

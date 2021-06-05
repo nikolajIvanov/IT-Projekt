@@ -14,7 +14,15 @@ const theme = {
         display: "flex",
         justifyContent: "flex-end",
         alignItems:"center",
-    },
+        },
+        scrollBox:{
+            height: 150,
+            width: 300,
+            overflow: "auto",
+            display:"flex",
+            flexDirection: "row",
+            marginBottom: "5%"
+        },
         profileBorder:{
             width: "50%",
             marginTop: "2%",
