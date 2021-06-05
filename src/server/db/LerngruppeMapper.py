@@ -220,7 +220,7 @@ class LerngruppeMapper(Mapper):
         for i in gruppenModule:
             query2 = """INSERT INTO teamup.lerngruppeinmodul (lerngruppeId, modulId) VALUES (%s, %s) """
             data2 = (gruppenId, self.get_modulId_by_modul(i))
-            cursor.execute(query2,(data2))
+            cursor.execute(query2, data2)
 
         self._cnx.commit()
         cursor.close()
