@@ -12,7 +12,8 @@ class UserApi(Resource):
 
     def delete(self, authId):
         adm = Administration()
-        return adm.delete_user_by_id(authId)
+        adm.delete_user_by_id(authId)
+        return 200
 
     # @api.expect(user, validate=True)
     @api.expect(user)
