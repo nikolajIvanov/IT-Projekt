@@ -21,6 +21,6 @@ function Semester(props) {
             />
         </Paper>
     );
-}
+};
 
 export default Semester;

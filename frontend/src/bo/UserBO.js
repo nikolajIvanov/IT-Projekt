@@ -7,6 +7,7 @@ export default class UserBO extends ProfilBO {
         super();
         this.gender = "";
         this.geburtsdatum = null;
+        this.vorname = "";
         this.email = "";
         this.istinGruppe = [];
         this.authId = "";
@@ -20,6 +21,14 @@ export default class UserBO extends ProfilBO {
 
     setGeburtstag(newGeburtstag) {
         this.geburtsdatum = newGeburtstag;
+    }
+
+    getVorname(){
+        return this.vorname
+    }
+
+    setVorname(newVorname){
+        this.vorname = newVorname
     }
 
     getEmail() {
@@ -67,6 +76,7 @@ export default class UserBO extends ProfilBO {
         return {
             id: this.id,
             name: this.name,
+            vorname: this.vorname,
             gender: this.gender,
             geburtsdatum: this.geburtsdatum,
             beschreibung: this.beschreibung,
@@ -82,6 +92,7 @@ export default class UserBO extends ProfilBO {
     }
     setAll(user){
         this.name = user.name;
+        this.vorname = user.vorname;
         this.gender = user.gender;
         this.geburtsdatum = user.geburtsdatum;
         this.beschreibung = user.beschreibung;

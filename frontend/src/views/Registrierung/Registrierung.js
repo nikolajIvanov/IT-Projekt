@@ -30,6 +30,7 @@ function Registrierung(props) {
     const [activeStep, setActiveStep] = React.useState(0);
     const [count, setCount] = React.useState(0);
     const [name, setName] = React.useState('');
+    const [vorname, setVorname] = React.useState('');
     const [bio, setBio] = React.useState('');
     const [date, setDate] = React.useState('');
     const [gender, setGender] = React.useState('');
@@ -46,7 +47,8 @@ function Registrierung(props) {
 
     //Komponenten die im Laufe des Registrierungsprozess über checkBox gerendert werden
     const components = [
-        <Name setName={setName} name={name} mode={styles.card}/>,
+        <Name setName={setName} name={name} setVorname={setVorname}
+              vorname={vorname} mode={styles.card}/>,
         <Date setDate={setDate} date={date} mode={styles.card}/>,
         <Gender setGender={setGender} gender={gender} mode={styles.card} drop={droplabels[0]}/>,
         <Studiengang setModul={setModul} setStudiengang={setStudiengang} studium={studiengang} drop={droplabels[5]} mode={styles.card}/>,
@@ -60,6 +62,7 @@ function Registrierung(props) {
     //TODO Api Call aufruf und übergabe von Infos über BO (Nutzer) ans Backend
     const infos = {
         name: name,
+        vorname: vorname,
         gender: gender,
         geburtsdatum: date,
         modul: modul,
