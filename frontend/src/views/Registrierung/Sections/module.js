@@ -4,11 +4,10 @@ import theme from "../../../theme";
 import TeamUpApi from "../../../api/TeamUpApi";
 
 function Module(props){
-    const [back, setBack] = React.useState([])
     const [Mod, setMod] = React.useState([])
 
     useEffect( () => {
-        TeamUpApi.getAPI().getModul("Wirtschaftsinformatik und digitale Medien")
+        TeamUpApi.getAPI().getModul(props.studiengang)
             .then((modul) => {
                 const middle = []
                 modul.forEach(i => {
@@ -23,16 +22,16 @@ function Module(props){
     }, []);
 
     const handleChange = (mod) => {
-        if (back.includes(mod) === false) {
-            setBack(back => back.concat(mod))
+        if (props.modul.includes(mod) === false) {
+            props.setModul(modul => modul.concat(mod))
         }
         else {
-            setBack(back => back.filter(item => item !== mod))
+            props.setModul(modul => modul.filter(item => item !== mod))
         }
     }
 
     const getResult = () => {
-        console.log(back)
+        console.log(props.modul)
     }
 
         return (
@@ -40,14 +39,14 @@ function Module(props){
                 {Mod ? <>
                     <Typography style={theme.font.register}>Was willst du lernen?</Typography>
                     <FormGroup>
-                {Mod.map((modul) =>
+                {Mod.map((mod) =>
                         <FormControlLabel
-                            control={<Switch checked={back.includes(modul.value)}
+                            control={<Switch checked={props.modul.includes(mod.value)}
                             onClick={(e) => {
                             e.preventDefault();
-                            handleChange(modul.value)
+                            handleChange(mod.value)
                             }}/>}
-                        label={modul.value}
+                        label={mod.value}
                         />
                     )}
                     </FormGroup>

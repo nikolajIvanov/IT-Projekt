@@ -14,6 +14,7 @@ class Studiengang extends React.Component{
 
     handleSemester = (event) => {
         this.props.setStudiengang(event.target.value);
+        this.props.setModul([])
     };
 
     componentDidMount = async() => {

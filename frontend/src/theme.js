@@ -55,6 +55,10 @@ const theme = {
             justifyContent: "center",
             alignItems:"center",
         },
+        row:{
+            display: "flex",
+            flexDirection: "row"
+        },
         h1:{
             regular:{
                 fontSize: 'xx-large'

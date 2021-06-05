@@ -49,23 +49,4 @@ export default class ProfilBO extends BusinessObject {
     setBeschreibung(newBeschreibung) {
         this.beschreibung = newBeschreibung;
     }
-
-
-    //Getter-Setter alle #Profildaten
-    getAll(){
-        return {
-            name: this.name,
-            beschreibung: this.beschreibung,
-            lerntyp: this.lerntyp,
-            modul: this.modul,
-            profilBild: this.profilBild,
-        }
-    }
-    setAll(gruppe){
-        this.name = gruppe.name;
-        this.beschreibung = gruppe.beschreibung;
-        this.lerntyp = gruppe.lerntyp;
-        this.modul.push(gruppe.modul);
-        this.profilBild = gruppe.profilBild;
-    }
 }

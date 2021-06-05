@@ -6,9 +6,9 @@ import DropDown from "../../../components/Textfeld/Dropdown";
 import Mod from "../../../components/Konstante(DropDown)/Module";
 import Semester from "../../../components/Konstante(DropDown)/Semester";
 import Studiengang from "../../../components/Konstante(DropDown)/Studiengang";
-import Lerntypen from "../../../components/Konstante(DropDown)/Lerntypen";
 import theme from '../../../theme'
-import {Paper} from "@material-ui/core";
+import SubSectionModule from "./SubSectionModule";
+import Typography from "@material-ui/core/Typography";
 
 // Dient als Molekül für die Seite ProfilBO und Gruppe.
 export default function SectionSteckbrief(props) {
@@ -51,33 +51,39 @@ export default function SectionSteckbrief(props) {
 
     return (
         <div>
-            <Grid style={theme.root} container spacing={1}>
-                <Grid style={theme.root} item xs={12}>
-                    <MultiLine disabled={props.disabled} inhalt={props.apiObject.getBeschreibung()} handleChange={handleBeschreibungChange} />
+            <Grid container spacing={1}>
+                <Grid item xs={12}>
+                    <MultiLine disabled={props.disabled}
+                               inhalt={props.apiObject.getBeschreibung()}
+                               handleChange={handleBeschreibungChange} />
                 </Grid>
-                <Grid item xs={6}>
-                    <p style={theme.h3.bold}>Alter:</p>
+                <Grid item xs={6} >
+                    <p style={theme.h3.bold}>Alter</p>
                 </Grid>
-                <Grid item xs={4}>
-                    <DatePicker inhalt={props.apiObject.getGeburtstag()} handleChange={handleDateChange}/>
+                <Grid item xs={6} >
+                    <p style={theme.h3.bold}>26</p>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item sx={6}>
                     <p style={theme.h3.bold}>Semester:</p>
                 </Grid>
                 <Grid item sx={6}>
-                    <DropDown map={Semester} input={props.apiObject.getSemester()} handleChange={handleSemesterChange}/>
+                    <DropDown map={Semester}
+                              input={props.apiObject.getSemester()}
+                              handleChange={handleSemesterChange}/>
                 </Grid>
                 <Grid item xs={6}>
                     <p style={theme.h3.bold}>Studiengang:</p>
                 </Grid>
-                <Grid item sx={6}>
-                    <DropDown map={Studiengang} input={props.apiObject.getStudiengang()} handleChange={handleStudiengangChange}/>
+                <Grid item xs={6}>
+                    <DropDown map={Studiengang}
+                              input={props.apiObject.getStudiengang()}
+                              handleChange={handleStudiengangChange}/>
                 </Grid>
                 <Grid item xs={6}>
                     <p style={theme.h3.bold}>Ich suche:</p>
                 </Grid>
-                <Grid item sx={6}>
-                    <DropDown map={Mod} input={props.apiObject.getModul()} handleChange={handleModulChange}/>
+                <Grid item xs={6}>
+                    <SubSectionModule/>
                 </Grid>
             </Grid>
         </div>

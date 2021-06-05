@@ -96,7 +96,6 @@ class ProfilBearbeiten extends React.Component {
                     <Card style={theme.profileBorder}>
                     <CardContent>
                     <SectionAvatar apiObject={apiUser} handleChange={this.handleChange}/>
-                        <Module/>
                     <Grid container spacing={3}>
                         <Grid style={theme.root} item xs={12}>
                             <SectionSteckbrief apiObject={apiUser}

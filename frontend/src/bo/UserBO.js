@@ -86,7 +86,7 @@ export default class UserBO extends ProfilBO {
         this.geburtsdatum = user.geburtsdatum;
         this.beschreibung = user.beschreibung;
         this.lerntyp = user.lerntyp;
-        this.modul.push(user.modul);
+        this.modul = user.modul;
         this.profilBild = user.profilBild;
         this.istinGruppe = user.istinGruppe;
         this.authId = user.authId;
