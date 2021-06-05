@@ -1,15 +1,9 @@
-from src.server.Administration import Administration
-from src.server.bo.Nutzer import Nutzer
-adm = Administration()
-payload = {
-    "authId": "124",
-    "geburtsdatum": "2021-05-14",
-    "email": "1",
-    "name": "2",
-    "lerntyp": "3",
-    "modul": "4",
-    "profilBild": "5",
-    "beschreibung": "6"
-}
-nutzer = Nutzer.from_dict(payload)
-adm.create_user_by_authId(nutzer)
+from datetime import date, datetime
+
+geb = "1994-12-18"
+date_time_obj = datetime.strptime(geb, '%Y-%m-%d')
+# print(date_time_obj.year)
+
+today = date.today()
+alter = today.year - date_time_obj.year - ((today.month, today.day) < (date_time_obj.month, date_time_obj.day))
+print(alter)

@@ -1,4 +1,5 @@
 from src.server.bo.Profil import Profil
+from datetime import date, datetime
 
 
 class User(Profil):
@@ -54,6 +55,12 @@ class User(Profil):
     def get_vorname(self):
         return self.__vorname
 
+    # Rechnet das Geburtstag in Alter um
+    def calculate_age(self):
+        today = date.today()
+        geb = datetime.strptime(self.get_geburtsdatum(), '%Y-%m-%d')
+        return today.year - geb.year - ((today.month, today.day) < (geb.month, geb.day))
+
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz.
 
@@ -62,7 +69,7 @@ class User(Profil):
         des jeweiligen Kunden."""
         # TODO LERNTYP MODUL dazu allgemein attribute anschaun pls
         return "Customer: {}, {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_authId(), self.get_name(),
-                                                            self.get_email(), self.get_lerntyp(), self.get_modul(),
+                                                             self.get_email(), self.get_lerntyp(), self.get_modul(),
                                                              self.get_vorname())
 
     @staticmethod
