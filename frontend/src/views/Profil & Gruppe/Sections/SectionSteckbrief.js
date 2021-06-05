@@ -9,6 +9,7 @@ import Studiengang from "../../../components/Konstante(DropDown)/Studiengang";
 import theme from '../../../theme'
 import SubSectionModule from "./SubSectionModule";
 import Typography from "@material-ui/core/Typography";
+import {List, ListItem} from "@material-ui/core";
 
 // Dient als Molekül für die Seite ProfilBO und Gruppe.
 export default function SectionSteckbrief(props) {
@@ -50,39 +51,42 @@ export default function SectionSteckbrief(props) {
     }
 
     return (
-        <div>
-            <Grid container spacing={1}>
-                <Grid item xs={12}>
-                    <MultiLine disabled={props.disabled}
-                               inhalt={props.apiObject.getBeschreibung()}
-                               handleChange={handleBeschreibungChange} />
-                </Grid>
-                <Grid item xs={6} >
-                    <p style={theme.h3.bold}>Alter</p>
-                </Grid>
-                <Grid item xs={6} >
-                    <p style={theme.h3.bold}>26</p>
-                </Grid>
-                <Grid item sx={6}>
-                    <p style={theme.h3.bold}>Semester:</p>
-                </Grid>
-                <Grid item sx={6}>
-                    <DropDown map={Semester}
-                              input={props.apiObject.getSemester()}
-                              handleChange={handleSemesterChange}/>
-                </Grid>
-                <Grid item xs={6}>
-                    <p style={theme.h3.bold}>Studiengang:</p>
-                </Grid>
-                <Grid item xs={6}>
-                    <DropDown map={Studiengang}
-                              input={props.apiObject.getStudiengang()}
-                              handleChange={handleStudiengangChange}/>
-                </Grid>
-                <Grid item xs={6}>
-                    <p style={theme.h3.bold}>Ich suche:</p>
-                </Grid>
-                <Grid item xs={6}>
+        <div style={theme.card}>
+            <MultiLine disabled={props.disabled}
+                       inhalt={props.apiObject.getBeschreibung()}
+                       handleChange={handleBeschreibungChange} />
+            <Grid style={theme.row} container spacing={2}>
+                    <Grid style={theme.rightAligned} item xs={6} >
+                        <p style={theme.h3.bold}>Alter:</p>
+                    </Grid>
+                    <Grid style={theme.leftAligned} item xs={6} >
+                        <p style={theme.h3.bold}>26</p>
+                    </Grid>
+                    <Grid  style={theme.rightAligned} item xs={6} >
+                        <p style={theme.h3.bold}>Semester:</p>
+                    </Grid>
+                    <Grid style={theme.leftAligned} item xs={6} >
+                        <DropDown map={Semester}
+                                  input={props.apiObject.getSemester()}
+                                  handleChange={handleSemesterChange}/>
+                    </Grid>
+                    <Grid style={theme.rightAligned} item xs={6} >
+                        <p style={theme.h3.bold}>Studiengang:</p>
+                    </Grid>
+                    <Grid style={theme.leftAligned} item xs={6} >
+                        <DropDown map={Studiengang}
+                                  input={props.apiObject.getStudiengang()}
+                                  handleChange={handleStudiengangChange}/>
+                    </Grid>
+                    <Grid style={theme.root} item xs={12}>
+                        <p style={theme.h3.bold}>Ich suche:</p>
+                    </Grid>
+                    <Grid style={theme.root} item xs={12}>
+                        <List>
+                            <ListItem>Was?</ListItem>
+                        </List>
+                    </Grid>
+                <Grid style={theme.root} item xs={12}>
                     <SubSectionModule/>
                 </Grid>
             </Grid>

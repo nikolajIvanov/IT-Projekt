@@ -73,6 +73,7 @@ class ProfilBearbeiten extends React.Component {
     // User geladen und in den state gespeichert.
     async componentDidMount() {
         await TeamUpApi.getAPI().getUser(firebase.auth().currentUser.uid).then(user =>{
+            console.log(user)
             this.setState({
                 apiUser: user
             });

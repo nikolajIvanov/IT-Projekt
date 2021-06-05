@@ -18,9 +18,16 @@ function SectionAvatar(props) {
         props.handleChange(newUser)
     }
 
+    const handleVorname = (e) => {
+        let newUser = props.apiObject;
+        newUser.setVorname(e.target.value)
+        props.handleChange(newUser)
+    }
+
     return (
         <div style={theme.card}>
             <ProfilAvatar img={props.apiObject.getProfilBild()} handleChange={handleBildChange}/> {/*TODO: Prüfen wie man das Bild ändert */}
+            <InputFeld inhalt={props.apiObject.getVorname()} onChange={handleVorname}/>
             <InputFeld inhalt={props.apiObject.getName()} onChange={handleNameChange}/>
         </div>
     );

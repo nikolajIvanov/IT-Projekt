@@ -7,9 +7,14 @@ const theme = {
         },
         leftAligned:{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             alignItems:"center",
         },
+        rightAligned:{
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems:"center",
+    },
         profileBorder:{
             width: "50%",
             marginTop: "2%",
