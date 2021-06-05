@@ -15,6 +15,9 @@ DROP TABLE IF EXISTS `studiengang`;
 
 CREATE TABLE `modul` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `studienart` varchar(128) NOT NULL DEFAULT '',
+    `wahl/pflicht` varchar(128) NOT NULL DEFAULT '',
+    `edv-nr` int(11) NOT NULL ,
     `bezeichnung` varchar(128) NOT NULL DEFAULT ''
 );
 
