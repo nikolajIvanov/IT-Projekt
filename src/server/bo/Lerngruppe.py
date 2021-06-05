@@ -14,6 +14,9 @@ class Lerngruppe(Profil):
     def set_mitglieder(self, value):
         self.__mitglieder = value
 
+    def set_mitglieder_append(self, value):
+        self.__mitglieder.append(value)
+
     def get_admin(self):
         return self.__admin
 
