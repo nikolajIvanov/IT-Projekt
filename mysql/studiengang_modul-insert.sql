@@ -38,3 +38,10 @@ INSERT INTO modulInStudiengang(studiengangId, modulId) VALUES
     (2, 12),
     (2, 13),
     (2, 1);
+
+INSERT INTO lerntyp(bild, typ) VALUES
+    ('Bild1', 'Visuell'),
+    ('Bild2', 'Auditiv'),
+    ('Bild3', 'Kommunikativ'),
+    ('Bild4', 'Motorisch'),
+    ('Bild5', 'Mischform');

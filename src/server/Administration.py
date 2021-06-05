@@ -8,6 +8,7 @@ from .db.UserMapper import UserMapper
 from .db.LerngruppeMapper import LerngruppeMapper
 from .db.StudiengangMapper import StudiengangMapper
 from .db.ModulMapper import ModulMapper
+from .db.LerntypMapper import LerntypMapper
 
 
 # TODO Überlegen ob man was anderes braucht als get user bei Id
@@ -205,3 +206,7 @@ class Administration(object):
     def get_modul_by_studiengang(self, studiengang):
         with ModulMapper() as mapper:
             return mapper.get_studiengangId_by_studiengang(studiengang)
+
+    def get_lerntyp(self):
+        with LerntypMapper() as mapper:
+            return mapper.find_all()

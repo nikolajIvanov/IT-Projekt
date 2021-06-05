@@ -11,6 +11,7 @@ from server.api.LerngruppenmitgliedApi import LerngruppenmitgliedApi
 from server.api.model import api, app
 from server.api.StudiengangApi import StudiengangApi
 from server.api.ModulApi import ModulApi
+from server.api.LerntypApi import LerntypApi
 
 
 CORS(app, resources=r'/*')
@@ -35,6 +36,7 @@ api.add_resource(LerngruppenmitgliedApi, '/lerngruppen-mitglied/<string:name>')
 
 api.add_resource(StudiengangApi, '/studiengang')
 api.add_resource(ModulApi, '/modul/<string:studiengang>')
+api.add_resource(LerntypApi, '/lerntyp')
 
 if __name__ == '__main__':
     # app.run(debug=True)

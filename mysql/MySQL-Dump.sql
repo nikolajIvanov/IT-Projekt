@@ -89,3 +89,9 @@ CREATE TABLE `modulInStudiengang`
     FOREIGN KEY (modulId) REFERENCES modul (id),
     PRIMARY KEY (studiengangId, modulId)
 );
+
+CREATE TABLE `lerntyp` (
+    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `bild` MEDIUMBLOB NOT NULL ,
+    `typ` varchar(128) NOT NULL DEFAULT ''
+);

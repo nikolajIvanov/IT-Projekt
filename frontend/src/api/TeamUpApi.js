@@ -23,7 +23,10 @@ export default class TeamUpApi {
     #studiengangURL = () => `${this.#serverBaseURL}/studiengang`;
 
     //Module URL
-    #module = (studiengang) => `${this.#serverBaseURL}/modul/${studiengang}`;
+    #modulURL = (studiengang) => `${this.#serverBaseURL}/modul/${studiengang}`;
+
+    // Lerntyp URL
+    #lerntypURL = () => `${this.#serverBaseURL}/lerntyp`;
 
     // Wird bei jedem API Aufruf als erstes aufgerufen. Es erzeugt ein Objekt der Klasse TeamUpApi um somit die
     // einzelnen Objektmethoden aufrufen zu können.
@@ -87,6 +90,14 @@ export default class TeamUpApi {
         return this.#getAll(this.#studiengangURL(), StudiengangBO)
     }
 
+    getLerntyp(){
+        return this.#getAll(this.#lerntypURL(), LerngruppeBO)
+    }
+
+    getModul(studiengang){
+        return this.#getAll(this.#modulURL(studiengang))
+    }
+
     //TODO Delete Gruppe einfügen
 
     // Generische Methode um einen einzelnen Wert vom Backend ans Frontend zu übergeben.
@@ -135,9 +146,8 @@ export default class TeamUpApi {
                 resolve(responseBO);
             })
         })
-
-
     }
+
     // Generische Methode um ein vorhandenes Objekt im Backend zu löschen (DELETE Methode).
     // Vom Backend wir ein Statuscode übermittelt um zu überprüfen ob das Löschen geklappt hat.
     #delete = (url) => {

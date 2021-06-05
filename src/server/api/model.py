@@ -38,3 +38,8 @@ studiengang = api.inherit('StudiengangBO', bo, {
 modul = api.inherit('ModulBO', bo, {
     'modul': fields.String(attribute=lambda x: x.get_modul(), description='Administrator einer Lerngruppe'),
 })
+
+lerntyp = api.inherit('LerntypBO', bo, {
+    'bild': fields.String(attribute=lambda x: x.get_bild(), description='Bild eines Benutzers'),
+    'lerntyp': fields.String(attribute=lambda x: x.get_lerntyp(), description='Administrator einer Lerngruppe'),
+})
