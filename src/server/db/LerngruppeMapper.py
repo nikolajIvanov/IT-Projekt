@@ -31,7 +31,6 @@ class LerngruppeMapper(Mapper):
         return modulId[0]
 
     def find_all(self):
-        result = []
         cursor = self._cnx.cursor()
 
         # Daten von lerngruppe
@@ -46,12 +45,38 @@ class LerngruppeMapper(Mapper):
             lerngruppe.set_beschreibung(beschreibung)
             lerngruppe.set_profilBild(profilbild)
             lerngruppe.set_admin(admin)
-            result.append(lerngruppe)
+
+
+         # erstellen des SQL-Befehls um abzufragen welche Module einer Lerngruppe zugeordnet sind
+        query1 = """SELECT teamup.modul.bezeichnung FROM teamup.modul JOIN teamup.lerngruppeinmodul lim 
+                        ON modul.id = lim.modulId WHERE lim.lerngruppeId =%s"""
+         # Ausführen des zweiten SQL-Befehls
+        cursor.execute(query1, (lerngruppe.get_id(),))
+         # Speichern der SQL Antwort
+        tupel1 = cursor.fetchall()
+
+         # Auflösen der zweiten SQL Antwort (Module der Lerngruppe) und setzen des Parameters
+        for i in tupel1:
+             for x in i:
+                 lerngruppe.set_module_append(x)
+
+        # erstellen des SQL-Befehls um abzufragen welche Mitglieder eine Lerngruppe besitzt
+        query2 = """SELECT teamup.userinlerngruppe.userId FROM teamup.userinlerngruppe 
+                            WHERE teamup.userinlerngruppe.lerngruppeId =%s"""
+        # Ausführen des zweiten SQL-Befehls
+        cursor.execute(query2, (lerngruppe.get_id(),))
+         # Speichern der SQL Antwort
+        tupel2 = cursor.fetchall()
+
+        # Auflösen der zweiten SQL Antwort (Mitglieder der Lerngruppe) und setzen des Parameters
+        for i in tupel2:
+            for x in i:
+                lerngruppe.set_mitglieder_append(x)
 
         self._cnx.commit()
         cursor.close()
 
-        return result
+        return lerngruppe
 
     def find_by_name(self, lerngruppe):
         result = []
@@ -100,11 +125,12 @@ class LerngruppeMapper(Mapper):
         # Query um alle informationen einer bestimmten lerngruppe zu bekommen
         query = """SELECT lerntyp, name, beschreibung, bild, admin from TeamUP.lerngruppe WHERE id = (%s)"""
 
+        # Ausführen des ersten SQL-Befehls
         cursor.execute(query, (gruppenId,))
 
-        # lerngruppendaten
+        # Speichern der SQL Antwort
         tupel = cursor.fetchall()
-
+        # Auflösen der ersten SQL Antwort (Lerngruppe) und setzen der Parameter
         (lerntyp, name, beschreibung, bild, admin) = tupel[0]
         lerngruppe = Lerngruppe()
         lerngruppe.set_id(gruppenId)
@@ -113,11 +139,35 @@ class LerngruppeMapper(Mapper):
         lerngruppe.set_beschreibung(beschreibung)
         lerngruppe.set_profilBild(bild)
         lerngruppe.set_admin(admin)
-        #TODO MODULE UND MITGLIEDER WIEDERGEBEN
+
+        #erstellen des SQL-Befehls um abzufragen welche Module einer Lerngruppe zugeordnet sind
+        query1 = """SELECT teamup.modul.bezeichnung FROM teamup.modul JOIN teamup.lerngruppeinmodul lim 
+                    ON modul.id = lim.modulId WHERE lim.lerngruppeId =%s"""
+        # Ausführen des zweiten SQL-Befehls
+        cursor.execute(query1, (gruppenId,))
+        # Speichern der SQL Antwort
+        tupel1 = cursor.fetchall()
+
+        # Auflösen der zweiten SQL Antwort (Module der Lerngruppe) und setzen des Parameters
+        for i in tupel1:
+            for x in i:
+                lerngruppe.set_module_append(x)
+
+        # erstellen des SQL-Befehls um abzufragen welche Mitglieder eine Lerngruppe besitzt
+        query2 = """SELECT teamup.userinlerngruppe.userId FROM teamup.userinlerngruppe 
+                    WHERE teamup.userinlerngruppe.lerngruppeId =%s"""
+        # Ausführen des zweiten SQL-Befehls
+        cursor.execute(query2, (gruppenId,))
+        # Speichern der SQL Antwort
+        tupel2 = cursor.fetchall()
+
+        # Auflösen der zweiten SQL Antwort (Mitglieder der Lerngruppe) und setzen des Parameters
+        for i in tupel2:
+            for x in i:
+                lerngruppe.set_mitglieder_append(x)
 
         self._cnx.commit()
         cursor.close()
-
         return lerngruppe
 
     def insert_lerngruppe(self, lerngruppe):
