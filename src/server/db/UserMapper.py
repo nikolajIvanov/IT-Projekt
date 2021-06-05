@@ -73,8 +73,8 @@ class UserMapper(Mapper):
 
         # erstellen des SQL-Befehls um abzufragen welche Module einem User zugeordnet sind
         query1 = """SELECT modul.bezeichnung From ((TeamUP.modul JOIN TeamUP.userinmodul 
-                ON modul.id = userinmodul.modulId) 
-                JOIN teamup.users ON userinmodul.userId = users.id ) WHERE authId=%s"""
+                    ON modul.id = userinmodul.modulId) 
+                    JOIN teamup.users ON userinmodul.userId = users.id ) WHERE teamup.users.authId=%s"""
 
         # Ausführen des ersten SQL-Befehls
         cursor.execute(query, (key,))
