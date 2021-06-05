@@ -153,7 +153,8 @@ export default class TeamUpApi {
     // Vom Backend wir ein Statuscode übermittelt um zu überprüfen ob das Löschen geklappt hat.
     #delete = (url) => {
         return this.#fetchAdvanced(url, {
-            method: 'DELETE'
+            method: 'DELETE',
+            redirect: 'follow'
         }).then((responseStatusCode) => {
             return(responseStatusCode)
         })

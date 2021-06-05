@@ -42,24 +42,24 @@ class ProfilBearbeiten extends React.Component {
 
     //Button-Klick löst einen TeamUP-API call aus der den über die Nutzer aus der DB löscht
     handleLöschen = async () => {
-        const user = new UserBO()
-        user.setAll(this.state.apiUser)
-        console.log(user)
         await TeamUpApi.getAPI().deleteUser(firebase.auth().currentUser.uid)
+            .then((res) => {
+                if(res === 200){
+                    console.log("ich bin gelöscht")
+                    firebase.auth().currentUser.delete()
+                }
+                else{
+                    console.log("ich bin nicht gelöscht")
+                    alert("Löschen fehlgeschlagen")
+                }
+            }
+        )
     }
 
     löschenModal = () => {
         this.setState({
             modalOpen: true
         })
-        return(
-            <div style={theme.root}>
-                <Paper style={theme.modalCard}>
-                    <h1>Wollen Sie ihr Profil wirklich löschen</h1>
-                    <ButtonBestätigen inhalt={"Bestätigen"}/>
-                </Paper>
-            </div>
-        )
     }
 
 
@@ -121,7 +121,8 @@ class ProfilBearbeiten extends React.Component {
                                             <p style={theme.p}>Du verlierst dadurch deinen Zugang zu TeamUP</p>
                                             <Grid container spacing={1} style={theme.root}>
                                                 <Grid item sx={6}>
-                                                    <ButtonLöschen inhalt={"Bestätigen"}/>
+                                                    <ButtonLöschen onClick={this.handleLöschen}
+                                                                   inhalt={"Bestätigen"}/>
                                                 </Grid>
                                                 <Grid item sx={6}>
                                                 <ButtonBestätigen inhalt={"Doch bleiben"}
