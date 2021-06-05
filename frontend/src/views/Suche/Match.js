@@ -30,6 +30,7 @@ class Match extends Component {
     // Ruft die User GET Methode auf und holt alle User aus dem Backend
     getData = () => {
         TeamUpApi.getAPI().getAllUsers().then(users =>{
+            console.log(users)
             this.setState({
                 apiUsers: users
             });
@@ -68,7 +69,7 @@ class Match extends Component {
                     <FilterIcon/>
                     { isPerson ?
                     <ProfilListElement apiUsers={apiUsers}/>
-                    : <GroupListElement apiGruppe={apiGruppen}/>}
+                    : {/*<GroupListElement apiGruppe={apiGruppen}/> */}}
                 </> : null }
             </div>
         );
