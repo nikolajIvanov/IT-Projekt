@@ -28,6 +28,15 @@ class ProfilBearbeiten extends React.Component {
     // Es wird ein neues Objekt der Klasser UserBO erstellt und es werden alle Daten aus der state in das Objekt übertragen
     // und mittels API Call ans Backend übergeben
     handleUpdate  = async () => {
+
+        const u = firebase.auth().currentUser;
+        const credential = firebase.auth.EmailAuthProvider.credential(
+            u.email,
+            //TODO passwort muss über Modal eingegeben werden
+            passwort
+        );
+        user.reauthenticateWithCredential(credential);
+
         const user = new UserBO()
         user.setAll(this.state.apiUser)
         console.log(user)
@@ -45,8 +54,8 @@ class ProfilBearbeiten extends React.Component {
         await TeamUpApi.getAPI().deleteUser(firebase.auth().currentUser.uid)
             .then((res) => {
                 if(res === 200){
-                    console.log("ich bin gelöscht")
                     firebase.auth().currentUser.delete()
+                    console.log("ich bin gelöscht")
                 }
                 else{
                     console.log("ich bin nicht gelöscht")
