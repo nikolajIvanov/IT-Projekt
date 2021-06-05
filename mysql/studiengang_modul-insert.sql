@@ -39,9 +39,16 @@ INSERT INTO modulInStudiengang(studiengangId, modulId) VALUES
     (2, 13),
     (2, 1);
 
-INSERT INTO lerntyp(bild, typ) VALUES
-    ('Bild1', 'Visuell'),
-    ('Bild2', 'Auditiv'),
-    ('Bild3', 'Kommunikativ'),
-    ('Bild4', 'Motorisch'),
-    ('Bild5', 'Mischform');
+INSERT INTO lerntyp(bild, typ, beschreibung) VALUES
+    ('Bild1', 'Visuell', 'Der visuelle Lerntyp lernt am besten über das Sehen. Lesen, Anschauen und Beobachten sind für
+    ihn die besten Möglichkeiten, um Informationen und Inhalte aufzunehmen. Bildliche Darstellungen, Schaubilder,
+    Visualisierungen und grafisch strukturiertes Lernmaterial unterstützen seinen Lernprozess.'),
+    ('Bild2', 'Auditiv', 'Hören ist der bevorzugte Wahrnehmungskanal des auditiven Lerntyps. Alles, was er akustisch
+    wahrnimmt, kann er besonders gut verarbeiten. Vorträge, mündliche Erläuterungen, lautes Vorlesen und eigenes
+    Verbalisieren helfen ihm beim Lernen.'),
+    ('Bild3', 'Kommunikativ', 'Dieser Lerntyp lernt am besten über die Kommunikation und den Austausch mit anderen.
+    Erklärungen, Fragen, eigene Vorträge und Diskussionen erzielen bei ihm die besten Lernergebnisse.'),
+    ('Bild4', 'Motorisch', 'Der haptische Lerntyp lernt besonders gut über das Anfassen und eigenes praktisches Tun.
+    Sein Lernerfolg ist am größten, wenn er Inhalte mit den Händen begreifen und selbst aktiv werden kann.
+    Auch Bewegung hilft ihm beim Lernen.'),
+    ('Bild5', 'Mischform', 'Du hast keinen eindeutigen Lerntyp und hast von allen etwas.');

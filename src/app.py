@@ -32,7 +32,7 @@ api.add_resource(UserApi, '/users/<string:authId>')
 
 api.add_resource(LerngruppenApi, '/lerngruppen')
 api.add_resource(LerngruppeApi, '/lerngruppe/<int:id>')
-api.add_resource(LerngruppenmitgliedApi, '/lerngruppen-mitglied/<string:name>')
+api.add_resource(LerngruppenmitgliedApi, '/lerngruppen-mitglied')
 
 api.add_resource(StudiengangApi, '/studiengang')
 api.add_resource(ModulApi, '/modul/<string:studiengang>')

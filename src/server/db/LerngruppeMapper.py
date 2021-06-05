@@ -31,10 +31,11 @@ class LerngruppeMapper(Mapper):
         return modulId[0]
 
     def find_all(self):
+        result = []
         cursor = self._cnx.cursor()
 
         # Daten von lerngruppe
-        cursor.execute("SELECT id, lerntyp, name, beschreibung, bild, admin from TeamUP.lerngruppe")
+        cursor.execute("""SELECT id, lerntyp, name, beschreibung, bild, admin from TeamUP.lerngruppe""")
         tuples = cursor.fetchall()
 
         for (id, lerntyp, name, beschreibung, profilbild, admin) in tuples:
@@ -47,36 +48,41 @@ class LerngruppeMapper(Mapper):
             lerngruppe.set_admin(admin)
 
 
-         # erstellen des SQL-Befehls um abzufragen welche Module einer Lerngruppe zugeordnet sind
-        query1 = """SELECT teamup.modul.bezeichnung FROM teamup.modul JOIN teamup.lerngruppeinmodul lim 
-                        ON modul.id = lim.modulId WHERE lim.lerngruppeId =%s"""
-         # Ausführen des zweiten SQL-Befehls
-        cursor.execute(query1, (lerngruppe.get_id(),))
-         # Speichern der SQL Antwort
-        tupel1 = cursor.fetchall()
+            # erstellen des SQL-Befehls um abzufragen welche Module einer Lerngruppe zugeordnet sind
+            query1 = """SELECT teamup.modul.bezeichnung FROM teamup.modul JOIN teamup.lerngruppeinmodul lim 
+                                    ON modul.id = lim.modulId WHERE lim.lerngruppeId =%s"""
 
-         # Auflösen der zweiten SQL Antwort (Module der Lerngruppe) und setzen des Parameters
-        for i in tupel1:
-             for x in i:
-                 lerngruppe.set_module_append(x)
+            # Ausführen des zweiten SQL-Befehls
 
-        # erstellen des SQL-Befehls um abzufragen welche Mitglieder eine Lerngruppe besitzt
-        query2 = """SELECT teamup.userinlerngruppe.userId FROM teamup.userinlerngruppe 
-                            WHERE teamup.userinlerngruppe.lerngruppeId =%s"""
-        # Ausführen des zweiten SQL-Befehls
-        cursor.execute(query2, (lerngruppe.get_id(),))
-         # Speichern der SQL Antwort
-        tupel2 = cursor.fetchall()
+            cursor.execute(query1, (lerngruppe.get_id(),))
+            # Speichern der SQL Antwort
+            tupel1 = cursor.fetchall()
 
-        # Auflösen der zweiten SQL Antwort (Mitglieder der Lerngruppe) und setzen des Parameters
-        for i in tupel2:
-            for x in i:
-                lerngruppe.set_mitglieder_append(x)
+            # Auflösen der zweiten SQL Antwort (Module der Lerngruppe) und setzen des Parameters
+            for i in tupel1:
+                for x in i:
+                    lerngruppe.set_module_append(x)
+
+            # erstellen des SQL-Befehls um abzufragen welche Mitglieder eine Lerngruppe besitzt
+            query2 = """SELECT teamup.userinlerngruppe.userId FROM teamup.userinlerngruppe 
+                                        WHERE teamup.userinlerngruppe.lerngruppeId =%s"""
+            # Ausführen des zweiten SQL-Befehls
+            cursor.execute(query2, (lerngruppe.get_id(),))
+            # Speichern der SQL Antwort
+            tupel2 = cursor.fetchall()
+
+            # Auflösen der zweiten SQL Antwort (Mitglieder der Lerngruppe) und setzen des Parameters
+            for i in tupel2:
+                for x in i:
+                    lerngruppe.set_mitglieder_append(x)
+
+            result.append(lerngruppe)
+
 
         self._cnx.commit()
         cursor.close()
 
-        return lerngruppe
+        return result
 
     def find_by_name(self, lerngruppe):
         result = []
@@ -199,7 +205,7 @@ class LerngruppeMapper(Mapper):
 
         gruppenMitglieder = lerngruppe.get_mitglieder()
 
-        #Schleife setzt mitglieder in die UserInLerngruppe Tabelle
+        # Schleife setzt mitglieder in die UserInLerngruppe Tabelle
         for i in gruppenMitglieder:
             query1 = """INSERT INTO teamup.userinlerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
             data1 = (i, gruppenId)
@@ -218,7 +224,7 @@ class LerngruppeMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
-    #TODO RETurn was soll returned werden
+    # TODO RETurn was soll returned werden
         return self.find_by_id(gruppenId)
 
     def insert_user(self, lerngruppe):
@@ -236,7 +242,7 @@ class LerngruppeMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
-        return lerngruppe.get_id()
+        return self.find_by_id(lerngruppe.get_id())
 
     def delete_user_from_lerngruppe(self, lerngruppe):
         """
@@ -246,20 +252,20 @@ class LerngruppeMapper(Mapper):
 
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
+        neueMitglieder = lerngruppe.get_mitglieder()
 
-        # LerngruppenID bekommen über name
-        query = """DELETE FROM teamup.userInLerngruppe WHERE userId = (%s) """
-
-        # Mitglied ist in Liste Mitglied als einziges Element
-        data = (lerngruppe.get_mitglieder())
-
-        cursor.execute(query, data)
+        for i in neueMitglieder:
+            #LerngruppenID bekommen über name
+            query = """DELETE FROM teamup.userInLerngruppe WHERE teamup.userInLerngruppe.userId = %s
+                        AND teamup.userinlerngruppe.lerngruppeId = %s"""
+            # Mitglied ist in Liste Mitglied als einziges Element
+            cursor.execute(query,(i,lerngruppe.get_id()))
 
         # Schließen der Datenbankverbindung
         self._cnx.commit()
         cursor.close()
 
-        return lerngruppe.get_mitglieder()
+        return self.find_by_id(lerngruppe.get_id())
 
     def update_info_from_lerngruppe_by_id(self, lerngruppe):
         """

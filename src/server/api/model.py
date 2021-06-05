@@ -24,6 +24,7 @@ user = api.inherit('Nutzer', profil, {
     'gender': fields.String(attribute=lambda x: x.get_gender(), description='Gender eines Benutzers'),
     'semester': fields.String(attribute=lambda x: x.get_semester(), description='Semester eines Benutzers'),
     'studiengang': fields.String(attribute=lambda x: x.get_studiengang(), description='Studiengang eines Benutzers'),
+    'vorname': fields.String(attribute=lambda x: x.get_vorname(), description='Vorname eines Benutzers'),
 })
 
 lerngruppe = api.inherit('Lerngruppe', profil, {

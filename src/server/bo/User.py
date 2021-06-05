@@ -10,6 +10,7 @@ class User(Profil):
         self.__gender = ""
         self.__semester = ""
         self.__studiengang = ""
+        self.__vorname = ""
 
     def get_email(self):
         return self.__email
@@ -47,6 +48,12 @@ class User(Profil):
     def get_studiengang(self):
         return self.__studiengang
 
+    def set_vorname(self, vorname):
+        self.__vorname = vorname
+
+    def get_vorname(self):
+        return self.__vorname
+
     def __str__(self):
         """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz.
 
@@ -54,8 +61,9 @@ class User(Profil):
 
         des jeweiligen Kunden."""
         # TODO LERNTYP MODUL dazu allgemein attribute anschaun pls
-        return "Customer: {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_authId(), self.get_name(),
-                                                         self.get_email(), self.get_lerntyp(), self.get_modul())
+        return "Customer: {}, {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_authId(), self.get_name(),
+                                                            self.get_email(), self.get_lerntyp(), self.get_modul(),
+                                                             self.get_vorname())
 
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -73,5 +81,6 @@ class User(Profil):
         obj.set_gender(dictionary["gender"])
         obj.set_semester(dictionary["semester"])
         obj.set_studiengang(dictionary["studiengang"])
+        obj.set_vorname(dictionary["vorname"])
 
         return obj

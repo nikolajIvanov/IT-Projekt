@@ -35,10 +35,11 @@ class UserMapper(Mapper):
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT id, authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, "
-                       "gender, semester, studiengang FROM TeamUP.users")
+                       "gender, semester, studiengang, vorname FROM TeamUP.users")
         tuples = cursor.fetchall()
 
-        for (id, authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang) \
+        for (id, authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang,
+             vorname) \
                 in tuples:
             user = User()
             user.set_id(id)
@@ -52,6 +53,7 @@ class UserMapper(Mapper):
             user.set_gender(gender)
             user.set_semester(semester)
             user.set_studiengang(studiengang)
+            user.set_vorname(vorname)
             result.append(user)
 
         self._cnx.commit()
@@ -69,7 +71,7 @@ class UserMapper(Mapper):
         cursor = self._cnx.cursor(prepared=True)
         # erstellen des SQL-Befehls um die User Daten abzufragen
         query = """SELECT users.id, users.bild, users.name, users.geburtsdatum, users.email, users.beschreibung, 
-               users.lerntyp, users.gender, users.semester, users.studiengang FROM TeamUP.users WHERE authId=%s"""
+               users.lerntyp, users.gender, users.semester, users.studiengang, users.vorname FROM TeamUP.users WHERE authId=%s"""
 
         # erstellen des SQL-Befehls um abzufragen welche Module einem User zugeordnet sind
         query1 = """SELECT modul.bezeichnung From ((TeamUP.modul JOIN TeamUP.userinmodul 
@@ -86,7 +88,7 @@ class UserMapper(Mapper):
         tuples1 = cursor.fetchall()
 
         # Auflösen der ersten SQL Antwort (User) und setzen der Parameter
-        (id, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang) = tuples[0]
+        (id, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang, vorname) = tuples[0]
         user = User()
         user.set_id(id)
         user.set_profilBild(bild)
@@ -98,6 +100,7 @@ class UserMapper(Mapper):
         user.set_gender(gender)
         user.set_semester(semester)
         user.set_studiengang(studiengang)
+        user.set_studiengang(vorname)
         user.set_authId(key)
 
         # Auflösen der zweiten SQL Antwort (Module des User) und setzen des Parameters
@@ -121,7 +124,7 @@ class UserMapper(Mapper):
         cursor = self._cnx.cursor(prepared=True)
         # erstellen des SQL-Befehls um die User Daten abzufragen
         query = """SELECT users.authId, users.bild, users.name, users.geburtsdatum, users.email, users.beschreibung, 
-               users.lerntyp, users.gender, users.semester, users.studiengang FROM TeamUP.users WHERE users.id=%s"""
+               users.lerntyp, users.gender, users.semester, users.studiengang, users.vorname FROM TeamUP.users WHERE users.id=%s"""
 
         # erstellen des SQL-Befehls um abzufragen welche Module einem User zugeordnet sind
         query1 = """SELECT modul.bezeichnung From ((TeamUP.modul JOIN TeamUP.userinmodul 
@@ -138,7 +141,7 @@ class UserMapper(Mapper):
         tuples1 = cursor.fetchall()
 
         # Auflösen der ersten SQL Antwort (User) und setzen der Parameter
-        (authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang) = tuples[0]
+        (authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang, vorname) = tuples[0]
         user = User()
         user.set_id(id)
         user.set_profilBild(bild)
@@ -150,6 +153,7 @@ class UserMapper(Mapper):
         user.set_gender(gender)
         user.set_semester(semester)
         user.set_studiengang(studiengang)
+        user.set_vorname(vorname)
         user.set_authId(authId)
 
         # Auflösen der zweiten SQL Antwort (Module des User) und setzen des Parameters
@@ -164,7 +168,7 @@ class UserMapper(Mapper):
         # Rückgabe des User
         return user
 
-
+    # TODO Wird das noch benötigt?
     def find_by_name(self, name):
         result = None
 
@@ -195,13 +199,14 @@ class UserMapper(Mapper):
 
         # Erstellen des SQL-Befehls
         query = """INSERT INTO TeamUP.users (authId, bild, name, geburtsdatum, email,
-                beschreibung, lerntyp, gender, semester, studiengang) VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s, %s, %s, %s)"""
+                beschreibung, lerntyp, gender, semester, studiengang, vorname) VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s, %s,
+                 %s, %s, %s)"""
 
         # Auslesen der User Daten
         daten = (nutzer.get_authId(), nutzer.get_profilBild(), nutzer.get_name(),
                  datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'),
                  nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(),
-                 nutzer.get_semester(), nutzer.get_studiengang())
+                 nutzer.get_semester(), nutzer.get_studiengang(), nutzer.get_vorname())
 
         # Ausführen des SQL-Befehls um die User Daten auf die Datenbank zu schreiben
         cursor.execute(query, (daten))
@@ -239,7 +244,7 @@ class UserMapper(Mapper):
 
         # Erstellen des SQL-Befehls
         query = """UPDATE TeamUP.users SET authId=%s, bild=%s, name=%s, geburtsdatum=%s, email=%s,
-                       beschreibung=%s, lerntyp=%s, gender=%s,semester=%s, studiengang=%s WHERE authId=%s"""
+                       beschreibung=%s, lerntyp=%s, gender=%s,semester=%s, studiengang=%s, vorname=%s WHERE authId=%s"""
 
         # Auslesend der authId zur weitern verwendung
         authId = nutzer.get_authId()
@@ -248,7 +253,7 @@ class UserMapper(Mapper):
         daten = (authId, nutzer.get_profilBild(), nutzer.get_name(),
                  datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'),
                  nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(),
-                 nutzer.get_semester(), nutzer.get_studiengang(), authId)
+                 nutzer.get_semester(), nutzer.get_studiengang(), nutzer.get_vorname(), authId)
 
         # Ausführen des SQL-Behls
         cursor.execute(query, (daten))
@@ -299,13 +304,13 @@ class UserMapper(Mapper):
 
         # Erstellen des SQL-Befehls
         query = """UPDATE TeamUP.users SET authId=%s, bild=%s, name=%s, geburtsdatum=%s, email=%s,
-                       beschreibung=%s, lerntyp=%s, gender=%s, semester=%s, studiengang=%s WHERE users.id=%s"""
+                       beschreibung=%s, lerntyp=%s, gender=%s, semester=%s, studiengang=%s, vorname=%s WHERE users.id=%s"""
 
         # Auslesen und speichern der restlichen User Daten
         daten = (nutzer.get_authId, nutzer.get_profilBild(), nutzer.get_name(),
                  datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'),
                  nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(),
-                 nutzer.get_semester(), nutzer.get_studiengang(), nutzer.get_id())
+                 nutzer.get_semester(), nutzer.get_studiengang(), nutzer.get_vorname(), nutzer.get_id())
 
 
         # Ausführen des SQL-Behls
