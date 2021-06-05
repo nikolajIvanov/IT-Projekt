@@ -1,6 +1,7 @@
 import LerngruppeBO from "../bo/LerngruppeBO";
 import UserBO from "../bo/UserBO";
 import StudiengangBO from "../bo/StudiengangBO";
+import ModulBO from "../bo/ModulBO";
 
 // Die komplette API Logik wird über diese Klasse gehandelt und an die jeweiligen Frontend Seiten übergeben.
 export default class TeamUpApi {
@@ -95,7 +96,7 @@ export default class TeamUpApi {
     }
 
     getModul(studiengang){
-        return this.#getAll(this.#modulURL(studiengang))
+        return this.#getAll(this.#modulURL(studiengang), ModulBO)
     }
 
     //TODO Delete Gruppe einfügen
