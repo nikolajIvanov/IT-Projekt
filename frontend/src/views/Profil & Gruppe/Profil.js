@@ -7,39 +7,39 @@ import SectionLerntyp from "./Sections/SectionLerntyp";
 import SectionLerngruppe from "./Sections/SectionLerngruppe";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from 'firebase';
-import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
-import {Card, CardActions, CardContent} from "@material-ui/core";
+import {Card, CardActions, CardContent, Modal, Paper} from "@material-ui/core";
 import UserBO from "../../bo/UserBO";
 import theme from '../../theme'
-import ButtonSpeichern from "../../components/Button/ButtonSpeichern";
+import ButtonChat from "../../components/Button/ButtonChat";
 
 class ProfilBearbeiten extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            userId: null,
-            apiUser: null
+            apiUser: null,
+            modalOpen: false,
         }
     }
     // Wenn der Nutzer auf den Button "Update" klickt, wird diese Methode aufgerufen.
-    // Es wird ein neues Objekt der Klasser UserBO erstellt und es werden alle Daten aus der state in das Objekt übertragen
+    // Es wird ein neues Objekt der Klasse UserBO erstellt und es werden alle Daten aus der state in das Objekt übertragen
     // und mittels API Call ans Backend übergeben
-    handleClick  = async () => {
+    handleUpdate  = async () => {
         const user = new UserBO()
         user.setAll(this.state.apiUser)
-        console.log(user)
-        await TeamUpApi.getAPI().updateUser(firebase.auth().currentUser.uid, user.getAll())
-    }
-    // Kümmert sich um die Änderungen, die der User auf der Seite macht und speichert sie im state
-    handleChange = (user) => {
-        this.setState({
-            apiUser: user
+        await TeamUpApi.getAPI().updateUser(firebase.auth().currentUser.uid, user.getAll()).then(user =>{
+            this.setState({
+                apiUser: user,
+                update: true
+            });
         })
+
     }
+
     // Wird beim Aufruf der Seite ProfilBO als erstes Aufgerufen und es werden alle Informationen über den aktuellen
     // User geladen und in den state gespeichert.
     async componentDidMount() {
-        await TeamUpApi.getAPI().getUser(this.state.userId).then(user =>{
+        await TeamUpApi.getAPI().getUser(firebase.auth().currentUser.uid).then(user =>{
+            console.log(user)
             this.setState({
                 apiUser: user
             });
@@ -55,34 +55,35 @@ class ProfilBearbeiten extends React.Component {
 
     render(){
         const {apiUser}= this.state;
+        const {passwort} = this.state
 
         return (
             <div style={theme.root}>
                 {/* Überprüft ob die Daten vom User geladen sind und fügt sie dann in die Komponenten ein. */}
-                { apiUser ?
+                {apiUser ?
                     <Card style={theme.profileBorder}>
                         <CardContent>
                             <SectionAvatar apiObject={apiUser} handleChange={this.handleChange}/>
                             <Grid container spacing={3}>
                                 <Grid style={theme.root} item xs={12}>
-                                    <SectionSteckbrief disabled={this.state.disabled} apiObject={apiUser}
+                                    <SectionSteckbrief apiObject={apiUser}
                                                        handleChange={this.handleChange} text={"Steckbrief"} />
                                 </Grid>
                                 <Grid style={theme.root} item xs={12}>
                                     <SectionLerntyp apiObject={apiUser} handleChange={this.handleChange}/>
                                 </Grid>
                                 <Grid style={theme.root} item xs={12}>
-                                    <SectionLerngruppe text={"Lerngruppen"}/>
+                                    <SectionLerngruppe/>
                                 </Grid>
                             </Grid>
                         </CardContent>
                         <CardActions style={theme.root}>
-                            <ButtonSpeichern disabled={this.state.disabled} inhalt={"Update"} onClick={this.handleClick}/>
+                            <ButtonChat inhalt={"Chatten"} onClick={this.handleUpdate}/>
                         </CardActions>
                     </Card> : null }
             </div>
         );
-    };
+    }
 }
 
 export default (ProfilBearbeiten);

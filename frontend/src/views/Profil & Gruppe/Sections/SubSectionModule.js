@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import ButtonBestätigen from "../../../components/Button/ButtonBestätigen";
+import ButtonPrimary from "../../../components/Button/ButtonPrimary";
 import {FormControlLabel, FormGroup, Modal, Paper, Switch, Typography} from "@material-ui/core";
 import theme from "../../../theme";
 import Grid from "@material-ui/core/Grid";
@@ -53,15 +53,15 @@ function SubSectionModule(props) {
                         </FormGroup>
                         <Grid container spacing={1} style={theme.root}>
                             <Grid item sx={6}>
-                                <ButtonBestätigen inhalt={"Bestätigen"}
-                                                  onClick={() => handleClick(false)}/>
+                                <ButtonPrimary inhalt={"Bestätigen"}
+                                               onClick={() => handleClick(false)}/>
                             </Grid>
                         </Grid>
                         </> : <Typography>Oje</Typography> }
                     </Paper>
                 </div>
             </Modal>
-            <ButtonBestätigen onClick={handleClick} inhalt={"Module wählen"}/>
+            <ButtonPrimary onClick={handleClick} inhalt={"Module wählen"}/>
         </div>
     );
 }

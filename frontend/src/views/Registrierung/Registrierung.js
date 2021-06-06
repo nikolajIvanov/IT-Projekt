@@ -7,7 +7,7 @@ import Lerntyp from "./Sections/lerntyp";
 import Bild from "./Sections/bild";
 import Module from "./Sections/module";
 import Bio from "./Sections/bio";
-import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
+import ButtonPrimary from "../../components/Button/ButtonPrimary";
 import firebase from "firebase";
 import User from "../../bo/UserBO";
 import TeamUpApi from "../../api/TeamUpApi"
@@ -154,12 +154,12 @@ function Registrierung(props) {
             <div>
                 { components[count-1] ? (
                     <div style={styles.button}>
-                    <ButtonBestätigen onClick={handleCountBack} inhalt={"Zurück"} />
-                    <ButtonBestätigen onClick={checkBox} inhalt={"Weiter"}/>
+                    <ButtonPrimary onClick={handleCountBack} inhalt={"Zurück"} />
+                    <ButtonPrimary onClick={checkBox} inhalt={"Weiter"}/>
                     </div>
                 ):(
                     <div style={styles.button}>
-                        <ButtonBestätigen onClick={checkBox} inhalt={"Weiter"}/>
+                        <ButtonPrimary onClick={checkBox} inhalt={"Weiter"}/>
                     </div>
                 )}
             </div>

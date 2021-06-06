@@ -9,7 +9,7 @@ import SectionLerntyp from "./Sections/SectionLerntyp";
 import SectionLerngruppe from "./Sections/SectionLerngruppe";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from 'firebase';
-import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
+import ButtonPrimary from "../../components/Button/ButtonPrimary";
 import UserBO from "../../bo/UserBO";
 import LerngruppeBO from "../../bo/LerngruppeBO";
 
@@ -60,7 +60,7 @@ class Gruppen extends React.Component {
                         <SectionLerngruppe text={"Lerngruppen"}/>
                     </Grid>
                 </Grid>
-                <ButtonBestätigen inhalt={"Update"}/>
+                <ButtonPrimary inhalt={"Update"}/>
             </div>
         );
     }

@@ -7,13 +7,13 @@ import SectionLerntyp from "./Sections/SectionLerntyp";
 import SectionLerngruppe from "./Sections/SectionLerngruppe";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from 'firebase';
-import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
-import {Card, CardActions, CardContent, Modal, Paper, Typography} from "@material-ui/core";
+import ButtonPrimary from "../../components/Button/ButtonPrimary";
+import {Card, CardActions, CardContent, Modal, Paper} from "@material-ui/core";
 import UserBO from "../../bo/UserBO";
 import theme from '../../theme'
 import ButtonSpeichern from "../../components/Button/ButtonSpeichern";
-import ButtonLöschen from "../../components/Button/ButtonLöschen";
-import Module from "../Registrierung/Sections/module";
+import ButtonDelete from "../../components/Button/ButtonDelete";
+import InputFeld from "../../components/Textfeld/InputFeld";
 
 class ProfilBearbeiten extends React.Component {
     constructor(props) {
@@ -21,25 +21,17 @@ class ProfilBearbeiten extends React.Component {
         this.state = {
             apiUser: null,
             modalOpen: false,
-            update: false
+            update: false,
+            delete: false,
+            passwort: null,
         }
     }
     // Wenn der Nutzer auf den Button "Update" klickt, wird diese Methode aufgerufen.
-    // Es wird ein neues Objekt der Klasser UserBO erstellt und es werden alle Daten aus der state in das Objekt übertragen
+    // Es wird ein neues Objekt der Klasse UserBO erstellt und es werden alle Daten aus der state in das Objekt übertragen
     // und mittels API Call ans Backend übergeben
     handleUpdate  = async () => {
-
-        const u = firebase.auth().currentUser;
-        const credential = firebase.auth.EmailAuthProvider.credential(
-            u.email,
-            //TODO passwort muss über Modal eingegeben werden
-            passwort
-        );
-        user.reauthenticateWithCredential(credential);
-
         const user = new UserBO()
         user.setAll(this.state.apiUser)
-        console.log(user)
         await TeamUpApi.getAPI().updateUser(firebase.auth().currentUser.uid, user.getAll()).then(user =>{
             this.setState({
                 apiUser: user,
@@ -50,22 +42,30 @@ class ProfilBearbeiten extends React.Component {
     }
 
     //Button-Klick löst einen TeamUP-API call aus der den über die Nutzer aus der DB löscht
-    handleLöschen = async () => {
+    handleDelete = async () => {
+        const u = firebase.auth().currentUser;
+        const credential = firebase.auth.EmailAuthProvider.credential(
+            u.email,
+            this.state.passwort
+        );
+        //User neu authentifizieren um ihn aus der Datenbank zu löschen
+        await u.reauthenticateWithCredential(credential);
+        //User aus DB löschen
         await TeamUpApi.getAPI().deleteUser(firebase.auth().currentUser.uid)
             .then((res) => {
                 if(res === 200){
+                    //User von Firebase löschen
                     firebase.auth().currentUser.delete()
-                    console.log("ich bin gelöscht")
                 }
                 else{
-                    console.log("ich bin nicht gelöscht")
+                    //TODO schönere fehlermeldung evtl. eine errorCard
                     alert("Löschen fehlgeschlagen")
                 }
             }
         )
     }
 
-    löschenModal = () => {
+    deleteModal = () => {
         this.setState({
             modalOpen: true
         })
@@ -78,6 +78,14 @@ class ProfilBearbeiten extends React.Component {
             apiUser: user
         })
     }
+
+    handlePwChange = (e) =>{
+        console.log(e.target.value)
+        this.setState({
+            passwort: e.target.value
+        })
+    }
+
     // Wird beim Aufruf der Seite ProfilBO als erstes Aufgerufen und es werden alle Informationen über den aktuellen
     // User geladen und in den state gespeichert.
     async componentDidMount() {
@@ -98,6 +106,7 @@ class ProfilBearbeiten extends React.Component {
 
     render(){
         const {apiUser}= this.state;
+        const {passwort} = this.state
 
         return (
             <div style={theme.root}>
@@ -120,7 +129,7 @@ class ProfilBearbeiten extends React.Component {
                     </Grid>
                     </CardContent>
                         <CardActions style={theme.root}>
-                            <ButtonLöschen inhalt={"Löschen"} onClick={this.löschenModal}/>
+                            <ButtonDelete inhalt={"Löschen"} onClick={this.deleteModal}/>
                             <ButtonSpeichern inhalt={"Update"} onClick={this.handleUpdate}/>
                             { this.state.modalOpen ?
                                 <Modal open={true}>
@@ -130,14 +139,13 @@ class ProfilBearbeiten extends React.Component {
                                             <p style={theme.p}>Du verlierst dadurch deinen Zugang zu TeamUP</p>
                                             <Grid container spacing={1} style={theme.root}>
                                                 <Grid item sx={6}>
-                                                    <ButtonLöschen onClick={this.handleLöschen}
-                                                                   inhalt={"Bestätigen"}/>
+                                                    <ButtonDelete onClick={() => this.setState({
+                                                        modalOpen: false,
+                                                        delete: true})} inhalt={"Bestätigen"}/>
                                                 </Grid>
                                                 <Grid item sx={6}>
-                                                <ButtonBestätigen inhalt={"Doch bleiben"}
-                                                                  onClick={() => this.setState({
-                                                                      modalOpen: false
-                                                                  })}/>
+                                                <ButtonPrimary inhalt={"Doch bleiben"}
+                                                               onClick={() => this.setState({modalOpen: false})}/>
                                                 </Grid>
                                             </Grid>
                                         </Paper>
@@ -149,16 +157,34 @@ class ProfilBearbeiten extends React.Component {
                                         <p style={theme.h3.bold}>Dein Update war erfolgreich</p>
                                         <Grid container spacing={1} style={theme.root}>
                                             <Grid item sx={12}>
-                                                <ButtonBestätigen inhalt={"Zurück"}
-                                                                  onClick={() => this.setState({
-                                                                      update: false
-                                                                  })}/>
+                                                <ButtonPrimary inhalt={"Zurück"}
+                                                               onClick={() => this.setState({update: false})}/>
                                             </Grid>
                                         </Grid>
                                     </Paper>
                                 </Modal>
                                 : null
                             }
+                            {this.state.delete ?
+                                <Modal open={true}>
+                                    <div style={theme.root}>
+                                        <Paper style={theme.modalCard}>
+                                            <p style={theme.h3.bold}>Gib dein passwort um dein Account zu löschen:</p>
+                                                <InputFeld onChange={this.handlePwChange} inhalt={passwort}/>
+                                            <Grid container spacing={1} style={theme.root}>
+                                                <Grid item sx={6}>
+                                                    <ButtonDelete onClick={this.handleDelete} inhalt={"Bestätigen"}/>
+                                                </Grid>
+                                                <Grid item sx={6}>
+                                                    <ButtonPrimary inhalt={"Bleiben"}
+                                                                   onClick={() => this.setState({
+                                                                          delete: false
+                                                                      })}/>
+                                                </Grid>
+                                            </Grid>
+                                        </Paper>
+                                    </div>
+                                </Modal> : null }
                         </CardActions>
                 </Card> : null }
             </div>

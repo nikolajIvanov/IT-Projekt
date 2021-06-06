@@ -1,18 +1,18 @@
 import Button from "@material-ui/core/Button";
 import React from 'react';
 import theme from "../../theme";
-import {DeleteRounded} from "@material-ui/icons";
+import ChatIcon from '@material-ui/icons/Chat';
 
 
 // Atomic Design Button mit Variablen Props zur Anzeige und Funktionalität des Buttons
-function ButtonLöschen(props) {
+function ButtonChat(props) {
     return (
         <div>
             <Button
                 onClick={props.onClick}
                 style={theme.button.delete}
                 disabled={props.disabled}
-                startIcon={<DeleteRounded />}
+                startIcon={<ChatIcon />}
             >
                 {props.inhalt}
             </Button>
@@ -20,4 +20,4 @@ function ButtonLöschen(props) {
     );
 }
 
-export default ButtonLöschen;
+export default ButtonChat;

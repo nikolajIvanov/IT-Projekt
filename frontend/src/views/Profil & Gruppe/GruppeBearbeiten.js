@@ -6,12 +6,12 @@ import SectionSteckbrief from "./Sections/SectionSteckbrief";
 import SectionLerntyp from "./Sections/SectionLerntyp";
 import SectionLerngruppe from "./Sections/SectionLerngruppe";
 import TeamUpApi from "../../api/TeamUpApi";
-import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
+import ButtonPrimary from "../../components/Button/ButtonPrimary";
 import {Card, CardActions, CardContent, Modal, Paper, Typography} from "@material-ui/core";
 import UserBO from "../../bo/UserBO";
 import theme from '../../theme'
 import ButtonSpeichern from "../../components/Button/ButtonSpeichern";
-import ButtonLöschen from "../../components/Button/ButtonLöschen";
+import ButtonDelete from "../../components/Button/ButtonDelete";
 
 class GruppeBearbeiten extends React.Component {
     constructor(props) {
@@ -45,7 +45,7 @@ class GruppeBearbeiten extends React.Component {
             <div style={theme.root}>
                 <Paper style={theme.modalCard}>
                     <h1>Wollen Sie die Gruppe wirklich löschen</h1>
-                    <ButtonBestätigen inhalt={"Bestätigen"}/>
+                    <ButtonPrimary inhalt={"Bestätigen"}/>
                 </Paper>
             </div>
         )
@@ -84,7 +84,7 @@ class GruppeBearbeiten extends React.Component {
                             </Grid>
                         </CardContent>
                         <CardActions style={theme.root}>
-                            <ButtonLöschen inhalt={"Löschen"} onClick={this.löschenModal}/>
+                            <ButtonDelete inhalt={"Löschen"} onClick={this.löschenModal}/>
                             <ButtonSpeichern inhalt={"Update"} onClick={this.handleUpdate}/>
                             { this.state.modalOpen ?
                                 <Modal open={true}>
@@ -94,11 +94,11 @@ class GruppeBearbeiten extends React.Component {
                                             <p style={theme.p}>Du verlierst dadurch deinen Zugang zu TeamUP</p>
                                             <Grid container spacing={1} style={theme.root}>
                                                 <Grid item sx={6}>
-                                                    <ButtonLöschen inhalt={"Bestätigen"}/>
+                                                    <ButtonDelete inhalt={"Bestätigen"}/>
                                                 </Grid>
                                                 <Grid item sx={6}>
-                                                    <ButtonBestätigen inhalt={"Doch bleiben"}
-                                                                      onClick={() => this.setState({
+                                                    <ButtonPrimary inhalt={"Doch bleiben"}
+                                                                   onClick={() => this.setState({
                                                                           modalOpen: false
                                                                       })}/>
                                                 </Grid>
@@ -112,8 +112,8 @@ class GruppeBearbeiten extends React.Component {
                                         <p style={theme.h3.bold}>Dein Update war erfolgreich</p>
                                         <Grid container spacing={1} style={theme.root}>
                                             <Grid item sx={12}>
-                                                <ButtonBestätigen inhalt={"Zurück"}
-                                                                  onClick={() => this.setState({
+                                                <ButtonPrimary inhalt={"Zurück"}
+                                                               onClick={() => this.setState({
                                                                       update: false
                                                                   })}/>
                                             </Grid>
