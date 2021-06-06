@@ -1,7 +1,7 @@
 from .model import user, api
 from flask_restx import Resource
 from server.Administration import Administration
-from server.bo.User import User
+from server.bo.UserBO import UserBO
 
 
 class UserApi(Resource):
@@ -20,7 +20,16 @@ class UserApi(Resource):
     @api.marshal_with(user)
     def put(self, authId):
         adm = Administration()
-        nutzer = User.from_dict(api.payload)
-        return adm.update_user_by_authId(nutzer)
+        payload = api.payload
+        proposal = UserBO.create_userBO(id=payload["id"], authId=payload["authId"], profilBild=payload["profilBild"],
+                                        name=payload["name"], geburtsdatum=payload["geburtsdatum"],
+                                        email=payload["email"], beschreibung=payload["beschreibung"],
+                                        lerntyp=payload["lerntyp"], gender=payload["gender"],
+                                        semester=payload["semester"], studiengang=payload["studiengang"],
+                                        vorname=payload["vorname"])
 
+        if proposal is not None:
 
+            return adm.update_user_by_authId(proposal)
+        else:
+            return '', 500

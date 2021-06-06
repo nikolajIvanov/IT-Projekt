@@ -1,7 +1,7 @@
-from server.bo.Profil import Profil
+from server.bo.ProfilBO import ProfilBO
 
 
-class Lerngruppe(Profil):
+class Lerngruppe(ProfilBO):
 
     def __init__(self):
         super().__init__()

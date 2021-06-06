@@ -1,8 +1,8 @@
-from src.server.bo.Profil import Profil
+from src.server.bo.ProfilBO import ProfilBO
 from datetime import date, datetime
 
 
-class User(Profil):
+class UserBO(ProfilBO):
     def __init__(self):
         super().__init__()
         self.__email = ""
@@ -73,21 +73,23 @@ class User(Profil):
                                                              self.get_vorname())
 
     @staticmethod
-    def from_dict(dictionary=dict()):
-        """"Umwandeln eines Python dict() in einen Customer()."""
-        obj = User()
-        obj.set_id(dictionary["id"])
-        obj.set_authId(dictionary["authId"])
-        obj.set_modul(dictionary["modul"])
-        obj.set_profilBild(dictionary["profilBild"])
-        obj.set_beschreibung(dictionary["beschreibung"])
-        obj.set_lerntyp(dictionary["lerntyp"])
-        obj.set_geburtsdatum(dictionary["geburtsdatum"])
-        obj.set_name(dictionary["name"])
-        obj.set_email(dictionary["email"])
-        obj.set_gender(dictionary["gender"])
-        obj.set_semester(dictionary["semester"])
-        obj.set_studiengang(dictionary["studiengang"])
-        obj.set_vorname(dictionary["vorname"])
-
+    def create_userBO(**kwargs):
+        """
+        Allgemeine Klassenmethode zur erstellung eines UserBO Objektes.
+        :param kwargs: Bekommt alle Werte aus der UserBO Tabelle
+        :return: Gibt ein befülltes UserBO Objekt zurück
+        """
+        obj = UserBO()
+        obj.set_id(kwargs["id"])
+        obj.set_profilBild(kwargs["profilBild"])
+        obj.set_name(kwargs["name"])
+        obj.set_geburtsdatum(kwargs["geburtsdatum"])
+        obj.set_email(kwargs["email"])
+        obj.set_beschreibung(kwargs["beschreibung"])
+        obj.set_lerntyp(kwargs["lerntyp"])
+        obj.set_gender(kwargs["gender"])
+        obj.set_semester(kwargs["semester"])
+        obj.set_studiengang(kwargs["studiengang"])
+        obj.set_vorname(kwargs["vorname"])
+        obj.set_authId(kwargs["authId"])
         return obj
