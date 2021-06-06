@@ -8,6 +8,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import ChatIcon from '@material-ui/icons/Chat';
 import SearchIcon from '@material-ui/icons/Search';
 import AccessibleIcon from '@material-ui/icons/Accessible';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import { Link } from "react-router-dom"
 
 class Navigation extends Component {
@@ -21,17 +22,14 @@ class Navigation extends Component {
                     <Link to="/">
                         <BottomNavigationAction label="Home" icon={<HomeIcon />} />
                     </Link>
-                    <Link to="/gruppen">
-                        <BottomNavigationAction label="Gruppe" icon={<GroupIcon />} />
+                    <Link to="/profil">
+                        <BottomNavigationAction label="Gruppe" icon={<SupervisorAccountIcon />} />
                     </Link>
-                    <Link to="/profile">
+                    <Link to="/me">
                         <BottomNavigationAction label="ProfilBO" icon={<PersonIcon />} />
                     </Link>
                     <Link to="/chat">
                         <BottomNavigationAction label="Chat" icon={<ChatIcon />} />
-                    </Link>
-                    <Link to="/gruppensuche">
-                        <BottomNavigationAction label="Gruppen Suche" icon={<SearchIcon/>}/>
                     </Link>
                     <Link to="/matching">
                         <BottomNavigationAction label="Matching" icon={<AccessibleIcon/>}/>

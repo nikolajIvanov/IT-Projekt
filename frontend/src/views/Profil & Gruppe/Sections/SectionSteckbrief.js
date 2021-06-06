@@ -81,33 +81,33 @@ export default function SectionSteckbrief(props) {
             {/* Container für Alter, Semester und Studiengang des Studenten*/}
         <Card style={{padding: "5%"}}>
             <Grid style={theme.root} container spacing={3}>
-                    <Grid style={theme.rightAligned} item xs={6} sm={4} >
+                    <Grid style={theme.rightAligned} item xs={12} sm={4} >
                         <p style={theme.h3.bold}>Alter:</p>
                     </Grid>
-                        <Grid style={theme.root} item xs={6} sm={1} >
+                        <Grid style={theme.root} item xs={12} sm={1} >
                             <p style={theme.h3.bold}>-</p>
                         </Grid>
-                    <Grid style={theme.leftAligned} item xs={6} sm={7} >
+                    <Grid style={theme.leftAligned} item xs={12} sm={7} >
                         <p style={theme.h3.bold}>26</p>
                     </Grid>
-                    <Grid  style={theme.rightAligned} item xs={6} sm={4}>
+                    <Grid  style={theme.rightAligned} item xs={12} sm={4}>
                         <p style={theme.h3.bold}>Semester:</p>
                     </Grid>
-                        <Grid style={theme.root} item xs={6} sm={1} >
+                        <Grid style={theme.root} item xs={12} sm={1} >
                             <p style={theme.h3.bold}>-</p>
                         </Grid>
-                    <Grid style={theme.leftAligned} item xs={6} sm={7}>
+                    <Grid style={theme.leftAligned} item xs={12} sm={7}>
                         <DropDown map={Semester}
                                   input={props.apiObject.getSemester()}
                                   handleChange={handleSemesterChange}/>
                     </Grid>
-                    <Grid style={theme.rightAligned} item xs={6} sm={4}>
+                    <Grid style={theme.rightAligned} item xs={12} sm={4}>
                         <p style={theme.h3.bold}>Studiengang:</p>
                     </Grid>
-                        <Grid style={theme.root} item xs={6} sm={1} >
+                        <Grid style={theme.root} item xs={12} sm={1} >
                             <p style={theme.h3.bold}>-</p>
                         </Grid>
-                    <Grid style={theme.leftAligned} item xs={6} sm={7}>
+                    <Grid style={theme.leftAligned} item xs={12} sm={7}>
                         <DropDown map={studien}
                                   input={props.apiObject.getStudiengang()}
                                   handleChange={handleStudiengangChange}/>

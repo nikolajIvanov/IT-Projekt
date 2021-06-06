@@ -1,18 +1,14 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 import "../../assets/App.css"
-import SectionAvatar from "./Sections/SectionAvatar";
-import SectionSteckbrief from "./Sections/SectionSteckbrief";
-import SectionLerntyp from "./Sections/SectionLerntyp";
-import SectionLerngruppe from "./Sections/SectionLerngruppe";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from 'firebase';
 import {Card, CardActions, CardContent, Modal, Paper} from "@material-ui/core";
 import UserBO from "../../bo/UserBO";
 import theme from '../../theme'
 import ButtonChat from "../../components/Button/ButtonChat";
+import SectionProfilView from "./Sections/SectionProfilView";
 
-class ProfilBearbeiten extends React.Component {
+class Profil extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -63,19 +59,8 @@ class ProfilBearbeiten extends React.Component {
                 {apiUser ?
                     <Card style={theme.profileBorder}>
                         <CardContent>
-                            <SectionAvatar apiObject={apiUser} handleChange={this.handleChange}/>
-                            <Grid container spacing={3}>
-                                <Grid style={theme.root} item xs={12}>
-                                    <SectionSteckbrief apiObject={apiUser}
-                                                       handleChange={this.handleChange} text={"Steckbrief"} />
-                                </Grid>
-                                <Grid style={theme.root} item xs={12}>
-                                    <SectionLerntyp apiObject={apiUser} handleChange={this.handleChange}/>
-                                </Grid>
-                                <Grid style={theme.root} item xs={12}>
-                                    <SectionLerngruppe/>
-                                </Grid>
-                            </Grid>
+                            {/* SectionProfilView rendert alle User Ansichtsdaten */}
+                            <SectionProfilView/>
                         </CardContent>
                         <CardActions style={theme.root}>
                             <ButtonChat inhalt={"Chatten"} onClick={this.handleUpdate}/>
@@ -86,4 +71,4 @@ class ProfilBearbeiten extends React.Component {
     }
 }
 
-export default (ProfilBearbeiten);
+export default Profil;

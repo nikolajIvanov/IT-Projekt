@@ -11,9 +11,9 @@ const theme = {
             alignItems:"center",
         },
         rightAligned:{
-        display: "flex",
-        justifyContent: "flex-end",
-        alignItems:"center",
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems:"center",
         },
         scrollBox:{
             height: 150,
@@ -108,6 +108,6 @@ const theme = {
                 fontWeight: 'bold'
             },
         }
-}
+};
 
 export default theme

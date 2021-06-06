@@ -32,10 +32,10 @@ function SectionAvatar(props) {
                 <Grid item xs={12} style={theme.root}>
                     <ProfilAvatar img={props.apiObject.getProfilBild()} handleChange={handleBildChange}/>
                 </Grid>
-                <Grid item xs={6} style={theme.rightAligned}>
+                <Grid item sm={6} xs={12} style={theme.rightAligned}>
                     <InputFeld inhalt={props.apiObject.getVorname()} onChange={handleVorname}/>
                 </Grid>
-                <Grid item xs={6} style={theme.leftAligned}>
+                <Grid item sm={6} xs={12} style={theme.leftAligned}>
                     <InputFeld inhalt={props.apiObject.getName()} onChange={handleNameChange}/>
                 </Grid>
             </Grid>

@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import '../../assets/App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "../Home/Home";
-import Profile from "../Profil & Gruppe/ProfilBearbeiten";
+import MyProfil from "../Profil & Gruppe/ProfilBearbeiten";
+import Profil from "../Profil & Gruppe/Profil";
 import Gruppen from "../Profil & Gruppe/Gruppe"
 import Navigation from "../Navigation";
 import '../../assets/App.css';
@@ -191,8 +192,9 @@ class App extends React.Component {
                             <Navigation logOut={this.handleLogOut}/>
                             <Switch>
                                 <Route path="/" exact component={Home}/>
+                                <Route path="/profil" component={Profil}/>
                                 <Route path="/gruppen"  component={Gruppen}/>
-                                <Route path="/profile"  component={Profile}/>
+                                <Route path="/me"  component={MyProfil}/>
                                 <Route path="/chat"  component={Chat2}/>
                                 <Route path="/gruppensuche" component={GruppenSuche}/>
                                 <Route path="/matching" component={Match}/>
