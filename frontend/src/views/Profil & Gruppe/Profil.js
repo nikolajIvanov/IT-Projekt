@@ -59,7 +59,7 @@ class Profil extends React.Component {
                 {apiUser ?
                     <Card style={theme.profileBorder}>
                         <CardContent>
-                            {/* SectionProfilView rendert alle User Ansichtsdaten */}
+                            {/* SectionProfilView enthält alle User Ansichtsdaten */}
                             <SectionProfilView/>
                         </CardContent>
                         <CardActions style={theme.root}>

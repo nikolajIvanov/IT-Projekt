@@ -3,7 +3,6 @@ import ProfilAvatar from "../../../components/Avatar/ProfilAvatar";
 import InputFeld from "../../../components/Textfeld/InputFeld";
 import theme from "../../../theme";
 import Grid from "@material-ui/core/Grid";
-import {Paper} from "@material-ui/core";
 
 
 function SectionAvatar(props) {
