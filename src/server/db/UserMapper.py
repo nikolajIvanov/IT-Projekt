@@ -54,6 +54,52 @@ class UserMapper(Mapper):
         # Rückgabe aller Userdaten
         return self.find_by_authId(nutzer.get_authId())
 
+    def insert_many(self, users):
+        """
+        Methode zur Anlegung eines neuen Users in der Datenbank
+        :param users: Ist das Nutzerobjekt
+        :return: Alle Objekte des UserBO
+        """
+        # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
+        cursor = self._cnx.cursor(prepared=True)
+
+        # Erstellen des SQL-Befehls
+        query = """INSERT INTO TeamUP.users (authId, bild, name, geburtsdatum, email,
+                beschreibung, lerntyp, gender, semester, studiengang, vorname) VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s, %s,
+                 %s, %s, %s)"""
+        for nutzer in users:
+            # Auslesen der UserBO Daten
+            daten = (nutzer.get_authId(), nutzer.get_profilBild(), nutzer.get_name(),
+                     datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'),
+                     nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(),
+                     nutzer.get_semester(), nutzer.get_studiengang(), nutzer.get_vorname())
+
+            # Ausführen des SQL-Befehls um die UserBO Daten auf die Datenbank zu schreiben
+            cursor.execute(query, daten)
+            # Schließen der Datenbankverbindung
+            self._cnx.commit()
+            cursor.close()
+
+            # Öffnen einer Datenbankverbindung
+            cursor = self._cnx.cursor(prepared=True)
+
+            # Auslesen welche Module zu dem Nutzer gehören
+            module = nutzer.get_modul()
+            # Datenbankeintrag für jedes Modul erzeugen
+            for i in module:
+                # SQL-Befehl um den Datenbankeintrag zu erstellen
+                query1 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
+                # Auslesen und speichern der users.id und modul.id
+                data = (self.get_Id_by_authId(nutzer.get_authId()), self.get_modulId_by_modul(i))
+                # (Bitte kein Komma nach data) Ausführen des SQL- Befehls
+                cursor.execute(query1, data)
+            # Bestätigung der Datenbankabfrage/ änderung
+        self._cnx.commit()
+        cursor.close()
+
+        # Rückgabe aller Userdaten
+        return self.find_by_authId(nutzer.get_authId())
+
     def find_all(self):
         """
         Methode um alle UserBO und die dazugehörigen Module aus der Datenbank zu holen
