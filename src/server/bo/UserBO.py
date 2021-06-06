@@ -58,7 +58,8 @@ class UserBO(ProfilBO):
     # Rechnet das Geburtstag in Alter um
     def calculate_age(self):
         today = date.today()
-        geb = datetime.strptime(self.get_geburtsdatum(), '%Y-%m-%d')
+        # geb = datetime.strptime(self.get_geburtsdatum(), '%Y-%m-%d')
+        geb = self.get_geburtsdatum()
         return today.year - geb.year - ((today.month, today.day) < (geb.month, geb.day))
 
     def __str__(self):

@@ -17,7 +17,7 @@ class UserApi(Resource):
 
     # @api.expect(user, validate=True)
     @api.expect(user)
-    @api.marshal_with(user)
+    # @api.marshal_with(user)
     def put(self, authId):
         adm = Administration()
         payload = api.payload
@@ -29,7 +29,7 @@ class UserApi(Resource):
                                         vorname=payload["vorname"])
 
         if proposal is not None:
-
-            return adm.update_user_by_authId(proposal)
+            adm.update_user_by_authId(proposal)
+            return 200
         else:
             return '', 500
