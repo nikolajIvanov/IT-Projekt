@@ -27,6 +27,8 @@ class UserApi(Resource):
                                         lerntyp=payload["lerntyp"], gender=payload["gender"],
                                         semester=payload["semester"], studiengang=payload["studiengang"],
                                         vorname=payload["vorname"])
+        for modul in payload["modul"]:
+            proposal.set_module_append(modul)
 
         if proposal is not None:
             adm.update_user_by_authId(proposal)

@@ -10,11 +10,15 @@ bo = api.model('BusinessObject', {
 })
 
 profil = api.inherit('ProfilBO', bo, {
-    'name': fields.String(attribute=lambda x: x.get_name(), description='Name eines Benutzers'),
-    'lerntyp': fields.String(attribute=lambda x: x.get_lerntyp(), description='Lerntyp eines Benutzers'),
-    'modul': fields.List(fields.String, attribute=lambda x: x.get_modul(), description='Module eines Benutzers'),
-    'profilBild': fields.String(attribute=lambda x: x.get_profilBild(), description='Bild eines Benutzers'),
-    'beschreibung': fields.String(attribute=lambda x: x.get_beschreibung(), description='beschreibung eines Benutzers')
+    'name': fields.String(attribute=lambda x: x.get_name(), description='Name eines Benutzers oder Lerngruppe'),
+    'lerntyp': fields.String(attribute=lambda x: x.get_lerntyp(),
+                             description='Lerntyp eines Benutzers oder Lerngruppe'),
+    'modul': fields.List(fields.String, attribute=lambda x: x.get_modul(),
+                         description='Module eines Benutzers oder Lerngruppe'),
+    'profilBild': fields.String(attribute=lambda x: x.get_profilBild(),
+                                description='Bild eines Benutzers oder Lerngruppe'),
+    'beschreibung': fields.String(attribute=lambda x: x.get_beschreibung(),
+                                  description='Beschreibung eines Benutzers oder Lerngruppe')
 })
 
 user = api.inherit('Nutzer', profil, {
@@ -28,7 +32,8 @@ user = api.inherit('Nutzer', profil, {
 })
 
 lerngruppe = api.inherit('Lerngruppe', profil, {
-    'mitglieder': fields.List(fields.Integer, attribute=lambda x: x.get_mitglieder(), description='Mitglieder einer Lerngruppe'),
+    'mitglieder': fields.List(fields.Integer, attribute=lambda x: x.get_mitglieder(),
+                              description='Mitglieder einer Lerngruppe'),
     'admin': fields.String(attribute=lambda x: x.get_admin(), description='Administrator einer Lerngruppe'),
 })
 
