@@ -5,7 +5,8 @@ import TextField from '@material-ui/core/TextField';
 
 const Styles = ({
     button: {
-            width: "15vw",
+            maxWidth: "200px",
+            minWidth: "100px"
         },
 });
 
