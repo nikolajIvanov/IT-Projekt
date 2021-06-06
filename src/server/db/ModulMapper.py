@@ -52,14 +52,14 @@ class ModulMapper(Mapper):
     def find_by_studiengangId(self, key):
         """
         :param key: Ist die authId
-        :return: Alle Objekte des User
+        :return: Alle Objekte des UserBO
         """
         result = []
 
         # öffnen der DB verbindung
         cursor = self._cnx.cursor(prepared=True)
 
-        # erstellen des SQL-Befehls um die User Daten abzufragen
+        # erstellen des SQL-Befehls um die UserBO Daten abzufragen
         query = """SELECT modul.id, modul.bezeichnung FROM TeamUP.modul INNER JOIN TeamUP.modulInStudiengang mIS 
         on modul.id = mIS.modulId WHERE mIS.studiengangId =%s"""
 
@@ -68,7 +68,7 @@ class ModulMapper(Mapper):
         cursor.execute(query, (key,))
         tuples = cursor.fetchall()
 
-        # Auflösen der ersten SQL Antwort (User) und setzen der Parameter
+        # Auflösen der ersten SQL Antwort (UserBO) und setzen der Parameter
         for (id, modul) in tuples:
             obj = ModulBO()
             obj.set_id(id)

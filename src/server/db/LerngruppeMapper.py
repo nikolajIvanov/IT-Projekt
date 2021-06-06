@@ -279,7 +279,7 @@ class LerngruppeMapper(Mapper):
         # Erstellen des SQL-Befehls um lerngruppendaten zu holen
         query = """UPDATE teamup.lerngruppe SET bild=%s, name=%s, beschreibung=%s, admin=%s,
                         lerntyp=%s WHERE lerngruppe.id=%s"""
-        # Auslesen und speichern der restlichen User Daten
+        # Auslesen und speichern der restlichen UserBO Daten
         daten = (lerngruppe.get_profilBild(), lerngruppe.get_name(), lerngruppe.get_beschreibung(),
                  lerngruppe.get_admin(), lerngruppe.get_lerntyp(), lerngruppe.get_id())
         cursor.execute(query,(daten))
@@ -326,7 +326,7 @@ class LerngruppeMapper(Mapper):
         query = """UPDATE teamup.lerngruppe SET bild=%s, name=%s, beschreibung=%s, admin=%s,
                         lerntyp=%s WHERE lerngruppe.id=%s"""
 
-        # Auslesen und speichern der restlichen User Daten
+        # Auslesen und speichern der restlichen UserBO Daten
         daten = (lerngruppe.get_profilBild(), lerngruppe.get_name(), lerngruppe.get_beschreibung(),
                  lerngruppe.get_admin(), lerngruppe.get_lerntyp())
 
