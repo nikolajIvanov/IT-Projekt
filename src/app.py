@@ -2,6 +2,7 @@
 from flask_cors import CORS
 from flask_socketio import SocketIO, send
 # Api Endpunkte
+from server.api.VieleUserApi import VieleUserApi
 from server.api.test_api import TestApi
 from server.api.UsersApi import UsersApi
 from server.api.UserApi import UserApi
@@ -29,6 +30,7 @@ def handleMessage(msg):
 api.add_resource(TestApi, '/test-api/<int:number>')
 api.add_resource(UsersApi, '/users')
 api.add_resource(UserApi, '/users/<string:authId>')
+api.add_resource(VieleUserApi, '/viele-user')
 
 api.add_resource(LerngruppenApi, '/lerngruppen')
 api.add_resource(LerngruppeApi, '/lerngruppe/<int:id>')

@@ -32,6 +32,14 @@ class Administration(object):
         with UserMapper() as mapper:
             return mapper.insert_by_authId(nutzer)
 
+    def insert_many_user(self, nutzer):
+        """
+        :param nutzer: Ist die authId
+        :return: Alle Objekte des Nutzers
+        """
+        with UserMapper() as mapper:
+            return mapper.insert_many(nutzer)
+
     def update_user_by_authId(self, nutzer):
         """
         :param nutzer: Ist die authId
