@@ -1,8 +1,7 @@
 from src.server.bo.BusinessObject import BusinessObject
 
 
-# TODO modul = list??
-class Profil(BusinessObject):
+class ProfilBO(BusinessObject):
     def __init__(self):
         super().__init__()
         self.__name = ""
@@ -43,13 +42,14 @@ class Profil(BusinessObject):
         return self.__modul
 
     def set_modul(self, module):
-        """Fügt dem Profil neue Module hinzu.
+        """Fügt dem ProfilBO neue Module hinzu.
 
         :param module: Module
         """
         self.__modul = module
 
     def set_module_append(self, module):
+
         self.__modul.append(module)
 
     def get_profilBild(self):

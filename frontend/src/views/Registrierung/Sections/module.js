@@ -1,50 +1,54 @@
-import React from 'react';
-import {Paper, Typography} from "@material-ui/core";
-import DropDown from "../../../components/Textfeld/Dropdown";
+import React, {useEffect} from 'react';
+import {Button, FormControlLabel, FormGroup, Paper, Switch, Typography} from "@material-ui/core";
+import theme from "../../../theme";
+import TeamUpApi from "../../../api/TeamUpApi";
 
-const modula = [
-    {
-        value:'',
-        label: '',
-    },
-    {
-        value: "programmieren",
-        label: 'Programmieren',
-    },
-    {
-        value: "data-science",
-        label: 'Data Science',
-    },
-    {
-        value: "marketing",
-        label: 'Marketing',
-    },
-]
+function Module(props){
+    const [Mod, setMod] = React.useState([])
 
-function Module(props) {
+    useEffect( () => {
+        TeamUpApi.getAPI().getModul(props.studiengang)
+            .then((modul) => {
+                const middle = []
+                modul.forEach(i => {
+                    middle.push({
+                        key: i.getID(),
+                        value: i.getModul()
+                    })
+                })
+                console.log(middle)
+                setMod(middle)
+            })
+    }, []);
 
-    const handleModul = (event) => {
-        props.setModul(event.target.value);
-    };
+    const handleChange = (mod) => {
+        if (props.modul.includes(mod) === false) {
+            props.setModul(modul => modul.concat(mod))
+        }
+        else {
+            props.setModul(modul => modul.filter(item => item !== mod))
+        }
+    }
 
-    return (
+        return (
             <Paper style={props.mode}>
-                <Typography style={styles.font}>Was willst du lernen?</Typography>
-                <DropDown
-                    handleChange = {handleModul}
-                    input = {props.modul}
-                    map = {modula}
-                    droplabel = {props.drop}
-                />
+                {Mod ? <>
+                    <Typography style={theme.font.register}>Was willst du lernen?</Typography>
+                    <FormGroup style={theme.scrollBox}>
+                {Mod.map((mod) =>
+                        <FormControlLabel
+                            control={<Switch checked={props.modul.includes(mod.value)}
+                            onClick={(e) => {
+                            e.preventDefault();
+                            handleChange(mod.value)
+                            }}/>}
+                        label={mod.value}
+                        />
+                    )}
+                    </FormGroup>
+                </> : <Typography>Ups</Typography>}
             </Paper>
-    );
+        );
 }
 
 export default Module;
-
-const styles = {
-    font:{
-        color: "#898989",
-        marginBottom: "5%"
-    }
-}

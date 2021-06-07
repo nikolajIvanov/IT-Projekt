@@ -14,7 +14,7 @@ import {withStyles} from "@material-ui/styles";
 import PropTypes from "prop-types";
 import Logo from '../../Logo_LogIn.svg'
 import '../../assets/App.css';
-import ButtonBestTigen from "../../components/Button/ButtonBestätigen";
+import ButtonBestTigen from "../../components/Button/ButtonPrimary";
 
 
 const styles = theme => ({

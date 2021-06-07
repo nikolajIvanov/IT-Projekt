@@ -1,33 +1,7 @@
 import React from 'react';
 import {Paper, Typography} from "@material-ui/core";
 import DropDown from "../../../components/Textfeld/Dropdown";
-
-const lerntypArten = [
-    {
-        value:'',
-        label: '',
-    },
-    {
-        value: 1,
-        label: 'Visuell',
-    },
-    {
-        value: 2,
-        label: 'Auditiv',
-    },
-    {
-        value: 3,
-        label: 'Kommunikativ',
-    },
-    {
-        value: 4,
-        label: 'Motorisch',
-    },
-    {
-        value: 5,
-        label: 'Mischform'
-    }
-]
+import Lerntypen from "../../../components/Konstante(DropDown)/Lerntypen";
 
 //TODO Infofeld für die Lerntypen
 
@@ -42,7 +16,7 @@ function Lerntyp(props) {
             <DropDown
                 handleChange = {handleLerntypArt}
                 input = {props.lerntypArt}
-                map = {lerntypArten}
+                map = {Lerntypen}
                 droplabel = {props.drop}
             />
         </Paper>

@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         '& .MuiTextField-root': {
             margin: theme.spacing(1),
-            width: 200,
+            width: "calc(100%-30px)",
         },
     },
 }));
@@ -18,11 +18,13 @@ export default function InputFeld(props) {
         <form className={classes.root} noValidate autoComplete="off">
             <div>
                 <TextField
+                    disabled={props.disabled}
                     id="standard-error-helper-text"
                     label={props.text}
                     value={props.inhalt}
                     defaultValue={props.inputValue}
                     onChange={props.onChange}
+                    style={props.style}
                 />
             </div>
         </form>

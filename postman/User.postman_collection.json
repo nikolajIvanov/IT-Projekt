@@ -1,0 +1,331 @@
+{
+	"info": {
+		"_postman_id": "90c0dd71-32dd-4be3-8673-70139cb213a6",
+		"name": "User",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"protocolProfileBehavior": {
+				"followOriginalHttpMethod": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/users/789",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"users",
+						"789"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Löschen",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/users/TBzTNfKvzNgT2RB1EovLO6hmdpp1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"users",
+						"TBzTNfKvzNgT2RB1EovLO6hmdpp1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lerntyp",
+			"protocolProfileBehavior": {
+				"followOriginalHttpMethod": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/lerntyp",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"lerntyp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Module",
+			"protocolProfileBehavior": {
+				"followOriginalHttpMethod": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000//modul/Wirtschaftsinformatik und digitale Medien",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"",
+						"modul",
+						"Wirtschaftsinformatik und digitale Medien"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Studiengang",
+			"protocolProfileBehavior": {
+				"followOriginalHttpMethod": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/studiengang",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"studiengang"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/test",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/nutzer-by-name/Niko",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"nutzer-by-name",
+						"Niko"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test Api",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/test-api/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"test-api",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Alle User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/users",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Neuen User erstellen",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 0,\n  \"authId\":789,\n  \"modul\":[\"Data Science\"],\n  \"profilBild\":\"Bild1\",\n  \"beschreibung\":\"BlaBla\",\n  \"lerntyp\":\"Auditiv\",\n  \"geburtsdatum\":\"1990-12-01\",\n  \"name\": \"Nein\",\n  \"vorname\": \"Nein\",\n  \"email\": \"markus@markus.de\",\n  \"gender\":\"Mann\",\n  \"semester\":1,\n  \"studiengang\":\"Wirtschaftsinformatik und digitale Medien\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/users",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Viele User erstellen",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"id\": 0,\n    \"authId\":1234,\n    \"modul\":[\"Data Science\"],\n    \"profilBild\":\"Bild1\",\n    \"beschreibung\":\"Ich bin Otto Normalverbraucher.\",\n    \"lerntyp\":\"Auditiv\",\n    \"geburtsdatum\":\"1990-12-01\",\n    \"name\": \"Mustermann\",\n    \"vorname\": \"Max\",\n    \"email\": \"Max@Mustermann.de\",\n    \"gender\":\"Mann\",\n    \"semester\":3,\n    \"studiengang\":\"Wirtschaftsinformatik und digitale Medien\"\n    },\n    {\n        \"id\": 0,\n    \"authId\":4567,\n    \"modul\":[\"Data Science\"],\n    \"profilBild\":\"Bild1\",\n    \"beschreibung\":\"Ich wollte eigentlich zur Uni Stuttgart.\",\n    \"lerntyp\":\"Motorisch\",\n    \"geburtsdatum\":\"1990-12-01\",\n    \"name\": \"Musterfrau\",\n    \"vorname\": \"Julia\",\n    \"email\": \"Julia@Musterfrau.de\",\n    \"gender\":\"Frau\",\n    \"semester\":1,\n    \"studiengang\":\"Informationsdesign\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/viele-user",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"viele-user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User updaten",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 0,\n  \"authId\":456,\n  \"modul\":[\"Textkompetenz\", \"Lehrredaktion\", \"Rechnungslegung und Besteuerung\"],\n  \"profilBild\":\"Bild1\",\n  \"beschreibung\":\"Ich schaffe es\",\n  \"lerntyp\":\"Visuell\",\n  \"geburtsdatum\":\"1990-12-01\",\n  \"name\": \"Nikolaj\",\n  \"vorname\": \"Sag ich nicht\",\n  \"email\": \"ni012@hdm-stuttgart.de\",\n  \"gender\":\"Mann\",\n  \"semester\":1,\n  \"studiengang\":\"Wirtschaftsinformatik und digitale Medien\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/users/456",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"users",
+						"456"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

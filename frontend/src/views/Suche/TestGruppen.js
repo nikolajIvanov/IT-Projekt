@@ -1,4 +1,4 @@
-import GroupListElement from './GroupListElement'
+import GroupListElement from './Sections/GroupListElement'
 const gruppen = [
     {
         beschreibung: 'Python',
@@ -20,6 +20,39 @@ const gruppen = [
         infos: 'Mitglieder-Ican 14 / Schneller Lerner / Data Science',
         tagIcon1: 'Daten',
         tagIcon2: 'WI7',
+    }
+]
+
+const person = [
+    {
+        name: 'Nikolaj',
+        bild: ' In dieser Gruppe lernst du die Python Grundlagen',
+        beschreibung: 'Ich heiße nicht Benito',
+        semester: 4,
+        studiengang: 'Wirtschaftsinformatik',
+        lerninteressen: 'Lerninteressen',
+        suche: 'Web-Technologie',
+        lerntyp: 'Motorisch'
+    },
+        {
+        name: 'Benito',
+        bild: ' In dieser Gruppe lernst du die Python Grundlagen',
+        beschreibung: 'Ich heiße nicht Benito',
+        semester: 4,
+        studiengang: 'Wirtschaftsinformatik',
+        lerninteressen: 'Lerninteressen',
+        suche: 'Web-Technologie',
+        lerntyp: 'Motorisch'
+    },
+        {
+        name: 'Ardit',
+        bild: ' In dieser Gruppe lernst du die Python Grundlagen',
+        beschreibung: 'Ich heiße nicht Benito',
+        semester: 4,
+        studiengang: 'Wirtschaftsinformatik',
+        lerninteressen: 'Lerninteressen',
+        suche: 'Web-Technologie',
+        lerntyp: 'Motorisch'
     }
 ]
 

@@ -3,26 +3,15 @@ import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 
 
-
-export default function ToggleButtons() {
-  const [alignment, setAlignment] = React.useState('left');
-
-  const handleAlignment = (event, newAlignment) => {
-    setAlignment(newAlignment);
-  };
+export default function ToggleButtons(props) {
 
   return (
-    <ToggleButtonGroup
-      value={alignment}
-      exclusive
-      onChange={handleAlignment}
-      color="primary">
-
-      <ToggleButton value="person" aria-label="left aligned">
-        Person
+    <ToggleButtonGroup value={props.value} exclusive onClick={props.onClick} color="primary">
+      <ToggleButton value={true} aria-label="person">
+        Personen
       </ToggleButton>
-      <ToggleButton value="gruppe" aria-label="centered">
-        Gruppe
+      <ToggleButton value={false} aria-label="gruppe">
+        Gruppen
       </ToggleButton>
     </ToggleButtonGroup>
   );

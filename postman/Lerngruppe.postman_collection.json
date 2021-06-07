@@ -1,0 +1,108 @@
+{
+	"info": {
+		"_postman_id": "a4918bc6-487d-41ef-be49-78eecd3b959e",
+		"name": "Lerngruppe",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Alle Lerngruppen",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/lerngruppen",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"lerngruppen"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lerngruppe",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/lerngruppe/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"lerngruppe",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lerngruppe erstellen",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 0,\n    \"modul\":[\"Grundlagen PR\"],\n    \"profilBild\": \"1235\",\n    \"beschreibung\":\"Zweiter Versuch\",\n    \"lerntyp\": \"Visuell\",\n    \"name\": \"FPK\",\n    \"mitglieder\":[1],\n    \"admin\": \"1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/lerngruppen",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"lerngruppen"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
