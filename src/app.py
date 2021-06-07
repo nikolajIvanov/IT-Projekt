@@ -40,6 +40,7 @@ api.add_resource(StudiengangApi, '/studiengang')
 api.add_resource(ModulApi, '/modul/<string:studiengang>')
 api.add_resource(LerntypApi, '/lerntyp')
 
+
 if __name__ == '__main__':
     # app.run(debug=True)
     socketIo.run(app, debug=True)
