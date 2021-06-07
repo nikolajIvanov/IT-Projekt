@@ -7,6 +7,7 @@ import FilterIcon from "../../components/Icon/FilterIcon";
 import TeamUpApi from "../../api/TeamUpApi";
 import ProfilListElement from "./Sections/ProfilListElement";
 import GroupListElement from "./Sections/GroupListElement";
+import ButtonPrimary from "../../components/Button/ButtonPrimary";
 
 const styles = theme => ({
     root: {
@@ -27,26 +28,12 @@ class Match extends Component {
         }
     }
 
-    // Ruft die User GET Methode auf und holt alle User aus dem Backend
-    getData = () => {
-        TeamUpApi.getAPI().getAllUsers().then(users =>{
-            console.log(users)
-            this.setState({
-                apiUsers: users
-            });
-        })
-    }
-    getGruppen = () => {
-        TeamUpApi.getAPI().getAllGruppe().then(lerngruppen =>{
-            this.setState({
-                apiGruppen: lerngruppen
-            });
-        })
-    }
-
     // Ladet direkt die User Daten aus dem Backend
     componentDidMount() {
-        this.getData()
+        this.setState({
+            apiUsers: this.props.userList,
+            apiGruppen: this.props.groupList
+        });
     }
     // Setzt den Wert für
     handleClick = () => {
@@ -59,17 +46,25 @@ class Match extends Component {
 
     render(){
         const { classes } = this.props;
-        const { apiUsers, isPerson, apiGruppen }= this.state;
+        const { apiUsers, isPerson, apiGruppen, selectedUser }= this.state;
 
         return (
             <div className={classes.root}>
                 <GroupPersonSwitch onClick={this.handleClick} value={isPerson}/>
                 {apiUsers ? <>
-                    <SearchBar/>
                     <FilterIcon/>
                     { isPerson ?
-                    <ProfilListElement apiUsers={apiUsers}/>
-                    : {/*<GroupListElement apiGruppe={apiGruppen}/> */}}
+                        <>
+                            <ProfilListElement
+                                getView={this.props.getView}
+                                apiUsers={apiUsers}/>
+                        </>
+                    :
+                        <>
+                            <GroupListElement apiGruppe={apiGruppen}/>
+                            <ButtonPrimary inhalt={"Gruppe anzeigen"}/>
+                        </>
+                            }
                 </> : null }
             </div>
         );

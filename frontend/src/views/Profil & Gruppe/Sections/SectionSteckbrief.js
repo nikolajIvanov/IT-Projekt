@@ -4,7 +4,7 @@ import MultiLine from "../../../components/Textfeld/MultiLine";
 import DropDown from "../../../components/Textfeld/Dropdown";
 import theme from '../../../theme'
 import SubSectionModule from "./SubSectionModule";
-import {Card, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
+import {Card, List, ListItem, ListItemIcon, ListItemText, Typography} from "@material-ui/core";
 import TeamUpApi from "../../../api/TeamUpApi";
 import ClassIcon from '@material-ui/icons/Class';
 import SubSectionUserinfo from "./SubSectionUserinfo";
@@ -77,6 +77,7 @@ export default function SectionSteckbrief(props) {
             {/* Container für Alter, Semester und Studiengang des Studenten*/}
         <Card style={{padding: "5%"}}>
             <SubSectionUserinfo studiengang={props.apiObject.getStudiengang()}
+                                alter={props.apiObject.getGeburtstag()}
                                 semester={props.apiObject.getSemester()}
                                 handleSemesterChange={handleSemesterChange}
                                 handleStudiengangChange={handleStudiengangChange}
@@ -87,7 +88,7 @@ export default function SectionSteckbrief(props) {
             <Card style={{padding: "5%", marginTop: "5%"}}>
                 <Grid container>
                     <Grid style={theme.root} item xs={12}>
-                        <p style={theme.h3.bold}>Meine Lernmodule:</p>
+                        <Typography style={theme.h3.bold}>Meine Lernmodule:</Typography>
                     </Grid>
                     <Grid style={theme.root} item xs={12}>
                         <div style={theme.scrollBox}>

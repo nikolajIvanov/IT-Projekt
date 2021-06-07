@@ -1,23 +1,13 @@
-import React, {Component} from 'react';
+import React from 'react';
 import '../../assets/App.css';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "../Home/Home";
-import MyProfil from "../Profil & Gruppe/ProfilBearbeiten";
-import Profil from "../Profil & Gruppe/Profil";
-import Gruppen from "../Profil & Gruppe/Gruppe"
-import Navigation from "../Navigation";
 import '../../assets/App.css';
 import firebase from "../../api/Firebase";
-import Chat2 from '../Chat/ChatTest2';
 import Login2 from '../LogIn/Login 2';
 import SignUp from '../SignUp/SignUP'
 import Registrierung from "../Registrierung/Registrierung";
 import TeamUpApi from "../../api/TeamUpApi";
-import GruppenSuche from "../Suche/GruppenSuche";
 import UserBO from "../../bo/UserBO";
-import Match from "../Suche/Match";
-
-
 
 class App extends React.Component {
     constructor() {
@@ -188,18 +178,7 @@ class App extends React.Component {
             {this.state.user ? (
                 <>
                 {this.state.exist ? (
-                        <Router>
-                            <Navigation logOut={this.handleLogOut}/>
-                            <Switch>
-                                <Route path="/" exact component={Home}/>
-                                <Route path="/profil" component={Profil}/>
-                                <Route path="/gruppen"  component={Gruppen}/>
-                                <Route path="/me"  component={MyProfil}/>
-                                <Route path="/chat"  component={Chat2}/>
-                                <Route path="/gruppensuche" component={GruppenSuche}/>
-                                <Route path="/matching" component={Match}/>
-                            </Switch>
-                        </Router>
+                        <Home/>
                 ):(
                     <>
                         <Registrierung exist={this.setExist}/>

@@ -30,7 +30,7 @@ class ProfilBearbeiten extends React.Component {
     // Es wird ein neues Objekt der Klasse UserBO erstellt und es werden alle Daten aus der state in das Objekt übertragen
     // und mittels API Call ans Backend übergeben
     handleUpdate  = async () => {
-        console.log("handleChange")
+        console.log(this.state.apiUser)
         const user = new UserBO()
         user.setAll(this.state.apiUser)
         await TeamUpApi.getAPI().updateUser(firebase.auth().currentUser.uid, user.getAll()).then(user =>{
@@ -81,7 +81,6 @@ class ProfilBearbeiten extends React.Component {
     }
 
     handlePwChange = (e) =>{
-        console.log(e.target.value)
         this.setState({
             passwort: e.target.value
         })
@@ -96,18 +95,10 @@ class ProfilBearbeiten extends React.Component {
                 apiUser: user
             });
         })
-        console.log(this.state.apiUser)
-        // Prüft ob man in seinem eigenen ProfilBO ist oder in einem anderen. Je nachdem wird die Ansicht verändert.
-        // TODO: Der switch zwischen Anzeige und änderung muss noch angepasst werden.
-        if (firebase.auth().currentUser.uid === this.state.apiUser.authId) {
-            //this.state.disabled = false
-            console.log("AuthId stimmt überein")
-        }
     }
 
     render(){
-        const {apiUser}= this.state;
-        const {passwort} = this.state
+        const {apiUser, passwort}= this.state;
 
         return (
             <div style={theme.root}>

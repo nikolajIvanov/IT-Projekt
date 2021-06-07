@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import Typography from "@material-ui/core/Typography";
 import theme from "../../../theme";
+import ProfilAvatar from "../../../components/Avatar/ProfilAvatar";
 
 function SectionProfilView(props) {
     const[win, setWindow] = React.useState('')
@@ -14,13 +15,15 @@ function SectionProfilView(props) {
     }
 
     return (
-        <div style={theme.root}>
-            <Typography>HI</Typography>
-            {win > 700 ?
-                <Typography>Kleiner{window.innerWidth}</Typography>
-                :
-                <Typography>Größer{window.innerWidth}</Typography>
-            }
+        <div style={theme.card}>
+            <ProfilAvatar img={props.apiObject.getProfilBild()}/>
+            <Typography>{props.apiObject.getVorname()}</Typography>
+            <Typography>{props.apiObject.getName()}</Typography>
+            <Typography>{props.apiObject.getBeschreibung()}</Typography>
+            <Typography>{props.apiObject.getStudiengang()}</Typography>
+            <Typography>{props.apiObject.getSemester()}</Typography>
+            <Typography>{props.apiObject.getModul()}</Typography>
+            <Typography>{props.apiObject.getLerntyp()}</Typography>
         </div>
     );
 }

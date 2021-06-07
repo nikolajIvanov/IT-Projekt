@@ -3,6 +3,7 @@ import theme from "../../../theme";
 import Grid from "@material-ui/core/Grid";
 import DropDown from "../../../components/Textfeld/Dropdown";
 import Semester from "../../../components/Konstante(DropDown)/Semester";
+import {Typography} from "@material-ui/core";
 
 function SubSectionUserinfo(props) {
 
@@ -46,19 +47,19 @@ function SubSectionUserinfo(props) {
         <div>
             <Grid style={theme.root} container spacing={3}>
                 <Grid style={art.rightAligned} item xs={12} sm={4} >
-                    <p style={theme.h3.bold}>Alter:</p>
+                    <Typography style={theme.h3.bold}>Alter:</Typography>
                 </Grid>
                 <Grid style={art.root} item xs={12} sm={1} >
-                    <p style={art.h3.bold}>-</p>
+                    <Typography style={art.h3.bold}>-</Typography>
                 </Grid>
                 <Grid style={art.leftAligned} item xs={12} sm={7} >
-                    <p style={theme.h3.bold}>26</p>
+                    <Typography style={theme.h3.bold}>{props.alter}</Typography>
                 </Grid>
                 <Grid  style={art.rightAligned} item xs={12} sm={4}>
-                    <p style={theme.h3.bold}>Semester:</p>
+                    <Typography style={theme.h3.bold}>Semester:</Typography>
                 </Grid>
                 <Grid style={art.root} item xs={12} sm={1} >
-                    <p style={art.h3.bold}>-</p>
+                    <Typography style={art.h3.bold}>-</Typography>
                 </Grid>
                 <Grid style={art.leftAligned} item xs={12} sm={7}>
                     <DropDown map={Semester}
@@ -66,10 +67,10 @@ function SubSectionUserinfo(props) {
                               handleChange={props.handleSemesterChange}/>
                 </Grid>
                 <Grid style={art.rightAligned} item xs={12} sm={4}>
-                    <p style={theme.h3.bold}>Studiengang:</p>
+                    <Typography style={theme.h3.bold}>Studiengang:</Typography>
                 </Grid>
                 <Grid style={art.root} item xs={12} sm={1} >
-                    <p style={art.h3.bold}>-</p>
+                    <Typography style={art.h3.bold}>-</Typography>
                 </Grid>
                 <Grid style={art.leftAligned} item xs={12} sm={7}>
                     <DropDown map={props.studien}
