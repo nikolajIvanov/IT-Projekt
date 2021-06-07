@@ -32,10 +32,10 @@ class UserMapper(Mapper):
         cursor.execute(query, daten)
         # Schließen der Datenbankverbindung
         self._cnx.commit()
-        cursor.close()
+        #cursor.close()
 
         # Öffnen einer Datenbankverbindung
-        cursor = self._cnx.cursor(prepared=True)
+        #cursor = self._cnx.cursor(prepared=True)
 
         # Auslesen welche Module zu dem Nutzer gehören
         module = nutzer.get_modul()
@@ -181,12 +181,8 @@ class UserMapper(Mapper):
 
         # Bestätigung der Datenbankabfrage/ änderung
         self._cnx.commit()
-        if self._cnx:
-            return modulid[0]
-        else:
-            self._cnx.close()
-            # Rückgabe der Modulid
-            return modulid[0]
+
+        return modulid[0]
 
     def find_modul_by_userid(self, user):
         """
@@ -225,9 +221,7 @@ class UserMapper(Mapper):
         :return: Das soeben geupdatete Objekt wird wieder nach vorne gegeben
         """
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
-        cursor_up = self._cnx.cursor(prepared=True)
-        cursor_del = self._cnx.cursor(prepared=True)
-        cursor_ins = self._cnx.cursor(prepared=True)
+        cursor = self._cnx.cursor(prepared=True)
 
         # Erstellen des SQL-Befehls
         query = """UPDATE TeamUP.users SET authId=%s, bild=%s, name=%s, email=%s,
@@ -245,17 +239,17 @@ class UserMapper(Mapper):
         # User ID für das weitere Vorgehen aus der DB zu holen, falls sie falsch übergeben wurde (Postman)
         query_id = """SELECT users.id FROM TeamUP.users WHERE authId=%s"""
         # Ausführen des SQL-Befehls
-        cursor_up.execute(query, daten)
+        cursor.execute(query, daten)
         # Setzt die aktuelle User ID in das Objekt
-        cursor_up.execute(query_id, (authid,))
-        nutzer.set_id(cursor_up.fetchone()[0])
+        cursor.execute(query_id, (authid,))
+        nutzer.set_id(cursor.fetchone()[0])
         # Bestätigung der Datenbankabfrage/ änderung
         self._cnx.commit()
 
         # Erstellen des SQL-Befehls um alle bestehenden einträge des UserBO in userInModule zu löschen
         query1 = """DELETE FROM TeamUP.userinmodul WHERE userId=%s"""
         # Ausführen des SQL-Befehls
-        cursor_del.execute(query1, (nutzer.get_id(),))
+        cursor.execute(query1, (nutzer.get_id(),))
         # Bestätigung der Datenbankabfrage/ änderung
         self._cnx.commit()
 
@@ -268,11 +262,12 @@ class UserMapper(Mapper):
             query2 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
             # Auslesen und speichern der users.id und modul.id
             data = (nutzer.get_id(), self.get_modulId_by_modul(i))
-            cursor_ins.execute(query2, data)
+            # cursor_ins.execute(query2, data)
+            cursor.execute(query2, data)
         # Bestätigung der Datenbankabfrage/ änderung
         self._cnx.commit()
+        cursor.close()
         # TODO MySQL Errorhandling hier einbauen
-        self._cnx.close()
 
     ###################################################################################################################
     # Nicht genutzt Methoden
