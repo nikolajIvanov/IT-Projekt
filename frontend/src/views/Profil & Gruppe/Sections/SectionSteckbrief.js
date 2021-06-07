@@ -8,6 +8,7 @@ import {Card, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/cor
 import TeamUpApi from "../../../api/TeamUpApi";
 import ClassIcon from '@material-ui/icons/Class';
 import SubSectionUserinfo from "./SubSectionUserinfo";
+import Semester from "../../../components/Konstante(DropDown)/Semester";
 
 // Dient als Molekül für die Seite ProfilBO und Gruppe.
 export default function SectionSteckbrief(props) {
@@ -27,12 +28,6 @@ export default function SectionSteckbrief(props) {
             })
     }, [])
 
-    // Speichert die neuen Werte für  die Variable: Geburtstag
-    const handleDateChange = (e) => {
-        let newObject = props.apiObject;
-        newObject.setGeburtstag(e.target.value)
-        props.handleChange(newObject)
-    }
 
     // Speichert die neuen Werte für  die Variable: Modul
     const handleModulChange = (e) => {
@@ -46,12 +41,13 @@ export default function SectionSteckbrief(props) {
         let newObject = props.apiObject;
         newObject.setSemester(e.target.value)
         props.handleChange(newObject)
-        console.log(props.apiObject)
     }
 
     // Speichert die neuen Werte für  die Variable: Studiengang
     const handleStudiengangChange = (e) => {
         let newObject = props.apiObject;
+        newObject.setModul([])
+        console.log(newObject.getModul())
         newObject.setStudiengang(e.target.value)
         props.handleChange(newObject)
     }

@@ -17,6 +17,15 @@ function SubSectionUserinfo(props) {
             justifyContent: "center",
             alignItems:"center",
         },
+        root:{
+            height: "10px"
+        },
+        h3:{
+            bold:{
+                display: "none",
+                height: "0px",
+            }
+        }
     }
     const[art, setTheme] = React.useState(theme)
 
@@ -39,8 +48,8 @@ function SubSectionUserinfo(props) {
                 <Grid style={art.rightAligned} item xs={12} sm={4} >
                     <p style={theme.h3.bold}>Alter:</p>
                 </Grid>
-                <Grid style={theme.root} item xs={12} sm={1} >
-                    <p style={theme.h3.bold}>-</p>
+                <Grid style={art.root} item xs={12} sm={1} >
+                    <p style={art.h3.bold}>-</p>
                 </Grid>
                 <Grid style={art.leftAligned} item xs={12} sm={7} >
                     <p style={theme.h3.bold}>26</p>
@@ -48,8 +57,8 @@ function SubSectionUserinfo(props) {
                 <Grid  style={art.rightAligned} item xs={12} sm={4}>
                     <p style={theme.h3.bold}>Semester:</p>
                 </Grid>
-                <Grid style={theme.root} item xs={12} sm={1} >
-                    <p style={theme.h3.bold}>-</p>
+                <Grid style={art.root} item xs={12} sm={1} >
+                    <p style={art.h3.bold}>-</p>
                 </Grid>
                 <Grid style={art.leftAligned} item xs={12} sm={7}>
                     <DropDown map={Semester}
@@ -59,8 +68,8 @@ function SubSectionUserinfo(props) {
                 <Grid style={art.rightAligned} item xs={12} sm={4}>
                     <p style={theme.h3.bold}>Studiengang:</p>
                 </Grid>
-                <Grid style={theme.root} item xs={12} sm={1} >
-                    <p style={theme.h3.bold}>-</p>
+                <Grid style={art.root} item xs={12} sm={1} >
+                    <p style={art.h3.bold}>-</p>
                 </Grid>
                 <Grid style={art.leftAligned} item xs={12} sm={7}>
                     <DropDown map={props.studien}

@@ -20,8 +20,8 @@ class ProfilBearbeiten extends React.Component {
         super(props)
         this.state = {
             apiUser: null,
+            updateUser: null,
             modalOpen: false,
-            update: false,
             delete: false,
             passwort: null,
         }
@@ -30,12 +30,13 @@ class ProfilBearbeiten extends React.Component {
     // Es wird ein neues Objekt der Klasse UserBO erstellt und es werden alle Daten aus der state in das Objekt übertragen
     // und mittels API Call ans Backend übergeben
     handleUpdate  = async () => {
+        console.log("handleChange")
         const user = new UserBO()
         user.setAll(this.state.apiUser)
         await TeamUpApi.getAPI().updateUser(firebase.auth().currentUser.uid, user.getAll()).then(user =>{
+            this.props.history.push("/");
             this.setState({
                 apiUser: user,
-                update: true
             });
         })
 
@@ -151,20 +152,6 @@ class ProfilBearbeiten extends React.Component {
                                         </Paper>
                                     </div>
                                 </Modal> : null}
-                            {this.state.update ?
-                                <Modal open={true}>
-                                    <Paper style={theme.modalCard}>
-                                        <p style={theme.h3.bold}>Dein Update war erfolgreich</p>
-                                        <Grid container spacing={1} style={theme.root}>
-                                            <Grid item sx={12}>
-                                                <ButtonPrimary inhalt={"Zurück"}
-                                                               onClick={() => this.setState({update: false})}/>
-                                            </Grid>
-                                        </Grid>
-                                    </Paper>
-                                </Modal>
-                                : null
-                            }
                             {this.state.delete ?
                                 <Modal open={true}>
                                     <div style={theme.root}>
