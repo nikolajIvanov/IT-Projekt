@@ -1,7 +1,7 @@
 import SendIcon from '@material-ui/icons/Send';
 import React from 'react';
 
-function SendIcon(props) {
+function SendenIcon(props) {
     return (
         <div>
             <SendIcon onClick={props.onClick}/>
@@ -9,4 +9,4 @@ function SendIcon(props) {
     );
 }
 
-export default SendIcon;
+export default SendenIcon;
