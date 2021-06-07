@@ -7,7 +7,6 @@ import theme from "../../theme";
 import Grid from "@material-ui/core/Grid";
 
 
-
 class Chat extends Component {
     render() {
         return (
@@ -25,3 +24,4 @@ class Chat extends Component {
 }
 
 export default Chat;
+
