@@ -26,6 +26,8 @@ class UsersApi(Resource):
                                         semester=payload["semester"], studiengang=payload["studiengang"],
                                         vorname=payload["vorname"])
 
+        for modul in payload["modul"]:
+            proposal.set_module_append(modul)
         if proposal is not None:
 
             return adm.create_user_by_authId(proposal)
