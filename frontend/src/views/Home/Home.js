@@ -8,6 +8,7 @@ import Chat2 from "../Chat/ChatTest2";
 import GruppenSuche from "../Suche/GruppenSuche";
 import Match from "../Suche/Match";
 import TeamUpApi from "../../api/TeamUpApi";
+import Link from "@material-ui/core/Link";
 
 class Home extends Component {
     constructor(props) {
@@ -68,7 +69,6 @@ class Home extends Component {
                                 <h1 className="App">Willkommen</h1>
                                 {dataLoad ?
                                 <Match userList={userList}
-                                       select
                                        groupList={groupList}
                                        getView={this.setAuswahl}/>
                                     : <h1 className="App">User konnte nicht geladen werden</h1>}

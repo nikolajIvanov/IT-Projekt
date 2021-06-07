@@ -68,7 +68,7 @@ class Match extends Component {
                 </> : null }
             </div>
         );
-    }
+    };
 }
 
 Match.propTypes = {

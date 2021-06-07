@@ -6,13 +6,21 @@ import theme from "../../../theme";
 import Grid from "@material-ui/core/Grid";
 import {Paper} from "@material-ui/core";
 import ButtonPrimary from "../../../components/Button/ButtonPrimary";
+import Link from "@material-ui/core/Link";
+import * as PropTypes from "prop-types";
 
+function Redirect(props) {
+    return null;
+}
+
+Redirect.propTypes = {to: PropTypes.string};
 export default function ProfilListElement(props) {
   const users = props.apiUsers;
 
-  function showProfil(user){
-      console.log("hey")
-    }
+  function setUser(user){
+      console.log("hi")
+      props.getView(user)
+  }
 
   const listItems = users.map((user) =>
           (
@@ -46,7 +54,7 @@ export default function ProfilListElement(props) {
                               <p style={theme.h3.bold}>{user.getLerntyp()}</p>
                           </Grid>
                       </Grid>
-                      <ButtonPrimary inhalt={"User anzeigen"} onClick={showProfil}/>
+                        <ButtonPrimary inhalt={"User anzeigen"}/>
                   </ListItem>
               </Paper>
           )

@@ -22,7 +22,7 @@ class Profil extends React.Component {
         })
     }
 
-    back = () =>{
+    back(){
         this.props.history.push("/chat");
     }
 
