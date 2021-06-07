@@ -1,35 +1,39 @@
+import theme from "../../theme";
+import EigeneMessage from '../../components/Chat/EigeneMessage';
+import FremdeMessage from '../../components/Chat/FremdeMessage';
 
-import Message from '../../components/Chat/Message';
-
-const nachrichten = [
+const EigeneNachrichten = [
     {
         count: "1",
-        align: "right",
         nachricht: "Hallo, wie findest du React?",
         zeit: "09:30",
     },
-        {
-        count:"2",
-        align:"left",
-        nachricht:"React ist eine Bitch!",
-        zeit:"09:32",
-    },
+
         {
         count:"3",
-        align:"right",
         nachricht:"Absolt deiner Meinung!",
         zeit:"10:00",
     }
 ]
 
+const FremdeNachrichten = [
+    {
+        count:"2",
+        nachricht:"React ist eine Bitch!",
+        zeit:"09:32",
+    },
+]
+
 const Chat = () => {
     return (
-        <>
-            {nachrichten.map((nachrichten) =>(<Message key={nachrichten.count}
-                                                            align={nachrichten.align}
-                                                            nachricht={nachrichten.nachricht}
-                                                            zeit={nachrichten.zeit}/>))}
-        </>
+        <div style={theme.card}>
+            {EigeneNachrichten.map((EigeneNachrichten) =>(<EigeneMessage key={EigeneNachrichten.count}
+                                                            nachricht={EigeneNachrichten.nachricht}
+                                                            zeit={EigeneNachrichten.zeit}/>))}
+            {FremdeNachrichten.map((FremdeNachrichten)=>(<FremdeMessage key={FremdeNachrichten.count}
+                                                            nachricht={FremdeNachrichten.nachricht}
+                                                            zeit={FremdeNachrichten.zeit}/>))}
+        </div>
     )
 }
 

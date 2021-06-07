@@ -4,7 +4,7 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Profil from "../Profil & Gruppe/Profil";
 import Gruppen from "../Profil & Gruppe/Gruppe";
 import MyProfil from "../Profil & Gruppe/ProfilBearbeiten";
-import Chat2 from "../Chat/ChatTest2";
+import Chat from "../Chat/Chat";
 import GruppenSuche from "../Suche/GruppenSuche";
 import Match from "../Suche/Match";
 import TeamUpApi from "../../api/TeamUpApi";
@@ -81,7 +81,7 @@ class Home extends Component {
                         </Route>
                         <Route path="/gruppen"><Gruppen/></Route>
                         <Route path="/me" component={MyProfil}/>
-                        <Route path="/chat"  component={Chat2}/>
+                        <Route path="/chat"  component={Chat}/>
                         <Route path="/gruppensuche" component={GruppenSuche}/>
                     </Switch>
                 </Router>
