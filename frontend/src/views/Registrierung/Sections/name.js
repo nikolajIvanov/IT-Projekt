@@ -8,10 +8,20 @@ function Name(props) {
         props.setName(event.target.value)
     }
 
+    const handleVorname = (event) => {
+        props.setVorname(event.target.value)
+    }
+
     return (
             <Paper style={props.mode}>
                 <Typography style={styles.font}>Wie heißt du?</Typography>
                 <InputFeld
+                    text={"Vorname"}
+                    inhalt={props.vorname}
+                    onChange={handleVorname}
+                />
+                <InputFeld
+                    text={"Nachname"}
                     inhalt={props.name}
                     onChange={handleName}
                 />

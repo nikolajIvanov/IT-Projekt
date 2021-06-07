@@ -1,21 +1,13 @@
-import React, {Component} from 'react';
+import React from 'react';
 import '../../assets/App.css';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "../Home/Home";
-import Gruppen from "../Suche/Gruppen";
-import Profile from "../Profil/Profile";
-import Navigation from "../Navigation";
 import '../../assets/App.css';
 import firebase from "../../api/Firebase";
-import Chat2 from '../Chat/ChatTest2';
 import Login2 from '../LogIn/Login 2';
 import SignUp from '../SignUp/SignUP'
 import Registrierung from "../Registrierung/Registrierung";
 import TeamUpApi from "../../api/TeamUpApi";
-import User from "../../bo/User";
-import GruppenSuche from "../Suche/GruppenSuche";
-
-
+import UserBO from "../../bo/UserBO";
 
 class App extends React.Component {
     constructor() {
@@ -24,11 +16,11 @@ class App extends React.Component {
             email : '',
             password :'',
             //Object Instantiierungen für User und API
-            sendUser: new User(),
+            sendUser: new UserBO(),
             user: '',
             emailError: '',
             passwordError :'',
-            hasAccount: false,
+            hasAccount: true,
             text: 'Hi',
             //TODO die Prüfung von exist soll über ein API call erfolgen der Prüft ob ein Name
             // vorhanden ist (Rückschluss= alles muss da sein)
@@ -119,7 +111,7 @@ class App extends React.Component {
                         this.setPasswordError(err.message);
                 }
             });
-        this.checkIfExist();
+        //this.checkIfExist();
     }
 
     handleSignUp(){
@@ -137,7 +129,7 @@ class App extends React.Component {
                         this.setPasswordError(err.message);
                 }
             });
-        this.setUp();
+        //this.setUp();
     }
 
     handleLogOut(){
@@ -186,16 +178,7 @@ class App extends React.Component {
             {this.state.user ? (
                 <>
                 {this.state.exist ? (
-                        <Router>
-                            <Navigation logOut={this.handleLogOut}/>
-                            <Switch>
-                                <Route path="/" exact component={Home}/>
-                                <Route path="/gruppen"  component={Gruppen}/>
-                                <Route path="/profile"  component={Profile}/>
-                                <Route path="/chat"  component={Chat2}/>
-                                <Route path="/gruppensuche" component={GruppenSuche}/>
-                            </Switch>
-                        </Router>
+                        <Home/>
                 ):(
                     <>
                         <Registrierung exist={this.setExist}/>

@@ -1,6 +1,7 @@
-from server.bo.Profil import Profil
+from server.bo.ProfilBO import ProfilBO
 
-class Lerngruppe(Profil):
+
+class Lerngruppe(ProfilBO):
 
     def __init__(self):
         super().__init__()
@@ -12,6 +13,9 @@ class Lerngruppe(Profil):
 
     def set_mitglieder(self, value):
         self.__mitglieder = value
+
+    def set_mitglieder_append(self, value):
+        self.__mitglieder.append(value)
 
     def get_admin(self):
         return self.__admin
@@ -33,6 +37,7 @@ class Lerngruppe(Profil):
     def from_dict(dictionary=dict()):
         """"Umwandeln eines Python dict() in eine Lerngruppe()."""
         obj = Lerngruppe()
+        obj.set_id(dictionary["id"])
         obj.set_modul(dictionary["modul"])
         obj.set_profilBild(dictionary["profilBild"])
         obj.set_beschreibung(dictionary["beschreibung"])

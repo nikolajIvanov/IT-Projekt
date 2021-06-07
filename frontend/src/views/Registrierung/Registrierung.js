@@ -7,19 +7,21 @@ import Lerntyp from "./Sections/lerntyp";
 import Bild from "./Sections/bild";
 import Module from "./Sections/module";
 import Bio from "./Sections/bio";
-import ButtonBestätigen from "../../components/Button/ButtonBestätigen";
+import ButtonPrimary from "../../components/Button/ButtonPrimary";
 import firebase from "firebase";
-import User from "../../bo/User";
+import User from "../../bo/UserBO";
 import TeamUpApi from "../../api/TeamUpApi"
+import Semester from "./Sections/semester";
+import Studiengang from "./Sections/studiengang";
 
 //Labels die über den DropDown Buttons der Komponenten stehen
 const droplabels = [
-    "Gender" , "Lerntyp", "Bild", "Module"
+    "Gender" , "Lerntyp", "Bild", "Module", 'Semester', "Studiengang",
 ]
 
 //Werte die als Stepper Bezeichnungen genutzt werden - Reihenfolge ist wichtig!
 function getSteps() {
-    return ['Name', 'Geburtstag', 'Gender', 'Lerntyp', 'Bild', 'Module', 'Bio'];
+    return ['Name', 'Geburtstag', 'Gender', 'Studiengang', 'Semester', 'Module', 'Lerntyp', 'Bild', 'Bio'];
 }
 
 //Übergeordnete Komponente für den Registrierungsprozess
@@ -28,12 +30,15 @@ function Registrierung(props) {
     const [activeStep, setActiveStep] = React.useState(0);
     const [count, setCount] = React.useState(0);
     const [name, setName] = React.useState('');
+    const [vorname, setVorname] = React.useState('');
     const [bio, setBio] = React.useState('');
     const [date, setDate] = React.useState('');
     const [gender, setGender] = React.useState('');
     const [bild, setBild] = React.useState('');
     const [lerntypArt, setLerntypArt] = React.useState('');
-    const [modul, setModul] = React.useState('');
+    const [modul, setModul] = React.useState([]);
+    const [semester, setSemester] = React.useState('');
+    const [studiengang, setStudiengang] = React.useState('')
     const [open, setOpen] = React.useState(false);
     const steps = getSteps();
 
@@ -42,24 +47,31 @@ function Registrierung(props) {
 
     //Komponenten die im Laufe des Registrierungsprozess über checkBox gerendert werden
     const components = [
-        <Name setName={setName} name={name} mode={styles.card}/>,
+        <Name setName={setName} name={name} setVorname={setVorname}
+              vorname={vorname} mode={styles.card}/>,
         <Date setDate={setDate} date={date} mode={styles.card}/>,
         <Gender setGender={setGender} gender={gender} mode={styles.card} drop={droplabels[0]}/>,
+        <Studiengang setModul={setModul} setStudiengang={setStudiengang} studium={studiengang} drop={droplabels[5]} mode={styles.card}/>,
+        <Semester setSemester={setSemester} semester={semester} drop={droplabels[4]} mode={styles.card}/>,
+        <Module setModul={setModul} modul={modul} studiengang={studiengang} mode={styles.card} drop={droplabels[3]}/>,
         <Lerntyp setLerntypArt={setLerntypArt} lerntypArt={lerntypArt} mode={styles.card} drop={droplabels[1]}/>,
         <Bild setBild={setBild} bild={bild} mode={styles.card}/>,
-        <Module setModul={setModul} modul={modul} mode={styles.card} drop={droplabels[3]}/>,
         <Bio setBio={setBio} mode={styles.card}/>
     ]
 
     //TODO Api Call aufruf und übergabe von Infos über BO (Nutzer) ans Backend
     const infos = {
+        id: 0,
         name: name,
+        vorname: vorname,
         gender: gender,
         geburtsdatum: date,
         modul: modul,
         beschreibung: bio,
         lerntyp: lerntypArt,
         profilBild: bild,
+        semester: semester,
+        studiengang: studiengang,
         authId: firebase.auth().currentUser.uid,
         email: firebase.auth().currentUser.email,
     }
@@ -77,7 +89,7 @@ function Registrierung(props) {
     };
 
     //Wird benutzt um zu überprüfen ob die aktuelle Komponente leer ist
-    const checkData = [name, date, gender, lerntypArt, bild, modul,bio]
+    const checkData = [name, date, gender, studiengang, semester, modul, lerntypArt, bild, bio]
 
     //modal ist ein Object, dass gerendert wird falls die Modalvariable "open" true ist.
     const modal = (
@@ -100,7 +112,7 @@ function Registrierung(props) {
         }
         else{
             //TODO auf length setzen
-            if(count === 6) {
+            if(count === 8) {
                 user.setAll(infos)
                 TeamUpApi.getAPI().setUser(user.getAll())
                 console.log(user.getAll())
@@ -142,12 +154,12 @@ function Registrierung(props) {
             <div>
                 { components[count-1] ? (
                     <div style={styles.button}>
-                    <ButtonBestätigen onClick={handleCountBack} inhalt={"Zurück"} style={styles.einzelButton}/>
-                    <ButtonBestätigen onClick={checkBox} inhalt={"Weiter"} style={styles.einzelButton}/>
+                    <ButtonPrimary onClick={handleCountBack} inhalt={"Zurück"} />
+                    <ButtonPrimary onClick={checkBox} inhalt={"Weiter"}/>
                     </div>
                 ):(
                     <div style={styles.button}>
-                        <ButtonBestätigen onClick={checkBox} inhalt={"Weiter"}/>
+                        <ButtonPrimary onClick={checkBox} inhalt={"Weiter"}/>
                     </div>
                 )}
             </div>

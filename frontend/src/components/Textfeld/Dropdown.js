@@ -1,39 +1,35 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
 
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        '& .MuiTextField-root': {
-            margin: theme.spacing(1),
-            width: '25ch',
+const Styles = ({
+    button: {
+            maxWidth: "200px",
+            minWidth: "100px"
         },
-    },
-}));
+});
 
 export default function DropDown(props) {
-    const classes = useStyles();
 
     return (
-        <form className={classes.root} noValidate autoComplete="off">
+        <form noValidate autoComplete="off">
             <div>
                 <TextField
                     id="outlined-select-currency-native"
                     select
+                    style={Styles.button}
                     label={props.droplabel}
                     value={props.input}
                     onChange={props.handleChange}
                     SelectProps={{
                         native: true,
                     }}
-                    helperText="Wähle eine Kategorie"
                     variant="outlined"
                 >
                     {props.map.map((option) => (
                         <option key={option.value} value={option.value}>
-                            {option.label}
+                            {option.value}
                         </option>
                     ))}
                 </TextField>

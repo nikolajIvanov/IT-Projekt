@@ -13,7 +13,7 @@ function Date(props) {
                 <Typography style={styles.font}>Wann bist du geboren?</Typography>
                 <DatePickers
                     inhalt={props.date}
-                    change={handleDate}/>
+                    handleChange={handleDate}/>
             </Paper>
     );
 }

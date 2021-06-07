@@ -6,11 +6,12 @@ const useStyles = makeStyles((theme) => ({
     root: {
         '& .MuiTextField-root': {
             margin: theme.spacing(1),
-            width: '25ch',
+            width: '100%',
         },
     },
 }));
 
+// Atomic Design für ein Multi Line Textfeld. Die Variablen werden dynamisch mittels props angepasst.
 export default function MultiLine(props) {
     const classes = useStyles();
     return (
@@ -18,11 +19,12 @@ export default function MultiLine(props) {
             <div>
                 <TextField
                     id="beschreibung"
-                    label="Beschreibung"
+                    label="Bio"
                     multiline
                     rows={4}
+                    onChange={props.handleChange}
+                    defaultValue={props.inhalt}
                     variant="outlined"
-                    onChange={props.change}
                 />
             </div>
         </form>
