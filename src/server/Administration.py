@@ -218,3 +218,7 @@ class Administration(object):
     def get_lerntyp(self):
         with LerntypMapper() as mapper:
             return mapper.find_all()
+
+    def user_match_me(self, authId):
+        with UserMapper() as mapper:
+            return mapper.matching_method(authId)

@@ -271,6 +271,38 @@ class UserMapper(Mapper):
         cursor.close()
         # TODO MySQL Errorhandling hier einbauen
 
+    def matching_method(self, user_authid):
+        """
+        Gibt die Informationen eines bestimmten Users in einem Dict über
+        :param user_authid: GoogleID eines bestimmten Users
+        :return: Gibt ein Dict mit allen Werten zurück
+        """
+        # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
+        cursor = self._cnx.cursor(prepared=True)
+
+        # erstellen des SQL-Befehls um die MainUser Daten abzufragen
+        query = """SELECT id, lerntyp, gender, semester, studiengang, frequenz, lernort FROM TeamUP.users WHERE authId=%s"""
+
+        query2 = """SELECT modulId FROM TeamUP.userInModul WHERE userId=%s """
+
+        # Ausführen des ersten SQL-Befehls
+        cursor.execute(query, (user_authid,))
+        # Speichern der SQL Antwort
+        tuple1 = cursor.fetchone()
+        userid = tuple1[0]
+        # Ausführen des zweiten SQL-Befehls
+        cursor.execute(query2, (tuple1[0],))
+        # Speichern der SQL Antwort
+        tuple2 = cursor.fetchall()
+
+        # Auflösen der ersten SQL Antwort (UserBO) und setzen der Parameter
+        (user_id, lerntyp, gender, semester, studiengang, frequenz, lernort) = tuple1[0]
+        (user_id, modul_id) = tuple2[0]
+
+        # Rückgabe des UserBO
+        # return self.find_modul_by_userid(user)
+
+
     ###################################################################################################################
     # Nicht genutzt Methoden
     ###################################################################################################################

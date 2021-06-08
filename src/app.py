@@ -13,6 +13,7 @@ from server.api.model import api, app
 from server.api.StudiengangApi import StudiengangApi
 from server.api.ModulApi import ModulApi
 from server.api.LerntypApi import LerntypApi
+from server.api.UserMatchingApi import UserMatchingApi
 
 
 CORS(app, resources=r'/*')
@@ -39,6 +40,8 @@ api.add_resource(LerngruppenmitgliedApi, '/lerngruppen-mitglied')
 api.add_resource(StudiengangApi, '/studiengang')
 api.add_resource(ModulApi, '/modul/<string:studiengang>')
 api.add_resource(LerntypApi, '/lerntyp')
+
+api.add_resource(UserMatchingApi, '/usermatch/<string:authId>')
 
 
 if __name__ == '__main__':
