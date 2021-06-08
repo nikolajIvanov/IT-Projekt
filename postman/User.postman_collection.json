@@ -17,7 +17,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/users/789",
+					"raw": "http://127.0.0.1:5000/users/2546",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -28,7 +28,7 @@
 					"port": "5000",
 					"path": [
 						"users",
-						"789"
+						"2546"
 					]
 				}
 			},
@@ -240,7 +240,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 0,\n  \"authId\":789,\n  \"modul\":[\"Data Science\"],\n  \"profilBild\":\"Bild1\",\n  \"beschreibung\":\"BlaBla\",\n  \"lerntyp\":\"Auditiv\",\n  \"geburtsdatum\":\"1990-12-01\",\n  \"name\": \"Nein\",\n  \"vorname\": \"Nein\",\n  \"email\": \"markus@markus.de\",\n  \"gender\":\"Mann\",\n  \"semester\":1,\n  \"studiengang\":\"Wirtschaftsinformatik und digitale Medien\"\n}",
+					"raw": "{\n    \"id\": 0,\n  \"authId\":2546,\n  \"modul\":[\"Data Science\"],\n  \"profilBild\":\"Bild1\",\n  \"beschreibung\":\"BlaBla\",\n  \"lerntyp\":\"Auditiv\",\n  \"geburtsdatum\":\"1990-12-01\",\n  \"name\": \"Nein\",\n  \"vorname\": \"Nein\",\n  \"email\": \"markus@markus.de\",\n  \"gender\":\"Mann\",\n  \"semester\":1,\n  \"studiengang\":\"Wirtschaftsinformatik und digitale Medien\",\n  \"frequenz\": \"wöchentlich\",\n  \"lernort\": \"offline\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -271,7 +271,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n    {\n        \"id\": 0,\n    \"authId\":1234,\n    \"modul\":[\"Data Science\"],\n    \"profilBild\":\"Bild1\",\n    \"beschreibung\":\"Ich bin Otto Normalverbraucher.\",\n    \"lerntyp\":\"Auditiv\",\n    \"geburtsdatum\":\"1990-12-01\",\n    \"name\": \"Mustermann\",\n    \"vorname\": \"Max\",\n    \"email\": \"Max@Mustermann.de\",\n    \"gender\":\"Mann\",\n    \"semester\":3,\n    \"studiengang\":\"Wirtschaftsinformatik und digitale Medien\"\n    },\n    {\n        \"id\": 0,\n    \"authId\":4567,\n    \"modul\":[\"Data Science\"],\n    \"profilBild\":\"Bild1\",\n    \"beschreibung\":\"Ich wollte eigentlich zur Uni Stuttgart.\",\n    \"lerntyp\":\"Motorisch\",\n    \"geburtsdatum\":\"1990-12-01\",\n    \"name\": \"Musterfrau\",\n    \"vorname\": \"Julia\",\n    \"email\": \"Julia@Musterfrau.de\",\n    \"gender\":\"Frau\",\n    \"semester\":1,\n    \"studiengang\":\"Informationsdesign\"\n    }\n]",
+					"raw": "[\n    {\n        \"id\": 0,\n    \"authId\":1234,\n    \"modul\":[\"Data Science\"],\n    \"profilBild\":\"Bild1\",\n    \"beschreibung\":\"Ich bin Otto Normalverbraucher.\",\n    \"lerntyp\":\"Auditiv\",\n    \"geburtsdatum\":\"1990-12-01\",\n    \"name\": \"Mustermann\",\n    \"vorname\": \"Max\",\n    \"email\": \"Max@Mustermann.de\",\n    \"gender\":\"Mann\",\n    \"semester\":3,\n    \"studiengang\":\"Wirtschaftsinformatik und digitale Medien\",\n    \"frequenz\": \"wöchentlich\",\n    \"lernort\": \"offline\"\n    },\n    {\n        \"id\": 0,\n    \"authId\":4567,\n    \"modul\":[\"Data Science\"],\n    \"profilBild\":\"Bild1\",\n    \"beschreibung\":\"Ich wollte eigentlich zur Uni Stuttgart.\",\n    \"lerntyp\":\"Motorisch\",\n    \"geburtsdatum\":\"1990-12-01\",\n    \"name\": \"Musterfrau\",\n    \"vorname\": \"Julia\",\n    \"email\": \"Julia@Musterfrau.de\",\n    \"gender\":\"Frau\",\n    \"semester\":1,\n    \"studiengang\":\"Informationsdesign\",\n    \"frequenz\": \"wöchentlich\",\n    \"lernort\": \"offline\"\n    }\n]",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -302,7 +302,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 0,\n  \"authId\":456,\n  \"modul\":[\"Textkompetenz\", \"Lehrredaktion\", \"Rechnungslegung und Besteuerung\"],\n  \"profilBild\":\"Bild1\",\n  \"beschreibung\":\"Ich schaffe es\",\n  \"lerntyp\":\"Visuell\",\n  \"geburtsdatum\":\"1990-12-01\",\n  \"name\": \"Nikolaj\",\n  \"vorname\": \"Sag ich nicht\",\n  \"email\": \"ni012@hdm-stuttgart.de\",\n  \"gender\":\"Mann\",\n  \"semester\":1,\n  \"studiengang\":\"Wirtschaftsinformatik und digitale Medien\"\n}",
+					"raw": "{\n    \"id\": 0,\n  \"authId\":2546,\n  \"modul\":[\"Web-Technologie und Datenkompetenz\"],\n  \"profilBild\":\"Bild Update\",\n  \"beschreibung\":\"Ich schaffe es\",\n  \"lerntyp\":\"Visuell\",\n  \"geburtsdatum\":\"1990-12-01\",\n  \"name\": \"Nikolaj\",\n  \"vorname\": \"Sag ich niemals\",\n  \"email\": \"ni012@hdm-stuttgart.de\",\n  \"gender\":\"Mann\",\n  \"semester\":1,\n  \"studiengang\":\"Wirtschaftsinformatik und digitale Medien\",\n  \"frequenz\": \"wöchentlich\",\n  \"lernort\": \"online\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -310,7 +310,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/users/456",
+					"raw": "http://127.0.0.1:5000/users/2546",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -321,7 +321,7 @@
 					"port": "5000",
 					"path": [
 						"users",
-						"456"
+						"2546"
 					]
 				}
 			},
