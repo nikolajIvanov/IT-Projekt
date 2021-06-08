@@ -26,7 +26,8 @@ class UserApi(Resource):
                                         email=payload["email"], beschreibung=payload["beschreibung"],
                                         lerntyp=payload["lerntyp"], gender=payload["gender"],
                                         semester=payload["semester"], studiengang=payload["studiengang"],
-                                        vorname=payload["vorname"])
+                                        vorname=payload["vorname"], frequenz=payload["frequenz"],
+                                        lernort=payload["lernort"])
         for modul in payload["modul"]:
             proposal.set_module_append(modul)
 

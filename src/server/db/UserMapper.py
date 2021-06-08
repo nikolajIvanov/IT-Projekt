@@ -19,14 +19,14 @@ class UserMapper(Mapper):
 
         # Erstellen des SQL-Befehls
         query = """INSERT INTO TeamUP.users (authId, bild, name, geburtsdatum, email,
-                beschreibung, lerntyp, gender, semester, studiengang, vorname) VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s, %s,
-                 %s, %s, %s)"""
+                beschreibung, lerntyp, gender, semester, studiengang, vorname, frequenz, lernort) 
+                VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s, %s, %s, %s, %s, %s, %s)"""
 
         # Auslesen der UserBO Daten
         daten = (nutzer.get_authId(), nutzer.get_profilBild(), nutzer.get_name(),
-                 datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'),
-                 nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(),
-                 nutzer.get_semester(), nutzer.get_studiengang(), nutzer.get_vorname())
+                 datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'), nutzer.get_email(),
+                 nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(), nutzer.get_semester(),
+                 nutzer.get_studiengang(), nutzer.get_vorname(), nutzer.get_frequenz(), nutzer.get_lernort())
 
         # Ausführen des SQL-Befehls um die UserBO Daten auf die Datenbank zu schreiben
         cursor.execute(query, daten)
@@ -65,14 +65,14 @@ class UserMapper(Mapper):
 
         # Erstellen des SQL-Befehls
         query = """INSERT INTO TeamUP.users (authId, bild, name, geburtsdatum, email,
-                beschreibung, lerntyp, gender, semester, studiengang, vorname) VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s, %s,
-                 %s, %s, %s)"""
+                beschreibung, lerntyp, gender, semester, studiengang, vorname, frequenz, lernort) 
+                VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s, %s, %s, %s, %s, %s, %s)"""
         for nutzer in users:
             # Auslesen der UserBO Daten
             daten = (nutzer.get_authId(), nutzer.get_profilBild(), nutzer.get_name(),
-                     datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'),
-                     nutzer.get_email(), nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(),
-                     nutzer.get_semester(), nutzer.get_studiengang(), nutzer.get_vorname())
+                     datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'), nutzer.get_email(),
+                     nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(), nutzer.get_semester(),
+                     nutzer.get_studiengang(), nutzer.get_vorname(), nutzer.get_frequenz(), nutzer.get_lernort())
 
             # Ausführen des SQL-Befehls um die UserBO Daten auf die Datenbank zu schreiben
             cursor.execute(query, daten)
@@ -109,15 +109,15 @@ class UserMapper(Mapper):
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor()
         cursor.execute("SELECT id, authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, "
-                       "gender, semester, studiengang, vorname FROM TeamUP.users")
+                       "gender, semester, studiengang, vorname, frequenz, lernort FROM TeamUP.users")
         tuples = cursor.fetchall()
 
         for (user_id, authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang,
-             vorname) in tuples:
+             vorname, frequenz, lernort) in tuples:
             user = UserBO.create_userBO(id=user_id, authId=authId, profilBild=bild, name=name,
                                         geburtsdatum=geburtsdatum, email=email, beschreibung=beschreibung,
                                         lerntyp=lerntyp, gender=gender, semester=semester, studiengang=studiengang,
-                                        vorname=vorname)
+                                        vorname=vorname, frequenz=frequenz, lernort=lernort)
             # Das Geburtstag wird in das aktuelle Alter umgerechnet.
             user.set_geburtsdatum(user.calculate_age())
             result.append(self.find_modul_by_userid(user))
@@ -138,9 +138,8 @@ class UserMapper(Mapper):
         cursor = self._cnx.cursor(prepared=True)
 
         # erstellen des SQL-Befehls um die UserBO Daten abzufragen
-        query = """SELECT users.id, users.bild, users.name, users.geburtsdatum, users.email, users.beschreibung, 
-                    users.lerntyp, users.gender, users.semester, users.studiengang, users.vorname FROM TeamUP.users 
-                    WHERE authId=%s"""
+        query = """SELECT id, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang, 
+                    vorname, frequenz, lernort FROM TeamUP.users WHERE authId=%s"""
 
         # Ausführen des ersten SQL-Befehls
         cursor.execute(query, (user_authid,))
@@ -150,11 +149,13 @@ class UserMapper(Mapper):
 
         # Auflösen der ersten SQL Antwort (UserBO) und setzen der Parameter
         (user_id, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester,
-         studiengang, vorname) = tuples[0]
+         studiengang, vorname, frequenz, lernort) = tuples[0]
 
         user = UserBO.create_userBO(id=user_id, authId=user_authid, profilBild=bild, name=name,
                                     geburtsdatum=geburtsdatum, email=email, beschreibung=beschreibung, lerntyp=lerntyp,
-                                    gender=gender, semester=semester, studiengang=studiengang, vorname=vorname)
+                                    gender=gender, semester=semester, studiengang=studiengang, vorname=vorname,
+                                    frequenz=frequenz, lernort=lernort)
+
         # Das Geburtstag wird in das aktuelle Alter umgerechnet.
         user.set_geburtsdatum(user.calculate_age())
         # Rückgabe des UserBO
@@ -225,7 +226,8 @@ class UserMapper(Mapper):
 
         # Erstellen des SQL-Befehls
         query = """UPDATE TeamUP.users SET authId=%s, bild=%s, name=%s, email=%s,
-                       beschreibung=%s, lerntyp=%s, gender=%s,semester=%s, studiengang=%s, vorname=%s WHERE authId=%s"""
+                       beschreibung=%s, lerntyp=%s, gender=%s,semester=%s, studiengang=%s, vorname=%s, 
+                       frequenz=%s, lernort=%s WHERE authId=%s"""
 
         # Auslesen der authId zur weiteren verwendung
         authid = nutzer.get_authId()
@@ -233,7 +235,7 @@ class UserMapper(Mapper):
         # Auslesen und speichern der restlichen UserBO Daten
         daten = (authid, nutzer.get_profilBild(), nutzer.get_name(), nutzer.get_email(), nutzer.get_beschreibung(),
                  nutzer.get_lerntyp(), nutzer.get_gender(), nutzer.get_semester(), nutzer.get_studiengang(),
-                 nutzer.get_vorname(), authid)
+                 nutzer.get_vorname(), nutzer.get_frequenz(), nutzer.get_lernort() ,authid)
 
         # TODO: Ist dieser Aufruf nötig? -> Sollte später kontrolliert werden. Wird aktuell benötigt, um die
         # User ID für das weitere Vorgehen aus der DB zu holen, falls sie falsch übergeben wurde (Postman)

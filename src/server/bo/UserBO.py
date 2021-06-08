@@ -93,6 +93,8 @@ class UserBO(ProfilBO):
         obj.set_studiengang(kwargs["studiengang"])
         obj.set_vorname(kwargs["vorname"])
         obj.set_authId(kwargs["authId"])
+        obj.set_frequenz(kwargs["frequenz"])
+        obj.set_lernort(kwargs["lernort"])
         if "modul" in kwargs:
             obj.set_module_append(kwargs["modul"])
         return obj
