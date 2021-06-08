@@ -309,22 +309,24 @@ class UserMapper(Mapper):
         # Speichert jeden User der für den Algo in Frage kommt
         finderUser = []
 
-        # Query 3 hole ich alle User die das selbe Module belegen wie unser MainUser
-        # Ziel For Schleife : for modulid in mainUser["module"]
-        query3 = """SELECT uIM.userId FROM TeamUP.userInModul uIM  WHERE uIM.modulId=%s """
-        cursor.execute(query3, (mainUser["module"][0],))
-        # cursor.execute(query3, (modulid,))
-        tuple3 = cursor.fetchall()
+        # Query 3 holt alle User mit modul-Überscheidungen mit dem MainUser
+        for i in range(len(main_user_module)):
+            query3 = """SELECT uIM.userId FROM TeamUP.userInModul uIM  WHERE uIM.modulId=%s """
+            cursor.execute(query3, (main_user_module[i],))
+            tuple3 = cursor.fetchall()
         # Ziele Alle User aus allen Modulen von MainUser speichert; Liste -> [(1, 2, 3), (5, 3, 7), (8, 2, 3)] <- Hier drinnen sind alle UserIDs
 
         # Suche alle User, die das selbe Modul wie der MainUser haben
-        # Aufgrundlage von Zeile 313 modulid nochmal forschleife und ALLE user finden
+        # Aufgrundlage von Zeile 313 modulid nochmal forSchleife und ALLE user finden
         # Hier müssen zwei schleifen stehen
-        for userId in tuple3:
+        for i in tuple3:
             # for i in userId
-            query4 = """SELECT * FROM TeamUP.users WHERE id=%s""" # Stufe 2: Mehrere WHERE bedinung 1 and bedinung2 (NOT (tuple_mainUser[0],)) Bedinungen = Das du nicht die MainUser ID suchst
+            query4 = """SELECT * FROM TeamUP.users WHERE id=%s """ # Stufe 2: Mehrere WHERE bedinung 1 and bedinung2 (NOT (tuple_mainUser[0],)) Bedinungen = Das du nicht die MainUser ID suchst
+
+
+
             #data = (userId, (tuple_mainUser[0],))
-            cursor.execute(query4, userId)
+            cursor.execute(query4, (userId,), (tuple_mainUser[0]))
             # cursor.execute(query4, (i ,))
             tuple_user = cursor.fetchone()
             user = UserBO.create_userBO(id=tuple_user[0], authId=tuple_user[2], profilBild=tuple_user[3],
