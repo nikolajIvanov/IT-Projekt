@@ -3,8 +3,9 @@ import {Paper, Typography} from "@material-ui/core";
 import theme from "../../../theme";
 import DropDown from "../../../components/Textfeld/Dropdown";
 import TeamUpApi from "../../../api/TeamUpApi";
+import {Skeleton} from "@material-ui/lab";
 
-class Studiengang extends React.Component{
+export default class Studiengang extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -30,9 +31,10 @@ class Studiengang extends React.Component{
                 return middle
             })
             .then((res) => {
-                    this.setState({
+                setTimeout(() => this.setState({
                         studiengang : res
-                    })
+                    }), 3000)
+
                 console.log(this.state.studiengang)
             }
         );
@@ -42,19 +44,19 @@ class Studiengang extends React.Component{
         const {studiengang} = this.state
         return (
             <Paper style={this.props.mode}>
+                <Typography style={theme.font.register}>Was studierst du?</Typography>
                 {studiengang ? <>
-                    <Typography style={theme.font.register}>Was studierst du?</Typography>
                     <DropDown
                         handleChange={this.handleSemester}
                         input={this.props.studium}
                         map={studiengang}
                         droplabel={this.props.drop}
                     />
-                </>: null
+                </>: <Skeleton>
+                    <DropDown map={[]}/>
+                        </Skeleton>
                 }
             </Paper>
         );
-    }
+    };
 }
-
-export default Studiengang;
