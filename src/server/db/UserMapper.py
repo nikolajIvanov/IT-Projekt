@@ -281,9 +281,10 @@ class UserMapper(Mapper):
         cursor = self._cnx.cursor(prepared=True)
 
         # erstellen des SQL-Befehls um die MainUser Daten abzufragen
-        query = """SELECT id, lerntyp, gender, semester, studiengang, frequenz, lernort FROM TeamUP.users WHERE authId=%s"""
+        query = """SELECT id, lerntyp, semester, studiengang, frequenz, lernort FROM TeamUP.users WHERE authId=%s"""
 
-        query2 = """SELECT modulId FROM TeamUP.userInModul WHERE userId=%s """
+        query2 = """SELECT modul.bezeichnung FROM TeamUP.userInModul uIM JOIN TeamUP.modul
+                    ON uIM.modulId = modul.id WHERE uIM.userId=%s """
 
         # Ausführen des ersten SQL-Befehls
         cursor.execute(query, (user_authid,))
@@ -294,9 +295,25 @@ class UserMapper(Mapper):
         cursor.execute(query2, (tuple1[0],))
         # Speichern der SQL Antwort
         tuple2 = cursor.fetchall()
+        main_user_module = []
+
+        for i in tuple2:
+            for x in i:
+                main_user_module.append(x)
 
         # Auflösen der ersten SQL Antwort (UserBO) und setzen der Parameter
-        (user_id, lerntyp, gender, semester, studiengang, frequenz, lernort) = tuple1[0]
+        mainUser = {"lerntyp": tuple1[1], "semester": tuple1[2], "studiengang": tuple1[3], "frequenz": tuple1[4],
+                    "lernort": tuple1[5], "module": main_user_module}
+        finderUser = []
+        for modul in mainUser["module"]:
+            query3 = """SELECT uIM.userId FROM TeamUP.userInModul uIM JOIN TeamUP.modul
+                                ON uIM.modulId = modul.id WHERE modul.bezeichnung=%s """
+            cursor.execute(query2, (modul,))
+            tuple3 = cursor.fetchall()
+            query3 = """SELECT id FROM TeamUP.users WHERE users.id=%s """
+            cursor.execute(query2, tuple3)
+            finderUser.append(tuple3)
+        print(finderUser)
         (user_id, modul_id) = tuple2[0]
 
         # Rückgabe des UserBO
