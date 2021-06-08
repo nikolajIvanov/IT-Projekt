@@ -9,6 +9,7 @@ from .db.LerngruppeMapper import LerngruppeMapper
 from .db.StudiengangMapper import StudiengangMapper
 from .db.ModulMapper import ModulMapper
 from .db.LerntypMapper import LerntypMapper
+from .db.InitMapper import InitMapper
 
 
 # TODO Überlegen ob man was anderes braucht als get user bei Id
@@ -222,3 +223,9 @@ class Administration(object):
     def user_match_me(self, authId):
         with UserMapper() as mapper:
             return mapper.matching_method(authId)
+
+    #InitMethode
+
+    def init(self, authId):
+        with InitMapper() as mapper:
+            return mapper.initialize(authId)

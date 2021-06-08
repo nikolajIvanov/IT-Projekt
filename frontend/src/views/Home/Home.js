@@ -8,6 +8,7 @@ import Chat2 from "../Chat/ChatTest2";
 import GruppenSuche from "../Suche/GruppenSuche";
 import Match from "../Suche/Match";
 import TeamUpApi from "../../api/TeamUpApi";
+import firebase from "../../api/Firebase";
 
 class Home extends Component {
     constructor(props) {
@@ -18,6 +19,11 @@ class Home extends Component {
             suchobjekt: null,
             dataLoad: false,
         }
+    }
+
+    //loggt den nutzer aus
+    handleLogOut(){
+        firebase.auth().signOut()
     }
 
     //Api Call für die Matching-Lerngruppen

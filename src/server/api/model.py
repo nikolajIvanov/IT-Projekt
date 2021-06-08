@@ -55,3 +55,4 @@ lerntyp = api.inherit('LerntypBO', bo, {
     'bild': fields.String(attribute=lambda x: x.get_bild(), description='Bild eines Benutzers'),
     'lerntyp': fields.String(attribute=lambda x: x.get_lerntyp(), description='Administrator einer Lerngruppe'),
 })
+
