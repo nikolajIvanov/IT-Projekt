@@ -1,33 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import "../../assets/App.css"
-import TeamUpApi from "../../api/TeamUpApi";
-import firebase from 'firebase';
 import {Card, CardActions, CardContent, Modal, Paper} from "@material-ui/core";
 import theme from '../../theme'
 import ButtonChat from "../../components/Button/ButtonChat";
 import SectionProfilView from "./Sections/SectionProfilView";
+import {useHistory} from "react-router-dom";
 
-class Profil extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            modalOpen: false,
-            data: null,
-        }
+function Profil(props) {
+    const redirect = useHistory()
+    const[data, setData] = React.useState(null)
+
+    useEffect(() => {
+        setData(props.profil)
+    }, [])
+
+    function back(){
+        redirect.push("/chat")
     }
-
-    componentDidMount() {
-        this.setState({
-            data: this.props.profil
-        })
-    }
-
-    back(){
-        this.props.history.push("/chat");
-    }
-
-    render(){
-        const {data}= this.state;
 
         return (
             <div style={theme.root}>
@@ -39,12 +28,11 @@ class Profil extends React.Component {
                             <SectionProfilView apiObject={data}/>
                         </CardContent>
                         <CardActions style={theme.root}>
-                            <ButtonChat inhalt={"Chatten"} onClick={this.back}/>
+                            <ButtonChat inhalt={"Chatten"} onClick={back}/>
                         </CardActions>
                     </Card> : null }
             </div>
         );
-    };
 }
 
 export default Profil;

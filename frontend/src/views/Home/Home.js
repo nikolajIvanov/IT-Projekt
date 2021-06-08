@@ -8,7 +8,6 @@ import Chat2 from "../Chat/ChatTest2";
 import GruppenSuche from "../Suche/GruppenSuche";
 import Match from "../Suche/Match";
 import TeamUpApi from "../../api/TeamUpApi";
-import Link from "@material-ui/core/Link";
 
 class Home extends Component {
     constructor(props) {

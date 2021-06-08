@@ -6,8 +6,8 @@ import theme from "../../../theme";
 import Grid from "@material-ui/core/Grid";
 import {Paper} from "@material-ui/core";
 import ButtonPrimary from "../../../components/Button/ButtonPrimary";
-import Link from "@material-ui/core/Link";
 import * as PropTypes from "prop-types";
+import {useHistory} from "react-router-dom";
 
 function Redirect(props) {
     return null;
@@ -16,10 +16,11 @@ function Redirect(props) {
 Redirect.propTypes = {to: PropTypes.string};
 export default function ProfilListElement(props) {
   const users = props.apiUsers;
+  const redirect = useHistory()
 
   function setUser(user){
-      console.log("hi")
       props.getView(user)
+      redirect.push("/profil")
   }
 
   const listItems = users.map((user) =>
@@ -54,7 +55,7 @@ export default function ProfilListElement(props) {
                               <p style={theme.h3.bold}>{user.getLerntyp()}</p>
                           </Grid>
                       </Grid>
-                        <ButtonPrimary inhalt={"User anzeigen"}/>
+                        <ButtonPrimary inhalt={"User anzeigen"} onClick={() => setUser(user)}/>
                   </ListItem>
               </Paper>
           )
