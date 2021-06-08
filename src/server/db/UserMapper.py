@@ -278,43 +278,56 @@ class UserMapper(Mapper):
         :return: Gibt ein Dict mit allen Werten zurück
         """
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
-        cursor = self._cnx.cursor(prepared=True)
+        cursor = self._cnx.cursor(buffered=True)
 
         # erstellen des SQL-Befehls um die MainUser Daten abzufragen
         query = """SELECT id, lerntyp, semester, studiengang, frequenz, lernort FROM TeamUP.users WHERE authId=%s"""
 
-        query2 = """SELECT modul.bezeichnung FROM TeamUP.userInModul uIM JOIN TeamUP.modul
+        # Holt mir alle ModuleIDs von vem MainUser
+        query2 = """SELECT uIM.modulId FROM TeamUP.userInModul uIM JOIN TeamUP.modul
                     ON uIM.modulId = modul.id WHERE uIM.userId=%s """
 
-        # Ausführen des ersten SQL-Befehls
+        # Holt die Informationen des MainUsers über die authid
         cursor.execute(query, (user_authid,))
         # Speichern der SQL Antwort
-        tuple1 = cursor.fetchone()
-        userid = tuple1[0]
-        # Ausführen des zweiten SQL-Befehls
-        cursor.execute(query2, (tuple1[0],))
+        tuple_mainUser = cursor.fetchone()
+        # Holt mir alle ModuleIDs von vem MainUser
+        cursor.execute(query2, (tuple_mainUser[0],))
         # Speichern der SQL Antwort
-        tuple2 = cursor.fetchall()
+        tuple_mainModul = cursor.fetchall()
+        # Speichert mir alle ModuleIDs in das Array
         main_user_module = []
 
-        for i in tuple2:
+        for i in tuple_mainModul:
             for x in i:
                 main_user_module.append(x)
 
-        # Auflösen der ersten SQL Antwort (UserBO) und setzen der Parameter
-        mainUser = {"lerntyp": tuple1[1], "semester": tuple1[2], "studiengang": tuple1[3], "frequenz": tuple1[4],
-                    "lernort": tuple1[5], "module": main_user_module}
+        # Über den User wird alles überprüft
+        mainUser = {"lerntyp": tuple_mainUser[1], "semester": tuple_mainUser[2], "studiengang": tuple_mainUser[3],
+                    "frequenz": tuple_mainUser[4], "lernort": tuple_mainUser[5], "module": main_user_module}
+
+        # Speichert jeden User der für den Algo in Frage kommt
         finderUser = []
-        for modul in mainUser["module"]:
-            query3 = """SELECT uIM.userId FROM TeamUP.userInModul uIM JOIN TeamUP.modul
-                                ON uIM.modulId = modul.id WHERE modul.bezeichnung=%s """
-            cursor.execute(query2, (modul,))
-            tuple3 = cursor.fetchall()
-            query3 = """SELECT id FROM TeamUP.users WHERE users.id=%s """
-            cursor.execute(query2, tuple3)
-            finderUser.append(tuple3)
-        print(finderUser)
-        (user_id, modul_id) = tuple2[0]
+
+        query3 = """SELECT uIM.userId FROM TeamUP.userInModul uIM  WHERE uIM.modulId=%s """
+        cursor.execute(query3, (mainUser["module"][0],))
+        tuple3 = cursor.fetchall()
+        # Suche alle User, die das selbe Modul wie der MainUser haben
+        for userId in tuple3:
+            query4 = """SELECT * FROM TeamUP.users WHERE id=%s"""
+            #data = (userId, (tuple_mainUser[0],))
+            cursor.execute(query4, userId)
+            tuple_user = cursor.fetchone()
+            user = UserBO.create_userBO(id=tuple_user[0], authId=tuple_user[2], profilBild=tuple_user[3],
+                                        name=tuple_user[4], geburtsdatum=tuple_user[6], email=tuple_user[7],
+                                        beschreibung=tuple_user[8], lerntyp=tuple_user[9], gender=tuple_user[10],
+                                        semester=tuple_user[11], studiengang=tuple_user[12], vorname=tuple_user[5],
+                                        frequenz=tuple_user[13], lernort=tuple_user[14])
+
+            self.find_modul_by_userid(user)
+            finderUser.append(user)
+
+        return mainUser, finderUser
 
         # Rückgabe des UserBO
         # return self.find_modul_by_userid(user)
