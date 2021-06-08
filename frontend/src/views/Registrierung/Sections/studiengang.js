@@ -31,10 +31,9 @@ export default class Studiengang extends React.Component{
                 return middle
             })
             .then((res) => {
-                setTimeout(() => this.setState({
+                this.setState({
                         studiengang : res
-                    }), 3000)
-
+                })
                 console.log(this.state.studiengang)
             }
         );

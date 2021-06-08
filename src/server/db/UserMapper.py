@@ -278,26 +278,65 @@ class UserMapper(Mapper):
         :return: Gibt ein Dict mit allen Werten zurück
         """
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
-        cursor = self._cnx.cursor(prepared=True)
+        cursor = self._cnx.cursor(buffered=True)
 
         # erstellen des SQL-Befehls um die MainUser Daten abzufragen
-        query = """SELECT id, lerntyp, gender, semester, studiengang, frequenz, lernort FROM TeamUP.users WHERE authId=%s"""
+        query = """SELECT id, lerntyp, semester, studiengang, frequenz, lernort FROM TeamUP.users WHERE authId=%s"""
 
-        query2 = """SELECT modulId FROM TeamUP.userInModul WHERE userId=%s """
+        # Holt mir alle ModuleIDs von vem MainUser
+        query2 = """SELECT uIM.modulId FROM TeamUP.userInModul uIM JOIN TeamUP.modul
+                    ON uIM.modulId = modul.id WHERE uIM.userId=%s """
 
-        # Ausführen des ersten SQL-Befehls
+        # Holt die Informationen des MainUsers über die authid
         cursor.execute(query, (user_authid,))
         # Speichern der SQL Antwort
-        tuple1 = cursor.fetchone()
-        userid = tuple1[0]
-        # Ausführen des zweiten SQL-Befehls
-        cursor.execute(query2, (tuple1[0],))
+        tuple_mainUser = cursor.fetchone()# Userid, User Lerntyp, .....
+        # Holt mir alle ModuleIDs von vem MainUser
+        cursor.execute(query2, (tuple_mainUser[0],))# Alle Module in dem sich der User befindet
         # Speichern der SQL Antwort
-        tuple2 = cursor.fetchall()
+        tuple_mainModul = cursor.fetchall() # tuple_mainModul = Hat alle Module von dem MainUser
+        # Speichert mir alle ModuleIDs in das Array
+        main_user_module = []
 
-        # Auflösen der ersten SQL Antwort (UserBO) und setzen der Parameter
-        (user_id, lerntyp, gender, semester, studiengang, frequenz, lernort) = tuple1[0]
-        (user_id, modul_id) = tuple2[0]
+        for i in tuple_mainModul: # Löse ich die Liste auf von fetchall; fetchall Result = [(1,), (2,),....]
+            for x in i: # Löse ich den Tuple auf ; Durchlauf 1 -> i = (1,)
+                main_user_module.append(x) # Durchlauf 1 -> x = 1
+
+        # Über den User wird alles überprüft
+        mainUser = {"lerntyp": tuple_mainUser[1], "semester": tuple_mainUser[2], "studiengang": tuple_mainUser[3],
+                    "frequenz": tuple_mainUser[4], "lernort": tuple_mainUser[5], "module": main_user_module} # Module = [1, 2, 15] <- Alle ModuleIDs von unserem User
+        # Wenn du Module von dict ansprechen willst dann über mainUser["module"];
+        # Speichert jeden User der für den Algo in Frage kommt
+        finderUser = []
+
+        # Query 3 hole ich alle User die das selbe Module belegen wie unser MainUser
+        # Ziel For Schleife : for modulid in mainUser["module"]
+        query3 = """SELECT uIM.userId FROM TeamUP.userInModul uIM  WHERE uIM.modulId=%s """
+        cursor.execute(query3, (mainUser["module"][0],))
+        # cursor.execute(query3, (modulid,))
+        tuple3 = cursor.fetchall()
+        # Ziele Alle User aus allen Modulen von MainUser speichert; Liste -> [(1, 2, 3), (5, 3, 7), (8, 2, 3)] <- Hier drinnen sind alle UserIDs
+
+        # Suche alle User, die das selbe Modul wie der MainUser haben
+        # Aufgrundlage von Zeile 313 modulid nochmal forschleife und ALLE user finden
+        # Hier müssen zwei schleifen stehen
+        for userId in tuple3:
+            # for i in userId
+            query4 = """SELECT * FROM TeamUP.users WHERE id=%s""" # Stufe 2: Mehrere WHERE bedinung 1 and bedinung2 (NOT (tuple_mainUser[0],)) Bedinungen = Das du nicht die MainUser ID suchst
+            #data = (userId, (tuple_mainUser[0],))
+            cursor.execute(query4, userId)
+            # cursor.execute(query4, (i ,))
+            tuple_user = cursor.fetchone()
+            user = UserBO.create_userBO(id=tuple_user[0], authId=tuple_user[2], profilBild=tuple_user[3],
+                                        name=tuple_user[4], geburtsdatum=tuple_user[6], email=tuple_user[7],
+                                        beschreibung=tuple_user[8], lerntyp=tuple_user[9], gender=tuple_user[10],
+                                        semester=tuple_user[11], studiengang=tuple_user[12], vorname=tuple_user[5],
+                                        frequenz=tuple_user[13], lernort=tuple_user[14])
+
+            self.find_modul_by_userid(user)
+            finderUser.append(user)
+
+        return mainUser, finderUser
 
         # Rückgabe des UserBO
         # return self.find_modul_by_userid(user)

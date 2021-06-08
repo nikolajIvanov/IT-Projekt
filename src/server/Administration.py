@@ -222,7 +222,30 @@ class Administration(object):
 
     def user_match_me(self, authId):
         with UserMapper() as mapper:
-            return mapper.matching_method(authId)
+            mainUser, finderUser = mapper.matching_method(authId)
+
+        unsorted_user = []
+        users = {"user" : None, "score": None }
+        for user in finderUser:
+            score = 0
+            if (mainUser["lerntyp"]  == user.get_lerntyp()):
+                score += 1
+            if (mainUser["semester"]  == user.get_semester()):
+                score += 1
+            if (mainUser["studiengang"]  == user.get_studiengang()):
+                score += 1
+            if (mainUser["frequenz"]  == user.get_frequenz()):
+                score += 1
+            if (mainUser["lernort"]  == user.get_lernort()):
+                score += 1
+            users["user"] = user
+            users["score"] = score
+            unsorted_user.append(users.copy())
+        sorted_user = sorted(unsorted_user, reverse=True, key=lambda k: k['score'])
+        result = []
+        for i in sorted_user:
+            result.append(i["user"])
+        return result
 
     #InitMethode
 

@@ -18,7 +18,8 @@ class VieleUserApi(Resource):
                                             email=user["email"], beschreibung=user["beschreibung"],
                                             lerntyp=user["lerntyp"], gender=user["gender"],
                                             semester=user["semester"], studiengang=user["studiengang"],
-                                            vorname=user["vorname"])
+                                            vorname=user["vorname"], frequenz=payload["frequenz"],
+                                            lernort=payload["lernort"])
             users.append(proposal)
 
         if users is not None:
