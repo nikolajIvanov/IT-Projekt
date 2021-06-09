@@ -1,7 +1,5 @@
 # Import aller BusinessObject Klassen
-
-from .bo.UserBO import UserBO
-from .bo.Lerngruppe import Lerngruppe
+from .bo.MatchingBO import MatchingBO
 
 # Import aller Mapper Klassen
 from .db.UserMapper import UserMapper
@@ -12,18 +10,25 @@ from .db.LerntypMapper import LerntypMapper
 from .db.InitMapper import InitMapper
 
 
-# TODO Überlegen ob man was anderes braucht als get user bei Id
 class Administration(object):
-    """Diese Klasse aggregiert nahezu sämtliche Applikationslogik (Engl. Business Logic).
-
     """
-
+        Diese Klasse aggregiert nahezu sämtliche Applikationslogik (Engl. Business Logic).
+    """
     def __init__(self):
         pass
 
     """
         Nutzer-spezifische Methoden
     """
+
+    def init(self, authId):
+        """
+        InitMethode
+        :param authId:
+        :return:
+        """
+        with InitMapper() as mapper:
+            return mapper.initialize(authId)
 
     def create_user_by_authId(self, nutzer):
         """
@@ -103,19 +108,9 @@ class Administration(object):
         with UserMapper() as mapper:
             return mapper.find_by_name(value)
 
-    def update(self, name, email):
-        user = UserBO()
-        user.set_name(name)
-        user.set_email(email)
-        user.set_id(1)
-        with UserMapper() as mapper:
-            return mapper.update(user)
-
-    # def get_Modul_by_authId(self,  authId):
-    #    with NutzerMapper() as mapper:
-    #       return mapper.get_modulForUser(authId)
-
-# lerngruppe besteht aus Admin, zweites Mitglied, modul, Beschreibung....
+    """
+        Lerngruppen-spezifische Methoden
+    """
 
     def create_lerngruppe(self, lerngruppe):
         """
@@ -124,19 +119,21 @@ class Administration(object):
         """
         with LerngruppeMapper() as mapper:
             return mapper.insert_lerngruppe(lerngruppe)
-    
-    # Alle Lerngruppen anzeigen lassen
-    
+
     def get_all_lerngruppen(self):
         """
+        Alle Lerngruppen anzeigen lassen
         :return: 
         """
         with LerngruppeMapper() as mapper:
             return mapper.find_all()
-        
-    # Eine bestimmte Lerngruppe durch den Parameter namen anzeigen lassen
 
     def get_Lerngruppe_by_name(self, name):
+        """
+        Eine bestimmte Lerngruppe durch den Parameter namen anzeigen lassen
+        :param name:
+        :return:
+        """
         with LerngruppeMapper() as mapper:
             return mapper.find_by_name(name)
 
@@ -156,7 +153,7 @@ class Administration(object):
 
     def delete_lerngruppe_by_id(self, id):
         """
-        :param name: Ist die ID der Lerngruppe
+        :param id: Ist die ID der Lerngruppe
         :return:
         """
         with LerngruppeMapper() as mapper:
@@ -220,35 +217,12 @@ class Administration(object):
         with LerntypMapper() as mapper:
             return mapper.find_all()
 
+    """
+        Matching Methode
+    """
+
     def user_match_me(self, authId):
         with UserMapper() as mapper:
             mainUser, finderUser = mapper.matching_method(authId)
-
-        unsorted_user = []
-        users = {"user" : None, "score": None }
-        for user in finderUser:
-            score = 0
-            if (mainUser["lerntyp"]  == user.get_lerntyp()):
-                score += 1
-            if (mainUser["semester"]  == user.get_semester()):
-                score += 1
-            if (mainUser["studiengang"]  == user.get_studiengang()):
-                score += 1
-            if (mainUser["frequenz"]  == user.get_frequenz()):
-                score += 1
-            if (mainUser["lernort"]  == user.get_lernort()):
-                score += 1
-            users["user"] = user
-            users["score"] = score
-            unsorted_user.append(users.copy())
-        sorted_user = sorted(unsorted_user, reverse=True, key=lambda k: k['score'])
-        result = []
-        for i in sorted_user:
-            result.append(i["user"])
-        return result
-
-    #InitMethode
-
-    def init(self, authId):
-        with InitMapper() as mapper:
-            return mapper.initialize(authId)
+        match = MatchingBO()
+        return match.user_matching(mainUser, finderUser)
