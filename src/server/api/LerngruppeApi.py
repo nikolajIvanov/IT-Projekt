@@ -10,9 +10,7 @@ class LerngruppeApi(Resource):
     def get(self, id):
         adm = Administration()
         retrunValue = adm.get_Lerngruppe_by_id(id)
-        if retrunValue is None:
-            abort(400,'Keine Lerngruppen vorhanden')
-        elif retrunValue[0] is 200:
+        if retrunValue[0] is 200:
             return retrunValue[1]
         else:
             abort(retrunValue[0], retrunValue[1])

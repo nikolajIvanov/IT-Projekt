@@ -80,7 +80,10 @@ class LerngruppeMapper(Mapper):
                 result.append(lerngruppe)
             self._cnx.commit()
             cursor.close()
-            return (200, result)
+            if not result:
+                return None
+            else:
+                return (200, result)
 
         except mysql.connector.Error as err:
             return (400, err.msg)
@@ -138,6 +141,10 @@ class LerngruppeMapper(Mapper):
 
             # Speichern der SQL Antwort
             tupel = cursor.fetchall()
+
+            #Abbrechen der Suche da die Gruppe nicht vorhanden ist
+            if not tupel:
+                return (400, 'Keine Gruppe gefunden')
             # Auflösen der ersten SQL Antwort (Lerngruppe) und setzen der Parameter
             (lerntyp, name, beschreibung, bild, admin) = tupel[0]
             lerngruppe = Lerngruppe()
