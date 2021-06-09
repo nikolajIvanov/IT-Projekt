@@ -106,14 +106,17 @@ class Administration(object):
 
     # TODO: Wird für das Matching benötigt
     @staticmethod
-    def find_many_users_by_id(user_id):
+    def find_many_users_by_id(usersID):
         """
         Findet einen bestimmten User über die id.
         :param user_id: Ist die UserID
         :return: Befüllten User mit allen relevanten Daten
         """
+        usersBO = []
         with UserMapper() as mapper:
-            return mapper.find_by_id(user_id)
+            for user in usersID:
+                usersBO.append(mapper.find_by_id(user))
+        return usersBO
 
     def get_user_by_name(self, value):
         with UserMapper() as mapper:

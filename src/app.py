@@ -16,6 +16,7 @@ from server.api.ModulApi import ModulApi
 from server.api.LerntypApi import LerntypApi
 from server.api.UserMatchingApi import UserMatchingApi
 from server.api.LerngruppenMatchingApi import LerngruppenMatchingApi
+from server.api.UsersByIdApi import UsersByIdApi
 
 
 CORS(app, resources=r'/*')
@@ -33,6 +34,7 @@ def handleMessage(msg):
 api.add_resource(TestApi, '/test-api/<int:number>')
 api.add_resource(UsersApi, '/users')
 api.add_resource(UserApi, '/users/<string:authId>')
+api.add_resource(UsersByIdApi, '/usersById')
 api.add_resource(VieleUserApi, '/viele-user')
 
 api.add_resource(LerngruppenApi, '/lerngruppen')
