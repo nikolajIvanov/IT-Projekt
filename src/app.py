@@ -2,6 +2,7 @@
 from flask_cors import CORS
 from flask_socketio import SocketIO, send
 # Api Endpunkte
+from server.api.InitApi import InitApi
 from server.api.VieleUserApi import VieleUserApi
 from server.api.test_api import TestApi
 from server.api.UsersApi import UsersApi
@@ -42,6 +43,8 @@ api.add_resource(ModulApi, '/modul/<string:studiengang>')
 api.add_resource(LerntypApi, '/lerntyp')
 
 api.add_resource(UserMatchingApi, '/usermatch/<string:authId>')
+
+api.add_resource(InitApi, '/init/<string:authId>')
 
 
 if __name__ == '__main__':

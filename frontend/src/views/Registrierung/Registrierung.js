@@ -118,7 +118,7 @@ function Registrierung(props) {
         }
         else{
             //TODO auf length setzen
-            if(count === 8) {
+            if(count === (checkData.length -1)) {
                 user.setAll(infos)
                 TeamUpApi.getAPI().setUser(user.getAll())
                 console.log(user.getAll())
