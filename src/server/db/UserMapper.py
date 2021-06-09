@@ -161,6 +161,36 @@ class UserMapper(Mapper):
         # Rückgabe des UserBO
         return self.find_modul_by_userid(user)
 
+    def find_by_id(self, user_id):
+        """
+        :param user_id: Ist die id
+        :return: Alle Objekte des UserBO
+        """
+        # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
+        cursor = self._cnx.cursor(prepared=True)
+        # erstellen des SQL-Befehls um die UserBO Daten abzufragen
+        query = """SELECT authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang, 
+                          vorname FROM TeamUP.users WHERE users.id=%s"""
+
+        # Ausführen des ersten SQL-Befehls
+        cursor.execute(query, (user_id,))
+        # Speichern der SQL Antwort
+        tuples = cursor.fetchall()
+
+        # Auflösen der ersten SQL Antwort (UserBO) und setzen der Parameter
+        (authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester,
+         studiengang, vorname) = tuples[0]
+
+        user = UserBO.create_userBO(id=user_id, authId=authId, profilBild=bild, name=name,
+                                    geburtsdatum=geburtsdatum, email=email, beschreibung=beschreibung, lerntyp=lerntyp,
+                                    gender=gender, semester=semester, studiengang=studiengang, vorname=vorname)
+
+        # Das Geburtstag wird in das aktuelle Alter umgerechnet.
+        user.set_geburtsdatum(user.calculate_age())
+
+        # Rückgabe des UserBO
+        return self.find_modul_by_userid(user)
+
     def get_modulId_by_modul(self, modul):
         """
         Sucht nach der Modul ID über die Modul bezeichnung. Wird verwendet, um eine Verbindung zwischen einem User
@@ -273,10 +303,23 @@ class UserMapper(Mapper):
 
     def matching_method(self, user_authid):
         """
-        Gibt die Informationen eines bestimmten Users in einem Dict über
-        :param user_authid: GoogleID eines bestimmten Users
-        :return: Gibt ein Dict mit allen Werten zurück
+        Sucht alle passenden Kandidaten, die für das Matching in Frage kommen. Dafür sucht man den aktuellen User über
+        die authID und sucht alle Module in dem er sich befindet. Über die ModulID sucht man alle User die im selben
+        Modul sind und speichert alle Informationen des Kandidaten.
+        :param user_authid: GoogleID des aktuellen Users
+        :return: Als Rückgabe erhalt man den aktuellen User mit allen relevanten Informationen und eine Liste mit
+        User Objekten die für das Matching in Frage kommen.
         """
+        # Speichert jeden User der für den Algo in Frage kommt; Wird im return Übergeben
+        matching_users = []
+
+        # Speichert alle User, die in den selben Modulen sind
+        users_in_modul = []
+
+        # Die Variable users speichert alle Users, die für das Matching in Frage kommen
+        # Datentyp SET wird genutzt, um sicher zu gehen, dass die User nur einmal vorkommen
+        unsorted_users = set()
+
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor(buffered=True)
 
@@ -290,11 +333,12 @@ class UserMapper(Mapper):
         # Holt die Informationen des MainUsers über die authid
         cursor.execute(query_user, (user_authid,))
         tuple_mainUser = cursor.fetchone()
+
         # Holt mir alle ModuleIDs von dem MainUser
         cursor.execute(query_module, (tuple_mainUser[0],))
         tuple_mainModul = cursor.fetchall()
 
-        # Erstellt mir ein UserBO
+        # Erstellt mir ein UserBO des aktuellen Users
         mainUserBO = UserBO.create_matching_userBO(id=tuple_mainUser[0], lerntyp=tuple_mainUser[1],
                                                    semester=tuple_mainUser[2], studiengang=tuple_mainUser[3],
                                                    frequenz=tuple_mainUser[4], lernort=tuple_mainUser[5])
@@ -304,75 +348,40 @@ class UserMapper(Mapper):
             for x in i:  # Löse den Tuple von der Liste auf
                 mainUserBO.set_module_append(x)
 
-        # Speichert jeden User der für den Algo in Frage kommt
-        finderUser = []
-        users_in_modul = []
-        query3 = """SELECT uIM.userId FROM TeamUP.userInModul uIM  WHERE uIM.modulId=%s"""
-        # Query 3 holt alle User mit modul-Überscheidungen mit dem MainUser
+        query3 = """SELECT userId FROM TeamUP.userInModul WHERE modulId=%s"""
+
+        # Holt alle User, die in den selben Modulen sind wie der aktuelle User
         for modul_id in mainUserBO.get_modul():
             cursor.execute(query3, (modul_id,))
-            tuple3 = cursor.fetchall()
-            users_in_modul.append(tuple3)
+            match_user = cursor.fetchall()
+            users_in_modul.append(match_user)
 
-        # Die Variable users speichert alle Users, die für das Matching in Frage kommen
-        # Datentyp SET wird genutzt, um sicher zu gehen, dass die User nur einmal vorkommen
-        users = set()
         for i in users_in_modul:  # Löst die Liste von fetchall auf
             for x in i:  # Löse den Tuple von der Liste auf
                 # Stellt sicher, dass der aktuelle User nicht berücksichtigt wird
                 if x[0] == mainUserBO.get_id():
                     continue
                 else:
-                    users.add(x[0])
+                    unsorted_users.add(x[0])
 
         query_matching_user = """SELECT id, lerntyp, semester, studiengang, frequenz, lernort FROM TeamUP.users 
                                  WHERE id=%s"""
+
         # Es werden alle benötigten Informationen jedes Users geholt und in einem UserBO gespeichert
-        for user in users:
+        for user in unsorted_users:
             cursor.execute(query_matching_user, (user, ))
             tuple_user = cursor.fetchone()
             user = UserBO.create_matching_userBO(id=tuple_user[0], lerntyp=tuple_user[1], semester=tuple_user[2],
                                                  studiengang=tuple_user[3], frequenz=tuple_user[4],
                                                  lernort=tuple_user[5])
 
-            finderUser.append(user)
+            matching_users.append(user)
 
-        return mainUserBO, finderUser
+        return mainUserBO, matching_users
 
     ###################################################################################################################
     # Nicht genutzt Methoden
     ###################################################################################################################
-    # TODO Wird das noch benötigt?
-    def find_by_id(self, user_id):
-        """
-        :param user_id: Ist die id
-        :return: Alle Objekte des UserBO
-        """
-        # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
-        cursor = self._cnx.cursor(prepared=True)
-        # erstellen des SQL-Befehls um die UserBO Daten abzufragen
-        query = """SELECT users.authId, users.bild, users.name, users.geburtsdatum, users.email, users.beschreibung, 
-                    users.lerntyp, users.gender, users.semester, users.studiengang, users.vorname 
-                    FROM TeamUP.users WHERE users.id=%s"""
-
-        # Ausführen des ersten SQL-Befehls
-        cursor.execute(query, (user_id,))
-        # Speichern der SQL Antwort
-        tuples = cursor.fetchall()
-
-        # Auflösen der ersten SQL Antwort (UserBO) und setzen der Parameter
-        (authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester,
-         studiengang, vorname) = tuples[0]
-
-        user = UserBO.create_userBO(id=user_id, authId=authId, profilBild=bild, name=name,
-                                    geburtsdatum=geburtsdatum, email=email, beschreibung=beschreibung, lerntyp=lerntyp,
-                                    gender=gender, semester=semester, studiengang=studiengang, vorname=vorname)
-
-        # Das Geburtstag wird in das aktuelle Alter umgerechnet.
-        user.set_geburtsdatum(user.calculate_age())
-
-        # Rückgabe des UserBO
-        return self.find_modul_by_userid(user)
 
     def delete_by_authId(self, user_authid):
         """
