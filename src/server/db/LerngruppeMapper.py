@@ -28,9 +28,8 @@ class LerngruppeMapper(Mapper):
         # Die Variable users speichert alle Users, die für das Matching in Frage kommen
         # Datentyp SET wird genutzt, um sicher zu gehen, dass die User nur einmal vorkommen
         unsorted_gruppen = set()
-
-        usermapper = UserMapper()
-        mainUserBO = usermapper.find_modulID_for_matching(user_authid)
+        with UserMapper() as usermapper:
+            mainUserBO = usermapper.find_modulID_for_matching(user_authid)
 
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor(buffered=True)
@@ -53,8 +52,8 @@ class LerngruppeMapper(Mapper):
         for gruppe in unsorted_gruppen:
             cursor.execute(query_matching_gruppe, (gruppe,))
             tuple_gruppe = cursor.fetchone()
-            gruppe = Lerngruppe.create_lerngruppeBO(id=tuple_gruppe[0], lerntyp=tuple_gruppe[1],
-                                                    frequenz=tuple_gruppe[2], lernort=tuple_gruppe[3])
+            gruppe = Lerngruppe.create_matching_lerngruppenBO(id=tuple_gruppe[0], lerntyp=tuple_gruppe[1],
+                                                              frequenz=tuple_gruppe[2], lernort=tuple_gruppe[3])
 
             matching_gruppen.append(gruppe)
 

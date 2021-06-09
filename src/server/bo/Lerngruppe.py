@@ -58,13 +58,28 @@ class Lerngruppe(ProfilBO):
         """
         obj = Lerngruppe()
         obj.set_id(kwargs["id"])
-        obj.set_modul(kwargs["modul"])
         obj.set_profilBild(kwargs["profilBild"])
         obj.set_beschreibung(kwargs["beschreibung"])
         obj.set_lerntyp(kwargs["lerntyp"])
         obj.set_name(kwargs["name"])
         obj.set_mitglieder(kwargs["mitglieder"])
         obj.set_admin(kwargs["admin"])
+        obj.set_frequenz(kwargs["frequenz"])
+        obj.set_lernort(kwargs["lernort"])
+        if "modul" in kwargs:
+            obj.set_modul(kwargs["modul"])
+        return obj
+
+    @staticmethod
+    def create_matching_lerngruppenBO(**kwargs):
+        """
+        Allgemeine Klassenmethode zur erstellung eines Lerngruppen Objektes.
+        :param kwargs: Bekommt alle Werte aus der Lerngruppen Tabelle
+        :return: Gibt ein befülltes Lerngruppen Objekt zurück
+        """
+        obj = Lerngruppe()
+        obj.set_id(kwargs["id"])
+        obj.set_lerntyp(kwargs["lerntyp"])
         obj.set_frequenz(kwargs["frequenz"])
         obj.set_lernort(kwargs["lernort"])
         return obj
