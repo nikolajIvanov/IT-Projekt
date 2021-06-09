@@ -35,6 +35,64 @@
 			"response": []
 		},
 		{
+			"name": "User By ID",
+			"protocolProfileBehavior": {
+				"followOriginalHttpMethod": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/users/TBzTNfKvzNgT2RB1EovLO6hmdpp1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"users",
+						"TBzTNfKvzNgT2RB1EovLO6hmdpp1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Many User By IDs",
+			"protocolProfileBehavior": {
+				"followOriginalHttpMethod": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/users/TBzTNfKvzNgT2RB1EovLO6hmdpp1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"users",
+						"TBzTNfKvzNgT2RB1EovLO6hmdpp1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "User Matching",
 			"protocolProfileBehavior": {
 				"followOriginalHttpMethod": true
