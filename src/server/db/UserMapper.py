@@ -170,7 +170,7 @@ class UserMapper(Mapper):
         cursor = self._cnx.cursor(prepared=True)
         # erstellen des SQL-Befehls um die UserBO Daten abzufragen
         query = """SELECT authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang, 
-                          vorname FROM TeamUP.users WHERE users.id=%s"""
+                          vorname, frequenz, lernort FROM TeamUP.users WHERE users.id=%s"""
 
         # Ausführen des ersten SQL-Befehls
         cursor.execute(query, (user_id,))
@@ -179,11 +179,12 @@ class UserMapper(Mapper):
 
         # Auflösen der ersten SQL Antwort (UserBO) und setzen der Parameter
         (authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester,
-         studiengang, vorname) = tuples[0]
+         studiengang, vorname, frequenz, lernort) = tuples[0]
 
         user = UserBO.create_userBO(id=user_id, authId=authId, profilBild=bild, name=name,
                                     geburtsdatum=geburtsdatum, email=email, beschreibung=beschreibung, lerntyp=lerntyp,
-                                    gender=gender, semester=semester, studiengang=studiengang, vorname=vorname)
+                                    gender=gender, semester=semester, studiengang=studiengang, vorname=vorname,
+                                    frequenz=frequenz, lernort=lernort)
 
         # Das Geburtstag wird in das aktuelle Alter umgerechnet.
         user.set_geburtsdatum(user.calculate_age())

@@ -9,5 +9,6 @@ class UsersByIdApi(Resource):
         """Auslesen aller Nutzer-Objekte
         :return: nutzer
         """
+        usersID = api.payload[0]["id"]
         # TODO: Payload muss angepasst werden
-        return Administration.find_many_users_by_id(api.payload)
+        return Administration.find_many_users_by_id(usersID)
