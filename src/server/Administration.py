@@ -9,6 +9,7 @@ from .db.LerngruppeMapper import LerngruppeMapper
 from .db.StudiengangMapper import StudiengangMapper
 from .db.ModulMapper import ModulMapper
 from .db.LerntypMapper import LerntypMapper
+from .db.InitMapper import InitMapper
 
 
 # TODO Überlegen ob man was anderes braucht als get user bei Id
@@ -245,3 +246,9 @@ class Administration(object):
         for i in sorted_user:
             result.append(i["user"])
         return result
+
+    #InitMethode
+
+    def init(self, authId):
+        with InitMapper() as mapper:
+            return mapper.initialize(authId)
