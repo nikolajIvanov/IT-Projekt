@@ -134,6 +134,19 @@ class Administration(object):
         with LerngruppeMapper() as mapper:
             return mapper.insert_lerngruppe(lerngruppe)
 
+    @staticmethod
+    def find_many_lerngruppen_by_id(lerngruppenID):
+        """
+        Findet einen bestimmten User über die id.
+        :param user_id: Ist die UserID
+        :return: Befüllten User mit allen relevanten Daten
+        """
+        lerngruppenBO = []
+        with LerngruppeMapper() as mapper:
+            for lerngruppe in lerngruppenID:
+                lerngruppenBO.append(mapper.find_by_id_test(lerngruppe))
+        return lerngruppenBO
+
     def get_all_lerngruppen(self):
         """
         Alle Lerngruppen anzeigen lassen

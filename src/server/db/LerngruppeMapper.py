@@ -184,7 +184,8 @@ class LerngruppeMapper(Mapper):
             cursor = self._cnx.cursor()
 
             # Query um alle informationen einer bestimmten lerngruppe zu bekommen
-            query = """SELECT lerntyp, name, beschreibung, bild, admin from TeamUP.lerngruppe WHERE id = (%s)"""
+            query = """SELECT lerntyp, name, beschreibung, bild, admin, frequenz, lernort FROM TeamUP.lerngruppe 
+            WHERE id = (%s)"""
 
             # Ausführen des ersten SQL-Befehls
             cursor.execute(query, (gruppenId,))
@@ -196,7 +197,7 @@ class LerngruppeMapper(Mapper):
             if not tupel:
                 return (400, 'Keine Gruppe gefunden')
             # Auflösen der ersten SQL Antwort (Lerngruppe) und setzen der Parameter
-            (lerntyp, name, beschreibung, bild, admin) = tupel[0]
+            (lerntyp, name, beschreibung, bild, admin, frequenz, lernort) = tupel[0]
             lerngruppe = Lerngruppe()
             lerngruppe.set_id(gruppenId)
             lerngruppe.set_lerntyp(lerntyp)
@@ -204,6 +205,8 @@ class LerngruppeMapper(Mapper):
             lerngruppe.set_beschreibung(beschreibung)
             lerngruppe.set_profilBild(bild)
             lerngruppe.set_admin(admin)
+            lerngruppe.set_frequenz(frequenz)
+            lerngruppe.set_lernort(lernort)
 
             #erstellen des SQL-Befehls um abzufragen welche Module einer Lerngruppe zugeordnet sind
             query1 = """SELECT teamup.modul.bezeichnung FROM teamup.modul JOIN teamup.lerngruppeinmodul lim 
@@ -231,11 +234,68 @@ class LerngruppeMapper(Mapper):
                 for x in i:
                     lerngruppe.set_mitglieder_append(x)
 
-            self._cnx.commit()
-            cursor.close()
-            return (200, lerngruppe)
+            return 200, lerngruppe
         except mysql.connector.Error as err:
-            return (400, err.msg)
+            return 400, err.msg
+
+    def find_by_id_test(self, gruppenId):
+        try:
+            cursor = self._cnx.cursor()
+
+            # Query um alle informationen einer bestimmten lerngruppe zu bekommen
+            query = """SELECT lerntyp, name, beschreibung, bild, admin, frequenz, lernort FROM TeamUP.lerngruppe 
+            WHERE id = (%s)"""
+
+            # Ausführen des ersten SQL-Befehls
+            cursor.execute(query, (gruppenId,))
+
+            # Speichern der SQL Antwort
+            tupel = cursor.fetchall()
+
+            #Abbrechen der Suche da die Gruppe nicht vorhanden ist
+            if not tupel:
+                return (400, 'Keine Gruppe gefunden')
+            # Auflösen der ersten SQL Antwort (Lerngruppe) und setzen der Parameter
+            (lerntyp, name, beschreibung, bild, admin, frequenz, lernort) = tupel[0]
+            lerngruppe = Lerngruppe()
+            lerngruppe.set_id(gruppenId)
+            lerngruppe.set_lerntyp(lerntyp)
+            lerngruppe.set_name(name)
+            lerngruppe.set_beschreibung(beschreibung)
+            lerngruppe.set_profilBild(bild)
+            lerngruppe.set_admin(admin)
+            lerngruppe.set_frequenz(frequenz)
+            lerngruppe.set_lernort(lernort)
+
+            #erstellen des SQL-Befehls um abzufragen welche Module einer Lerngruppe zugeordnet sind
+            query1 = """SELECT teamup.modul.bezeichnung FROM teamup.modul JOIN teamup.lerngruppeinmodul lim 
+                        ON modul.id = lim.modulId WHERE lim.lerngruppeId =%s"""
+            # Ausführen des zweiten SQL-Befehls
+            cursor.execute(query1, (gruppenId,))
+            # Speichern der SQL Antwort
+            tupel1 = cursor.fetchall()
+
+            # Auflösen der zweiten SQL Antwort (Module der Lerngruppe) und setzen des Parameters
+            for i in tupel1:
+                for x in i:
+                    lerngruppe.set_module_append(x)
+
+            # erstellen des SQL-Befehls um abzufragen welche Mitglieder eine Lerngruppe besitzt
+            query2 = """SELECT teamup.userinlerngruppe.userId FROM teamup.userinlerngruppe 
+                        WHERE teamup.userinlerngruppe.lerngruppeId =%s"""
+            # Ausführen des zweiten SQL-Befehls
+            cursor.execute(query2, (gruppenId,))
+            # Speichern der SQL Antwort
+            tupel2 = cursor.fetchall()
+
+            # Auflösen der zweiten SQL Antwort (Mitglieder der Lerngruppe) und setzen des Parameters
+            for i in tupel2:
+                for x in i:
+                    lerngruppe.set_mitglieder_append(x)
+
+            return lerngruppe
+        except mysql.connector.Error as err:
+            return 400, err.msg
 
     def insert_lerngruppe(self, lerngruppe):
         """

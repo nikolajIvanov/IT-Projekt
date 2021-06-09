@@ -17,6 +17,7 @@ from server.api.LerntypApi import LerntypApi
 from server.api.UserMatchingApi import UserMatchingApi
 from server.api.LerngruppenMatchingApi import LerngruppenMatchingApi
 from server.api.UsersByIdApi import UsersByIdApi
+from server.api.LerngruppenByIdApi import LerngruppenByIdApi
 
 
 CORS(app, resources=r'/*')
@@ -40,6 +41,7 @@ api.add_resource(VieleUserApi, '/viele-user')
 api.add_resource(LerngruppenApi, '/lerngruppen')
 api.add_resource(LerngruppeApi, '/lerngruppe/<int:id>')
 api.add_resource(LerngruppenmitgliedApi, '/lerngruppen-mitglied')
+api.add_resource(LerngruppenByIdApi, '/lerngruppenById')
 
 api.add_resource(StudiengangApi, '/studiengang')
 api.add_resource(ModulApi, '/modul/<string:studiengang>')
