@@ -301,31 +301,13 @@ class UserMapper(Mapper):
         cursor.close()
         # TODO MySQL Errorhandling hier einbauen
 
-    def matching_method(self, user_authid):
-        """
-        Sucht alle passenden Kandidaten, die für das Matching in Frage kommen. Dafür sucht man den aktuellen User über
-        die authID und sucht alle Module in dem er sich befindet. Über die ModulID sucht man alle User die im selben
-        Modul sind und speichert alle Informationen des Kandidaten.
-        :param user_authid: GoogleID des aktuellen Users
-        :return: Als Rückgabe erhalt man den aktuellen User mit allen relevanten Informationen und eine Liste mit
-        User Objekten die für das Matching in Frage kommen.
-        """
-        # Speichert jeden User der für den Algo in Frage kommt; Wird im return Übergeben
-        matching_users = []
-
-        # Speichert alle User, die in den selben Modulen sind
-        users_in_modul = []
-
-        # Die Variable users speichert alle Users, die für das Matching in Frage kommen
-        # Datentyp SET wird genutzt, um sicher zu gehen, dass die User nur einmal vorkommen
-        unsorted_users = set()
-
+    def find_modulID_for_matching(self, user_authid):
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor(buffered=True)
 
         # erstellen des SQL-Befehls um die MainUser Daten abzufragen
         query_user = """SELECT id, lerntyp, semester, studiengang, frequenz, lernort FROM TeamUP.users 
-                        WHERE authId=%s"""
+                                WHERE authId=%s"""
 
         # Holt mir alle ModuleIDs von vem MainUser
         query_module = """SELECT modulId FROM TeamUP.userInModul WHERE userId=%s"""
@@ -347,6 +329,33 @@ class UserMapper(Mapper):
         for i in tuple_mainModul:  # Löst die Liste von fetchall auf
             for x in i:  # Löse den Tuple von der Liste auf
                 mainUserBO.set_module_append(x)
+
+        cursor.close()
+        return mainUserBO
+
+    def matching_method(self, user_authid):
+        """
+        Sucht alle passenden Kandidaten, die für das Matching in Frage kommen. Dafür sucht man den aktuellen User über
+        die authID und sucht alle Module in dem er sich befindet. Über die ModulID sucht man alle User die im selben
+        Modul sind und speichert alle Informationen des Kandidaten.
+        :param user_authid: GoogleID des aktuellen Users
+        :return: Als Rückgabe erhalt man den aktuellen User mit allen relevanten Informationen und eine Liste mit
+        User Objekten die für das Matching in Frage kommen.
+        """
+        # Speichert jeden User der für den Algo in Frage kommt; Wird im return Übergeben
+        matching_users = []
+
+        # Speichert alle User, die in den selben Modulen sind
+        users_in_modul = []
+
+        # Die Variable users speichert alle Users, die für das Matching in Frage kommen
+        # Datentyp SET wird genutzt, um sicher zu gehen, dass die User nur einmal vorkommen
+        unsorted_users = set()
+
+        mainUserBO = self.find_modulID_for_matching(user_authid)
+
+        # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
+        cursor = self._cnx.cursor(buffered=True)
 
         query3 = """SELECT userId FROM TeamUP.userInModul WHERE modulId=%s"""
 

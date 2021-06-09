@@ -46,3 +46,21 @@ class Lerngruppe(ProfilBO):
         obj.set_mitglieder(dictionary["mitglieder"])
         obj.set_admin(dictionary["admin"])
         return obj
+
+    @staticmethod
+    def create_lerngruppeBO(**kwargs):
+        """
+        Allgemeine Klassenmethode zur erstellung eines Lerngruppen Objektes.
+        :param kwargs: Bekommt alle Werte aus der Lerngruppen Tabelle
+        :return: Gibt ein befülltes Lerngruppen Objekt zurück
+        """
+        obj = Lerngruppe()
+        obj.set_id(kwargs["id"])
+        obj.set_modul(kwargs["modul"])
+        obj.set_profilBild(kwargs["profilBild"])
+        obj.set_beschreibung(kwargs["beschreibung"])
+        obj.set_lerntyp(kwargs["lerntyp"])
+        obj.set_name(kwargs["name"])
+        obj.set_mitglieder(kwargs["mitglieder"])
+        obj.set_admin(kwargs["admin"])
+        return obj

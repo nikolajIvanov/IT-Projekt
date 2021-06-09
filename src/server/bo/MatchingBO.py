@@ -41,10 +41,6 @@ class MatchingBO:
             score = 0
             if mainUser.get_lerntyp() == gruppe.get_lerntyp():
                 score += 1
-            if mainUser.get_semester() == gruppe.get_semester():
-                score += 1
-            if mainUser.get_studiengang() == gruppe.get_studiengang():
-                score += 1
             if mainUser.get_frequenz() == gruppe.get_frequenz():
                 score += 1
             if mainUser.get_lernort() == gruppe.get_lernort():

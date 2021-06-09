@@ -2,10 +2,89 @@ from server.bo.Lerngruppe import Lerngruppe
 from server.db.Mapper import Mapper
 import mysql.connector.errors
 
+
 class LerngruppeMapper(Mapper):
 
     def __init__(self):
         super().__init__()
+
+    def matching_method(self, user_authid):
+        """
+        Sucht alle passenden Kandidaten, die für das Matching in Frage kommen. Dafür sucht man den aktuellen User über
+        die authID und sucht alle Module in dem er sich befindet. Über die ModulID sucht man alle Lerngruppen, welche
+        das selbe Modul anbieten und speichert alle Informationen des Kandidaten.
+        :param user_authid: GoogleID des aktuellen Users
+        :return: Als Rückgabe erhalt man den aktuellen User mit allen relevanten Informationen und eine Liste mit
+        Lerngruppen Objekten die für das Matching in Frage kommen.
+        """
+        # Speichert jeden User der für den Algo in Frage kommt; Wird im return Übergeben
+        matching_gruppen = []
+
+        # Speichert alle User, die in den selben Modulen sind
+        users_in_modul = []
+
+        # Die Variable users speichert alle Users, die für das Matching in Frage kommen
+        # Datentyp SET wird genutzt, um sicher zu gehen, dass die User nur einmal vorkommen
+        unsorted_users = set()
+
+        # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
+        cursor = self._cnx.cursor(buffered=True)
+
+        # erstellen des SQL-Befehls um die MainUser Daten abzufragen
+        query_user = """SELECT id, lerntyp, semester, studiengang, frequenz, lernort FROM TeamUP.users 
+                        WHERE authId=%s"""
+
+        # Holt mir alle ModuleIDs von vem MainUser
+        query_module = """SELECT modulId FROM TeamUP.userInModul WHERE userId=%s"""
+
+        # Holt die Informationen des MainUsers über die authid
+        cursor.execute(query_user, (user_authid,))
+        tuple_mainUser = cursor.fetchone()
+
+        # Holt mir alle ModuleIDs von dem MainUser
+        cursor.execute(query_module, (tuple_mainUser[0],))
+        tuple_mainModul = cursor.fetchall()
+
+        # Erstellt mir ein UserBO des aktuellen Users
+        mainUserBO = Lerngruppe.create_matching_userBO(id=tuple_mainUser[0], lerntyp=tuple_mainUser[1],
+                                                   semester=tuple_mainUser[2], studiengang=tuple_mainUser[3],
+                                                   frequenz=tuple_mainUser[4], lernort=tuple_mainUser[5])
+
+        # Speichert mir alle Module des Users in das BO
+        for i in tuple_mainModul:  # Löst die Liste von fetchall auf
+            for x in i:  # Löse den Tuple von der Liste auf
+                mainUserBO.set_module_append(x)
+
+        query3 = """SELECT userId FROM TeamUP.userInModul WHERE modulId=%s"""
+
+        # Holt alle User, die in den selben Modulen sind wie der aktuelle User
+        for modul_id in mainUserBO.get_modul():
+            cursor.execute(query3, (modul_id,))
+            match_user = cursor.fetchall()
+            users_in_modul.append(match_user)
+
+        for i in users_in_modul:  # Löst die Liste von fetchall auf
+            for x in i:  # Löse den Tuple von der Liste auf
+                # Stellt sicher, dass der aktuelle User nicht berücksichtigt wird
+                if x[0] == mainUserBO.get_id():
+                    continue
+                else:
+                    unsorted_users.add(x[0])
+
+        query_matching_user = """SELECT id, lerntyp, semester, studiengang, frequenz, lernort FROM TeamUP.users 
+                                 WHERE id=%s"""
+
+        # Es werden alle benötigten Informationen jedes Users geholt und in einem UserBO gespeichert
+        for user in unsorted_users:
+            cursor.execute(query_matching_user, (user,))
+            tuple_user = cursor.fetchone()
+            user = Lerngruppe.create_lerngruppeBO(id=tuple_user[0], lerntyp=tuple_user[1], semester=tuple_user[2],
+                                                 studiengang=tuple_user[3], frequenz=tuple_user[4],
+                                                 lernort=tuple_user[5])
+
+            matching_gruppen.append(user)
+
+        return mainUserBO, matching_gruppen
 
     def get_modulId_by_modul(self, modul):
         """
