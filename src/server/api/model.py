@@ -37,7 +37,22 @@ user = api.inherit('Nutzer', profil, {
                              description='Wo findet das Treffen statt online/offline?'),
 })
 
-user_matching = api.model('MatchingBO', {
+user_without_authid = api.inherit('Nutzer', profil, {
+    'geburtsdatum': fields.String(attribute=lambda x: x.get_geburtsdatum(), description='Geburtsdatum eines Benutzers'),
+    'email': fields.String(attribute=lambda x: x.get_email(), description='E-Mail-Adresse eines Benutzers'),
+    'gender': fields.String(attribute=lambda x: x.get_gender(), description='Gender eines Benutzers'),
+    'semester': fields.String(attribute=lambda x: x.get_semester(), description='Semester eines Benutzers'),
+    'studiengang': fields.String(attribute=lambda x: x.get_studiengang(), description='Studiengang eines Benutzers'),
+    'vorname': fields.String(attribute=lambda x: x.get_vorname(), description='Vorname eines Benutzers'),
+    ################################################
+    # Gehört in Profil
+    ################################################
+    'frequenz': fields.String(attribute=lambda x: x.get_frequenz(), description='Wie häufig will man sich treffen?'),
+    'lernort': fields.String(attribute=lambda x: x.get_lernort(),
+                             description='Wo findet das Treffen statt online/offline?'),
+})
+
+matching = api.model('MatchingBO', {
     'result': fields.List(fields.Integer, attribute=lambda x: x.get_result(),
                           description='Sortierte UserIDs aus dem Matching'),
 })
@@ -60,4 +75,3 @@ lerntyp = api.inherit('LerntypBO', bo, {
     'bild': fields.String(attribute=lambda x: x.get_bild(), description='Bild eines Benutzers'),
     'lerntyp': fields.String(attribute=lambda x: x.get_lerntyp(), description='Administrator einer Lerngruppe'),
 })
-

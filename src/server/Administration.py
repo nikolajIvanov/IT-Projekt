@@ -95,14 +95,25 @@ class Administration(object):
         with UserMapper() as mapper:
             return mapper.find_by_authId(number)
 
-    def get_user_by_id(self, number):
+    def get_user_by_id(self, user_id):
         """
-
-        :param number: Ist die UserID
-        :return:
+        Findet einen bestimmten User über die id.
+        :param user_id: Ist die UserID
+        :return: Befüllten User mit allen relevanten Daten
         """
         with UserMapper() as mapper:
-            return mapper.find_by_id(number)
+            return mapper.find_by_id(user_id)
+
+    # TODO: Wird für das Matching benötigt
+    @staticmethod
+    def find_many_users_by_id(user_id):
+        """
+        Findet einen bestimmten User über die id.
+        :param user_id: Ist die UserID
+        :return: Befüllten User mit allen relevanten Daten
+        """
+        with UserMapper() as mapper:
+            return mapper.find_by_id(user_id)
 
     def get_user_by_name(self, value):
         with UserMapper() as mapper:
@@ -224,6 +235,7 @@ class Administration(object):
     def user_match_me(authId):
         with UserMapper() as mapper:
             mainUser, finderUser = mapper.matching_method(authId)
+
         match = MatchingBO()
         return match.user_matching(mainUser, finderUser)
 
