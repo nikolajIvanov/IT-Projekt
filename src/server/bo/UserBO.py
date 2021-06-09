@@ -98,3 +98,19 @@ class UserBO(ProfilBO):
         if "modul" in kwargs:
             obj.set_module_append(kwargs["modul"])
         return obj
+
+    @staticmethod
+    def create_matching_userBO(**kwargs):
+        """
+        Erstellt ein UserBO mit allen relevanten Attributen, die für das Scoring benötigt werden
+        :param kwargs: Alle benötigten Attribute -> id, lerntyp, semester, studiengang, frequenz, lernort
+        :return: Gibt ein befülltes UserBO Objekt zurück
+        """
+        obj = UserBO()
+        obj.set_id(kwargs["id"])
+        obj.set_lerntyp(kwargs["lerntyp"])
+        obj.set_semester(kwargs["semester"])
+        obj.set_studiengang(kwargs["studiengang"])
+        obj.set_frequenz(kwargs["frequenz"])
+        obj.set_lernort(kwargs["lernort"])
+        return obj
