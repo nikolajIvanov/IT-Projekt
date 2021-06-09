@@ -241,8 +241,8 @@ class Administration(object):
 
     @staticmethod
     def lerngruppe_match_me(authId):
-        with LerntypMapper() as mapper:
-            mainUser, finderGruppen = mapper.lerngruppen_matching(authId)
+        with LerngruppeMapper() as mapper:
+            mainUser, finderGruppen = mapper.matching_method(authId)
 
         match = MatchingBO()
         return match.lerngruppen_matching(mainUser, finderGruppen)

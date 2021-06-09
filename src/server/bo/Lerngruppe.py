@@ -45,6 +45,8 @@ class Lerngruppe(ProfilBO):
         obj.set_name(dictionary["name"])
         obj.set_mitglieder(dictionary["mitglieder"])
         obj.set_admin(dictionary["admin"])
+        obj.set_frequenz(dictionary["frequenz"])
+        obj.set_lernort(dictionary["lernort"])
         return obj
 
     @staticmethod
@@ -63,4 +65,6 @@ class Lerngruppe(ProfilBO):
         obj.set_name(kwargs["name"])
         obj.set_mitglieder(kwargs["mitglieder"])
         obj.set_admin(kwargs["admin"])
+        obj.set_frequenz(kwargs["frequenz"])
+        obj.set_lernort(kwargs["lernort"])
         return obj

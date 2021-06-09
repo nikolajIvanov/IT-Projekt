@@ -61,7 +61,9 @@ CREATE TABLE `lerngruppe` (
     `name` varchar(128) NOT NULL DEFAULT '',
     `lerntyp` varchar(128) NOT NULL DEFAULT 999,
     `admin` varchar(128) NOT NULL DEFAULT '',
-    `beschreibung` varchar(128) NOT NULL DEFAULT ''
+    `beschreibung` varchar(128) NOT NULL DEFAULT '',
+    `frequenz` varchar(128) NOT NULL DEFAULT '',
+    `lernort` varchar(128) NOT NULL DEFAULT ''
 );
 
 CREATE TABLE `userInLerngruppe`

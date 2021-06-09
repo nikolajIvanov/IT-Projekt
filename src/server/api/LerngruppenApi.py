@@ -11,13 +11,11 @@ class LerngruppenApi(Resource):
         adm = Administration()
         retrunValue = adm.get_all_lerngruppen()
         if retrunValue is None:
-            abort(400,'Keine Lerngruppen vorhanden')
+            abort(400, 'Keine Lerngruppen vorhanden')
         elif retrunValue[0] is 200:
             return retrunValue[1]
         else:
             abort(retrunValue[0], retrunValue[1])
-
-
 
     @api.expect(lerngruppe)
     def post(self):
@@ -27,4 +25,4 @@ class LerngruppenApi(Resource):
         if retrunValue is 200:
             return retrunValue
         else:
-            abort(retrunValue[0],retrunValue[1])
+            abort(retrunValue[0], retrunValue[1])
