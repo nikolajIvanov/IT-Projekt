@@ -1,7 +1,7 @@
 from server.bo.Lerngruppe import Lerngruppe
 from server.db.Mapper import Mapper
 import mysql.connector.errors
-
+from werkzeug.exceptions import BadRequest
 from server.db.UserMapper import UserMapper
 
 
@@ -193,8 +193,7 @@ class LerngruppeMapper(Mapper):
             tupel = cursor.fetchall()
 
             #Abbrechen der Suche da die Gruppe nicht vorhanden ist
-            if not tupel:
-                return (400, 'Keine Gruppe gefunden')
+
             # Auflösen der ersten SQL Antwort (Lerngruppe) und setzen der Parameter
             (lerntyp, name, beschreibung, bild, admin) = tupel[0]
             lerngruppe = Lerngruppe()
@@ -234,8 +233,10 @@ class LerngruppeMapper(Mapper):
             self._cnx.commit()
             cursor.close()
             return (200, lerngruppe)
+        except IndexError:
+            raise BadRequest('Keine Gruppe mit dieser ID vorhanden')
         except mysql.connector.Error as err:
-            return (400, err.msg)
+            raise BadRequest(404, err.msg)
 
     def insert_lerngruppe(self, lerngruppe):
         """
@@ -278,7 +279,7 @@ class LerngruppeMapper(Mapper):
             self._cnx.commit()
             return 200
         except mysql.connector.Error as err:
-            return 400, err.msg
+            raise BadRequest(err.msg)
 
     def insert_user(self, lerngruppe):
         """
