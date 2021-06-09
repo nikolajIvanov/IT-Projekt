@@ -2,13 +2,20 @@ from .model import lerngruppe, api
 from flask_restx import Resource
 from server.Administration import Administration
 from server.bo.Lerngruppe import Lerngruppe
+from flask import abort
 
 
 class LerngruppeApi(Resource):
     @api.marshal_with(lerngruppe)
     def get(self, id):
         adm = Administration()
-        return adm.get_Lerngruppe_by_id(id)
+        retrunValue = adm.get_Lerngruppe_by_id(id)
+        if retrunValue is None:
+            abort(400,'Keine Lerngruppen vorhanden')
+        elif retrunValue[0] is 200:
+            return retrunValue[1]
+        else:
+            abort(retrunValue[0], retrunValue[1])
 
     @api.marshal_with(lerngruppe)
     def delete(self, name):
