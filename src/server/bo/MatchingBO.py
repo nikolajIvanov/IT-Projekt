@@ -1,12 +1,13 @@
-from server.bo.UserBO import UserBO
-
-
 class MatchingBO:
 
     def __init__(self):
-        self.__score = None
-        self.__userID = None
         self.__result = []
+
+    def get_result(self):
+        return self.__result
+
+    def set_result(self, obj_id):
+        self.__result.append(obj_id)
 
     def user_matching(self, mainUser, finderUser):
         unsorted_user = []
@@ -23,13 +24,38 @@ class MatchingBO:
                 score += 1
             if mainUser.get_lernort() == user.get_lernort():
                 score += 1
-            users["user"] = user
+            users["user"] = user.get_id()
             users["score"] = score
             unsorted_user.append(users.copy())
+
         sorted_user = sorted(unsorted_user, reverse=True, key=lambda k: k['score'])
         for i in sorted_user:
-            self.__result.append(i["user"])
-        return self.__result
+            self.set_result(i["user"])
 
-    def lerngruppen_matching(self):
-        pass
+        return self
+
+    def lerngruppen_matching(self, mainUser, match_gruppen):
+        unsorted_gruppen = []
+        gruppen = {"gruppenID": None, "score": None}
+        for gruppe in match_gruppen:
+            score = 0
+            if mainUser.get_lerntyp() == gruppe.get_lerntyp():
+                score += 1
+            if mainUser.get_semester() == gruppe.get_semester():
+                score += 1
+            if mainUser.get_studiengang() == gruppe.get_studiengang():
+                score += 1
+            if mainUser.get_frequenz() == gruppe.get_frequenz():
+                score += 1
+            if mainUser.get_lernort() == gruppe.get_lernort():
+                score += 1
+            gruppen["gruppenID"] = gruppe.get_id()
+            gruppen["score"] = score
+            unsorted_gruppen.append(gruppen.copy())
+
+        sorted_gruppenID = sorted(unsorted_gruppen, reverse=True, key=lambda k: k['score'])
+
+        for i in sorted_gruppenID:
+            self.set_result(i["gruppenID"])
+
+        return self

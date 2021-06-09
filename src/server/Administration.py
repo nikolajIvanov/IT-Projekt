@@ -220,9 +220,17 @@ class Administration(object):
     """
         Matching Methode
     """
-
-    def user_match_me(self, authId):
+    @staticmethod
+    def user_match_me(authId):
         with UserMapper() as mapper:
             mainUser, finderUser = mapper.matching_method(authId)
         match = MatchingBO()
         return match.user_matching(mainUser, finderUser)
+
+    @staticmethod
+    def lerngruppe_match_me(authId):
+        with LerntypMapper() as mapper:
+            mainUser, finderGruppen = mapper.lerngruppen_matching(authId)
+
+        match = MatchingBO()
+        return match.lerngruppen_matching(mainUser, finderGruppen)

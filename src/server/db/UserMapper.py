@@ -335,7 +335,6 @@ class UserMapper(Mapper):
                                                  studiengang=tuple_user[3], frequenz=tuple_user[4],
                                                  lernort=tuple_user[5])
 
-            self.find_modul_by_userid(user)
             finderUser.append(user)
 
         return mainUserBO, finderUser
