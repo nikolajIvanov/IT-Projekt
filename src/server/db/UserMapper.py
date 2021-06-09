@@ -317,13 +317,11 @@ class UserMapper(Mapper):
         # Ziele Alle User aus allen Modulen von MainUser speichert; Liste -> [(1, 2, 3), (5, 3, 7), (8, 2, 3)] <- Hier drinnen sind alle UserIDs
 
         # Suche alle User, die das selbe Modul wie der MainUser haben
-        # Aufgrundlage von Zeile 313 modulid nochmal forSchleife und ALLE user finden
-        # Hier müssen zwei schleifen stehen
+        # Aufgrundlage von Zeile 313 modulId nochmal forSchleife und ALLE user finden
+        # Hier müssen zwei Schleifen stehen
+
         for i in tuple3:
-            # for i in userId
             query4 = """SELECT * FROM TeamUP.users WHERE id=%s """ # Stufe 2: Mehrere WHERE bedinung 1 and bedinung2 (NOT (tuple_mainUser[0],)) Bedinungen = Das du nicht die MainUser ID suchst
-
-
 
             #data = (userId, (tuple_mainUser[0],))
             cursor.execute(query4, (userId,), (tuple_mainUser[0]))
