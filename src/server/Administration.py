@@ -115,7 +115,7 @@ class Administration(object):
         usersBO = []
         with UserMapper() as mapper:
             for user in usersID:
-                usersBO.append(mapper.find_by_id(user))
+                usersBO.append(mapper.find_by_id(int(user)))
         return usersBO
 
     def get_user_by_name(self, value):
