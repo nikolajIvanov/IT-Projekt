@@ -41,7 +41,7 @@ api.add_resource(UsersByIdApi, '/usersById')
 api.add_resource(VieleUserApi, '/viele-user')
 
 api.add_resource(LerngruppenApi, '/lerngruppen')
-api.add_resource(LerngruppeApi, '/lerngruppe/<int:id>')
+api.add_resource(LerngruppeApi, '/lerngruppe/<int:gruppen_id>')
 api.add_resource(LerngruppenmitgliedApi, '/lerngruppen-mitglied')
 api.add_resource(LerngruppenByIdApi, '/lerngruppenById')
 
