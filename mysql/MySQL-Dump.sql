@@ -12,6 +12,9 @@ DROP TABLE IF EXISTS `modul`;
 DROP TABLE IF EXISTS `lerntyp`;
 DROP TABLE IF EXISTS `studiengang`;
 DROP TABLE IF EXISTS `chatanfrage`;
+DROP TABLE IF EXISTS `room`;
+DROP TABLE IF EXISTS `message`;
+DROP TABLE IF EXISTS `userInRoom`;
 
 
 CREATE TABLE `modul` (
@@ -103,9 +106,33 @@ CREATE TABLE `lerntyp` (
 );
 
 CREATE TABLE `chatanfrage` (
-    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-    `TIMESTAMP` NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `TIMESTAMP` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `vonUserId`int(11) NOT NULL,
     `anUserId`int(11) NOT NULL,
-    FOREIGN KEY (VonuserId, anUserId) REFERENCES users (id)
+    FOREIGN KEY (vonUserId) REFERENCES users (id),
+    FOREIGN KEY (anUserId) REFERENCES users (id)
+);
+
+CREATE TABLE `room` (
+    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `name`varchar(128) NOT NULL DEFAULT ''
+);
+
+CREATE TABLE `message` (
+    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `TIMESTAMP` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `vonUserId`int(11) NOT NULL,
+    `roomId`int(11) NOT NULL,
+    FOREIGN KEY (VonuserId) REFERENCES users (id),
+    FOREIGN KEY (roomId) REFERENCES room (id)
+);
+
+CREATE TABLE `userInRoom`
+(
+    `userId`  int(11) NOT NULL,
+    `roomId`       int(11) NOT NULL,
+    FOREIGN KEY (userId) REFERENCES users (id),
+    FOREIGN KEY (roomId) REFERENCES room (id),
+    PRIMARY KEY (userId, roomId)
 );
