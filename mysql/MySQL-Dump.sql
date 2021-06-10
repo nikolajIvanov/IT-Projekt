@@ -124,6 +124,7 @@ CREATE TABLE `message` (
     `TIMESTAMP` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `vonUserId`int(11) NOT NULL,
     `roomId`int(11) NOT NULL,
+    `message`varchar(128) NOT NULL DEFAULT "",
     FOREIGN KEY (VonuserId) REFERENCES users (id),
     FOREIGN KEY (roomId) REFERENCES room (id)
 );

@@ -11,7 +11,18 @@ class NachrichtBO(BusinessObject):
     def get_nachricht(self):
         return self.__nachricht
 
-    def set_nachricht(self, nachricht, senderId, roomId):
+    def set_nachricht(self, nachricht):
         self.__nachricht = nachricht
-        self.__senderId = senderId
-        self.__roomId = roomId
+
+    def get_senderId(self):
+        return self.__senderId
+
+    def set_senderID(self,Id):
+        self.__senderId = Id
+
+    def get_roomId(self):
+        return self.__roomId
+
+    def set_roomId(self, Id):
+        self.__roomId = Id
+
