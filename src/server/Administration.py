@@ -1,7 +1,5 @@
 # Import aller BusinessObject Klassen
-
-from .bo.UserBO import UserBO
-from .bo.Lerngruppe import Lerngruppe
+from .bo.MatchingBO import MatchingBO
 
 # Import aller Mapper Klassen
 from .db.UserMapper import UserMapper
@@ -10,20 +8,28 @@ from .db.StudiengangMapper import StudiengangMapper
 from .db.ModulMapper import ModulMapper
 from .db.LerntypMapper import LerntypMapper
 from .db.ChatMapper import ChatMapper
+from .db.InitMapper import InitMapper
 
 
-# TODO Überlegen ob man was anderes braucht als get user bei Id
 class Administration(object):
-    """Diese Klasse aggregiert nahezu sämtliche Applikationslogik (Engl. Business Logic).
-
     """
-
+        Diese Klasse aggregiert nahezu sämtliche Applikationslogik (Engl. Business Logic).
+    """
     def __init__(self):
         pass
 
     """
         Nutzer-spezifische Methoden
     """
+
+    def init(self, authId):
+        """
+        InitMethode
+        :param authId:
+        :return:
+        """
+        with InitMapper() as mapper:
+            return mapper.initialize(authId)
 
     def create_user_by_authId(self, nutzer):
         """
@@ -90,53 +96,72 @@ class Administration(object):
         with UserMapper() as mapper:
             return mapper.find_by_authId(number)
 
-    def get_user_by_id(self, number):
+    def get_user_by_id(self, user_id):
         """
-
-        :param number: Ist die UserID
-        :return:
+        Findet einen bestimmten User über die id.
+        :param user_id: Ist die UserID
+        :return: Befüllten User mit allen relevanten Daten
         """
         with UserMapper() as mapper:
-            return mapper.find_by_id(number)
+            return mapper.find_by_id(user_id)
+
+    # TODO: Wird für das Matching benötigt
+    @staticmethod
+    def find_many_users_by_id(usersID):
+        """
+        Findet einen bestimmten User über die id.
+        :param user_id: Ist die UserID
+        :return: Befüllten User mit allen relevanten Daten
+        """
+        usersBO = []
+        with UserMapper() as mapper:
+            for user_id in usersID:
+                usersBO.append(mapper.find_by_id(int(user_id)))
+        return usersBO
 
     def get_user_by_name(self, value):
         with UserMapper() as mapper:
             return mapper.find_by_name(value)
 
-    def update(self, name, email):
-        user = UserBO()
-        user.set_name(name)
-        user.set_email(email)
-        user.set_id(1)
-        with UserMapper() as mapper:
-            return mapper.update(user)
-
-    # def get_Modul_by_authId(self,  authId):
-    #    with NutzerMapper() as mapper:
-    #       return mapper.get_modulForUser(authId)
-
-# lerngruppe besteht aus Admin, zweites Mitglied, modul, Beschreibung....
-
-    def create_lerngruppe(self, lerngruppe):
+    """
+        Lerngruppen-spezifische Methoden
+    """
+    @staticmethod
+    def create_lerngruppe(lerngruppe):
         """
         :param lerngruppe: Objekt der Klasse Lerngruppe mit allen Attributen
-        :return: Alle Objekte des Nutzers
+        :return: Statuscode
         """
         with LerngruppeMapper() as mapper:
             return mapper.insert_lerngruppe(lerngruppe)
-    
-    # Alle Lerngruppen anzeigen lassen
-    
+
+    @staticmethod
+    def find_many_lerngruppen_by_id(lerngruppenID):
+        """
+        Findet mehrere Lerngruppen über die ID.
+        :param lerngruppenID: Ist die UserID
+        :return: Befüllte Lerngruppen mit allen relevanten Daten
+        """
+        lerngruppenBO = []
+        with LerngruppeMapper() as mapper:
+            for lerngruppe_id in lerngruppenID:
+                lerngruppenBO.append(mapper.find_by_id(int(lerngruppe_id)))
+        return lerngruppenBO
+
     def get_all_lerngruppen(self):
         """
-        :return: 
+        Alle Lerngruppen anzeigen lassen
+        :return:
         """
         with LerngruppeMapper() as mapper:
             return mapper.find_all()
-        
-    # Eine bestimmte Lerngruppe durch den Parameter namen anzeigen lassen
 
     def get_Lerngruppe_by_name(self, name):
+        """
+        Eine bestimmte Lerngruppe durch den Parameter namen anzeigen lassen
+        :param name:
+        :return:
+        """
         with LerngruppeMapper() as mapper:
             return mapper.find_by_name(name)
 
@@ -156,7 +181,7 @@ class Administration(object):
 
     def delete_lerngruppe_by_id(self, id):
         """
-        :param name: Ist die ID der Lerngruppe
+        :param id: Ist die ID der Lerngruppe
         :return:
         """
         with LerngruppeMapper() as mapper:
@@ -200,7 +225,9 @@ class Administration(object):
         with LerngruppeMapper() as mapper:
             return mapper.check_name(lerngruppe)
 
-    def create_new_mitglied(self, lerngruppe):
+    # TODO Wann erstellen wir einen neues Mitglied?
+    @staticmethod
+    def create_new_mitglied(lerngruppe):
         """
         :param lerngruppe:
         :return:
@@ -219,6 +246,25 @@ class Administration(object):
     def get_lerntyp(self):
         with LerntypMapper() as mapper:
             return mapper.find_all()
+
+    """
+        Matching Methode
+    """
+    @staticmethod
+    def user_match_me(authId):
+        with UserMapper() as mapper:
+            mainUser, finderUser = mapper.matching_method(authId)
+
+        match = MatchingBO()
+        return match.user_matching(mainUser, finderUser)
+
+    @staticmethod
+    def lerngruppe_match_me(authId):
+        with LerngruppeMapper() as mapper:
+            mainUser, finderGruppen = mapper.matching_method(authId)
+
+        match = MatchingBO()
+        return match.lerngruppen_matching(mainUser, finderGruppen)
 
     def get_chat_by_room(self, room):
         with ChatMapper() as mapper:

@@ -1,21 +1,19 @@
 import React, {useEffect} from 'react';
 import Grid from '@material-ui/core/Grid';
 import MultiLine from "../../../components/Textfeld/MultiLine";
-import DropDown from "../../../components/Textfeld/Dropdown";
 import theme from '../../../theme'
 import SubSectionModule from "./SubSectionModule";
 import {Card, List, ListItem, ListItemIcon, ListItemText, Typography} from "@material-ui/core";
 import TeamUpApi from "../../../api/TeamUpApi";
 import ClassIcon from '@material-ui/icons/Class';
 import SubSectionUserinfo from "./SubSectionUserinfo";
-import Semester from "../../../components/Konstante(DropDown)/Semester";
 
 // Dient als Molekül für die Seite ProfilBO und Gruppe.
 export default function SectionSteckbrief(props) {
     const [studien, setStudien] = React.useState([])
 
-    useEffect(async () => {
-        await TeamUpApi.getAPI().getStudiengang()
+    useEffect(() => {
+        TeamUpApi.getAPI().getStudiengang()
             .then((studiengang) => {
                 const middle = []
                 studiengang.forEach(i => {
@@ -26,15 +24,7 @@ export default function SectionSteckbrief(props) {
                 })
                 setStudien(middle)
             })
-    }, [])
-
-
-    // Speichert die neuen Werte für  die Variable: Modul
-    const handleModulChange = (e) => {
-        let newObject = props.apiObject;
-        newObject.setModul(e.target.value)
-        props.handleChange(newObject)
-    }
+    })
 
     // Speichert die neuen Werte für  die Variable: Semester
     const handleSemesterChange = (e) => {
@@ -59,6 +49,7 @@ export default function SectionSteckbrief(props) {
     props.handleChange(newObject)
     }
 
+    // Speichert die neuen Werte für  die Variable: Modul
     const handleModul = (e) => {
         let newObject = props.apiObject;
         newObject.setModul(e)

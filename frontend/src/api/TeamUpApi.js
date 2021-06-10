@@ -29,6 +29,18 @@ export default class TeamUpApi {
     // Lerntyp URL
     #lerntypURL = () => `${this.#serverBaseURL}/lerntyp`;
 
+    // Endpunkt um den User einzuloggen oder in die Registrierung zu schicken
+    // sowie den Matching Algorithmus zu initiieren
+    #initURL = (authId) => `${this.#serverBaseURL}/init/${authId}`;
+
+    #usersMatchURL = (authId) => `${this.#serverBaseURL}/usermatch/${authId}`;
+
+    #groupMatchURL = (authId) => `${this.#serverBaseURL}/lerngruppenmatch/${authId}`;
+
+    #getMatchUsersURL = (userArray) => `${this.#serverBaseURL}/usersById${userArray}`;
+
+    #getMatchGroupsURL = (groupArray) => `${this.#serverBaseURL}/lerngruppenById${groupArray}`;
+
     // Wird bei jedem API Aufruf als erstes aufgerufen. Es erzeugt ein Objekt der Klasse TeamUpApi um somit die
     // einzelnen Objektmethoden aufrufen zu können.
     static getAPI() {
@@ -99,6 +111,28 @@ export default class TeamUpApi {
         return this.#getAll(this.#modulURL(studiengang), ModulBO)
     }
 
+    getInit(user){
+        return this.#getStatus(this.#initURL(user))
+    }
+
+    getMatchUserList(authId){
+        return this.#getStatus(this.#usersMatchURL(authId))
+    }
+
+    getMatchGroupList(authId){
+        return this.#getStatus(this.#groupMatchURL(authId))
+    }
+
+    getUsersByMatch(userArray){
+        let array = userArray.join();
+        return this.#matching(this.#getMatchUsersURL("?user_ids=" + array), UserBO)
+    }
+
+    getGroupByMatch(groupArray){
+        let array = groupArray.join();
+        return this.#matching(this.#getMatchGroupsURL("?group_ids=" + array), UserBO)
+    }
+
     //TODO Delete Gruppe einfügen
 
     // Generische Methode um einen einzelnen Wert vom Backend ans Frontend zu übergeben.
@@ -108,6 +142,12 @@ export default class TeamUpApi {
             return new Promise(function(resolve){
                 resolve(responseBO);
             })
+        })
+    }
+
+    #getStatus = (url) => {
+        return this.#fetchAdvanced(url).then( statusCode => {
+            return statusCode
         })
     }
 
@@ -157,6 +197,17 @@ export default class TeamUpApi {
             redirect: 'follow'
         }).then((responseStatusCode) => {
             return(responseStatusCode)
+        })
+    }
+
+    #matching = (url, BO) => {
+        return this.#fetchAdvanced(url, {
+            method: 'GET',
+        }).then((responseJSON) => {
+            let responseBOs = BO.fromJSON(responseJSON);
+            return new Promise(function (resolve) {
+                resolve(responseBOs);
+            })
         })
     }
 }

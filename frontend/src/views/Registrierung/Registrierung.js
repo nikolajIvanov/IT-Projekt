@@ -6,6 +6,8 @@ import Name from "./Sections/name";
 import Lerntyp from "./Sections/lerntyp";
 import Bild from "./Sections/bild";
 import Module from "./Sections/module";
+import Frequenz from "./Sections/frequenz";
+import Lernort from "./Sections/lernort";
 import Bio from "./Sections/bio";
 import ButtonPrimary from "../../components/Button/ButtonPrimary";
 import firebase from "firebase";
@@ -16,12 +18,12 @@ import Studiengang from "./Sections/studiengang";
 
 //Labels die über den DropDown Buttons der Komponenten stehen
 const droplabels = [
-    "Gender" , "Lerntyp", "Bild", "Module", 'Semester', "Studiengang",
+    "Gender" , "Lerntyp", "Bild", "Module", 'Semester', "Studiengang", "Frequenz", "Lernort"
 ]
 
 //Werte die als Stepper Bezeichnungen genutzt werden - Reihenfolge ist wichtig!
 function getSteps() {
-    return ['Name', 'Geburtstag', 'Gender', 'Studiengang', 'Semester', 'Module', 'Lerntyp', 'Bild', 'Bio'];
+    return ['Name', 'Geburtstag', 'Gender', 'Studiengang', 'Semester', 'Module', 'Lerntyp', 'Frequenz', 'Lernort' ,'Bild', 'Bio'];
 }
 
 //Übergeordnete Komponente für den Registrierungsprozess
@@ -36,6 +38,8 @@ function Registrierung(props) {
     const [gender, setGender] = React.useState('');
     const [bild, setBild] = React.useState('');
     const [lerntypArt, setLerntypArt] = React.useState('');
+    const [frequenz, setFrequenz] = React.useState('');
+    const [lernort, setLernort] = React.useState('');
     const [modul, setModul] = React.useState([]);
     const [semester, setSemester] = React.useState('');
     const [studiengang, setStudiengang] = React.useState('')
@@ -55,6 +59,8 @@ function Registrierung(props) {
         <Semester setSemester={setSemester} semester={semester} drop={droplabels[4]} mode={styles.card}/>,
         <Module setModul={setModul} modul={modul} studiengang={studiengang} mode={styles.card} drop={droplabels[3]}/>,
         <Lerntyp setLerntypArt={setLerntypArt} lerntypArt={lerntypArt} mode={styles.card} drop={droplabels[1]}/>,
+        <Frequenz setFrequenz={setFrequenz} frequenz={frequenz} mode={styles.card} drop={droplabels[6]}/>,
+        <Lernort setLernort={setLernort} lernort={lernort} mode={styles.card} drop={droplabels[7]}/>,
         <Bild setBild={setBild} bild={bild} mode={styles.card}/>,
         <Bio setBio={setBio} mode={styles.card}/>
     ]
@@ -72,11 +78,11 @@ function Registrierung(props) {
         profilBild: bild,
         semester: semester,
         studiengang: studiengang,
+        frequenz: frequenz,
+        lernort: lernort,
         authId: firebase.auth().currentUser.uid,
         email: firebase.auth().currentUser.email,
     }
-
-
 
     //Öffnet das Modal
     const handleOpen = () => {
@@ -89,7 +95,7 @@ function Registrierung(props) {
     };
 
     //Wird benutzt um zu überprüfen ob die aktuelle Komponente leer ist
-    const checkData = [name, date, gender, studiengang, semester, modul, lerntypArt, bild, bio]
+    const checkData = [name, date, gender, studiengang, semester, modul, lerntypArt, frequenz, lernort, bild, bio]
 
     //modal ist ein Object, dass gerendert wird falls die Modalvariable "open" true ist.
     const modal = (
@@ -112,7 +118,7 @@ function Registrierung(props) {
         }
         else{
             //TODO auf length setzen
-            if(count === 8) {
+            if(count === (checkData.length -1)) {
                 user.setAll(infos)
                 TeamUpApi.getAPI().setUser(user.getAll())
                 console.log(user.getAll())

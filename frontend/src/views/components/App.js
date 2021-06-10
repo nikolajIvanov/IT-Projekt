@@ -1,13 +1,12 @@
 import React from 'react';
-import '../../assets/App.css';
+import '../../assets/theme.css';
 import Home from "../Home/Home";
-import '../../assets/App.css';
+import '../../assets/theme.css';
 import firebase from "../../api/Firebase";
 import Login2 from '../LogIn/Login 2';
 import SignUp from '../SignUp/SignUP'
 import Registrierung from "../Registrierung/Registrierung";
 import TeamUpApi from "../../api/TeamUpApi";
-import UserBO from "../../bo/UserBO";
 
 class App extends React.Component {
     constructor() {
@@ -15,205 +14,176 @@ class App extends React.Component {
         this.state = {
             email : '',
             password :'',
-            //Object Instantiierungen für User und API
-            sendUser: new UserBO(),
             user: '',
             emailError: '',
             passwordError :'',
             hasAccount: true,
-            text: 'Hi',
-            //TODO die Prüfung von exist soll über ein API call erfolgen der Prüft ob ein Name
-            // vorhanden ist (Rückschluss= alles muss da sein)
             exist: true,
             }
-        this.setHasAccount = this.setHasAccount.bind(this);
-        this.handleLogOut = this.handleLogOut.bind(this);
-        this.setEmail = this.setEmail.bind(this);
-        this.setPassword = this.setPassword.bind(this);
-        this.clearErrors = this.clearErrors.bind(this);
-        this.handleSignUp = this.handleSignUp.bind(this);
-        this.handleLogIn = this.handleLogIn.bind(this);
-        this.switch = this.switch.bind(this)
     }
-
 
     componentDidMount() {
-        this.authListener()
+        firebase.auth()
+            .onAuthStateChanged(user => {
+            if (user) {
+                console.log(user)
+                this.setState({
+                        user: user
+                    }
+                )
+
+            } else {
+                this.setState({
+                    user: ''
+                })
+            }
+        });
     }
 
-    setExist = () => {
+    setPassword = (password) =>{
         this.setState({
-            exist: true
+            password:password
         })
     }
 
-    setEmailError(value){
+    setEmail = (email) =>{
         this.setState({
-            emailError: value
+            email:email
         })
     }
 
-    setPasswordError(value){
-        this.setState({
-            passwordError: value
-        })
-    }
-
-    setEmail(value){
-        this.setState({
-            email: value
-        })
-    }
-
-    setPassword(value){
-        this.setState({
-            password: value
-        })
-    }
-
-    setHasAccount(value){
-        this.setState({
-            hasAccount: value
-        })
-    }
-
-     checkIfExist = async () => {
-        const check =  await TeamUpApi.getAPI().getUser(firebase.auth().currentUser.uid)
-        if(check.name === "" || check.onError()){
+    switch = () =>{
+        const {hasAccount} = this.state
+        if(hasAccount){
             this.setState({
-                exist: false
+                hasAccount:false
             })
         }
         else{
-            this.setExist()
+            this.setState({
+                hasAccount:true
+            })
         }
     }
 
-    setUp = async () => {
-        const check =  await TeamUpApi.getAPI().setUser(firebase.auth().currentUser.uid)
+    setPasswordError = () =>{
+
     }
 
-    //TODO Errormeldungen noch personalisieren
+    setEmailError = () =>{
 
-    handleLogIn(){
-        this.clearErrors();
+    }
+
+    clearInput = () =>{
+        this.setState({
+            email : '',
+            passwort: ''
+        })
+    }
+
+    setExist = () =>{
+        this.setState({
+            exist:true
+        })
+    }
+
+    setInit = async () => {
+        const user = firebase.auth().currentUser.uid
+        const code = await TeamUpApi.getAPI().getInit(user)
+        console.log(code)
+        if(code === 200){
+            this.setState({
+                user:true,
+                exist: true
+            })
+        }
+        else{
+            this.setState({
+                user:true,
+                exist: false
+            })
+        }
+    }
+
+    handleLogIn = () => {
         firebase
             .auth()
-            .signInWithEmailAndPassword(this.state.email, this.state.password)
-            .catch(err => {
-                switch(err.code){
-                    case "auth/invalid-email":
-                    case "auth/user-disabled":
-                    case "auth/user-not-found":
-                        this.setEmailError(err.message);
-                        break;
-                    case "auth/wrong-password":
-                        this.setPasswordError(err.message);
-                }
-            });
-        //this.checkIfExist();
+            .signInWithEmailAndPassword(
+                this.state.email,
+                this.state.password
+            )
+            .catch(
+                //Email und Passwort falsch oder existiert nicht Error Meldung
+            )
+            .then(() =>
+            this.clearInput()
+            )
+            .then(() =>
+            this.setInit()
+            )
     }
 
-    handleSignUp(){
-        this.clearErrors();
+    handleSignUp = () =>{
         firebase
             .auth()
-            .createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .catch(err => {
-                switch(err.code){
-                    case "auth/email-already-in-use":
-                    case "auth/invalid-email":
-                        this.setEmailError(err.message);
-                        break;
-                    case "auth/weak-password":
-                        this.setPasswordError(err.message);
-                }
-            });
-        //this.setUp();
+            .createUserWithEmailAndPassword(
+                this.state.email,
+                this.state.password
+            )
+            .catch(
+                //Email und Passwort existiert schon Error Meldung
+            )
+            .then(() =>
+            this.clearInput()
+             )
+            .then(() =>
+                this.setInit()
+            )
     }
 
-    handleLogOut(){
-        firebase
-            .auth().signOut();
-    }
 
-    authListener(){
-        firebase.auth().onAuthStateChanged(user => {
-                if (user) {
-                    this.clearInput();
-                    this.setState({
-                        user: user
-                    })
-                } else {
-                    this.setState({
-                        user: ''
-                    })
-                }
-            }
-        )
-    }
-
-    clearInput(){
-        this.setState({
-            email:'',
-            password: '',
-
-        })
-    }
-
-    clearErrors(){
-        this.setState({
-            emailError:'',
-            passwordError:''
-        })
-    }
-    switch(){
-        this.setState({
-            hasAccount:!this.state.hasAccount
-        })
-    }
-  render() {
+    render() {
     return(
         <div>
             {this.state.user ? (
                 <>
-                {this.state.exist ? (
-                        <Home/>
-                ):(
-                    <>
-                        <Registrierung exist={this.setExist}/>
-                    </>
-                )}
+                    {this.state.exist ? (
+                            <Home/>
+                                ):(
+                            <>
+                            <Registrierung exist={this.setExist}/>
+                            </>
+                    )}
                 </>
-            ) : (
-                <div>
-                    {this.state.hasAccount ? (
-                        <>
-                            <Login2
-                                email={this.state.email}
-                                password={this.state.password}
-                                handleLogIn={this.handleLogIn}
-                                setEmail={this.setEmail}
-                                setPassword={this.setPassword}
-                                switch = {this.switch}
-                                passwordError ={this.setPasswordError}
-                                emailError = {this.setEmailError}
-                />
-                                </>
-                    ) : (
-                        <>
-                            <SignUp
-                                setEmail={this.setEmail}
-                                setPassword={this.setPassword}
-                                handleSignUp={this.handleSignUp}
-                                switch = {this.switch}
-                                passwordError={this.setPasswordError}
-                                emailError={this.setEmailError}
+                ) : (
+                    <div>
+                        {this.state.hasAccount ? (
+                            <>
+                                <Login2
+                                    email={this.state.email}
+                                    password={this.state.password}
+                                    handleLogIn={this.handleLogIn}
+                                    setEmail={this.setEmail}
+                                    setPassword={this.setPassword}
+                                    switch = {this.switch}
+                                    passwordError ={this.setPasswordError}
+                                    emailError = {this.setEmailError}
                                 />
-                                </>
-                            )}
+                            </>
+                            ) : (
+                            <>
+                                <SignUp
+                                    setEmail={this.setEmail}
+                                    setPassword={this.setPassword}
+                                    handleSignUp={this.handleSignUp}
+                                    switch = {this.switch}
+                                    passwordError={this.setPasswordError}
+                                    emailError={this.setEmailError}
+                                    />
+                            </>
+                        )}
 
-                </div>
+                    </div>
             )}
         </div>
     );

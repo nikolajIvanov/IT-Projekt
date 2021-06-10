@@ -83,11 +83,12 @@ export default class UserBO extends ProfilBO {
             lerntyp: this.lerntyp,
             modul: this.modul,
             profilBild: this.profilBild,
-            //istinGruppe: this.istinGruppe,
             authId: this.authId,
             email: this.email,
             semester: this.semester,
-            studiengang: this.studiengang
+            studiengang: this.studiengang,
+            frequenz: this.frequenz,
+            lernort: this.lernort
         }
     }
     setAll(user){

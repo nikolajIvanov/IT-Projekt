@@ -74,14 +74,26 @@ const theme = {
         icon:{
             color: "#ffffff"
         },
+        matchCard:{
+            body:{
+                padding: 10,
+                borderRadius: 10,
+                backgroundImage: "linear-gradient(-45deg, #2D89FF97, #000000)",
+            }
+
+        },
 
     //Colors
         primary:{
             main: '#2D89FF97'
         },
         secondary:{
-            main: '#8d8d8d'
+            main: '#ff9900'
         },
+        complement:{
+            main: '#ff1500'
+        },
+
 
     //Fonts
         font:{
@@ -104,6 +116,7 @@ const theme = {
                 fontSize: 'x-large'
             },
             bold:{
+                FontFamily: "Courier New",
                 fontSize: 'x-large',
                 fontWeight: 'bold',
             },

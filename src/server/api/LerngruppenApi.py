@@ -10,12 +10,12 @@ class LerngruppenApi(Resource):
         adm = Administration()
         return adm.get_all_lerngruppen()
 
-    @api.marshal_with(lerngruppe)
+    @api.expect(lerngruppe)
     def post(self):
-        adm = Administration()
-        proposal = Lerngruppe.from_dict(api.payload)
+        proposal = Lerngruppe.create_lerngruppeBO(id=api.payload["id"], lerntyp=api.payload["lerntyp"],
+                                                  name=api.payload["name"], beschreibung=api.payload["beschreibung"],
+                                                  profilBild=api.payload["profilBild"], admin=api.payload["admin"],
+                                                  frequenz=api.payload["frequenz"], lernort=api.payload["lernort"],
+                                                  mitglieder=api.payload["mitglieder"])
 
-        if proposal is not None:
-            return adm.create_lerngruppe(proposal)
-        else:
-            return '', 500
+        return Administration.create_lerngruppe(proposal)

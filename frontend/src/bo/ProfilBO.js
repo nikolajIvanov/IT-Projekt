@@ -8,6 +8,8 @@ export default class ProfilBO extends BusinessObject {
         this.lerntyp = "";
         this.modul = [];
         this.beschreibung = "";
+        this.frequenz = "";
+        this.lernort = "";
     }
 
     getProfilBild(){
@@ -48,5 +50,21 @@ export default class ProfilBO extends BusinessObject {
 
     setBeschreibung(newBeschreibung) {
         this.beschreibung = newBeschreibung;
+    }
+
+    getFrequenz() {
+        return this.modul;
+    }
+
+    setFrequenz(newFrequenz) {
+        this.modul = newFrequenz;
+    }
+
+    getLernort() {
+        return this.beschreibung ;
+    }
+
+    setLernort(newOrt) {
+        this.beschreibung = newOrt;
     }
 }

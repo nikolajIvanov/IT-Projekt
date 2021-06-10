@@ -9,6 +9,8 @@ class ProfilBO(BusinessObject):
         self.__modul = []
         self.__profilBild = ""
         self.__beschreibung = ""
+        self.__frequenz = ""
+        self.__lernort = ""
 
     def get_name(self):
         """ Gibt den Profilnamen des Profiles zurück.
@@ -63,3 +65,15 @@ class ProfilBO(BusinessObject):
 
     def set_beschreibung(self, beschreibung):
         self.__beschreibung = beschreibung
+
+    def get_frequenz(self):
+        return self.__frequenz
+
+    def set_frequenz(self, newfrequenz):
+        self.__frequenz = newfrequenz
+
+    def get_lernort(self):
+        return self.__lernort
+
+    def set_lernort(self, newort):
+        self.__lernort = newort
