@@ -12,5 +12,4 @@ class UsersByIdApi(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('user_ids', action='split')
         userIDs = parser.parse_args()["user_ids"]
-        # TODO: Payload muss angepasst werden
         return Administration.find_many_users_by_id(userIDs)
