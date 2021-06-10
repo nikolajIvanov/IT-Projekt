@@ -1,71 +1,38 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/styles';
+import React, {useEffect} from 'react';
 import "../../assets/App.css"
-import SectionAvatar from "./Sections/SectionAvatar";
-import SectionSteckbrief from "./Sections/SectionSteckbrief";
-import SectionLerntyp from "./Sections/SectionLerntyp";
-import SectionLerngruppe from "./Sections/SectionLerngruppe";
-import TeamUpApi from "../../api/TeamUpApi";
-import ButtonPrimary from "../../components/Button/ButtonPrimary";
-import LerngruppeBO from "../../bo/LerngruppeBO";
+import {Card, CardActions, CardContent} from "@material-ui/core";
+import theme from '../../theme'
+import ButtonChat from "../../components/Button/ButtonChat";
+import {useHistory} from "react-router-dom";
+import SectionGroupView from "./Sections/SectionGroupView";
 
+function Gruppe(props) {
+    const redirect = useHistory()
+    const[data, setData] = React.useState(null)
 
-const styles = theme => ({
-    root: {
-        maxWidth: '100%',
-        margin: "auto",
-        overflow: "none"
-    },
-    test: {
-        width: '20%'
-    },
-    grid: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
-    }
-});
+    useEffect(() => {
+        setData(props.profil)
+    },[props.profil])
 
-class Gruppen extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            apiGruppe: null
-        }
+    function back(){
+        redirect.push("/chat")
     }
 
-    handleClick  = async () => {
-        const lerngruppe = new LerngruppeBO()
-        lerngruppe.setAll(this.state.apiGruppe)
-        console.log(lerngruppe)
-        await TeamUpApi.getAPI().updateGruppe(lerngruppe.getName(), lerngruppe.getAll())
-    }
-
-    render(){
-        return (
-            <div>
-                <SectionAvatar userName={"GruppenameFILLEr"} text={"Name"}/>
-                <Grid container direction="column" justify="center" spacing={1} alignItems="center">
-                    <Grid item xs={3}>
-                        <SectionSteckbrief text={"Steckbrief"} />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <SectionLerntyp lerntyp={"Auditiv"} text={"Lerntyp"}/>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <SectionLerngruppe text={"Lerngruppen"}/>
-                    </Grid>
-                </Grid>
-                <ButtonPrimary inhalt={"Update"}/>
-            </div>
-        );
-    }
+    return (
+        <div style={theme.root}>
+            {/* Überprüft ob die Daten vom User geladen sind und fügt sie dann in die Komponenten ein. */}
+            {data ?
+                <Card style={theme.profileBorder}>
+                    <CardContent>
+                        {/* SectionGroupView enthält alle User Ansichtsdaten */}
+                        <SectionGroupView apiObject={data}/>
+                    </CardContent>
+                    <CardActions style={theme.root}>
+                        <ButtonChat inhalt={"Chatten"} onClick={back}/>
+                    </CardActions>
+                </Card> : null }
+        </div>
+    );
 }
 
-Gruppen.propTypes = {
-    classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(Gruppen);
+export default Gruppe;

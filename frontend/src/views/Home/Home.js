@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Navigation from "../Navigation";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Profil from "../Profil & Gruppe/Profil";
-import Gruppen from "../Profil & Gruppe/Gruppe";
+import Gruppe from "../Profil & Gruppe/Gruppe";
 import MyProfil from "../Profil & Gruppe/ProfilBearbeiten";
 import Chat2 from "../Chat/ChatTest2";
 import GruppenSuche from "../Matching/GruppenSuche";
@@ -33,18 +33,18 @@ class Home extends Component {
         await TeamUpApi.getAPI().getAllGruppe().then(lerngruppen => {
             this.setState({
                 groupList: lerngruppen,
-                dataLoad: true
             });
         })
     }
 
     getUsers = async () => {
-        await TeamUpApi.getAPI().getUsersByMatch(this.state.users).then(users => {
-            console.log(users)
+        await TeamUpApi.getAPI().getAllUsers().then(matches => {
+            console.log(matches)
             this.setState({
-                userList: users
+                userList: matches
             });
         })
+        await this.callGroups()
     }
 
     // TODO es sollen 10 User/Gruppen geladen werden für Match, nach 5 Swipes weitere
@@ -95,11 +95,16 @@ class Home extends Component {
                         </Route>
                         <Route path="/profil">
                             {suchobjekt ?
-                            <Profil profil={suchobjekt}/>
+                                <Profil profil={suchobjekt}/>
                                 : <h1 className="App">User konnte nicht geladen werden</h1>
                             }
                         </Route>
-                        <Route path="/gruppen"><Gruppen/></Route>
+                        <Route path="/gruppe">
+                            {suchobjekt ?
+                                <Gruppe profil={suchobjekt}/>
+                                : <h1 className="App">Gruppe konnte nicht geladen werden</h1>
+                            }
+                        </Route>
                         <Route path="/me" component={MyProfil}/>
                         <Route path="/chat"  component={Chat2}/>
                         <Route path="/gruppensuche" component={GruppenSuche}/>
