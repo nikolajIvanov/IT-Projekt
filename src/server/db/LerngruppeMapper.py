@@ -1,7 +1,7 @@
 from server.bo.Lerngruppe import Lerngruppe
 from server.db.Mapper import Mapper
 import mysql.connector.errors
-
+from werkzeug.exceptions import InternalServerError
 from server.db.UserMapper import UserMapper
 
 
@@ -90,7 +90,10 @@ class LerngruppeMapper(Mapper):
             # Daten von lerngruppe
             cursor.execute("""SELECT id, lerntyp, name, beschreibung, bild, admin from TeamUP.lerngruppe""")
             tuples = cursor.fetchall()
-
+            #Überprüft ob werte in tuples gescheirt sind wenn nicht wird ein Fehler geworfen
+            if  not tuples:
+                cursor.close()
+                raise InternalServerError('Keine Lerngruppen vorhanden')
             for (id, lerntyp, name, beschreibung, profilbild, admin) in tuples:
                 lerngruppe = Lerngruppe()
                 lerngruppe.set_id(id)
@@ -130,13 +133,10 @@ class LerngruppeMapper(Mapper):
                 result.append(lerngruppe)
             self._cnx.commit()
             cursor.close()
-            if not result:
-                return None
-            else:
-                return (200, result)
-
+            return result
         except mysql.connector.Error as err:
-            return (400, err.msg)
+            cursor.close()
+            raise InternalServerError(err.msg)
 
     def find_by_name(self, lerngruppe):
         result = []
@@ -193,9 +193,7 @@ class LerngruppeMapper(Mapper):
             # Speichern der SQL Antwort
             tupel = cursor.fetchall()
 
-            #Abbrechen der Suche da die Gruppe nicht vorhanden ist
-            if not tupel:
-                return (400, 'Keine Gruppe gefunden')
+
             # Auflösen der ersten SQL Antwort (Lerngruppe) und setzen der Parameter
             (lerntyp, name, beschreibung, bild, admin, frequenz, lernort) = tupel[0]
             lerngruppe = Lerngruppe()
@@ -233,10 +231,17 @@ class LerngruppeMapper(Mapper):
             for i in tupel2:
                 for x in i:
                     lerngruppe.set_mitglieder_append(x)
-
-            return 200, lerngruppe
+            cursor.close()
+            return lerngruppe
+        except IndexError:
+            cursor.close()
+            raise InternalServerError('Die gesuchte Gruppe exestiert nicht')
         except mysql.connector.Error as err:
-            return 400, err.msg
+            cursor.close()
+            raise InternalServerError(err.msg)
+
+
+
 
     def find_by_id_test(self, gruppenId):
         try:
@@ -336,9 +341,11 @@ class LerngruppeMapper(Mapper):
                 data2 = (gruppenId, self.get_modulId_by_modul(i))
                 cursor.execute(query2, data2)
             self._cnx.commit()
+            cursor.close()
             return 200
         except mysql.connector.Error as err:
-            return 400, err.msg
+            cursor.close()
+            raise InternalServerError(err.msg)
 
     def insert_user(self, lerngruppe):
         """
@@ -365,9 +372,9 @@ class LerngruppeMapper(Mapper):
 
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
-        neueMitglieder = lerngruppe.get_mitglieder()
+        alteMitglieder = lerngruppe.get_mitglieder()
 
-        for i in neueMitglieder:
+        for i in alteMitglieder:
             #LerngruppenID bekommen über name
             query = """DELETE FROM teamup.userInLerngruppe WHERE teamup.userInLerngruppe.userId = %s
                         AND teamup.userinlerngruppe.lerngruppeId = %s"""
@@ -399,9 +406,9 @@ class LerngruppeMapper(Mapper):
         self._cnx.commit()
         cursor.close()
         # Erstellen des SQL-Befehls um alle bestehenden einträge der Gruppe in gruppeInModule zu löschen
-        query1 = """DELETE FROM TeamUP.userinmodul WHERE userId=%s"""
+        query1 = """DELETE FROM TeamUP.lerngruppeinmodul WHERE teamup.lerngruppeinmodul.lerngruppeId=%s"""
         # Ausführen des SQL-Befehls
-        cursor.execute(query1, (lerngruppe.get_id(),))
+        cursor.execute(query1, lerngruppe.get_id())
         # Schließen der Datenbankverbindung
         self._cnx.commit()
         cursor.close()
@@ -490,29 +497,35 @@ class LerngruppeMapper(Mapper):
         :return:
         """
         try:
-
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor(prepared=True)
 
             # Lerngruppen über die ID löschen
             query = """DELETE FROM teamup.lerngruppe WHERE id=%s """
 
-            # Lerngruppennamen
-            data = gruppen_id
+            # Lerngruppe in lerngruppeInModul TABLE löschen
+            query1 = """DELETE FROM teamup.lerngruppeInModul WHERE lerngruppeId=%s """
 
             # Lerngruppe in lerngruppeInModul TABLE löschen
-            query2 = """DELETE FROM teamup.lerngruppeInModul WHERE lerngruppeId=%s """
+            query2 = """DELETE FROM teamup.userinlerngruppe WHERE lerngruppeId=%s """
 
-            # Lerngruppen ID
-            data2 = gruppen_id
+            # Lerngruppen Id
+            data = gruppen_id
 
-            # Löschen des lerngruppeneintrags
-            cursor.execute(query, data)
+            # Löschen des userinGruppe Eintrag
+            cursor.execute(query2, (data,))
 
-            # Löschen des lerngruppeInModul-Eintrags
-            cursor.execute(query2, data2)
+             # Löschen des lerngruppeInModul-Eintrags
+            cursor.execute(query1, (data,))
 
+             # Löschen der lergruppe
+            cursor.execute(query, (data,))
+
+            self._cnx.commit()
+            cursor.close()
             return 200
 
-        except:
-            return 400
+        except mysql.connector.Error as err:
+            cursor.close()
+            raise InternalServerError(err.msg)
+

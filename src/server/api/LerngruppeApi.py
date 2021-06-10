@@ -3,22 +3,20 @@ from flask_restx import Resource
 from server.Administration import Administration
 from server.bo.Lerngruppe import Lerngruppe
 from flask import abort
+from werkzeug.exceptions import BadRequest
 
 
 class LerngruppeApi(Resource):
     @api.marshal_with(lerngruppe)
     def get(self, id):
         adm = Administration()
-        retrunValue = adm.get_Lerngruppe_by_id(id)
-        if retrunValue[0] is 200:
-            return retrunValue[1]
-        else:
-            abort(retrunValue[0], retrunValue[1])
+        return adm.get_Lerngruppe_by_id(id)
 
-    @api.marshal_with(lerngruppe)
-    def delete(self, name):
+
+
+    def delete(self, id):
         adm = Administration()
-        return adm.delete_lerngruppe_by_name(name)
+        return adm.delete_lerngruppe_by_id(id)
 
     @api.expect(lerngruppe, validate=True)
     def put(self, id):
