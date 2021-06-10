@@ -13,6 +13,7 @@ from server.api.model import api, app
 from server.api.StudiengangApi import StudiengangApi
 from server.api.ModulApi import ModulApi
 from server.api.LerntypApi import LerntypApi
+from server.db.ChatMapper import ChatMapper
 
 
 CORS(app, resources=r'/*')
@@ -23,6 +24,7 @@ socketIo = SocketIO(app, cors_allowed_origins="*")
 def handleMessage(msg):
     print(msg)
     send(msg, broadcast=True)
+    ChatMapper.add_message(msg)
     return None
 
 

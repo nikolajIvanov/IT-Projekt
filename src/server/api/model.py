@@ -49,3 +49,9 @@ lerntyp = api.inherit('LerntypBO', bo, {
     'bild': fields.String(attribute=lambda x: x.get_bild(), description='Bild eines Benutzers'),
     'lerntyp': fields.String(attribute=lambda x: x.get_lerntyp(), description='Administrator einer Lerngruppe'),
 })
+
+chat = api.inherit('NachrichtBO', bo, {
+    'userId': fields.String(attribute=lambda x: x.get_senderId(), description='User Id des Absenders'),
+    'roomId': fields.String(attribute=lambda x: x.get_roomId(), description='Room Id der Nachricht'),
+    'message': fields.String(attribute=lambda x: x.get_nachricht(), description='Inhalt der Nachricht'),
+})

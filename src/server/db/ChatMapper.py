@@ -45,36 +45,31 @@ class ChatMapper(Mapper):
         # Rückgabe der Nachrichten
         return messages
 
-    def add_user_to_room(self, room):
+    def add_user_to_room(self, room, user):
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
 
-        gruppenMitglieder = room.get_mitglieder()
 
-        for i in gruppenMitglieder:
-            query1 = """INSERT INTO teamup.userInRoom(userId, roomId) VALUES (%s, %s)"""
-            data1 = (i, room.get_id())
-            cursor.execute(query1, (data1))
+        query1 = """INSERT INTO teamup.userInRoom(userId, roomId) VALUES (%s, %s)"""
+        data1 = (user, room)
+        cursor.execute(query1, (data1))
 
         self._cnx.commit()
         cursor.close()
 
-    def delete_user_from_room(self, room):
+    def delete_user_from_room(self, room, user):
         """
-        :param lerngruppe:
+        :param:
         :return:
         """
 
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
 
-        gruppenMitglieder = room.get_mitglieder()
-
-        for i in gruppenMitglieder:
-            query1 = """DELETE FROM teamup.userInRoom WHERE teamup.userInRoom.userId = %s
-                        AND teamup.userInRoom.roomId = %s"""
-            data1 = (i, room.get_id())
-            cursor.execute(query1, (data1))
+        query1 = """DELETE FROM teamup.userInRoom WHERE teamup.userInRoom.userId = %s
+                    AND teamup.userInRoom.roomId = %s"""
+        data1 = (user, room)
+        cursor.execute(query1, (data1))
 
         self._cnx.commit()
         cursor.close()

@@ -9,6 +9,7 @@ from .db.LerngruppeMapper import LerngruppeMapper
 from .db.StudiengangMapper import StudiengangMapper
 from .db.ModulMapper import ModulMapper
 from .db.LerntypMapper import LerntypMapper
+from .db.ChatMapper import ChatMapper
 
 
 # TODO Überlegen ob man was anderes braucht als get user bei Id
@@ -218,3 +219,7 @@ class Administration(object):
     def get_lerntyp(self):
         with LerntypMapper() as mapper:
             return mapper.find_all()
+
+    def get_chat_by_room(self, room):
+        with ChatMapper() as mapper:
+            return mapper.get_messages_by_room(room)
