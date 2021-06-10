@@ -5,10 +5,10 @@ from server.Administration import Administration
 
 class UsersByIdApi(Resource):
     @api.marshal_list_with(user_without_authid)
-    def get(self):
+    def get(self, user_ids):
         """Auslesen aller Nutzer-Objekte
         :return: nutzer
         """
-        usersID = api.payload[0]["id"]
+        usersID = user_ids
         # TODO: Payload muss angepasst werden
         return Administration.find_many_users_by_id(usersID)

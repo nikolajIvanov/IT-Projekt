@@ -35,7 +35,7 @@ def handleMessage(msg):
 api.add_resource(TestApi, '/test-api/<int:number>')
 api.add_resource(UsersApi, '/users')
 api.add_resource(UserApi, '/users/<string:authId>')
-api.add_resource(UsersByIdApi, '/usersById')
+api.add_resource(UsersByIdApi, '/usersById/<user_ids>')
 api.add_resource(VieleUserApi, '/viele-user')
 
 api.add_resource(LerngruppenApi, '/lerngruppen')

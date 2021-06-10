@@ -144,7 +144,7 @@ class Administration(object):
         lerngruppenBO = []
         with LerngruppeMapper() as mapper:
             for lerngruppe in lerngruppenID:
-                lerngruppenBO.append(mapper.find_by_id_test(lerngruppe))
+                lerngruppenBO.append(mapper.find_by_id(lerngruppe))
         return lerngruppenBO
 
     def get_all_lerngruppen(self):
