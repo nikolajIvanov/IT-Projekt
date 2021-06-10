@@ -11,6 +11,6 @@ class LerngruppenByIdApi(Resource):
         :return: Lerngruppen
         """
         parser = reqparse.RequestParser()
-        parser.add_argument('lerngruppen_ids', action='split')
-        lerngruppenID = parser.parse_args()["lerngruppen_ids"]
+        parser.add_argument('group_ids', action='split')
+        lerngruppenID = parser.parse_args()["group_ids"]
         return Administration.find_many_lerngruppen_by_id(lerngruppenID)
