@@ -31,6 +31,7 @@ class Home extends Component {
     //soll Aufgerufen werden beim Switch in Matching
     callGroups = async () => {
         await TeamUpApi.getAPI().getAllGruppe().then(lerngruppen => {
+            console.log(lerngruppen)
             this.setState({
                 groupList: lerngruppen,
             });
@@ -39,7 +40,6 @@ class Home extends Component {
 
     getUsers = async () => {
         await TeamUpApi.getAPI().getAllUsers().then(matches => {
-            console.log(matches)
             this.setState({
                 userList: matches
             });
@@ -87,7 +87,7 @@ class Home extends Component {
                     <Switch>
                         <Route path="/" exact>
                                 <h1 className="App">Willkommen</h1>
-                                {userList ?
+                                {userList && groupList ?
                                 <Match userList={userList}
                                        groupList={groupList}
                                        getView={this.setAuswahl}/>
