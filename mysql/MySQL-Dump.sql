@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS `modulInStudiengang`;
 DROP TABLE IF EXISTS `modul`;
 DROP TABLE IF EXISTS `lerntyp`;
 DROP TABLE IF EXISTS `studiengang`;
+DROP TABLE IF EXISTS `chatanfrage`;
 
 
 CREATE TABLE `modul` (
@@ -99,4 +100,12 @@ CREATE TABLE `lerntyp` (
     `bild` MEDIUMBLOB NOT NULL ,
     `typ` varchar(128) NOT NULL DEFAULT '',
     `beschreibung` varchar(3000) NOT NULL DEFAULT ''
+);
+
+CREATE TABLE `chatanfrage` (
+    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `TIMESTAMP` NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `vonUserId`int(11) NOT NULL,
+    `anUserId`int(11) NOT NULL,
+    FOREIGN KEY (VonuserId, anUserId) REFERENCES users (id)
 );
