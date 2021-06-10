@@ -255,54 +255,57 @@ class LerngruppeMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
+    # TODO: Ardit hier noch komplettes Errorhandling und Statuscode zurück
     def update_lerngruppe(self, lerngruppe):
         """
+        Updatet eine komplette Lerngruppe mit allen Werten
         :param lerngruppe:
         :return:
         """
+        try:
+            # Öffnen der Datenbankverbindung
+            cursor = self._cnx.cursor(prepared=True)
 
-        # Öffnen der Datenbankverbindung
-        cursor = self._cnx.cursor(prepared=True)
+            # Erstellen des SQL-Befehls um lerngruppendaten zu holen
+            query = """UPDATE teamup.lerngruppe SET bild=%s, name=%s, beschreibung=%s, admin=%s,
+                            lerntyp=%s WHERE lerngruppe.id=%s"""
+            # Auslesen und speichern der restlichen UserBO Daten
+            daten = (lerngruppe.get_profilBild(), lerngruppe.get_name(), lerngruppe.get_beschreibung(),
+                     lerngruppe.get_admin(), lerngruppe.get_lerntyp(), lerngruppe.get_id())
+            cursor.execute(query, daten)
+            self._cnx.commit()
+            cursor.close()
+            # Erstellen des SQL-Befehls um alle bestehenden einträge der Gruppe in gruppeInModule zu löschen
+            query1 = """DELETE FROM TeamUP.lerngruppeinmodul WHERE teamup.lerngruppeinmodul.lerngruppeId=%s"""
+            # Ausführen des SQL-Befehls
+            cursor.execute(query1, lerngruppe.get_id())
+            # Schließen der Datenbankverbindung
+            self._cnx.commit()
 
-        # Erstellen des SQL-Befehls um lerngruppendaten zu holen
-        query = """UPDATE teamup.lerngruppe SET bild=%s, name=%s, beschreibung=%s, admin=%s,
-                        lerntyp=%s WHERE lerngruppe.id=%s"""
-        # Auslesen und speichern der restlichen UserBO Daten
-        daten = (lerngruppe.get_profilBild(), lerngruppe.get_name(), lerngruppe.get_beschreibung(),
-                 lerngruppe.get_admin(), lerngruppe.get_lerntyp(), lerngruppe.get_id())
-        cursor.execute(query, daten)
-        self._cnx.commit()
-        cursor.close()
-        # Erstellen des SQL-Befehls um alle bestehenden einträge der Gruppe in gruppeInModule zu löschen
-        query1 = """DELETE FROM TeamUP.lerngruppeinmodul WHERE teamup.lerngruppeinmodul.lerngruppeId=%s"""
-        # Ausführen des SQL-Befehls
-        cursor.execute(query1, lerngruppe.get_id())
-        # Schließen der Datenbankverbindung
-        self._cnx.commit()
-        cursor.close()
+            # Auslesen und speicher welche Module zu dieser Gruppe gehören
+            module = lerngruppe.get_modul()
 
-        # Öffnen einer Datenbankverbindung
-        cursor = self._cnx.cursor(prepared=True)
-        # Auslesen und speicher welche Module zu dieser Gruppe gehören
-        module = lerngruppe.get_modul()
-
-        # Für jedes Modul ein Datenbankeintrag erzeugen
-        for i in module:
-            # Erstellen des SQL-Befehls
-            query2 = """INSERT INTO TeamUP.lerngruppeinmodul(lerngruppeId, modulId)  VALUES (%s, %s)"""
-            # Auslesen und speichern der users.id und modul.id
-            data = (lerngruppe.get_id(), self.get_modulId_by_modul(i))
-            # (Bitte kein Komma nach data) Ausführen des SQL-Befehls
-            cursor.execute(query2, (data))
-        # Schließen der Datenbankverbindung
-        self._cnx.commit()
-        cursor.close()
+            # Für jedes Modul ein Datenbankeintrag erzeugen
+            for i in module:
+                # Erstellen des SQL-Befehls
+                query2 = """INSERT INTO TeamUP.lerngruppeinmodul(lerngruppeId, modulId)  VALUES (%s, %s)"""
+                # Auslesen und speichern der users.id und modul.id
+                data = (lerngruppe.get_id(), self.get_modulId_by_modul(i))
+                # (Bitte kein Komma nach data) Ausführen des SQL-Befehls
+                cursor.execute(query2, data)
+            # Schließen der Datenbankverbindung
+            self._cnx.commit()
+            cursor.close()
+            return 200
+        except mysql.connector.Error as err:
+            raise InternalServerError(err.msg)
 
     # TODO Erledigt
     def delete_gruppe(self, gruppen_id):
         """
-        :param gruppen_id:
-        :return:
+        Löscht eine komplette Lerngruppe und die dazugehörigen Verbindungen
+        :param gruppen_id: Die LerngruppenID, welche gelöscht werden soll
+        :return: Statuscode 200 Wenn die Lerngruppe erfolgreich gelöscht wurde
         """
         try:
             # Öffnen der Datenbankverbindung
@@ -317,10 +320,10 @@ class LerngruppeMapper(Mapper):
             # Lerngruppen über die ID löschen
             query_gruppe = """DELETE FROM teamup.lerngruppe WHERE id=%s """
 
-            # Löschen des userinGruppe Eintrag
+            # Löschen alle User aus der Datenbank der Lerngruppe
             cursor.execute(query_user, (gruppen_id,))
 
-            # Löschen des lerngruppeInModul-Eintrags
+            # Löschen alle Moduleinträge der Lerngruppe
             cursor.execute(query_modul, (gruppen_id,))
 
             # Löschen der Lerngruppe
