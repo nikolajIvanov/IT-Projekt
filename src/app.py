@@ -4,7 +4,6 @@ from flask_socketio import SocketIO, send
 # Api Endpunkte
 from server.api.InitApi import InitApi
 from server.api.VieleUserApi import VieleUserApi
-from server.api.test_api import TestApi
 from server.api.UsersApi import UsersApi
 from server.api.UserApi import UserApi
 from server.api.LerngruppeApi import LerngruppeApi
@@ -34,7 +33,6 @@ def handleMessage(msg):
 
 
 # Api Endpunkte werden mit der Funktion add_resource an Flask übergeben
-api.add_resource(TestApi, '/test-api/<int:number>')
 api.add_resource(UsersApi, '/users')
 api.add_resource(UserApi, '/users/<string:authId>')
 api.add_resource(UsersByIdApi, '/usersById')

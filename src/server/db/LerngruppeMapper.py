@@ -60,30 +60,6 @@ class LerngruppeMapper(Mapper):
 
         return mainUserBO, matching_gruppen
 
-    def get_modulId_by_modul(self, modul):
-        """
-
-        :param modul: Ist das Modul (string)
-        :return: modulid
-        """
-        # Öffnen der Datenbankverbindung
-        cursor = self._cnx.cursor(prepared=True)
-
-        # Erstellen des SQL-Befehls
-        query = """SELECT modul.id FROM TeamUP.modul WHERE bezeichnung=%s"""
-
-        # Ausführen des SQL-Befehls
-        cursor.execute(query, (modul,))
-
-        # Speichern der SQL Antwort
-        modulId = cursor.fetchone()
-
-        # Schließen der Datenbankverbindung
-        self._cnx.commit()
-        cursor.close()
-        # Rückgabe der Modulid
-        return modulId[0]
-
     # TODO Erledigt
     def find_all(self):
 
@@ -322,42 +298,38 @@ class LerngruppeMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
+    # TODO Erledigt
     def delete_gruppe(self, gruppen_id):
         """
-        :param lerngruppe:
+        :param gruppen_id:
         :return:
         """
         try:
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor(prepared=True)
 
+            # Lerngruppe in lerngruppeInModul TABLE löschen
+            query_user = """DELETE FROM teamup.userinlerngruppe WHERE lerngruppeId=%s """
+
+            # Lerngruppe in lerngruppeInModul TABLE löschen
+            query_modul = """DELETE FROM teamup.lerngruppeInModul WHERE lerngruppeId=%s """
+
             # Lerngruppen über die ID löschen
-            query = """DELETE FROM teamup.lerngruppe WHERE id=%s """
-
-            # Lerngruppe in lerngruppeInModul TABLE löschen
-            query1 = """DELETE FROM teamup.lerngruppeInModul WHERE lerngruppeId=%s """
-
-            # Lerngruppe in lerngruppeInModul TABLE löschen
-            query2 = """DELETE FROM teamup.userinlerngruppe WHERE lerngruppeId=%s """
-
-            # Lerngruppen Id
-            data = gruppen_id
+            query_gruppe = """DELETE FROM teamup.lerngruppe WHERE id=%s """
 
             # Löschen des userinGruppe Eintrag
-            cursor.execute(query2, (data,))
+            cursor.execute(query_user, (gruppen_id,))
 
-             # Löschen des lerngruppeInModul-Eintrags
-            cursor.execute(query1, (data,))
+            # Löschen des lerngruppeInModul-Eintrags
+            cursor.execute(query_modul, (gruppen_id,))
 
-             # Löschen der lergruppe
-            cursor.execute(query, (data,))
+            # Löschen der Lerngruppe
+            cursor.execute(query_gruppe, (gruppen_id,))
 
             self._cnx.commit()
             cursor.close()
             return 200
-
         except mysql.connector.Error as err:
-            cursor.close()
             raise InternalServerError(err.msg)
 
     ###################################################################################################################
