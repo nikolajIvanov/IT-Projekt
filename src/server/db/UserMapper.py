@@ -15,45 +15,49 @@ class UserMapper(Mapper):
         :param nutzer: Ist das Nutzerobjekt
         :return: Alle Objekte des UserBO
         """
-        # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
-        cursor = self._cnx.cursor(prepared=True)
+        try:
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
+            cursor = self._cnx.cursor(prepared=True)
 
-        # Erstellen des SQL-Befehls
-        query = """INSERT INTO TeamUP.users (authId, bild, name, geburtsdatum, email,
-                beschreibung, lerntyp, gender, semester, studiengang, vorname, frequenz, lernort) 
-                VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s, %s, %s, %s, %s, %s, %s)"""
+            # Erstellen des SQL-Befehls
+            query = """INSERT INTO TeamUP.users (authId, bild, name, geburtsdatum, email,
+                    beschreibung, lerntyp, gender, semester, studiengang, vorname, frequenz, lernort) 
+                    VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s, %s, %s, %s, %s, %s, %s)"""
 
-        # Auslesen der UserBO Daten
-        daten = (nutzer.get_authId(), nutzer.get_profilBild(), nutzer.get_name(),
-                 datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'), nutzer.get_email(),
-                 nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(), nutzer.get_semester(),
-                 nutzer.get_studiengang(), nutzer.get_vorname(), nutzer.get_frequenz(), nutzer.get_lernort())
+            # Auslesen der UserBO Daten
+            daten = (nutzer.get_authId(), nutzer.get_profilBild(), nutzer.get_name(),
+                     datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'), nutzer.get_email(),
+                     nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(), nutzer.get_semester(),
+                     nutzer.get_studiengang(), nutzer.get_vorname(), nutzer.get_frequenz(), nutzer.get_lernort())
 
-        # Ausführen des SQL-Befehls um die UserBO Daten auf die Datenbank zu schreiben
-        cursor.execute(query, daten)
-        # Schließen der Datenbankverbindung
-        self._cnx.commit()
-        #cursor.close()
+            # Ausführen des SQL-Befehls um die UserBO Daten auf die Datenbank zu schreiben
+            cursor.execute(query, daten)
+            # Schließen der Datenbankverbindung
+            self._cnx.commit()
+            #cursor.close()
 
-        # Öffnen einer Datenbankverbindung
-        #cursor = self._cnx.cursor(prepared=True)
+            # Öffnen einer Datenbankverbindung
+            #cursor = self._cnx.cursor(prepared=True)
 
-        # Auslesen welche Module zu dem Nutzer gehören
-        module = nutzer.get_modul()
-        # Datenbankeintrag für jedes Modul erzeugen
-        for i in module:
-            # SQL-Befehl um den Datenbankeintrag zu erstellen
-            query1 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
-            # Auslesen und speichern der users.id und modul.id
-            data = (self.get_Id_by_authId(nutzer.get_authId()), self.get_modulId_by_modul(i))
-            # (Bitte kein Komma nach data) Ausführen des SQL- Befehls
-            cursor.execute(query1, data)
-        # Bestätigung der Datenbankabfrage/ änderung
-        self._cnx.commit()
-        cursor.close()
+            # Auslesen welche Module zu dem Nutzer gehören
+            module = nutzer.get_modul()
+            # Datenbankeintrag für jedes Modul erzeugen
+            for i in module:
+                # SQL-Befehl um den Datenbankeintrag zu erstellen
+                query1 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
+                # Auslesen und speichern der users.id und modul.id
+                data = (self.get_Id_by_authId(nutzer.get_authId()), self.get_modulId_by_modul(i))
+                # (Bitte kein Komma nach data) Ausführen des SQL- Befehls
+                cursor.execute(query1, data)
+            # Bestätigung der Datenbankabfrage/ änderung
+            self._cnx.commit()
+            cursor.close()
 
-        # Rückgabe aller Userdaten
-        return self.find_by_authId(nutzer.get_authId())
+            # Rückgabe aller Userdaten
+            return 200
+        except mysql.connector.Error as err:
+            cursor.close()
+            raise InternalServerError(err.msg)
 
     def insert_many(self, users):
         """
@@ -106,28 +110,33 @@ class UserMapper(Mapper):
         Methode um alle UserBO und die dazugehörigen Module aus der Datenbank zu holen
         :return: Eine Liste mit allen Usern in Objekten gespeichert
         """
-        result = []
-        # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
-        cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, "
-                       "gender, semester, studiengang, vorname, frequenz, lernort FROM TeamUP.users")
-        tuples = cursor.fetchall()
+        try:
+            result = []
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
+            cursor = self._cnx.cursor()
+            cursor.execute("SELECT id, authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, "
+                           "gender, semester, studiengang, vorname, frequenz, lernort FROM TeamUP.users")
+            tuples = cursor.fetchall()
+            if not tuples:
+                cursor.close()
+                raise InternalServerError('Keine User vorhanden')
+            for (user_id, authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang,
+                 vorname, frequenz, lernort) in tuples:
+                user = UserBO.create_userBO(id=user_id, authId=authId, profilBild=bild, name=name,
+                                            geburtsdatum=geburtsdatum, email=email, beschreibung=beschreibung,
+                                            lerntyp=lerntyp, gender=gender, semester=semester, studiengang=studiengang,
+                                            vorname=vorname, frequenz=frequenz, lernort=lernort)
+                # Das Geburtstag wird in das aktuelle Alter umgerechnet.
+                user.set_geburtsdatum(user.calculate_age())
+                result.append(self.find_modul_by_userid(user))
 
-        for (user_id, authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang,
-             vorname, frequenz, lernort) in tuples:
-            user = UserBO.create_userBO(id=user_id, authId=authId, profilBild=bild, name=name,
-                                        geburtsdatum=geburtsdatum, email=email, beschreibung=beschreibung,
-                                        lerntyp=lerntyp, gender=gender, semester=semester, studiengang=studiengang,
-                                        vorname=vorname, frequenz=frequenz, lernort=lernort)
-            # Das Geburtstag wird in das aktuelle Alter umgerechnet.
-            user.set_geburtsdatum(user.calculate_age())
-            result.append(self.find_modul_by_userid(user))
-
-        # Bestätigung der Datenbankabfrage/ änderung
-        self._cnx.commit()
-        cursor.close()
-
-        return result
+            # Bestätigung der Datenbankabfrage/ änderung
+            self._cnx.commit()
+            cursor.close()
+            return result
+        except mysql.connector.Error as err:
+            cursor.close()
+            raise InternalServerError(err.msg)
 
     def find_by_authId(self, user_authid):
         """
@@ -287,8 +296,6 @@ class UserMapper(Mapper):
             # Setzt die aktuelle User ID in das Objekt
             cursor.execute(query_id, (authid,))
             nutzer.set_id(cursor.fetchone()[0])
-            # Bestätigung der Datenbankabfrage/ änderung
-            self._cnx.commit()
 
             # Erstellen des SQL-Befehls um alle bestehenden einträge des UserBO in userInModule zu löschen
             query1 = """DELETE FROM TeamUP.userinmodul WHERE userId=%s"""
