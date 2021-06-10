@@ -12,12 +12,10 @@ class UserApi(Resource):
 
     def delete(self, authId):
         adm = Administration()
-        adm.delete_user_by_id(authId)
-        return 200
+        return adm.delete_user_by_id(authId)
 
-    # @api.expect(user, validate=True)
+
     @api.expect(user)
-    # @api.marshal_with(user)
     def put(self, authId):
         adm = Administration()
         payload = api.payload
@@ -32,7 +30,6 @@ class UserApi(Resource):
             proposal.set_module_append(modul)
 
         if proposal is not None:
-            adm.update_user_by_authId(proposal)
-            return 200
+            return adm.update_user_by_authId(proposal)
         else:
-            return '', 500
+            return 500,''
