@@ -73,3 +73,7 @@ class ChatMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
+
+    def create_room(self):
+        #TODO: Methode implementieren
+        pass

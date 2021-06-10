@@ -109,15 +109,6 @@ CREATE TABLE `lerntyp` (
     `beschreibung` varchar(3000) NOT NULL DEFAULT ''
 );
 
-CREATE TABLE `chatanfrage` (
-    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `TIMESTAMP` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `vonUserId`int(11) NOT NULL,
-    `anUserId`int(11) NOT NULL,
-    FOREIGN KEY (vonUserId) REFERENCES users (id),
-    FOREIGN KEY (anUserId) REFERENCES users (id)
-);
-
 CREATE TABLE `room` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     `name`varchar(128) NOT NULL DEFAULT ''
@@ -135,8 +126,10 @@ CREATE TABLE `message` (
 
 CREATE TABLE `userInRoom`
 (
-    `userId`  int(11) NOT NULL,
-    `roomId`       int(11) NOT NULL,
+    `userId` int(11) NOT NULL,
+    `roomId` int(11) NOT NULL,
+    `admitted` bool NOT NULL DEFAULT FALSE,
+    `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (userId) REFERENCES users (id),
     FOREIGN KEY (roomId) REFERENCES room (id),
     PRIMARY KEY (userId, roomId)
