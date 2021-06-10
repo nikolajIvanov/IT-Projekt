@@ -1,4 +1,4 @@
-import theme from "../../theme";
+/*import theme from "../../theme";
 import EigeneMessage from '../../components/Chat/EigeneMessage';
 import FremdeMessage from '../../components/Chat/FremdeMessage';
 
@@ -11,7 +11,7 @@ const EigeneNachrichten = [
 
         {
         count:"3",
-        nachricht:"Absolt deiner Meinung!",
+        nachricht:"Absolut deiner Meinung!",
         zeit:"10:00",
     }
 ]
@@ -38,4 +38,6 @@ const Chat = () => {
 }
 
 export default Chat
+
+ */
 
