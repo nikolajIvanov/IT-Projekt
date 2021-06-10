@@ -1,5 +1,4 @@
 from server.db.Mapper import Mapper
-from server.bo.NachrichtBO import NachrichtBO
 
 class ChatMapper(Mapper):
     def __init__(self):
@@ -46,19 +45,36 @@ class ChatMapper(Mapper):
         # Rückgabe der Nachrichten
         return messages
 
-    def add_user_to_room(self,room):
+    def add_user_to_room(self, room):
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
 
-        gruppenMitglieder = lerngruppe.get_mitglieder()
+        gruppenMitglieder = room.get_mitglieder()
 
         for i in gruppenMitglieder:
-            query1 = """INSERT INTO teamup.userinlerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
-            data1 = (i, lerngruppe.get_id())
+            query1 = """INSERT INTO teamup.userInRoom(userId, roomId) VALUES (%s, %s)"""
+            data1 = (i, room.get_id())
             cursor.execute(query1, (data1))
 
         self._cnx.commit()
         cursor.close()
-        return self.find_by_id(lerngruppe.get_id())
 
-    def delete_user_from_room(self):
+    def delete_user_from_room(self, room):
+        """
+        :param lerngruppe:
+        :return:
+        """
+
+        # Öffnen der Datenbankverbindung
+        cursor = self._cnx.cursor(prepared=True)
+
+        gruppenMitglieder = room.get_mitglieder()
+
+        for i in gruppenMitglieder:
+            query1 = """DELETE FROM teamup.userInRoom WHERE teamup.userInRoom.userId = %s
+                        AND teamup.userInRoom.roomId = %s"""
+            data1 = (i, room.get_id())
+            cursor.execute(query1, (data1))
+
+        self._cnx.commit()
+        cursor.close()
