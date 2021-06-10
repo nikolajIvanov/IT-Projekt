@@ -372,9 +372,9 @@ class LerngruppeMapper(Mapper):
 
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
-        neueMitglieder = lerngruppe.get_mitglieder()
+        alteMitglieder = lerngruppe.get_mitglieder()
 
-        for i in neueMitglieder:
+        for i in alteMitglieder:
             #LerngruppenID bekommen über name
             query = """DELETE FROM teamup.userInLerngruppe WHERE teamup.userInLerngruppe.userId = %s
                         AND teamup.userinlerngruppe.lerngruppeId = %s"""
