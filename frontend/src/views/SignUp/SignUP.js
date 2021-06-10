@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -9,7 +8,7 @@ import {withStyles} from "@material-ui/styles";
 import PropTypes from "prop-types";
 import SignUpWithGoogle from "../../components/Button/SignUpWithGoogle";
 import Logo from '../../Logo_LogIn.svg'
-import '../../assets/App.css';
+import '../../assets/theme.css';
 
 const styles = theme  => ({
   paper: {
@@ -46,9 +45,6 @@ const styles = theme  => ({
 });
 
 class SignUp extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         const { classes } = this.props;

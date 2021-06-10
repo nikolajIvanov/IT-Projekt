@@ -32,7 +32,7 @@ function SubSectionUserinfo(props) {
 
     useEffect(() => {
         window.addEventListener('resize', handleResize);
-    },[])
+    })
 
     function handleResize() {
         if(window.innerWidth < 600){

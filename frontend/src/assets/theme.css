@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;700&display=swap');
+
+.App {
+  text-align: center;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: bold;
+}
+
+.sText {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: unset;
+}
+
+.root{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.leftAligned{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.rightAligned{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.card{
+  padding: 2%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modalCard{
+  margin-top: 15%;
+  padding: 2%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.row{
+  display: flex;
+  flex-direction: row;
+}
+
+.scrollBox{
+    height: 150px;
+    width: 300px;
+    overflow: auto;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5%;
+  }
+
+.profileBorder{
+  width: 50%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+
+.button_primary{
+    background-color: #2D89FF97;
+    color: white;
+  }
+
+.button_secondary{
+    background-color: #E2E2E296;
+    color: black;
+  }
+
+.button_delete{
+    background-color: #FF030397;
+    color: white;
+  }
+
+.nav{
+  margin: auto;
+  width: 80%;
+  border-radius: 10px;
+  background-color: #2D89FF97;
+}
+
+.icon{
+  color: #ffffff
+}
+
+.matchCard{
+  padding: 10px;
+  border-radius: 10px;
+  background-image: linear-gradient(-45deg, #2D89FF97, #000000);
+}
+
+.primary{
+    background-color: #2D89FF97;
+  }
+
+.secondary{
+  background-color: #ff9900
+}
+
+.complement{
+  background-color: #ff1500
+}
+
+.register{
+  color: #898989;
+  margin-bottom: 5%;
+}
+
+.h1_regular{
+  font-size: xx-large
+}
+
+.h1_bold{
+  font-size: xx-large;
+  font-weight: bold
+}
+
+.h2_regular{
+  font-size: x-large
+}
+
+.h2_bold{
+  font-size: x-large;
+  font-weight: bold
+}
+
+.h3_regular{
+  font-size: large
+}
+
+.h3_bold{
+  font-size: large;
+  font-weight: bold
+}
+
+.p_regular {
+  font-size: medium;
+}
+
+.p_bold{
+  font-size: medium;
+  font-weight: bold
+}
