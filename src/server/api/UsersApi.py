@@ -15,7 +15,6 @@ class UsersApi(Resource):
 
     # @api.expect(user, validate=True)
     @api.expect(user)
-    @api.marshal_with(user)
     def post(self):
         adm = Administration()
         payload = api.payload
@@ -33,4 +32,4 @@ class UsersApi(Resource):
 
             return adm.create_user_by_authId(proposal)
         else:
-            return '', 500
+            return 'Der User konnte nicht angelegt werden, da keine Daten mitgeschickt wurden', 500
