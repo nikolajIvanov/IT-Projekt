@@ -125,11 +125,11 @@ class Administration(object):
     """
         Lerngruppen-spezifische Methoden
     """
-
-    def create_lerngruppe(self, lerngruppe):
+    @staticmethod
+    def create_lerngruppe(lerngruppe):
         """
         :param lerngruppe: Objekt der Klasse Lerngruppe mit allen Attributen
-        :return: Alle Objekte des Nutzers
+        :return: Statuscode
         """
         with LerngruppeMapper() as mapper:
             return mapper.insert_lerngruppe(lerngruppe)
@@ -224,7 +224,9 @@ class Administration(object):
         with LerngruppeMapper() as mapper:
             return mapper.check_name(lerngruppe)
 
-    def create_new_mitglied(self, lerngruppe):
+    # TODO Wann erstellen wir einen neues Mitglied?
+    @staticmethod
+    def create_new_mitglied(lerngruppe):
         """
         :param lerngruppe:
         :return:

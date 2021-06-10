@@ -62,12 +62,13 @@ class Lerngruppe(ProfilBO):
         obj.set_beschreibung(kwargs["beschreibung"])
         obj.set_lerntyp(kwargs["lerntyp"])
         obj.set_name(kwargs["name"])
-        obj.set_mitglieder(kwargs["mitglieder"])
         obj.set_admin(kwargs["admin"])
         obj.set_frequenz(kwargs["frequenz"])
         obj.set_lernort(kwargs["lernort"])
         if "modul" in kwargs:
             obj.set_modul(kwargs["modul"])
+        if "mitglieder" in kwargs:
+            obj.set_mitglieder(kwargs["mitglieder"])
         return obj
 
     @staticmethod

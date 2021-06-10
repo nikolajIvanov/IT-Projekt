@@ -11,8 +11,13 @@ class LerngruppenmitgliedApi(Resource):
         proposal = Lerngruppe.from_dict(api.payload)
         return adm.delete_user_by_list(proposal)
 
+    # TODO: Wann wird ein neues Mitglied hinzugefügt und was bekommt man vom Frontend?
     @api.marshal_with(lerngruppe)
     def put(self):
-        adm = Administration()
-        proposal = Lerngruppe.from_dict(api.payload)
-        return adm.create_new_mitglied(proposal)
+        proposal = Lerngruppe.create_lerngruppeBO(id=api.payload["id"], lerntyp=api.payload["lerntyp"],
+                                                  name=api.payload["name"], beschreibung=api.payload["beschreibung"],
+                                                  profilBild=api.payload["profilBild"], admin=api.payload["admin"],
+                                                  frequenz=api.payload["frequenz"], lernort=api.payload["lernort"],
+                                                  mitglieder=api.payload["mitglieder"])
+
+        return Administration.create_new_mitglied(proposal)
