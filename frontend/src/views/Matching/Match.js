@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
-import SearchBar from "../../components/Textfeld/SearchBar";
 import GroupPersonSwitch from "../../components/Icon/GroupPersonSwitch"
 import FilterIcon from "../../components/Icon/FilterIcon";
-import TeamUpApi from "../../api/TeamUpApi";
-import ProfilListElement from "./Sections/ProfilListElement";
 import GroupListElement from "./Sections/GroupListElement";
 import ButtonPrimary from "../../components/Button/ButtonPrimary";
+import UserMatchSection from "./Sections/UserMatchSection";
 
 const styles = theme => ({
     root: {
@@ -46,7 +44,7 @@ class Match extends Component {
 
     render(){
         const { classes } = this.props;
-        const { apiUsers, isPerson, apiGruppen, selectedUser }= this.state;
+        const { apiUsers, isPerson, apiGruppen}= this.state;
 
         return (
             <div className={classes.root}>
@@ -55,9 +53,8 @@ class Match extends Component {
                     <FilterIcon/>
                     { isPerson ?
                         <>
-                            <ProfilListElement
-                                getView={this.props.getView}
-                                apiUsers={apiUsers}/>
+                            <UserMatchSection getView={this.props.getView}
+                                              apiUsers={apiUsers}/>
                         </>
                     :
                         <>
@@ -68,7 +65,7 @@ class Match extends Component {
                 </> : null }
             </div>
         );
-    };
+    }
 }
 
 Match.propTypes = {

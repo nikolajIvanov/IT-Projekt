@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import "../../assets/App.css"
-import {Card, CardActions, CardContent, Modal, Paper} from "@material-ui/core";
+import {Card, CardActions, CardContent} from "@material-ui/core";
 import theme from '../../theme'
 import ButtonChat from "../../components/Button/ButtonChat";
 import SectionProfilView from "./Sections/SectionProfilView";
@@ -12,7 +12,7 @@ function Profil(props) {
 
     useEffect(() => {
         setData(props.profil)
-    }, [])
+    },[props.profil])
 
     function back(){
         redirect.push("/chat")

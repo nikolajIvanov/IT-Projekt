@@ -5,8 +5,8 @@ import Profil from "../Profil & Gruppe/Profil";
 import Gruppen from "../Profil & Gruppe/Gruppe";
 import MyProfil from "../Profil & Gruppe/ProfilBearbeiten";
 import Chat2 from "../Chat/ChatTest2";
-import GruppenSuche from "../Suche/GruppenSuche";
-import Match from "../Suche/Match";
+import GruppenSuche from "../Matching/GruppenSuche";
+import Match from "../Matching/Match";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from "../../api/Firebase";
 
@@ -18,6 +18,8 @@ class Home extends Component {
             groupList: null,
             suchobjekt: null,
             dataLoad: false,
+            users: null,
+            currentUser:null
         }
     }
 
@@ -26,7 +28,7 @@ class Home extends Component {
         firebase.auth().signOut()
     }
 
-    //Api Call für die Matching-Lerngruppen
+    //soll Aufgerufen werden beim Switch in Matching
     callGroups = async () => {
         await TeamUpApi.getAPI().getAllGruppe().then(lerngruppen => {
             this.setState({
@@ -36,20 +38,33 @@ class Home extends Component {
         })
     }
 
-    // TODO es sollen 10 User/Gruppen geladen werden für Match, nach 5 Swipes weitere
-    async componentDidMount() {
-        //Api Call für die Matching-User
-        await TeamUpApi.getAPI().getAllUsers().then(users =>{
+    getUsers = async () => {
+        await TeamUpApi.getAPI().getUsersByMatch(this.state.users).then(users => {
+            console.log(users)
             this.setState({
                 userList: users
             });
         })
-        await this.callGroups()
-        console.log(this.state.groupList)
+    }
+
+    // TODO es sollen 10 User/Gruppen geladen werden für Match, nach 5 Swipes weitere
+    async componentDidMount() {
+        await this.setState({
+            currentUser: firebase.auth().currentUser.uid
+        });
+        //Api Call für die Matching-User muss auf current user gesetzt werden
+        await TeamUpApi.getAPI().getMatchUserList(1111).then(users =>{
+            console.log(users)
+            this.setState({
+                users: {
+                    id: users
+                }
+            });
+        })
+        await this.getUsers()
     }
 
     setAuswahl = async (user) => {
-        console.log(user)
         await this.setState({
             suchobjekt: user
         })
@@ -64,7 +79,7 @@ class Home extends Component {
         * */
 
         //TODO Skeleton wenn Nutzer nicht da ist
-        const {userList, suchobjekt, groupList, dataLoad} = this.state
+        const {userList, suchobjekt, groupList} = this.state
         return (
             <div>
                 <Router>
@@ -72,7 +87,7 @@ class Home extends Component {
                     <Switch>
                         <Route path="/" exact>
                                 <h1 className="App">Willkommen</h1>
-                                {dataLoad ?
+                                {userList ?
                                 <Match userList={userList}
                                        groupList={groupList}
                                        getView={this.setAuswahl}/>

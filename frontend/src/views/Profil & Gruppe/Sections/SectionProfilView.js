@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import Typography from "@material-ui/core/Typography";
 import theme from "../../../theme";
 import ProfilAvatar from "../../../components/Avatar/ProfilAvatar";
-import {useHistory} from "react-router-dom";
 
 function SectionProfilView(props) {
     const[win, setWindow] = React.useState('')

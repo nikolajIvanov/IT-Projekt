@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Button, FormControlLabel, FormGroup, Paper, Switch, Typography} from "@material-ui/core";
+import {FormControlLabel, FormGroup, Paper, Switch, Typography} from "@material-ui/core";
 import theme from "../../../theme";
 import TeamUpApi from "../../../api/TeamUpApi";
 
@@ -19,7 +19,7 @@ function Module(props){
                 console.log(middle)
                 setMod(middle)
             })
-    }, []);
+    });
 
     const handleChange = (mod) => {
         if (props.modul.includes(mod) === false) {

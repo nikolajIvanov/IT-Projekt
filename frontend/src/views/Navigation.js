@@ -9,9 +9,6 @@ import theme from "../theme";
 import {AppBar, Toolbar} from "@material-ui/core";
 
 class Navigation extends Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (
             <div>
