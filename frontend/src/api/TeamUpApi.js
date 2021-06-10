@@ -191,7 +191,8 @@ export default class TeamUpApi {
     }
 
     #matching = (url, userList, BO) => {
-        return this.#fetchAdvanced(url, {
+        let array = encodeURIComponent(JSON.stringify(userList));
+        return this.#fetchAdvanced(url + array, {
             method: 'GET',
         }).then((responseJSON) => {
             let responseBOs = BO.fromJSON(responseJSON);

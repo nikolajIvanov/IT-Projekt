@@ -114,8 +114,8 @@ class Administration(object):
         """
         usersBO = []
         with UserMapper() as mapper:
-            for user in usersID:
-                usersBO.append(mapper.find_by_id(user))
+            for user_id in usersID:
+                usersBO.append(mapper.find_by_id(int(user_id)))
         return usersBO
 
     def get_user_by_name(self, value):
@@ -137,14 +137,14 @@ class Administration(object):
     @staticmethod
     def find_many_lerngruppen_by_id(lerngruppenID):
         """
-        Findet einen bestimmten User über die id.
-        :param user_id: Ist die UserID
-        :return: Befüllten User mit allen relevanten Daten
+        Findet mehrere Lerngruppen über die ID.
+        :param lerngruppenID: Ist die UserID
+        :return: Befüllte Lerngruppen mit allen relevanten Daten
         """
         lerngruppenBO = []
         with LerngruppeMapper() as mapper:
-            for lerngruppe in lerngruppenID:
-                lerngruppenBO.append(mapper.find_by_id_test(lerngruppe))
+            for lerngruppe_id in lerngruppenID:
+                lerngruppenBO.append(mapper.find_by_id(int(lerngruppe_id)))
         return lerngruppenBO
 
     def get_all_lerngruppen(self):

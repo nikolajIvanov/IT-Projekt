@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
 import GroupPersonSwitch from "../../components/Icon/GroupPersonSwitch"
 import FilterIcon from "../../components/Icon/FilterIcon";
-import GroupListElement from "./Sections/GroupListElement";
-import ButtonPrimary from "../../components/Button/ButtonPrimary";
 import UserMatchSection from "./Sections/UserMatchSection";
+import GroupMatchSection from "./Sections/GroupMatchSection";
 
 const styles = theme => ({
     root: {
@@ -58,8 +57,8 @@ class Match extends Component {
                         </>
                     :
                         <>
-                            <GroupListElement apiGruppe={apiGruppen}/>
-                            <ButtonPrimary inhalt={"Gruppe anzeigen"}/>
+                            <GroupMatchSection getView={this.props.getView}
+                                              apiGroups={apiGruppen}/>
                         </>
                             }
                 </> : null }
