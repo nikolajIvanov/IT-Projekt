@@ -69,11 +69,41 @@ class ChatMapper(Mapper):
         query1 = """DELETE FROM teamup.userInRoom WHERE teamup.userInRoom.userId = %s
                     AND teamup.userInRoom.roomId = %s"""
         data1 = (user, room)
-        cursor.execute(query1, (data1))
+        cursor.execute(query1, data1)
 
         self._cnx.commit()
         cursor.close()
 
+    def admitt_user_to_room(self, room, user):
+
+        cursor = self._cnx.cursor(prepared=True)
+
+        query1 = """UPDATE teamup.userInRoom SET TeamUP.userInRoom.admitted = 1 WHERE teamup.userInRoom.userId = %s
+                            AND teamup.userInRoom.roomId = %s"""
+        data1 = (user, room)
+        cursor.execute(query1, data1)
+
+        self._cnx.commit()
+        cursor.close()
+
+    def get_admitt_status(self, room, user):
+        cursor = self._cnx.cursor(prepared=True)
+
+        query1 = """SELECT admitted, timestamp FROM TeamUP.userInRoom WHERE roomId=%s AND userId=%s"""
+        data1 = (room, user)
+        cursor.execute(query1, data1)
+
+        status = cursor.fetchall()
+        #Status 0 = False, Status 1 = TRUE
+        #TODO: Check einbauen ob der Timestamp älter als 2 Wochen ist. Wenn ja -> delete_user_from_room
+
+
+        self._cnx.commit()
+        cursor.close()
+
+        return status
+
     def create_room(self):
         #TODO: Methode implementieren
         pass
+

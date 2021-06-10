@@ -119,7 +119,7 @@ CREATE TABLE `message` (
     `TIMESTAMP` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `vonUserId`int(11) NOT NULL,
     `roomId`int(11) NOT NULL,
-    `message`varchar(128) NOT NULL DEFAULT "",
+    `message`varchar(128) NOT NULL DEFAULT '',
     FOREIGN KEY (VonuserId) REFERENCES users (id),
     FOREIGN KEY (roomId) REFERENCES room (id)
 );
@@ -128,7 +128,7 @@ CREATE TABLE `userInRoom`
 (
     `userId` int(11) NOT NULL,
     `roomId` int(11) NOT NULL,
-    `admitted` bool NOT NULL DEFAULT FALSE,
+    `admitted` BOOLEAN NOT NULL DEFAULT FALSE,
     `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (userId) REFERENCES users (id),
     FOREIGN KEY (roomId) REFERENCES room (id),
