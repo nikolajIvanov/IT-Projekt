@@ -8,6 +8,9 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import theme from "../../../theme";
 import Grid from "@material-ui/core/Grid";
 import {useHistory} from "react-router-dom";
+import ProfilAvatar from "../../../components/Avatar/ProfilAvatar";
+import H3_bold from "../../../components/Fonts/h3_bold";
+import H2_bold from "../../../components/Fonts/h2_bold";
 
 
 function UserMatchSection(props) {
@@ -24,29 +27,34 @@ function UserMatchSection(props) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 
+    const user = props.apiUsers[activeStep]
+
     return (
         <div>
             <div>
-                <Paper square elevation={0} style={theme.root}>
-                    <Grid style={theme.root} container spacing={3}>
-                        <Grid style={theme.rightAligned} item xs={4} sm={4}>
-                            <Typography>{props.apiUsers[activeStep].getVorname()}</Typography>
+                <Paper square elevation={0} style={theme.matchCard.body}>
+                    <Grid container spacing={3}>
+                        <Grid className="root" item xs={12}>
+                            <ProfilAvatar img={user.getProfilBild()}/>
                         </Grid>
                         <Grid style={theme.root} item xs={4} sm={4}>
-                            <Typography>{props.apiUsers[activeStep].getName()}</Typography>
+                            <H2_bold inhalt={user.getVorname()}/>
                         </Grid>
-                        <Grid style={theme.leftAligned} item xs={4} sm={4}>
-                            <Typography>{props.apiUsers[activeStep].getGeburtstag()}</Typography>
+                        <Grid style={theme.root} item xs={4} sm={4}>
+                            <Typography>{user.getName()}</Typography>
+                        </Grid>
+                        <Grid style={theme.root} item xs={4} sm={4}>
+                            <Typography>{user.getGeburtstag()}</Typography>
                         </Grid>
                     </Grid>
                 </Paper>
                 <Paper square elevation={0} style={theme.card}>
-                    <Typography>{props.apiUsers[activeStep].getStudiengang()}</Typography>
+                    <Typography>{user.getStudiengang()}</Typography>
                 </Paper>
                 <MobileStepper
                     position="static"
                     nextButton={
-                        <Button size="small" onClick={handleYes} disabled={activeStep === props.apiUsers.length -1}>
+                        <Button size="small" onClick={handleYes} disabled={activeStep === props.apiUsers.length }>
                             Gib mir
                             <KeyboardArrowRight />
                         </Button>

@@ -9,6 +9,7 @@ import GruppenSuche from "../Matching/GruppenSuche";
 import Match from "../Matching/Match";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from "../../api/Firebase";
+import Logo from "../../assets/Logo-teamUp_2.png"
 
 class Home extends Component {
     constructor(props) {
@@ -19,46 +20,66 @@ class Home extends Component {
             suchobjekt: null,
             dataLoad: false,
             users: null,
+            groups: null,
             currentUser:null
         }
     }
 
-    //loggt den nutzer aus
+    //loggt den nutzer aus soll zu home card redirecten
     handleLogOut(){
         firebase.auth().signOut()
     }
 
     //soll Aufgerufen werden beim Switch in Matching
     callGroups = async () => {
-        await TeamUpApi.getAPI().getAllGruppe().then(lerngruppen => {
-            console.log(lerngruppen)
+        await TeamUpApi.getAPI().getMatchGroupList(this.state.currentUser).then(lerngruppen => {
             this.setState({
-                groupList: lerngruppen,
+                groups: lerngruppen.result
             });
         })
+        await this.getGroups()
     }
 
+    //Überprüft ob Group-matches gefunden wurden
+    getGroups = async () => {
+        if(this.state.groups.length === 0){
+            this.setState({
+                groupList: null
+            });
+        }
+        else{
+            await TeamUpApi.getAPI().getGroupByMatch(this.state.groups).then(matches => {
+                this.setState({
+                    groupList: matches
+                });
+                }
+            )}
+    }
+
+    //Überprüft ob User-matches gefunden wurden
     getUsers = async () => {
-        await TeamUpApi.getAPI().getAllUsers().then(matches => {
+        if(this.state.users.length === 0){
+            await this.callGroups()
+        }
+        else{
+        await TeamUpApi.getAPI().getUsersByMatch(this.state.users).then(matches => {
             this.setState({
                 userList: matches
             });
-        })
-        await this.callGroups()
+            this.callGroups()}
+        )}
     }
 
     // TODO es sollen 10 User/Gruppen geladen werden für Match, nach 5 Swipes weitere
     async componentDidMount() {
+        //Setzt die userId
         await this.setState({
             currentUser: firebase.auth().currentUser.uid
         });
         //Api Call für die Matching-User muss auf current user gesetzt werden
-        await TeamUpApi.getAPI().getMatchUserList(1111).then(users =>{
-            console.log(users)
+        await TeamUpApi.getAPI().getMatchUserList(this.state.currentUser).then(users =>{
             this.setState({
-                users: {
-                    id: users
-                }
+                users: users.result
             });
         })
         await this.getUsers()
@@ -86,7 +107,7 @@ class Home extends Component {
                     <Navigation logOut={this.handleLogOut}/>
                     <Switch>
                         <Route path="/" exact>
-                                <h1 className="App">Willkommen</h1>
+                                <h1 className="App">TeamUP</h1>
                                 {userList && groupList ?
                                 <Match userList={userList}
                                        groupList={groupList}

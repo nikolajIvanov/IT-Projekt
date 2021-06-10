@@ -37,9 +37,9 @@ export default class TeamUpApi {
 
     #groupMatchURL = (authId) => `${this.#serverBaseURL}/lerngruppenmatch/${authId}`;
 
-    #getMatchUsersURL = () => `${this.#serverBaseURL}/usersByid`;
+    #getMatchUsersURL = (userArray) => `${this.#serverBaseURL}/usersById${userArray}`;
 
-    #getMatchGroupURL = () => `${this.#serverBaseURL}/lerngruppenByid`;
+    #getMatchGroupsURL = (groupArray) => `${this.#serverBaseURL}/lerngruppenById${groupArray}`;
 
     // Wird bei jedem API Aufruf als erstes aufgerufen. Es erzeugt ein Objekt der Klasse TeamUpApi um somit die
     // einzelnen Objektmethoden aufrufen zu können.
@@ -119,8 +119,18 @@ export default class TeamUpApi {
         return this.#getStatus(this.#usersMatchURL(authId))
     }
 
-    getUsersByMatch(userList){
-        return this.#matching(this.#getMatchUsersURL(), userList, UserBO)
+    getMatchGroupList(authId){
+        return this.#getStatus(this.#groupMatchURL(authId))
+    }
+
+    getUsersByMatch(userArray){
+        let array = userArray.join();
+        return this.#matching(this.#getMatchUsersURL("?user_ids=" + array), UserBO)
+    }
+
+    getGroupByMatch(groupArray){
+        let array = groupArray.join();
+        return this.#matching(this.#getMatchGroupsURL("?group_ids=" + array), UserBO)
     }
 
     //TODO Delete Gruppe einfügen
@@ -190,9 +200,8 @@ export default class TeamUpApi {
         })
     }
 
-    #matching = (url, userList, BO) => {
-        let array = encodeURIComponent(JSON.stringify(userList));
-        return this.#fetchAdvanced(url + array, {
+    #matching = (url, BO) => {
+        return this.#fetchAdvanced(url, {
             method: 'GET',
         }).then((responseJSON) => {
             let responseBOs = BO.fromJSON(responseJSON);

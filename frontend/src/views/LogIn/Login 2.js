@@ -9,7 +9,7 @@ import Container from '@material-ui/core/Container';
 import {withStyles} from "@material-ui/styles";
 import PropTypes from "prop-types";
 import Logo from '../../Logo_LogIn.svg'
-import '../../assets/App.css';
+import '../../assets/theme.css';
 
 
 const styles = theme => ({

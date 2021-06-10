@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import "../../assets/App.css"
+import "../../assets/theme.css"
 import {Card, CardActions, CardContent} from "@material-ui/core";
 import theme from '../../theme'
 import ButtonChat from "../../components/Button/ButtonChat";

@@ -1,7 +1,7 @@
 import React from 'react';
-import '../../assets/App.css';
+import '../../assets/theme.css';
 import Home from "../Home/Home";
-import '../../assets/App.css';
+import '../../assets/theme.css';
 import firebase from "../../api/Firebase";
 import Login2 from '../LogIn/Login 2';
 import SignUp from '../SignUp/SignUP'

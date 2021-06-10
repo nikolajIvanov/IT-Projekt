@@ -8,7 +8,7 @@ import {withStyles} from "@material-ui/styles";
 import PropTypes from "prop-types";
 import SignUpWithGoogle from "../../components/Button/SignUpWithGoogle";
 import Logo from '../../Logo_LogIn.svg'
-import '../../assets/App.css';
+import '../../assets/theme.css';
 
 const styles = theme  => ({
   paper: {

@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import "../../assets/App.css"
+import "../../assets/theme.css"
 import SectionAvatar from "./Sections/SectionAvatar";
 import SectionSteckbrief from "./Sections/SectionSteckbrief";
 import SectionLerntyp from "./Sections/SectionLerntyp";
