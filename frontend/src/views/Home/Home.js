@@ -5,11 +5,10 @@ import Profil from "../Profil & Gruppe/Profil";
 import Gruppe from "../Profil & Gruppe/Gruppe";
 import MyProfil from "../Profil & Gruppe/ProfilBearbeiten";
 import Chat from "../Chat/Chat";
-import GruppenSuche from "../Suche/GruppenSuche";
-import Match from "../Suche/Match";
+import GruppenSuche from "../Matching/GruppenSuche";
+import Match from "../Matching/Match";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from "../../api/Firebase";
-import Logo from "../../assets/Logo-teamUp_2.png"
 
 class Home extends Component {
     constructor(props) {
