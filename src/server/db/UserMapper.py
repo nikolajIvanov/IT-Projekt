@@ -241,6 +241,7 @@ class UserMapper(Mapper):
             # Rückgabe des UserBO
             cursor.close()
             return self.find_modul_by_userid(user)
+        #Falls tuples wird ein IndexError ausgelöst und es wird ein Fehler geworfen.
         except IndexError:
             cursor.close()
             raise InternalServerError('Keinen User mit dieser AuthId gefunden')
