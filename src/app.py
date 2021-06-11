@@ -21,24 +21,25 @@ from server.api.UsersByIdApi import UsersByIdApi
 from server.api.LerngruppenByIdApi import LerngruppenByIdApi
 from server.db.ChatMapper import ChatMapper
 from server.Administration import Administration
+from server.api.Chat import Chat
 
 CORS(app, resources=r'/*')
 socketIo = SocketIO(app, cors_allowed_origins="*")
 app.config.from_pyfile('flask.cfg', silent=True)
 
+socketIo.on_namespace(Chat('/chat'))
+
 
 # TODO: Checken ob diese Methode noch benötigt wird
-@socketIo.on("message")
+"""@socketIo.on("message")
 def handleMessage(msg):
     print(msg)
     send(msg, broadcast=True)
     room = msg['roomId']
     message = msg['message']
     sender = msg['userId']
-    # emit('new_message', message, room=room)
-    Administration.save_message(room, message, sender)
-    return None
-
+    emit('new_message', message)
+    Administration.save_message(room, message, sender)"""
 
 @socketIo.on('usertoroom', namespace='/private')
 def add_user_to_room(usertooroom):

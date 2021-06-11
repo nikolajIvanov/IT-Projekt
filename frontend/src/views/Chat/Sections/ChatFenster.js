@@ -52,7 +52,7 @@ class Dashboard extends React.Component {
         console.log("component unmounted")
     }
     componentDidMount() {
-        var sensorEndpoint = "http://localhost:5000"
+        var sensorEndpoint = "http://localhost:5000/chat"
             this.socket = io.connect(sensorEndpoint, {
             reconnection: true,
             // transports: ['websocket']
