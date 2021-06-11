@@ -65,10 +65,10 @@ class UserMapper(Mapper):
 
         return mainUserBO, matching_users
 
-    def insert_by_authId(self, nutzer):
+    def insert_by_authId(self, user):
         """
         Methode zur Anlegung eines neuen Users in der Datenbank
-        :param nutzer: Ist das Nutzerobjekt
+        :param user: Ist das Nutzerobjekt
         :return: Alle Objekte des UserBO
         """
         try:
@@ -81,10 +81,10 @@ class UserMapper(Mapper):
                     VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s, %s, %s, %s, %s, %s, %s)"""
 
             # Auslesen der UserBO Daten
-            daten = (nutzer.get_authId(), nutzer.get_profilBild(), nutzer.get_name(),
-                     datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'), nutzer.get_email(),
-                     nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(), nutzer.get_semester(),
-                     nutzer.get_studiengang(), nutzer.get_vorname(), nutzer.get_frequenz(), nutzer.get_lernort())
+            daten = (user.get_authId(), user.get_profilBild(), user.get_name(),
+                     datetime.datetime.strptime(user.get_geburtsdatum(), '%Y-%m-%d'), user.get_email(),
+                     user.get_beschreibung(), user.get_lerntyp(), user.get_gender(), user.get_semester(),
+                     user.get_studiengang(), user.get_vorname(), user.get_frequenz(), user.get_lernort())
 
             # Ausführen des SQL-Befehls um die UserBO Daten auf die Datenbank zu schreiben
             cursor.execute(query, daten)
@@ -93,80 +93,27 @@ class UserMapper(Mapper):
             self._cnx.commit()
 
             # Auslesen welche Module zu dem Nutzer gehören
-            module = nutzer.get_modul()
+            module = user.get_modul()
 
+            # SQL-Befehl um den Datenbankeintrag zu erstellen
+            query1 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
             # Datenbankeintrag für jedes Modul erzeugen
             for i in module:
-                # SQL-Befehl um den Datenbankeintrag zu erstellen
-                query1 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
                 # Auslesen und speichern der users.id und modul.id
-                data = (self.find_id_by_authid(nutzer.get_authId()), self.get_modulId_by_modul(i))
+                data = (self.find_userid_by_authid(user.get_authId()), self.get_modulId_by_modul(i))
                 # (Bitte kein Komma nach data) Ausführen des SQL- Befehls
                 cursor.execute(query1, data)
             # Bestätigung der Datenbankabfrage/ änderung
             self._cnx.commit()
-            #Cursor schließen
-            cursor.close()
-
-            #Falls die Funktion ohne Fehler durchläuft wird der Wert '200' zurückgegeben
-            return 200
-
-        #Falls während der funktion ein SQL Fehler eintritt wird diese abgebrochen und der Fehler wird zurückgegeben
-        except mysql.connector.Error as err:
-            cursor.close()
-            raise InternalServerError(err.msg)
-
-    def insert_many(self, users):
-        """
-        Methode zur Anlegung eines neuen Users in der Datenbank
-        :param users: Ist das Nutzerobjekt
-        :return: Alle Objekte des UserBO
-        """
-        try:
-            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
-            cursor = self._cnx.cursor(prepared=True)
-
-            # Erstellen des SQL-Befehls
-            query = """INSERT INTO TeamUP.users (authId, bild, name, geburtsdatum, email,
-                    beschreibung, lerntyp, gender, semester, studiengang, vorname, frequenz, lernort) 
-                    VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s, %s, %s, %s, %s, %s, %s)"""
-
-            for nutzer in users:
-                # Auslesen der UserBO Daten
-                daten = (nutzer.get_authId(), nutzer.get_profilBild(), nutzer.get_name(),
-                         datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'), nutzer.get_email(),
-                         nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(), nutzer.get_semester(),
-                         nutzer.get_studiengang(), nutzer.get_vorname(), nutzer.get_frequenz(), nutzer.get_lernort())
-
-                # Ausführen des SQL-Befehls um die UserBO Daten auf die Datenbank zu schreiben
-                cursor.execute(query, daten)
-                # Bestätigung der Datenbankabfrage/ änderung
-                self._cnx.commit()
-
-                # Auslesen welche Module zu dem Nutzer gehören
-                module = nutzer.get_modul()
-
-                # Datenbankeintrag für jedes Modul erzeugen
-                for i in module:
-                    # SQL-Befehl um den Datenbankeintrag zu erstellen
-                    query1 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
-                    # Auslesen und speichern der users.id und modul.id
-                    data = (self.find_id_by_authid(nutzer.get_authId()), self.get_modulId_by_modul(i))
-                    # Ausführen des SQL- Befehls
-                    cursor.execute(query1, data)
-
-            # Bestätigung der Datenbankabfrage/ änderung
-            self._cnx.commit()
             # Cursor schließen
             cursor.close()
-            # Der Wert '200' zurückgegeben
+
+            # Falls die Funktion ohne Fehler durchläuft wird der Wert '200' zurückgegeben
             return 200
+
         # Falls während der funktion ein SQL Fehler eintritt wird diese abgebrochen und der Fehler wird zurückgegeben
         except mysql.connector.Error as err:
-            # Cursor schließen
-            cursor.close()
             raise InternalServerError(err.msg)
-
 
     def find_all(self):
         """
@@ -181,7 +128,7 @@ class UserMapper(Mapper):
                            "gender, semester, studiengang, vorname, frequenz, lernort FROM TeamUP.users")
             tuples = cursor.fetchall()
 
-            #Falls tuples leer ist sind keine User vorhanden und die Funktion wird abgebrochen
+            # Falls tuples leer ist sind keine User vorhanden und die Funktion wird abgebrochen
             if not tuples:
                 cursor.close()
                 raise InternalServerError('Keine User vorhanden')
@@ -200,11 +147,10 @@ class UserMapper(Mapper):
             self._cnx.commit()
             # Cursor schließen
             cursor.close()
-            #Liste mit Usern wird zurückgegeben
+            # Liste mit Usern wird zurückgegeben
             return result
         # Falls während der funktion ein SQL Fehler eintritt wird diese abgebrochen und der Fehler wird zurückgegeben
         except mysql.connector.Error as err:
-            cursor.close()
             raise InternalServerError(err.msg)
 
     def find_by_authId(self, user_authid):
@@ -232,21 +178,19 @@ class UserMapper(Mapper):
              studiengang, vorname, frequenz, lernort) = tuples[0]
 
             user = UserBO.create_userBO(id=user_id, authId=user_authid, profilBild=bild, name=name,
-                                        geburtsdatum=geburtsdatum, email=email, beschreibung=beschreibung, lerntyp=lerntyp,
-                                        gender=gender, semester=semester, studiengang=studiengang, vorname=vorname,
-                                        frequenz=frequenz, lernort=lernort)
+                                        geburtsdatum=geburtsdatum, email=email, beschreibung=beschreibung,
+                                        lerntyp=lerntyp, gender=gender, semester=semester, studiengang=studiengang,
+                                        vorname=vorname, frequenz=frequenz, lernort=lernort)
 
             # Das Geburtstag wird in das aktuelle Alter umgerechnet.
             user.set_geburtsdatum(user.calculate_age())
             # Rückgabe des UserBO
             cursor.close()
             return self.find_modul_by_userid(user)
-        #Falls tuples wird ein IndexError ausgelöst und es wird ein Fehler geworfen.
+        # Falls tuples wird ein IndexError ausgelöst und es wird ein Fehler geworfen.
         except IndexError:
-            cursor.close()
             raise InternalServerError('Keinen User mit dieser AuthId gefunden')
         except mysql.connector.Error as err:
-            cursor.close()
             raise InternalServerError(err.msg)
 
     def find_by_id(self, user_id):
@@ -280,7 +224,7 @@ class UserMapper(Mapper):
         # Rückgabe des UserBO
         return self.find_modul_by_userid(user)
 
-    def find_id_by_authid(self, authid):
+    def find_userid_by_authid(self, authid):
         """
         :param authid: GoogleID des aktuellen Users
         :return: Gibt die UserID zurück
@@ -330,7 +274,6 @@ class UserMapper(Mapper):
             cursor.close()
             return user
         except mysql.connector.Error as err:
-            cursor.close()
             raise InternalServerError(err.msg)
 
     def update_by_authId(self, nutzer):
@@ -354,7 +297,7 @@ class UserMapper(Mapper):
             # Auslesen und speichern der restlichen UserBO Daten
             daten = (authid, nutzer.get_profilBild(), nutzer.get_name(), nutzer.get_email(), nutzer.get_beschreibung(),
                      nutzer.get_lerntyp(), nutzer.get_gender(), nutzer.get_semester(), nutzer.get_studiengang(),
-                     nutzer.get_vorname(), nutzer.get_frequenz(), nutzer.get_lernort() ,authid)
+                     nutzer.get_vorname(), nutzer.get_frequenz(), nutzer.get_lernort(), authid)
 
             # TODO: Ist dieser Aufruf nötig? -> Sollte später kontrolliert werden. Wird aktuell benötigt, um die
             # User ID für das weitere Vorgehen aus der DB zu holen, falls sie falsch übergeben wurde (Postman)
@@ -388,9 +331,7 @@ class UserMapper(Mapper):
             cursor.close()
             return 200
         except mysql.connector.Error as err:
-            cursor.close()
             raise InternalServerError(err.msg)
-
 
     def find_modulID_for_matching(self, user_authid):
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
@@ -455,7 +396,6 @@ class UserMapper(Mapper):
             return 200
 
         except mysql.connector.Error as err:
-            cursor.close()
             raise InternalServerError(err.msg)
 
     ###################################################################################################################

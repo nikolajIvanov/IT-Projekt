@@ -75,7 +75,7 @@ class LerngruppeMapper(Mapper):
             if not tuples:
                 cursor.close()
                 raise InternalServerError('Keine Lerngruppen vorhanden')
-            #Erstellt mit den erhaltenen daten alle Lerngruppen und fügt sie zur Liste 'result' hinzu
+            # Erstellt mit den erhaltenen daten alle Lerngruppen und fügt sie zur Liste 'result' hinzu
             for (gruppen_id, lerntyp, name, beschreibung, profilBild, admin, frequenz, lernort) in tuples:
                 lerngruppe = Lerngruppe.create_lerngruppeBO(id=gruppen_id, lerntyp=lerntyp, name=name,
                                                             beschreibung=beschreibung, profilBild=profilBild,
@@ -86,7 +86,7 @@ class LerngruppeMapper(Mapper):
                 result.append(lerngruppe)
 
             cursor.close()
-            #Gibt Liste 'result' zurück
+            # Gibt Liste 'result' zurück
             return result
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
@@ -207,7 +207,6 @@ class LerngruppeMapper(Mapper):
             cursor.close()
             return 200
         except mysql.connector.Error as err:
-            cursor.close()
             raise InternalServerError(err.msg)
 
     # TODO In bearbeitung
@@ -215,8 +214,9 @@ class LerngruppeMapper(Mapper):
     def insert_user(self, user_authid, lerngruppe):
         """
         Speichert ein neues Mitglied in der Lerngruppe
-        :param user_authid, lerngruppe:
-        :return Statuscode: 200 Wenn das anlegen erfolgreich war
+        :param user_authid:
+        :param lerngruppe:
+        :return: Statuscode: 200 Wenn das anlegen erfolgreich war
         """
         try:
             # Öffnen der Datenbankverbindung
@@ -237,7 +237,8 @@ class LerngruppeMapper(Mapper):
     def delete_user_from_lerngruppe(self, user_authid, lerngruppe):
         """
         Löscht den aktuellen User aus der Lerngruppe
-        :param user_authid, lerngruppe:
+        :param user_authid:
+        :param lerngruppe:
         :return: Statuscode: 200 Wenn das anlegen erfolgreich war
         """
         try:
@@ -378,23 +379,20 @@ class LerngruppeMapper(Mapper):
         cursor.execute(query1, lerngruppe.get_name())
 
         # gruppen_id is die ID um die lerngruppe in der TABLE zu finden
-        gruppen_id = cursor.fetchall()
+        data = cursor.fetchone()
 
         # Query um alle informationen einer bestimmten lerngruppe zu bekommen
         query = """SELECT id,lerntyp, name, beschreibung, bild, admin from TeamUP.lerngruppe
         WHERE name = (%s)"""
-
-        # daten für die Query
-        data = gruppen_id
 
         cursor.execute(query, data)
 
         # lerngruppendaten
         tupel = cursor.fetchall()
 
-        (id, modul, name, beschreibung, profilbild, admin, mitglieder) = tupel[0]
+        (gruppen_id, modul, name, beschreibung, profilbild, admin, mitglieder) = tupel[0]
         lerngruppe = Lerngruppe()
-        lerngruppe.set_id(id)
+        lerngruppe.set_id(gruppen_id)
         lerngruppe.set_modul(modul)
         lerngruppe.set_name(name)
         lerngruppe.set_beschreibung(beschreibung)
@@ -423,9 +421,9 @@ class LerngruppeMapper(Mapper):
             # Speichern der SQL Antwort
             tupel = cursor.fetchall()
 
-            #Abbrechen der Suche da die Gruppe nicht vorhanden ist
+            # Abbrechen der Suche da die Gruppe nicht vorhanden ist
             if not tupel:
-                return (400, 'Keine Gruppe gefunden')
+                return 400, 'Keine Gruppe gefunden'
             # Auflösen der ersten SQL Antwort (Lerngruppe) und setzen der Parameter
             (lerntyp, name, beschreibung, bild, admin, frequenz, lernort) = tupel[0]
             lerngruppe = Lerngruppe()
@@ -438,7 +436,7 @@ class LerngruppeMapper(Mapper):
             lerngruppe.set_frequenz(frequenz)
             lerngruppe.set_lernort(lernort)
 
-            #erstellen des SQL-Befehls um abzufragen welche Module einer Lerngruppe zugeordnet sind
+            # erstellen des SQL-Befehls um abzufragen welche Module einer Lerngruppe zugeordnet sind
             query1 = """SELECT teamup.modul.bezeichnung FROM teamup.modul JOIN teamup.lerngruppeinmodul lim 
                         ON modul.id = lim.modulId WHERE lim.lerngruppeId =%s"""
             # Ausführen des zweiten SQL-Befehls

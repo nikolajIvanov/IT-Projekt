@@ -7,5 +7,4 @@ class StudiengangApi(Resource):
 
     @api.marshal_with(studiengang)
     def get(self):
-        adm = Administration()
-        return adm.get_all_studiengang()
+        return Administration.get_all_studiengang()

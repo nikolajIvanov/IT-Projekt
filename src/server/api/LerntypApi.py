@@ -7,5 +7,4 @@ class LerntypApi(Resource):
 
     @api.marshal_with(lerntyp)
     def get(self):
-        adm = Administration()
-        return adm.get_lerntyp()
+        return Administration.get_lerntyp()

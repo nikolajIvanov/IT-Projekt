@@ -42,13 +42,16 @@ class Administration(object):
             return mapper.insert_by_authId(authId)
 
     @staticmethod
-    def insert_many_user(nutzer):
+    def insert_many_user(users):
         """
-        :param nutzer: Ist die authId
-        :return: Alle Objekte des Nutzers
+        Methode um viele User gleichzeitig anzulegen
+        :param users: Liste mit mehreren User BOs
+        :return: Statuscode
         """
         with UserMapper() as mapper:
-            return mapper.insert_many(nutzer)
+            for user in users:
+                mapper.insert_by_authId(user)
+            # TODO Ardit kann man hier den Statuscode übergeben
 
     @staticmethod
     def update_user_by_authId( nutzer):
@@ -86,6 +89,7 @@ class Administration(object):
         """
         with UserMapper() as mapper:
             return mapper.find_by_authId(authId)
+
     #TODO KEINE VERWENDUNG NIKO Braucht man des beim chat wenn man übenr chat uafs profiel möchte
     def get_user_by_id(self, user_id):
         """
@@ -161,16 +165,18 @@ class Administration(object):
     """
         Modul und Studiengang-spezifische Methoden
     """
-
-    def get_all_studiengang(self):
+    @staticmethod
+    def get_all_studiengang():
         with StudiengangMapper() as mapper:
             return mapper.find_all()
 
-    def get_modul_by_studiengang(self, studiengang):
+    @staticmethod
+    def get_modul_by_studiengang(studiengang):
         with ModulMapper() as mapper:
             return mapper.get_studiengangId_by_studiengang(studiengang)
 
-    def get_lerntyp(self):
+    @staticmethod
+    def get_lerntyp():
         with LerntypMapper() as mapper:
             return mapper.find_all()
 
