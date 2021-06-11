@@ -1,11 +1,9 @@
 import React from 'react';
-import {Typography} from "@material-ui/core";
-import theme from "../../theme";
 
 function H3_bold(props) {
     return (
         <div>
-            <Typography style={theme.h3.regular}>{props.inhalt}</Typography>
+            <h3 className="h3_bold">{props.inhalt}</h3>
         </div>
     );
 }

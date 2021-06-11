@@ -1,11 +1,9 @@
 import React from 'react';
-import {Typography} from "@material-ui/core";
-import theme from "../../theme";
 
 function H2_regular(props) {
     return (
         <div>
-            <Typography style={theme.h2.regular}>{props.inhalt}</Typography>
+            <h2 className="h2_regular">{props.inhalt}</h2>
         </div>
     );
 }

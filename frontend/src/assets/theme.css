@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@900&family=Fjalla+One&display=swap');
 
 .App {
   text-align: center;
@@ -48,6 +49,16 @@
 .row{
   display: flex;
   flex-direction: row;
+}
+
+.chatPreviews{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chatWindow{
+  width: 30vw;
 }
 
 .scrollBox{
@@ -148,4 +159,12 @@
 .p_bold{
   font-size: medium;
   font-weight: bold
+}
+
+.header{
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 5px;
+  font-family: 'Catamaran', sans-serif;
+  font-size: 80px
 }
