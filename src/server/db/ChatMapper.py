@@ -1,5 +1,6 @@
 from server.db.Mapper import Mapper
 
+
 class ChatMapper(Mapper):
     def __init__(self):
         super().__init__()
@@ -28,10 +29,10 @@ class ChatMapper(Mapper):
         :return: Alle Nachrichten des Rooms
         """
         # Öffnen der Datenbankverbindung
-        cursor = self._cnx.cursor(prepared=True)
+        cursor = self._cnx.cursor()
 
         # Erstellen des SQL-Befehls
-        query = """SELECT * FROM TeamUP.message WHERE roomId=%s"""
+        query = """SELECT vonUserId, message FROM TeamUP.message WHERE roomId=%s"""
 
         # Ausführen des SQL-Befehls
         cursor.execute(query, roomId)
@@ -42,8 +43,16 @@ class ChatMapper(Mapper):
         # Schließen der Datenbankverbindung
         self._cnx.commit()
         cursor.close()
+
+        #Dict in List umwandeln
+        history = []
+        for i in messages:
+            message_dict = {"userId": None, "message": None}
+            message_dict["userId"] = messages[0]
+            message_dict["message"] = messages[1]
+        history.append(message_dict.copy())
         # Rückgabe der Nachrichten
-        return messages
+        return history
 
     def add_user_to_room(self, room, user):
         # Öffnen der Datenbankverbindung
@@ -106,4 +115,5 @@ class ChatMapper(Mapper):
     def create_room(self):
         #TODO: Methode implementieren
         pass
-
+    def find_all(self):
+        pass
