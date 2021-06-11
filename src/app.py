@@ -1,6 +1,6 @@
 # Import aller Nötigen Flask Packages
 from flask_cors import CORS
-from flask_socketio import SocketIO, send
+from flask_socketio import SocketIO, send, emit
 # Api Endpunkte
 from server.api.InitApi import InitApi
 from server.api.VieleUserApi import VieleUserApi
@@ -18,19 +18,37 @@ from server.api.LerngruppenMatchingApi import LerngruppenMatchingApi
 from server.api.UsersByIdApi import UsersByIdApi
 from server.api.LerngruppenByIdApi import LerngruppenByIdApi
 from server.db.ChatMapper import ChatMapper
+from server.Administration import Administration
 
 
 CORS(app, resources=r'/*')
 socketIo = SocketIO(app, cors_allowed_origins="*")
 
-
+#TODO: Checken ob diese Methode noch benötigt wird
 @socketIo.on("message")
 def handleMessage(msg):
     print(msg)
     send(msg, broadcast=True)
-    ChatMapper.add_message(msg)
+    Administration.save_message(msg)
     return None
 
+@socketIo.on('usertoroom', namespace='/private')
+def add_user_to_room(usertooroom):
+    #Erwarte ein JSON mit den Attributen userId und roomId
+    Administration.add_user_to_room(usertooroom['userId'], usertooroom['roomId'])
+
+@socketIo.on('private_message', namespace='/private')
+def nachricht(payLoad):
+    room = payLoad['roomId']
+    nachricht = payLoad['nachricht']
+    sender = payLoad['userId']
+    emit('new_message', nachricht, room=room)
+    Administration.save_message(room, nachricht, sender)
+    return None
+
+@socketIo.on('roomId', namespace='/private')
+def get_history(roomId):
+    return Administration.get_chat_by_room(roomId)
 
 # Api Endpunkte werden mit der Funktion add_resource an Flask übergeben
 api.add_resource(UsersApi, '/users')
