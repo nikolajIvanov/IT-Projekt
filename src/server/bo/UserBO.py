@@ -1,4 +1,4 @@
-from src.server.bo.ProfilBO import ProfilBO
+from server.bo.ProfilBO import ProfilBO
 from datetime import date, datetime
 
 

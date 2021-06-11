@@ -23,7 +23,7 @@ from server.Administration import Administration
 
 CORS(app, resources=r'/*')
 socketIo = SocketIO(app, cors_allowed_origins="*")
-
+app.config.from_pyfile('flask.cfg', silent=True)
 #TODO: Checken ob diese Methode noch benötigt wird
 @socketIo.on("message")
 def handleMessage(msg):
