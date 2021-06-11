@@ -159,7 +159,7 @@ class UserMapper(Mapper):
             self._cnx.commit()
             # Cursor schließen
             cursor.close()
-            # Falls die Funktion ohne Fehler durchläuft wird der Wert '200' zurückgegeben
+            # Der Wert '200' zurückgegeben
             return 200
         # Falls während der funktion ein SQL Fehler eintritt wird diese abgebrochen und der Fehler wird zurückgegeben
         except mysql.connector.Error as err:
@@ -180,9 +180,12 @@ class UserMapper(Mapper):
             cursor.execute("SELECT id, authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, "
                            "gender, semester, studiengang, vorname, frequenz, lernort FROM TeamUP.users")
             tuples = cursor.fetchall()
+
+            #Falls tuples leer ist sind keine User vorhanden und die Funktion wird abgebrochen
             if not tuples:
                 cursor.close()
                 raise InternalServerError('Keine User vorhanden')
+
             for (user_id, authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang,
                  vorname, frequenz, lernort) in tuples:
                 user = UserBO.create_userBO(id=user_id, authId=authId, profilBild=bild, name=name,
@@ -195,8 +198,11 @@ class UserMapper(Mapper):
 
             # Bestätigung der Datenbankabfrage/ änderung
             self._cnx.commit()
+            # Cursor schließen
             cursor.close()
+            #Liste mit Usern wird zurückgegeben
             return result
+        # Falls während der funktion ein SQL Fehler eintritt wird diese abgebrochen und der Fehler wird zurückgegeben
         except mysql.connector.Error as err:
             cursor.close()
             raise InternalServerError(err.msg)
