@@ -330,7 +330,7 @@ class UserMapper(Mapper):
         """
         Updatet einen Vorhandenen User. Die Transitive Tabelle userInModul wird ebenfalls geupdatet.
         :param nutzer: Ist das Nutzerobjekt mit den neuen Werten
-        :return: Das soeben geupdatete Objekt wird wieder nach vorne gegeben
+        :return: Der Statuscode '200' wird zurückgegeben nachdem der User aktualisiert wurde
         """
         try:
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
@@ -383,7 +383,7 @@ class UserMapper(Mapper):
         except mysql.connector.Error as err:
             cursor.close()
             raise InternalServerError(err.msg)
-        # TODO MySQL Errorhandling hier einbauen
+
 
     def find_modulID_for_matching(self, user_authid):
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen

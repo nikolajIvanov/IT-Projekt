@@ -50,7 +50,8 @@ class Administration(object):
         with UserMapper() as mapper:
             return mapper.insert_many(nutzer)
 
-    def update_user_by_authId(self, nutzer):
+    @staticmethod
+    def update_user_by_authId( nutzer):
         """
         :param nutzer: Ist die authId
         :return: Alle Objekte des Nutzers (aktualisiert)

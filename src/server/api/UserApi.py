@@ -25,7 +25,6 @@ class UserApi(Resource):
 
     @api.expect(user)
     def put(self, authId):
-        adm = Administration()
         payload = api.payload
         proposal = UserBO.create_userBO(id=payload["id"], authId=payload["authId"], profilBild=payload["profilBild"],
                                         name=payload["name"], geburtsdatum=payload["geburtsdatum"],
@@ -38,6 +37,6 @@ class UserApi(Resource):
             proposal.set_module_append(modul)
 
         if proposal is not None:
-            return adm.update_user_by_authId(proposal)
+            return Administration.update_user_by_authId(proposal)
         else:
-            return 500, ''
+            return 'Der User konnte nicht aktualisiert werden, da keine Daten mitgeschickt wurden', 500
