@@ -25,19 +25,19 @@ from server.Administration import Administration
 CORS(app, resources=r'/*')
 socketIo = SocketIO(app, cors_allowed_origins="*")
 app.config.from_pyfile('flask.cfg', silent=True)
+
+
 # TODO: Checken ob diese Methode noch benötigt wird
-"""@socketIo.on("message")
+@socketIo.on("message")
 def handleMessage(msg):
     print(msg)
-    emit("message", msg)
-    # send(msg, broadcast=True)
-    # Administration.save_message(msg)
-    # return None"""
-
-
-@socketIo.on("message")
-def handle_message(msg):
-    print(msg)
+    send(msg, broadcast=True)
+    room = msg['roomId']
+    message = msg['message']
+    sender = msg['userId']
+    # emit('new_message', message, room=room)
+    Administration.save_message(room, message, sender)
+    return None
 
 
 @socketIo.on('usertoroom', namespace='/private')
@@ -49,11 +49,11 @@ def add_user_to_room(usertooroom):
 @socketIo.on('private_message', namespace='/private')
 def nachricht(payLoad):
     room = payLoad['roomId']
-    nachricht = payLoad['nachricht']
+    message = payLoad['message']
     sender = payLoad['userId']
-    emit('new_message', nachricht, room=room)
-    Administration.save_message(room, nachricht, sender)
-    return None
+    emit('new_message', message, room=room)
+    Administration.save_message(room, message, sender)
+
 
 
 @socketIo.on('roomId', namespace='/private')

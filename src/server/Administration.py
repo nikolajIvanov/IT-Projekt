@@ -181,7 +181,7 @@ class Administration(object):
             return mapper.find_all()
 
     """
-        Matching Methode
+        Matching Methoden
     """
     @staticmethod
     def user_match_me(authId):
@@ -225,15 +225,21 @@ class Administration(object):
                 lerngruppenBO.append(mapper.find_by_id(int(lerngruppe_id)))
         return lerngruppenBO
 
-    def get_chat_by_room(self, room):
+    """
+        Chat Methoden
+    """
+    @staticmethod
+    def get_chat_by_room(room):
         with ChatMapper() as mapper:
             return mapper.get_messages_by_room(room)
 
-    def save_message(self, room, message, sender):
+    @staticmethod
+    def save_message(room, message, sender):
         with ChatMapper() as mapper:
             mapper.add_message(sender, room, message)
 
-    def add_user_to_room(self,room, user):
+    @staticmethod
+    def add_user_to_room(room, user):
         with ChatMapper() as mapper:
             mapper.add_user_to_room(room, user)
 
