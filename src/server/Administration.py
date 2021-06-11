@@ -108,7 +108,8 @@ class Administration(object):
         with LerngruppeMapper() as mapper:
             return mapper.insert_lerngruppe(lerngruppe)
 
-    def get_all_lerngruppen(self):
+    @staticmethod
+    def get_all_lerngruppen():
         """
         Alle Lerngruppen anzeigen lassen
         :return:

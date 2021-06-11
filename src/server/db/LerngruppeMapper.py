@@ -70,10 +70,12 @@ class LerngruppeMapper(Mapper):
             cursor.execute("""SELECT id, lerntyp, name, beschreibung, bild, admin, frequenz, lernort 
                               FROM TeamUP.lerngruppe""")
             tuples = cursor.fetchall()
+
             # Überprüft ob Werte in tuples gescheitert sind wenn nicht wird ein Fehler geworfen
             if not tuples:
                 cursor.close()
                 raise InternalServerError('Keine Lerngruppen vorhanden')
+            #Erstellt mit den erhaltenen daten alle Lerngruppen und fügt sie zur Liste 'result' hinzu
             for (gruppen_id, lerntyp, name, beschreibung, profilBild, admin, frequenz, lernort) in tuples:
                 lerngruppe = Lerngruppe.create_lerngruppeBO(id=gruppen_id, lerntyp=lerntyp, name=name,
                                                             beschreibung=beschreibung, profilBild=profilBild,
@@ -84,6 +86,7 @@ class LerngruppeMapper(Mapper):
                 result.append(lerngruppe)
 
             cursor.close()
+            #Gibt Liste 'result' zurück
             return result
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
