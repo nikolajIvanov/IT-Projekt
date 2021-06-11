@@ -9,7 +9,7 @@ class LerngruppenmitgliedApi(Resource):
     def delete(self):
         adm = Administration()
         proposal = Lerngruppe.from_dict(api.payload)
-        return adm.delete_user_by_list(proposal)
+        return adm.delete_user_in_lerngruppe(proposal)
 
     # TODO: Wann wird ein neues Mitglied hinzugefügt und was bekommt man vom Frontend?
     @api.marshal_with(lerngruppe)

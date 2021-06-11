@@ -10,13 +10,14 @@ class UsersApi(Resource):
         """Auslesen aller Nutzer-Objekte
         :return: nutzer
         """
-        adm = Administration()
-        return adm.get_all_users()
+        return Administration.get_all_users()
 
-    # @api.expect(user, validate=True)
     @api.expect(user)
     def post(self):
-        adm = Administration()
+        """
+        Erstellt einen neuen User in der Datenbank.
+        :return:
+        """
         payload = api.payload
         proposal = UserBO.create_userBO(id=payload["id"], authId=payload["authId"], profilBild=payload["profilBild"],
                                         name=payload["name"], geburtsdatum=payload["geburtsdatum"],
@@ -30,6 +31,6 @@ class UsersApi(Resource):
             proposal.set_module_append(modul)
         if proposal is not None:
 
-            return adm.create_user_by_authId(proposal)
+            return Administration.create_user_by_authId(proposal)
         else:
             return 'Der User konnte nicht angelegt werden, da keine Daten mitgeschickt wurden', 500

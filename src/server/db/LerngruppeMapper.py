@@ -60,30 +60,6 @@ class LerngruppeMapper(Mapper):
 
         return mainUserBO, matching_gruppen
 
-    def get_modulId_by_modul(self, modul):
-        """
-
-        :param modul: Ist das Modul (string)
-        :return: modulid
-        """
-        # Öffnen der Datenbankverbindung
-        cursor = self._cnx.cursor(prepared=True)
-
-        # Erstellen des SQL-Befehls
-        query = """SELECT modul.id FROM TeamUP.modul WHERE bezeichnung=%s"""
-
-        # Ausführen des SQL-Befehls
-        cursor.execute(query, (modul,))
-
-        # Speichern der SQL Antwort
-        modulId = cursor.fetchone()
-
-        # Schließen der Datenbankverbindung
-        self._cnx.commit()
-        cursor.close()
-        # Rückgabe der Modulid
-        return modulId[0]
-
     # TODO Erledigt
     def find_all(self):
 
@@ -253,111 +229,36 @@ class LerngruppeMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def delete_user_from_lerngruppe(self, lerngruppe):
+    # TODO In bearbeitung
+    # TODO: Muss als Parameter authId und lerngruppenID übergeben bekommen
+    def delete_user_from_lerngruppe(self, user_authid, lerngruppe):
         """
-        :param lerngruppe:
-        :return:
+        Löscht den aktuellen User aus der Lerngruppe
+        :param user_authid, lerngruppe:
+        :return: Statuscode: 200 Wenn das anlegen erfolgreich war
         """
+        try:
+            # Öffnen der Datenbankverbindung
+            cursor = self._cnx.cursor(prepared=True)
+            alteMitglieder = lerngruppe.get_mitglieder()
 
-        # Öffnen der Datenbankverbindung
-        cursor = self._cnx.cursor(prepared=True)
-        alteMitglieder = lerngruppe.get_mitglieder()
-
-        for i in alteMitglieder:
             # LerngruppenID bekommen über name
             query = """DELETE FROM teamup.userInLerngruppe WHERE teamup.userInLerngruppe.userId = %s
                         AND teamup.userinlerngruppe.lerngruppeId = %s"""
             # Mitglied ist in Liste Mitglied als einziges Element
-            cursor.execute(query,(i,lerngruppe.get_id()))
+            cursor.execute(query, (user_authid, lerngruppe.get_id()))
 
-        # Schließen der Datenbankverbindung
-        self._cnx.commit()
-        cursor.close()
+            # Schließen der Datenbankverbindung
+            self._cnx.commit()
+            cursor.close()
+            return 200
+        except mysql.connector.Error as err:
+            raise InternalServerError(err.msg)
 
-        return self.find_by_id(lerngruppe.get_id())
-
-    def update_info_from_lerngruppe_by_id(self, lerngruppe):
+    # TODO: Ardit hier noch komplettes Errorhandling und Statuscode zurück
+    def update_lerngruppe(self, lerngruppe):
         """
-        :param lerngruppe:
-        :return:
-        """
-
-        # Öffnen der Datenbankverbindung
-        cursor = self._cnx.cursor(prepared=True)
-
-        # Erstellen des SQL-Befehls um lerngruppendaten zu holen
-        query = """UPDATE teamup.lerngruppe SET bild=%s, name=%s, beschreibung=%s, admin=%s,
-                        lerntyp=%s WHERE lerngruppe.id=%s"""
-        # Auslesen und speichern der restlichen UserBO Daten
-        daten = (lerngruppe.get_profilBild(), lerngruppe.get_name(), lerngruppe.get_beschreibung(),
-                 lerngruppe.get_admin(), lerngruppe.get_lerntyp(), lerngruppe.get_id())
-        cursor.execute(query,(daten))
-        self._cnx.commit()
-        cursor.close()
-        # Erstellen des SQL-Befehls um alle bestehenden einträge der Gruppe in gruppeInModule zu löschen
-        query1 = """DELETE FROM TeamUP.lerngruppeinmodul WHERE teamup.lerngruppeinmodul.lerngruppeId=%s"""
-        # Ausführen des SQL-Befehls
-        cursor.execute(query1, lerngruppe.get_id())
-        # Schließen der Datenbankverbindung
-        self._cnx.commit()
-        cursor.close()
-
-        # Öffnen einer Datenbankverbindung
-        cursor = self._cnx.cursor(prepared=True)
-        # Auslesen und speicher welche Module zu dieser Gruppe gehören
-        module = lerngruppe.get_modul()
-
-        # Für jedes Modul ein Datenbankeintrag erzeugen
-        for i in module:
-            # Erstellen des SQL-Befehls
-            query2 = """INSERT INTO TeamUP.lerngruppeinmodul(lerngruppeId, modulId)  VALUES (%s, %s)"""
-            # Auslesen und speichern der users.id und modul.id
-            data = (lerngruppe.get_id(), self.get_modulId_by_modul(i))
-            # (Bitte kein Komma nach data) Ausführen des SQL-Befehls
-            cursor.execute(query2, (data))
-        # Schließen der Datenbankverbindung
-        self._cnx.commit()
-        cursor.close()
-
-    def update_info_from_lerngruppe(self, lerngruppe):
-
-        # Öffnen der Datenbankverbindung
-        cursor = self._cnx.cursor(prepared=True)
-
-        # LerngruppenID bekommen über name
-        query1 = """SELECT id FROM teamup.lerngruppe WHERE name = (%s) """
-
-        # gruppen_id is die ID um den admin und user in die TABLES speichern zu können
-        cursor.execute(query1, lerngruppe.get_name())
-        gruppen_id = cursor.fetchall()
-
-        # Erstellen des SQL-Befehls um lerngruppendaten zu holen
-        query = """UPDATE teamup.lerngruppe SET bild=%s, name=%s, beschreibung=%s, admin=%s,
-                        lerntyp=%s WHERE lerngruppe.id=%s"""
-
-        # Auslesen und speichern der restlichen UserBO Daten
-        daten = (lerngruppe.get_profilBild(), lerngruppe.get_name(), lerngruppe.get_beschreibung(),
-                 lerngruppe.get_admin(), lerngruppe.get_lerntyp())
-
-        # Erstellen des SQL-Befehls um das Lerngruppenmodul anzupassen
-        query1 = """UPDATE teamup.lerngruppeInModul SET modulId=%s  
-                    WHERE lerngruppeId=%s """
-
-        # Daten für das Update der TABLE lerngruppeInModul
-        daten1 = (gruppen_id, lerngruppe.get_modul())
-
-        # Ausführen des SQL-Befehls für die lerngruppen TABLE Daten
-        cursor.execute(query, daten)
-
-        # Ausführen des SQL-Befehls für die lerngruppeInModul TABLE Daten
-        cursor.execute(query1, daten1)
-
-        # Schließen der Datenbankverbindung
-        self._cnx.commit()
-        cursor.close()
-
-    def delete_gruppe(self, gruppen_id):
-        """
+        Updatet eine komplette Lerngruppe mit allen Werten
         :param lerngruppe:
         :return:
         """
@@ -365,33 +266,73 @@ class LerngruppeMapper(Mapper):
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor(prepared=True)
 
+            # Erstellen des SQL-Befehls um lerngruppendaten zu holen
+            query = """UPDATE teamup.lerngruppe SET bild=%s, name=%s, beschreibung=%s, admin=%s,
+                            lerntyp=%s WHERE lerngruppe.id=%s"""
+            # Auslesen und speichern der restlichen UserBO Daten
+            daten = (lerngruppe.get_profilBild(), lerngruppe.get_name(), lerngruppe.get_beschreibung(),
+                     lerngruppe.get_admin(), lerngruppe.get_lerntyp(), lerngruppe.get_id())
+            cursor.execute(query, daten)
+            self._cnx.commit()
+            cursor.close()
+            # Erstellen des SQL-Befehls um alle bestehenden einträge der Gruppe in gruppeInModule zu löschen
+            query1 = """DELETE FROM TeamUP.lerngruppeinmodul WHERE teamup.lerngruppeinmodul.lerngruppeId=%s"""
+            # Ausführen des SQL-Befehls
+            cursor.execute(query1, lerngruppe.get_id())
+            # Schließen der Datenbankverbindung
+            self._cnx.commit()
+
+            # Auslesen und speicher welche Module zu dieser Gruppe gehören
+            module = lerngruppe.get_modul()
+
+            # Für jedes Modul ein Datenbankeintrag erzeugen
+            for i in module:
+                # Erstellen des SQL-Befehls
+                query2 = """INSERT INTO TeamUP.lerngruppeinmodul(lerngruppeId, modulId)  VALUES (%s, %s)"""
+                # Auslesen und speichern der users.id und modul.id
+                data = (lerngruppe.get_id(), self.get_modulId_by_modul(i))
+                # (Bitte kein Komma nach data) Ausführen des SQL-Befehls
+                cursor.execute(query2, data)
+            # Schließen der Datenbankverbindung
+            self._cnx.commit()
+            cursor.close()
+            return 200
+        except mysql.connector.Error as err:
+            raise InternalServerError(err.msg)
+
+    # TODO Erledigt
+    def delete_gruppe(self, gruppen_id):
+        """
+        Löscht eine komplette Lerngruppe und die dazugehörigen Verbindungen
+        :param gruppen_id: Die LerngruppenID, welche gelöscht werden soll
+        :return: Statuscode 200 Wenn die Lerngruppe erfolgreich gelöscht wurde
+        """
+        try:
+            # Öffnen der Datenbankverbindung
+            cursor = self._cnx.cursor(prepared=True)
+
+            # Lerngruppe in lerngruppeInModul TABLE löschen
+            query_user = """DELETE FROM teamup.userinlerngruppe WHERE lerngruppeId=%s """
+
+            # Lerngruppe in lerngruppeInModul TABLE löschen
+            query_modul = """DELETE FROM teamup.lerngruppeInModul WHERE lerngruppeId=%s """
+
             # Lerngruppen über die ID löschen
-            query = """DELETE FROM teamup.lerngruppe WHERE id=%s """
+            query_gruppe = """DELETE FROM teamup.lerngruppe WHERE id=%s """
 
-            # Lerngruppe in lerngruppeInModul TABLE löschen
-            query1 = """DELETE FROM teamup.lerngruppeInModul WHERE lerngruppeId=%s """
+            # Löschen alle User aus der Datenbank der Lerngruppe
+            cursor.execute(query_user, (gruppen_id,))
 
-            # Lerngruppe in lerngruppeInModul TABLE löschen
-            query2 = """DELETE FROM teamup.userinlerngruppe WHERE lerngruppeId=%s """
+            # Löschen alle Moduleinträge der Lerngruppe
+            cursor.execute(query_modul, (gruppen_id,))
 
-            # Lerngruppen Id
-            data = gruppen_id
-
-            # Löschen des userinGruppe Eintrag
-            cursor.execute(query2, (data,))
-
-             # Löschen des lerngruppeInModul-Eintrags
-            cursor.execute(query1, (data,))
-
-             # Löschen der lergruppe
-            cursor.execute(query, (data,))
+            # Löschen der Lerngruppe
+            cursor.execute(query_gruppe, (gruppen_id,))
 
             self._cnx.commit()
             cursor.close()
             return 200
-
         except mysql.connector.Error as err:
-            cursor.close()
             raise InternalServerError(err.msg)
 
     ###################################################################################################################
@@ -523,3 +464,41 @@ class LerngruppeMapper(Mapper):
             return lerngruppe
         except mysql.connector.Error as err:
             return 400, err.msg
+
+    # TODO Wird das noch benötigt?
+    def update_info_from_lerngruppe_ALT(self, lerngruppe):
+
+        # Öffnen der Datenbankverbindung
+        cursor = self._cnx.cursor(prepared=True)
+
+        # LerngruppenID bekommen über name
+        query1 = """SELECT id FROM teamup.lerngruppe WHERE name = (%s) """
+
+        # gruppen_id is die ID um den admin und user in die TABLES speichern zu können
+        cursor.execute(query1, lerngruppe.get_name())
+        gruppen_id = cursor.fetchall()
+
+        # Erstellen des SQL-Befehls um lerngruppendaten zu holen
+        query = """UPDATE teamup.lerngruppe SET bild=%s, name=%s, beschreibung=%s, admin=%s,
+                        lerntyp=%s WHERE lerngruppe.id=%s"""
+
+        # Auslesen und speichern der restlichen UserBO Daten
+        daten = (lerngruppe.get_profilBild(), lerngruppe.get_name(), lerngruppe.get_beschreibung(),
+                 lerngruppe.get_admin(), lerngruppe.get_lerntyp())
+
+        # Erstellen des SQL-Befehls um das Lerngruppenmodul anzupassen
+        query1 = """UPDATE teamup.lerngruppeInModul SET modulId=%s  
+                    WHERE lerngruppeId=%s """
+
+        # Daten für das Update der TABLE lerngruppeInModul
+        daten1 = (gruppen_id, lerngruppe.get_modul())
+
+        # Ausführen des SQL-Befehls für die lerngruppen TABLE Daten
+        cursor.execute(query, daten)
+
+        # Ausführen des SQL-Befehls für die lerngruppeInModul TABLE Daten
+        cursor.execute(query1, daten1)
+
+        # Schließen der Datenbankverbindung
+        self._cnx.commit()
+        cursor.close()

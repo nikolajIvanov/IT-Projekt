@@ -7,12 +7,20 @@ from server.bo.UserBO import UserBO
 class UserApi(Resource):
     @api.marshal_with(user)
     def get(self, authId):
-        adm = Administration()
-        return adm.get_user_by_authId(authId)
+        """
+        Übergibt den aktuellen User ans Frontend
+        :param authId:
+        :return: User Objekt mit allen Daten
+        """
+        return Administration.get_user_by_authId(authId)
 
     def delete(self, authId):
-        adm = Administration()
-        return adm.delete_user_by_id(authId)
+        """
+        Löscht den aktuellen User über die GoogleID
+        :param authId: GoogleID des Users
+        :return: Statuscode 200: User wurde erfolgreich gelöscht
+        """
+        return Administration.delete_user_by_authId(authId)
 
 
     @api.expect(user)
@@ -32,4 +40,4 @@ class UserApi(Resource):
         if proposal is not None:
             return adm.update_user_by_authId(proposal)
         else:
-            return 500,''
+            return 500, ''

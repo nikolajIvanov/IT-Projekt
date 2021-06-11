@@ -4,10 +4,66 @@ import datetime
 import mysql.connector.errors
 from werkzeug.exceptions import InternalServerError
 
+
 class UserMapper(Mapper):
 
     def __init__(self):
         super().__init__()
+
+    def matching_method(self, user_authid):
+        """
+        Sucht alle passenden Kandidaten, die für das Matching in Frage kommen. Dafür sucht man den aktuellen User über
+        die authID und sucht alle Module in dem er sich befindet. Über die ModulID sucht man alle User die im selben
+        Modul sind und speichert alle Informationen des Kandidaten.
+        :param user_authid: GoogleID des aktuellen Users
+        :return: Als Rückgabe erhalt man den aktuellen User mit allen relevanten Informationen und eine Liste mit
+        User Objekten die für das Matching in Frage kommen.
+        """
+        # Speichert jeden User der für den Algo in Frage kommt; Wird im return Übergeben
+        matching_users = []
+
+        # Speichert alle User, die in den selben Modulen sind
+        users_in_modul = []
+
+        # Die Variable users speichert alle Users, die für das Matching in Frage kommen
+        # Datentyp SET wird genutzt, um sicher zu gehen, dass die User nur einmal vorkommen
+        unsorted_users = set()
+
+        mainUserBO = self.find_modulID_for_matching(user_authid)
+
+        # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
+        cursor = self._cnx.cursor(buffered=True)
+
+        query3 = """SELECT userId FROM TeamUP.userInModul WHERE modulId=%s"""
+
+        # Holt alle User, die in den selben Modulen sind wie der aktuelle User
+        for modul_id in mainUserBO.get_modul():
+            cursor.execute(query3, (modul_id,))
+            match_user = cursor.fetchall()
+            users_in_modul.append(match_user)
+
+        for i in users_in_modul:  # Löst die Liste von fetchall auf
+            for x in i:  # Löse den Tuple von der Liste auf
+                # Stellt sicher, dass der aktuelle User nicht berücksichtigt wird
+                if x[0] == mainUserBO.get_id():
+                    continue
+                else:
+                    unsorted_users.add(x[0])
+
+        query_matching_user = """SELECT id, lerntyp, semester, studiengang, frequenz, lernort FROM TeamUP.users 
+                                 WHERE id=%s"""
+
+        # Es werden alle benötigten Informationen jedes Users geholt und in einem UserBO gespeichert
+        for user in unsorted_users:
+            cursor.execute(query_matching_user, (user, ))
+            tuple_user = cursor.fetchone()
+            user = UserBO.create_matching_userBO(id=tuple_user[0], lerntyp=tuple_user[1], semester=tuple_user[2],
+                                                 studiengang=tuple_user[3], frequenz=tuple_user[4],
+                                                 lernort=tuple_user[5])
+
+            matching_users.append(user)
+
+        return mainUserBO, matching_users
 
     def insert_by_authId(self, nutzer):
         """
@@ -210,30 +266,6 @@ class UserMapper(Mapper):
         # Rückgabe des UserBO
         return self.find_modul_by_userid(user)
 
-    def get_modulId_by_modul(self, modul):
-        """
-        Sucht nach der Modul ID über die Modul bezeichnung. Wird verwendet, um eine Verbindung zwischen einem User
-        und seinen Modulen in der Datenbank zu speichern.
-        :param modul: Bekommt ein einzelnes Modul als String
-        :return: Modul ID
-        """
-        # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
-        cursor = self._cnx.cursor(prepared=True)
-
-        # Erstellen des SQL-Befehls
-        query = """SELECT modul.id FROM TeamUP.modul WHERE bezeichnung=%s"""
-
-        # Ausführen des SQL-Befehls
-        cursor.execute(query, (modul,))
-
-        # Speichern der SQL Antwort
-        modulid = cursor.fetchone()
-
-        # Bestätigung der Datenbankabfrage/ änderung
-        self._cnx.commit()
-
-        return modulid[0]
-
     def find_modul_by_userid(self, user):
         """
         Findet alle Module eines Users
@@ -355,61 +387,6 @@ class UserMapper(Mapper):
 
         cursor.close()
         return mainUserBO
-
-    def matching_method(self, user_authid):
-        """
-        Sucht alle passenden Kandidaten, die für das Matching in Frage kommen. Dafür sucht man den aktuellen User über
-        die authID und sucht alle Module in dem er sich befindet. Über die ModulID sucht man alle User die im selben
-        Modul sind und speichert alle Informationen des Kandidaten.
-        :param user_authid: GoogleID des aktuellen Users
-        :return: Als Rückgabe erhalt man den aktuellen User mit allen relevanten Informationen und eine Liste mit
-        User Objekten die für das Matching in Frage kommen.
-        """
-        # Speichert jeden User der für den Algo in Frage kommt; Wird im return Übergeben
-        matching_users = []
-
-        # Speichert alle User, die in den selben Modulen sind
-        users_in_modul = []
-
-        # Die Variable users speichert alle Users, die für das Matching in Frage kommen
-        # Datentyp SET wird genutzt, um sicher zu gehen, dass die User nur einmal vorkommen
-        unsorted_users = set()
-
-        mainUserBO = self.find_modulID_for_matching(user_authid)
-
-        # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
-        cursor = self._cnx.cursor(buffered=True)
-
-        query3 = """SELECT userId FROM TeamUP.userInModul WHERE modulId=%s"""
-
-        # Holt alle User, die in den selben Modulen sind wie der aktuelle User
-        for modul_id in mainUserBO.get_modul():
-            cursor.execute(query3, (modul_id,))
-            match_user = cursor.fetchall()
-            users_in_modul.append(match_user)
-
-        for i in users_in_modul:  # Löst die Liste von fetchall auf
-            for x in i:  # Löse den Tuple von der Liste auf
-                # Stellt sicher, dass der aktuelle User nicht berücksichtigt wird
-                if x[0] == mainUserBO.get_id():
-                    continue
-                else:
-                    unsorted_users.add(x[0])
-
-        query_matching_user = """SELECT id, lerntyp, semester, studiengang, frequenz, lernort FROM TeamUP.users 
-                                 WHERE id=%s"""
-
-        # Es werden alle benötigten Informationen jedes Users geholt und in einem UserBO gespeichert
-        for user in unsorted_users:
-            cursor.execute(query_matching_user, (user, ))
-            tuple_user = cursor.fetchone()
-            user = UserBO.create_matching_userBO(id=tuple_user[0], lerntyp=tuple_user[1], semester=tuple_user[2],
-                                                 studiengang=tuple_user[3], frequenz=tuple_user[4],
-                                                 lernort=tuple_user[5])
-
-            matching_users.append(user)
-
-        return mainUserBO, matching_users
 
     ###################################################################################################################
     # Nicht genutzt Methoden
