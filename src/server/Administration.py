@@ -220,6 +220,14 @@ class Administration(object):
         with ChatMapper() as mapper:
             return mapper.get_messages_by_room(room)
 
+    def save_message(self, room, message, sender):
+        with ChatMapper() as mapper:
+            mapper.add_message(sender, room, message)
+
+    def add_user_to_room(self,room, user):
+        with ChatMapper() as mapper:
+            mapper.add_user_to_room(room, user)
+
     ###################################################################################################################
     # Nicht genutzt Methoden
     ###################################################################################################################

@@ -4,16 +4,16 @@ class ChatMapper(Mapper):
     def __init__(self):
         super().__init__()
 
-    def add_message(self, nachricht):
+    def add_message(self, user, room, nachricht):
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
 
         # Erstellen des SQL-Befehls für TABLE lerngruppe
         query = """INSERT INTO teamup.message (vonUserId, roomId, message) VALUES (%s ,%s ,%s)"""
-        # Erstellen des SQL-Befehls für TABLE userInLerngruppe für den admin
+        # Erstellen des SQL-Befehls
 
         # Daten für lerngruppe
-        daten = (nachricht.get_senderId(),nachricht.get_roomId(), nachricht.get_nachricht())
+        daten = (user, room, nachricht)
 
         # Ausführen des SQL-Befehls für lerngruppe
         cursor.execute(query, daten)
