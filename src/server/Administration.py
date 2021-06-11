@@ -86,7 +86,7 @@ class Administration(object):
         """
         with UserMapper() as mapper:
             return mapper.find_by_authId(authId)
-
+    #TODO KEINE VERWENDUNG NIKO Braucht man des beim chat wenn man übenr chat uafs profiel möchte
     def get_user_by_id(self, user_id):
         """
         Findet einen bestimmten User über die id.

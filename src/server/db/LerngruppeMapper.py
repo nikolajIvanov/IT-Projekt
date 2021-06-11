@@ -176,8 +176,6 @@ class LerngruppeMapper(Mapper):
             # Erstellen des SQL-Befehls für TABLE lerngruppe
             query = """INSERT INTO teamup.lerngruppe (name, beschreibung, bild, lerntyp,admin, frequenz, lernort) 
                        VALUES (%s ,%s ,%s ,%s ,%s, %s ,%s)"""
-            # Erstellen des SQL-Befehls für TABLE userInLerngruppe für den admin
-
             # Daten für lerngruppe
             daten = (lerngruppe.get_name(), lerngruppe.get_beschreibung(), lerngruppe.get_profilBild(),
                      lerngruppe.get_lerntyp(), lerngruppe.get_admin(), lerngruppe.get_frequenz(),
@@ -197,6 +195,7 @@ class LerngruppeMapper(Mapper):
                 cursor.execute(query1, data1)
 
             gruppenModule = lerngruppe.get_modul()
+            # Schleife setzt Lerngruppe mit ModulId in die LerngruppeInModul Tabelle
             for modul in gruppenModule:
                 query2 = """INSERT INTO teamup.lerngruppeinmodul (lerngruppeId, modulId) VALUES (%s, %s) """
                 data2 = (gruppenId, self.get_modulId_by_modul(modul))
@@ -205,6 +204,7 @@ class LerngruppeMapper(Mapper):
             cursor.close()
             return 200
         except mysql.connector.Error as err:
+            cursor.close()
             raise InternalServerError(err.msg)
 
     # TODO In bearbeitung

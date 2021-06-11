@@ -17,5 +17,7 @@ class LerngruppenApi(Resource):
                                                   profilBild=api.payload["profilBild"], admin=api.payload["admin"],
                                                   frequenz=api.payload["frequenz"], lernort=api.payload["lernort"],
                                                   mitglieder=api.payload["mitglieder"])
-
-        return Administration.create_lerngruppe(proposal)
+        if proposal is not None:
+            return Administration.create_lerngruppe(proposal)
+        else:
+            return 'Die Lerngruppe konnte nicht angelegt werden, da keine Daten mitgeschickt wurden', 500
