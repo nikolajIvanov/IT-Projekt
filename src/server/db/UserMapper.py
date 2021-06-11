@@ -417,13 +417,10 @@ class UserMapper(Mapper):
         cursor.close()
         return mainUserBO
 
-    ###################################################################################################################
-    # Nicht genutzt Methoden
-    ###################################################################################################################
-
     def delete_by_authId(self, user_authid):
         """
         :param user_authid: Die GoogleID des zu löschenden Users
+        :return: Der Statuscode '200' wird zurückgegeben nachdem der User gelöscht wurde
         """
         try:
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
@@ -454,6 +451,9 @@ class UserMapper(Mapper):
             cursor.close()
             raise InternalServerError(err.msg)
 
+    ###################################################################################################################
+    # Nicht genutzt Methoden
+    ###################################################################################################################
     # TODO Wird das noch benötigt?
     def find_by_name(self, name):
 
