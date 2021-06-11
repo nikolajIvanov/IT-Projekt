@@ -266,6 +266,28 @@ class UserMapper(Mapper):
         # Rückgabe des UserBO
         return self.find_modul_by_userid(user)
 
+    def find_id_by_authid(self, authid):
+        """
+        :param authid: GoogleID des aktuellen Users
+        :return: Gibt die UserID zurück
+        """
+        try:
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
+            cursor = self._cnx.cursor(prepared=True)
+            # erstellen des SQL-Befehls um die UserBO Daten abzufragen
+            query = """SELECT id FROM TeamUP.users WHERE authId=%s"""
+
+            # Ausführen des ersten SQL-Befehls
+            cursor.execute(query, (authid,))
+            # Speichern der SQL Antwort
+            user_id = cursor.fetchone()
+
+            cursor.close()
+            # Rückgabe des UserBO
+            return user_id
+        except mysql.connector.Error as err:
+            raise InternalServerError(err.msg)
+
     def find_modul_by_userid(self, user):
         """
         Findet alle Module eines Users
