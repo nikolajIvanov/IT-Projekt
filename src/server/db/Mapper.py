@@ -2,6 +2,9 @@ import mysql.connector as connector
 import os
 from contextlib import AbstractContextManager
 from abc import ABC, abstractmethod
+from werkzeug.exceptions import InternalServerError
+import mysql.connector.errors
+
 
 
 class Mapper(AbstractContextManager, ABC):
@@ -19,28 +22,33 @@ class Mapper(AbstractContextManager, ABC):
         self._cnx.close()
 
     def get_modulId_by_modul(self, modul):
+
         """
         Sucht nach der Modul ID über die Modul bezeichnung. Wird verwendet, um eine Verbindung zwischen dem Objekt
         und seinen Modulen in der Datenbank zu speichern.
         :param modul: Bekommt ein einzelnes Modul als String
         :return: Modul ID
         """
-        # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
-        cursor = self._cnx.cursor(prepared=True)
+        try:
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
+            cursor = self._cnx.cursor(prepared=True)
 
-        # Erstellen des SQL-Befehls
-        query = """SELECT modul.id FROM TeamUP.modul WHERE bezeichnung=%s"""
+            # Erstellen des SQL-Befehls
+            query = """SELECT modul.id FROM TeamUP.modul WHERE bezeichnung=%s"""
 
-        # Ausführen des SQL-Befehls
-        cursor.execute(query, (modul,))
+            # Ausführen des SQL-Befehls
+            cursor.execute(query, (modul,))
 
-        # Speichern der SQL Antwort
-        modulid = cursor.fetchone()
+            # Speichern der SQL Antwort
+            modulid = cursor.fetchone()
 
-        # Bestätigung der Datenbankabfrage/ änderung
-        self._cnx.commit()
+            # Bestätigung der Datenbankabfrage/ änderung
+            self._cnx.commit()
 
-        return modulid[0]
+            return modulid[0]
+
+        except mysql.connector.Error as err:
+            raise InternalServerError(err.msg)
 
     @abstractmethod
     def find_all(self):
