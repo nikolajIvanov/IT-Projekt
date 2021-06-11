@@ -10,17 +10,24 @@ function ChatFenster() {
     const [message, setMessage] = React.useState("User ist verbunden")
     const [chat, setChat] = React.useState([])
 
-    socket.on('connect', sendMessage)
-    socket.on('message', function(msg){
-            setChat(chat => chat.concat(msg))
-        })
+    socket.on('message', msg => receiveMessage(msg))
+    socket.emit('message', {
+        msg: "hi"
+    })
+
+    function receiveMessage(msg){
+        console.log("income" + msg)
+    }
 
     function handleMessage(e){
         setMessage(e.target.value)
     }
 
     function sendMessage() {
-        socket.emit("message", message)
+        console.log("send" + message)
+        socket.emit('message', {
+            msg: message
+        })
     }
 
     return (
