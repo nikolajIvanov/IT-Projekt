@@ -122,45 +122,51 @@ class UserMapper(Mapper):
         :param users: Ist das Nutzerobjekt
         :return: Alle Objekte des UserBO
         """
-        # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
-        cursor = self._cnx.cursor(prepared=True)
-
-        # Erstellen des SQL-Befehls
-        query = """INSERT INTO TeamUP.users (authId, bild, name, geburtsdatum, email,
-                beschreibung, lerntyp, gender, semester, studiengang, vorname, frequenz, lernort) 
-                VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s, %s, %s, %s, %s, %s, %s)"""
-        for nutzer in users:
-            # Auslesen der UserBO Daten
-            daten = (nutzer.get_authId(), nutzer.get_profilBild(), nutzer.get_name(),
-                     datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'), nutzer.get_email(),
-                     nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(), nutzer.get_semester(),
-                     nutzer.get_studiengang(), nutzer.get_vorname(), nutzer.get_frequenz(), nutzer.get_lernort())
-
-            # Ausführen des SQL-Befehls um die UserBO Daten auf die Datenbank zu schreiben
-            cursor.execute(query, daten)
-            # Schließen der Datenbankverbindung
-            self._cnx.commit()
-            cursor.close()
-
-            # Öffnen einer Datenbankverbindung
+        try:
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
 
-            # Auslesen welche Module zu dem Nutzer gehören
-            module = nutzer.get_modul()
-            # Datenbankeintrag für jedes Modul erzeugen
-            for i in module:
-                # SQL-Befehl um den Datenbankeintrag zu erstellen
-                query1 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
-                # Auslesen und speichern der users.id und modul.id
-                data = (self.get_Id_by_authId(nutzer.get_authId()), self.get_modulId_by_modul(i))
-                # (Bitte kein Komma nach data) Ausführen des SQL- Befehls
-                cursor.execute(query1, data)
-            # Bestätigung der Datenbankabfrage/ änderung
-        self._cnx.commit()
-        cursor.close()
+            # Erstellen des SQL-Befehls
+            query = """INSERT INTO TeamUP.users (authId, bild, name, geburtsdatum, email,
+                    beschreibung, lerntyp, gender, semester, studiengang, vorname, frequenz, lernort) 
+                    VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s, %s, %s, %s, %s, %s, %s)"""
 
-        # Rückgabe aller Userdaten
-        return self.find_by_authId(nutzer.get_authId())
+            for nutzer in users:
+                # Auslesen der UserBO Daten
+                daten = (nutzer.get_authId(), nutzer.get_profilBild(), nutzer.get_name(),
+                         datetime.datetime.strptime(nutzer.get_geburtsdatum(), '%Y-%m-%d'), nutzer.get_email(),
+                         nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(), nutzer.get_semester(),
+                         nutzer.get_studiengang(), nutzer.get_vorname(), nutzer.get_frequenz(), nutzer.get_lernort())
+
+                # Ausführen des SQL-Befehls um die UserBO Daten auf die Datenbank zu schreiben
+                cursor.execute(query, daten)
+                # Bestätigung der Datenbankabfrage/ änderung
+                self._cnx.commit()
+
+                # Auslesen welche Module zu dem Nutzer gehören
+                module = nutzer.get_modul()
+
+                # Datenbankeintrag für jedes Modul erzeugen
+                for i in module:
+                    # SQL-Befehl um den Datenbankeintrag zu erstellen
+                    query1 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
+                    # Auslesen und speichern der users.id und modul.id
+                    data = (self.find_id_by_authid(nutzer.get_authId()), self.get_modulId_by_modul(i))
+                    # Ausführen des SQL- Befehls
+                    cursor.execute(query1, data)
+
+            # Bestätigung der Datenbankabfrage/ änderung
+            self._cnx.commit()
+            # Cursor schließen
+            cursor.close()
+            # Falls die Funktion ohne Fehler durchläuft wird der Wert '200' zurückgegeben
+            return 200
+        # Falls während der funktion ein SQL Fehler eintritt wird diese abgebrochen und der Fehler wird zurückgegeben
+        except mysql.connector.Error as err:
+            # Cursor schließen
+            cursor.close()
+            raise InternalServerError(err.msg)
+
 
     def find_all(self):
         """

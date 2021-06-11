@@ -7,9 +7,7 @@ from server.bo.UserBO import UserBO
 class VieleUserApi(Resource):
 
     @api.expect(user)
-    @api.marshal_with(user)
     def post(self):
-        adm = Administration()
         payload = api.payload
         users = []
         for user in payload:
@@ -23,6 +21,6 @@ class VieleUserApi(Resource):
             users.append(proposal)
 
         if users is not None:
-            return adm.insert_many_user(users)
+            return Administration.insert_many_user(users)
         else:
-            return '', 500
+            return 'Die User konnten nicht angelegt werden, da keine Daten mitgeschickt wurden', 500
