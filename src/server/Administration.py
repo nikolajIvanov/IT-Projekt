@@ -144,7 +144,7 @@ class Administration(object):
     def delete_user_in_lerngruppe(self, lerngruppe):
         """
         :param lerngruppe: lerngruppenobjekt
-        :return:
+        :return: Statuscode 200 User erfolgreich aus Gruppe gelöscht
         """
         with LerngruppeMapper() as mapper:
             return mapper.delete_user_from_lerngruppe(lerngruppe)
