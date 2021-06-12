@@ -2,8 +2,8 @@ from server.db.Mapper import Mapper
 from server.bo.RoomBO import RoomBO
 
 
-
 class ChatMapper(Mapper):
+
     def __init__(self):
         super().__init__()
 
@@ -23,7 +23,6 @@ class ChatMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
-        cursor = self._cnx.cursor(prepared=True)
 
     def get_messages_by_room(self, roomId):
         """
@@ -45,7 +44,7 @@ class ChatMapper(Mapper):
         # Schließen der Datenbankverbindung
         cursor.close()
 
-        #Dict in List umwandeln
+        # Dict in List umwandeln
         history = []
         for message in messages:
                 message_dict = {"userId": None, "message": None}
@@ -59,10 +58,9 @@ class ChatMapper(Mapper):
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
 
-
         query1 = """INSERT INTO teamup.userInRoom(userId, roomId) VALUES (%s, %s)"""
         data1 = (user, room)
-        cursor.execute(query1, (data1))
+        cursor.execute(query1, data1)
 
         self._cnx.commit()
         cursor.close()
@@ -84,7 +82,7 @@ class ChatMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    def admitt_user_to_room(self, room, user):
+    def admit_user_to_room(self, room, user):
 
         cursor = self._cnx.cursor(prepared=True)
 
@@ -96,7 +94,7 @@ class ChatMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    def get_admitt_status(self, room, user):
+    def get_admit_status(self, room, user):
         cursor = self._cnx.cursor(prepared=True)
 
         query1 = """SELECT admitted, timestamp FROM TeamUP.userInRoom WHERE roomId=%s AND userId=%s"""
@@ -104,9 +102,8 @@ class ChatMapper(Mapper):
         cursor.execute(query1, data1)
 
         status = cursor.fetchall()
-        #Status 0 = False, Status 1 = TRUE
+        # Status 0 = False, Status 1 = TRUE
         #TODO: Check einbauen ob der Timestamp älter als 2 Wochen ist. Wenn ja -> delete_user_from_room
-
 
         self._cnx.commit()
         cursor.close()
@@ -119,12 +116,12 @@ class ChatMapper(Mapper):
         query1 = """SELECT id FROM TeamUP.room WHERE name=%s"""
         cursor.execute(query1, name)
 
-        id = cursor.fetchone()
+        room_id = cursor.fetchone()
 
         self._cnx.commit()
         cursor.close()
 
-        return id
+        return room_id
 
     def create_room(self, room):
         # Öffnen der Datenbankverbindung
@@ -140,7 +137,6 @@ class ChatMapper(Mapper):
 
         for i in room.getMitglieder():
             ChatMapper.add_user_to_room(room=ChatMapper.get_roomId_by_roomName(name), user=i)
-
 
     def delete_room_by_id(self, roomId):
         # Öffnen der Datenbankverbindung
@@ -170,8 +166,8 @@ class ChatMapper(Mapper):
         cursor.close()
 
         users = []
-        for tuple in users_tuple:
-            for i in tuple:
+        for tuples in users_tuple:
+            for i in tuples:
                 users.append(i)
         return users
 
