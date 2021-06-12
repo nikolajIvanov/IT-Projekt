@@ -249,9 +249,9 @@ class Administration(object):
             mapper.add_user_to_room(room, user)
 
     @staticmethod
-    def get_rooms_of_user(user):
+    def get_rooms_of_user(authId):
         with ChatMapper() as mapper:
-            mapper.get_room_of_user(user)
+            mapper.get_room_of_user(authId)
 
     @staticmethod
     def delete_room_by_id(roomId):

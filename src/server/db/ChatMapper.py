@@ -171,8 +171,9 @@ class ChatMapper(Mapper):
                 users.append(i)
         return users
 
-    def get_room_of_user(self, user):
+    def get_room_of_user(self, authId):
 
+        userid = self.find_userid_by_authid(authId)
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor()
 
@@ -180,7 +181,7 @@ class ChatMapper(Mapper):
         query = """SELECT roomId from TeamUP.userInRoom WHERE userId=%s"""
 
         # Ausführen des SQL-Befehls
-        cursor.execute(query, (user,))
+        cursor.execute(query, (userid,))
 
         # Speichern der SQL Antwort
         rooms = cursor.fetchall()

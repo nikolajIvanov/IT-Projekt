@@ -77,7 +77,7 @@ lerntyp = api.inherit('LerntypBO', bo, {
 })
 
 chat = api.model('Nachricht',  {
-    'userId': fields.String(attribute='userId', description='User Id des Absenders'),
+    'userId': fields.Integer(attribute='userId', description='User Id des Absenders'),
     'message': fields.String(attribute='message', description='Inhalt der Nachricht'),
 })
 

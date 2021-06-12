@@ -7,9 +7,10 @@ from server.bo.RoomBO import RoomBO
 class ChatRoomApi(Resource):
 
     @api.marshal_with(room)
-    def get(self, userId):
-        return Administration.get_rooms_of_user(userId)
+    def get(self, authId):
+        return Administration.get_rooms_of_user(authId)
 
+    # TODO: Kann es den selben Endpunkt haben?
     def delete(self, roomId):
         return Administration.delete_room_by_id(roomId)
 

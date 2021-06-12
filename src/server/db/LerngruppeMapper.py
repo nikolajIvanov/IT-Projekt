@@ -2,7 +2,6 @@ from server.bo.Lerngruppe import Lerngruppe
 from server.db.Mapper import Mapper
 import mysql.connector.errors
 from werkzeug.exceptions import InternalServerError
-from server.db.UserMapper import UserMapper
 
 
 class LerngruppeMapper(Mapper):
@@ -29,8 +28,8 @@ class LerngruppeMapper(Mapper):
         # Die Variable users speichert alle Users, die für das Matching in Frage kommen
         # Datentyp SET wird genutzt, um sicher zu gehen, dass die User nur einmal vorkommen
         unsorted_gruppen = set()
-        with UserMapper() as usermapper:
-            mainUserBO = usermapper.find_modulID_for_matching(user_authid)
+
+        mainUserBO = self.find_modulID_for_matching(user_authid)
 
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor(buffered=True)
