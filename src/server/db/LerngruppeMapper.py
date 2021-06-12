@@ -264,7 +264,7 @@ class LerngruppeMapper(Mapper):
         """
         Updatet eine komplette Lerngruppe mit allen Werten
         :param lerngruppe:
-        :return:
+        :return: 200 wenn die Gruppe aktualisiert wurde
         """
         try:
             # Öffnen der Datenbankverbindung
@@ -277,13 +277,13 @@ class LerngruppeMapper(Mapper):
             daten = (lerngruppe.get_profilBild(), lerngruppe.get_name(), lerngruppe.get_beschreibung(),
                      lerngruppe.get_admin(), lerngruppe.get_lerntyp(), lerngruppe.get_id())
             cursor.execute(query, daten)
+
             self._cnx.commit()
-            cursor.close()
+
             # Erstellen des SQL-Befehls um alle bestehenden einträge der Gruppe in gruppeInModule zu löschen
             query1 = """DELETE FROM TeamUP.lerngruppeinmodul WHERE teamup.lerngruppeinmodul.lerngruppeId=%s"""
             # Ausführen des SQL-Befehls
-            cursor.execute(query1, lerngruppe.get_id())
-            # Schließen der Datenbankverbindung
+            cursor.execute(query1, (lerngruppe.get_id(),))
             self._cnx.commit()
 
             # Auslesen und speicher welche Module zu dieser Gruppe gehören
@@ -297,6 +297,7 @@ class LerngruppeMapper(Mapper):
                 data = (lerngruppe.get_id(), self.get_modulId_by_modul(i))
                 # (Bitte kein Komma nach data) Ausführen des SQL-Befehls
                 cursor.execute(query2, data)
+
             # Schließen der Datenbankverbindung
             self._cnx.commit()
             cursor.close()
