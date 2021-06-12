@@ -80,7 +80,7 @@ api.add_resource(LerntypApi, '/lerntyp')
 api.add_resource(UserMatchingApi, '/usermatch/<string:authId>')
 api.add_resource(LerngruppenMatchingApi, '/lerngruppenmatch/<string:authId>')
 
-api.add_resource(ChatApi, '/chat/<string:roomId>')
+api.add_resource(ChatApi, '/chat/<int:roomId>')
 
 api.add_resource(InitApi, '/init/<string:authId>')
 

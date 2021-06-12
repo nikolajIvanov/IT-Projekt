@@ -47,12 +47,12 @@ class ChatMapper(Mapper):
         # Dict in List umwandeln
         history = []
         for message in messages:
-                message_dict = {"userId": None, "message": None}
-                message_dict["userId"] = message[0]
-                message_dict["message"] = message[1]
-        history.append(message_dict.copy())
+            message_dict = {"userId": None, "message": None}
+            message_dict["userId"] = message[0]
+            message_dict["message"] = message[1]
+            history.append(message_dict.copy())
         # Rückgabe der Nachrichten
-        return print(history)
+        return history
 
     def add_user_to_room(self, room, user):
         # Öffnen der Datenbankverbindung
