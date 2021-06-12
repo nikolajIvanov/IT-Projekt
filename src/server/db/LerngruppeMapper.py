@@ -237,8 +237,8 @@ class LerngruppeMapper(Mapper):
     def delete_user_from_lerngruppe(self, user_authid, lerngruppe):
         """
         Löscht den aktuellen User aus der Lerngruppe
-        :param user_authid:
-        :param lerngruppe:
+        :param user_authid: Die ID des Users
+        :param lerngruppe:Die ID der Lerngruppe
         :return: Statuscode: 200 Wenn das anlegen erfolgreich war
         """
         try:
