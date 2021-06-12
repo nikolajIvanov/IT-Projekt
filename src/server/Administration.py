@@ -151,8 +151,8 @@ class Administration(object):
 
     def update_lerngruppe(self, lerngruppe):
         """
-        :param lerngruppe:
-        :return:
+        :param lerngruppe: lerngruppenobjekt
+        :return: Statuscode 200 Lerngruppe wurde erfolgreich aktualisiert
         """
         with LerngruppeMapper() as mapper:
             return mapper.update_lerngruppe(lerngruppe)
