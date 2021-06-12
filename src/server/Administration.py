@@ -243,6 +243,20 @@ class Administration(object):
         with ChatMapper() as mapper:
             mapper.add_user_to_room(room, user)
 
+    @staticmethod
+    def get_rooms_of_user(user):
+        with ChatMapper() as mapper:
+            mapper.get_room_of_user(user)
+
+    @staticmethod
+    def delete_room_by_id(roomId):
+        with ChatMapper() as mapper:
+            mapper.delete_room_by_id(roomId)
+
+    @staticmethod
+    def create_room(room):
+        with ChatMapper() as mapper:
+            mapper.create_room(room)
     ###################################################################################################################
     # Nicht genutzt Methoden
     ###################################################################################################################

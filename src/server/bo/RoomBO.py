@@ -1,7 +1,7 @@
 from server.bo.BusinessObject import BusinessObject
 
 
-class NachrichtBO(BusinessObject):
+class RoomBO(BusinessObject):
     def __init__(self):
         super().__init__()
         self.__name = ""
@@ -21,3 +21,8 @@ class NachrichtBO(BusinessObject):
 
     def set_mitglieder_append(self, value):
         self.__mitglieder.append(value)
+
+    def create_room(self, **kwargs):
+        obj = RoomBO()
+        obj.set_name(kwargs["name"])
+        obj.set_mitglieder(kwargs["mitglieder"])

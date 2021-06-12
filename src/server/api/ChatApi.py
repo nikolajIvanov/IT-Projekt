@@ -1,11 +1,11 @@
-from .model import chat, api
+from .model import api, chat
 from flask_restx import Resource
 from server.Administration import Administration
 
 
-class ModulApi(Resource):
+class ChatApi(Resource):
 
-    @api.marshal_with(room)
+    @api.marshal_list_with(chat)
     def get(self, room):
         adm = Administration()
         return adm.get_chat_by_room(room)

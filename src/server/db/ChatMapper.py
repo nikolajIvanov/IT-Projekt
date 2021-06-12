@@ -1,4 +1,6 @@
 from server.db.Mapper import Mapper
+from server.bo.RoomBO import RoomBO
+
 
 
 class ChatMapper(Mapper):
@@ -35,24 +37,23 @@ class ChatMapper(Mapper):
         query = """SELECT vonUserId, message FROM TeamUP.message WHERE roomId=%s"""
 
         # Ausführen des SQL-Befehls
-        cursor.execute(query, roomId)
+        cursor.execute(query, (roomId,))
 
         # Speichern der SQL Antwort
         messages = cursor.fetchall()
 
         # Schließen der Datenbankverbindung
-        self._cnx.commit()
         cursor.close()
 
         #Dict in List umwandeln
         history = []
-        for i in messages:
-            message_dict = {"userId": None, "message": None}
-            message_dict["userId"] = messages[0]
-            message_dict["message"] = messages[1]
+        for message in messages:
+                message_dict = {"userId": None, "message": None}
+                message_dict["userId"] = message[0]
+                message_dict["message"] = message[1]
         history.append(message_dict.copy())
         # Rückgabe der Nachrichten
-        return history
+        return print(history)
 
     def add_user_to_room(self, room, user):
         # Öffnen der Datenbankverbindung
@@ -112,8 +113,94 @@ class ChatMapper(Mapper):
 
         return status
 
-    def create_room(self):
-        #TODO: Methode implementieren
-        pass
+    def get_roomId_by_roomName(self, name):
+        cursor = self._cnx.cursor(prepared=True)
+
+        query1 = """SELECT id FROM TeamUP.room WHERE name=%s"""
+        cursor.execute(query1, name)
+
+        id = cursor.fetchone()
+
+        self._cnx.commit()
+        cursor.close()
+
+        return id
+
+    def create_room(self, room):
+        # Öffnen der Datenbankverbindung
+        cursor = self._cnx.cursor(prepared=True)
+
+        query1 = """INSERT INTO teamup.room(name) VALUE %s"""
+
+        name = RoomBO.get_name()
+        cursor.execute(query1, name)
+
+        self._cnx.commit()
+        cursor.close()
+
+        for i in room.getMitglieder():
+            ChatMapper.add_user_to_room(room=ChatMapper.get_roomId_by_roomName(name), user=i)
+
+
+    def delete_room_by_id(self, roomId):
+        # Öffnen der Datenbankverbindung
+        cursor = self._cnx.cursor(prepared=True)
+
+        query1 = """DELETE FROM teamup.room WHERE teamup.room.id =%s"""
+        cursor.execute(query1, roomId)
+
+        self._cnx.commit()
+        cursor.close()
+
+    def get_users_of_room(self, room):
+
+        # Öffnen der Datenbankverbindung
+        cursor = self._cnx.cursor()
+
+        # Erstellen des SQL-Befehls
+        query = """SELECT userId from TeamUP.userInRoom WHERE roomId=%s"""
+
+        # Ausführen des SQL-Befehls
+        cursor.execute(query, (room,))
+
+        # Speichern der SQL Antwort
+        users_tuple = cursor.fetchall()
+
+        # Schließen der Datenbankverbindung
+        cursor.close()
+
+        users = []
+        for tuple in users_tuple:
+            for i in tuple:
+                users.append(i)
+        return users
+
+    def get_room_of_user(self, user):
+
+        # Öffnen der Datenbankverbindung
+        cursor = self._cnx.cursor()
+
+        # Erstellen des SQL-Befehls
+        query = """SELECT roomId from TeamUP.userInRoom WHERE userId=%s"""
+
+        # Ausführen des SQL-Befehls
+        cursor.execute(query, (user,))
+
+        # Speichern der SQL Antwort
+        rooms = cursor.fetchall()
+
+        # Schließen der Datenbankverbindung
+        cursor.close()
+
+        users = []
+        for tuple in rooms:
+            for room in tuple:
+                room_dict = {"roomId": None, "teilnehmer": None}
+                room_dict["roomId"] = room
+                room_dict["teilnehmer"] = self.get_users_of_room(room)
+        users.append(room_dict.copy())
+
+        return print(users)
+
     def find_all(self):
         pass

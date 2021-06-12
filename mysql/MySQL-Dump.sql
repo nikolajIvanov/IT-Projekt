@@ -111,7 +111,9 @@ CREATE TABLE `lerntyp` (
 
 CREATE TABLE `room` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-    `name`varchar(128) NOT NULL DEFAULT ''
+    `name`varchar(128) NOT NULL DEFAULT '',
+    `groupId`int(11),
+    FOREIGN KEY (groupId) REFERENCES lerngruppe(id)
 );
 
 CREATE TABLE `message` (

@@ -19,7 +19,7 @@ from server.api.UserMatchingApi import UserMatchingApi
 from server.api.LerngruppenMatchingApi import LerngruppenMatchingApi
 from server.api.UsersByIdApi import UsersByIdApi
 from server.api.LerngruppenByIdApi import LerngruppenByIdApi
-from server.db.ChatMapper import ChatMapper
+from server.api.ChatApi import ChatApi
 from server.Administration import Administration
 from server.api.Chat import Chat
 
@@ -79,6 +79,8 @@ api.add_resource(LerntypApi, '/lerntyp')
 
 api.add_resource(UserMatchingApi, '/usermatch/<string:authId>')
 api.add_resource(LerngruppenMatchingApi, '/lerngruppenmatch/<string:authId>')
+
+api.add_resource(ChatApi, '/chat/<string:roomId>')
 
 api.add_resource(InitApi, '/init/<string:authId>')
 
