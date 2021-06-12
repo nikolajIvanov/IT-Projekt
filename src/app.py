@@ -30,17 +30,6 @@ app.config.from_pyfile('flask.cfg', silent=True)
 socketIo.on_namespace(Chat('/chat'))
 
 
-# TODO: Checken ob diese Methode noch benötigt wird
-"""@socketIo.on("message")
-def handleMessage(msg):
-    print(msg)
-    send(msg, broadcast=True)
-    room = msg['roomId']
-    message = msg['message']
-    sender = msg['userId']
-    emit('new_message', message)
-    Administration.save_message(room, message, sender)"""
-
 @socketIo.on('usertoroom', namespace='/private')
 def add_user_to_room(usertooroom):
     # Erwarte ein JSON mit den Attributen userId und roomId
@@ -54,7 +43,6 @@ def nachricht(payLoad):
     sender = payLoad['userId']
     emit('new_message', message, room=room)
     Administration.save_message(room, message, sender)
-
 
 
 @socketIo.on('roomId', namespace='/private')
@@ -80,7 +68,7 @@ api.add_resource(LerntypApi, '/lerntyp')
 api.add_resource(UserMatchingApi, '/usermatch/<string:authId>')
 api.add_resource(LerngruppenMatchingApi, '/lerngruppenmatch/<string:authId>')
 
-api.add_resource(ChatApi, '/chat/<string:roomId>')
+api.add_resource(ChatApi, '/chat/<int:roomId>')
 
 api.add_resource(InitApi, '/init/<string:authId>')
 

@@ -14,9 +14,9 @@ class ModulMapper(Mapper):
 
         tuples = cursor.fetchall()
 
-        for (id, modul) in tuples:
+        for (modul_id, modul) in tuples:
             obj = ModulBO()
-            obj.set_id(id)
+            obj.set_id(modul_id)
             obj.set_modul(modul)
             result.append(obj)
 
@@ -63,15 +63,14 @@ class ModulMapper(Mapper):
         query = """SELECT modul.id, modul.bezeichnung FROM TeamUP.modul INNER JOIN TeamUP.modulInStudiengang mIS 
         on modul.id = mIS.modulId WHERE mIS.studiengangId =%s"""
 
-
         # Ausführen des ersten SQL-Befehls
         cursor.execute(query, (key,))
         tuples = cursor.fetchall()
 
         # Auflösen der ersten SQL Antwort (UserBO) und setzen der Parameter
-        for (id, modul) in tuples:
+        for (modul_id, modul) in tuples:
             obj = ModulBO()
-            obj.set_id(id)
+            obj.set_id(modul_id)
             obj.set_modul(modul)
             result.append(obj)
 

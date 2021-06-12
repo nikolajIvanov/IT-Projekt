@@ -7,7 +7,7 @@ class RoomBO(BusinessObject):
         self.__name = ""
         self.__mitglieder = []
 
-    def set_name(self,name):
+    def set_name(self, name):
         self.__name = name
 
     def get_name(self):
@@ -22,7 +22,8 @@ class RoomBO(BusinessObject):
     def set_mitglieder_append(self, value):
         self.__mitglieder.append(value)
 
-    def create_room(self, **kwargs):
+    @staticmethod
+    def create_room(**kwargs):
         obj = RoomBO()
         obj.set_name(kwargs["name"])
         obj.set_mitglieder(kwargs["mitglieder"])

@@ -6,6 +6,5 @@ from server.Administration import Administration
 class ChatApi(Resource):
 
     @api.marshal_list_with(chat)
-    def get(self, room):
-        adm = Administration()
-        return adm.get_chat_by_room(room)
+    def get(self, roomId):
+        return Administration.get_chat_by_room(roomId)

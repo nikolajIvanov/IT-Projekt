@@ -1,10 +1,8 @@
 import mysql.connector as connector
-import os
 from contextlib import AbstractContextManager
 from abc import ABC, abstractmethod
 from werkzeug.exceptions import InternalServerError
 import mysql.connector.errors
-
 
 
 class Mapper(AbstractContextManager, ABC):

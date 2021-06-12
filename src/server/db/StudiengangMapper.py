@@ -13,9 +13,9 @@ class StudiengangMapper(Mapper):
         cursor.execute("SELECT id, studiengang FROM TeamUP.studiengang")
         tuples = cursor.fetchall()
 
-        for (id, studiengang) in tuples:
+        for (stg_id, studiengang) in tuples:
             obj = StudiengangBO()
-            obj.set_id(id)
+            obj.set_id(stg_id)
             obj.set_studiengang(studiengang)
             result.append(obj)
 

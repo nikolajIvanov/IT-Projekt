@@ -22,7 +22,6 @@ class UserApi(Resource):
         """
         return Administration.delete_user_by_authId(authId)
 
-
     @api.expect(user)
     def put(self, authId):
         payload = api.payload
