@@ -23,6 +23,7 @@ class ChatRoomApi(Resource):
         payload = api.payload
         chat_room = RoomBO.create_room(userAuthId=payload["userAuthId"], partnerId=payload["partnerId"])
         Administration.create_room(chat_room)
+        return 200
     """ 
    @api.expect(room, validate=True)
     def put(self,):
