@@ -54,7 +54,7 @@ class Administration(object):
             # TODO Ardit kann man hier den Statuscode übergeben
 
     @staticmethod
-    def update_user_by_authId( nutzer):
+    def update_user_by_authId(nutzer):
         """
         :param nutzer: Ist die authId
         :return: Alle Objekte des Nutzers (aktualisiert)
@@ -90,7 +90,7 @@ class Administration(object):
         with UserMapper() as mapper:
             return mapper.find_by_authId(authId)
 
-    #TODO KEINE VERWENDUNG NIKO Braucht man des beim chat wenn man übenr chat uafs profiel möchte
+    # TODO KEINE VERWENDUNG NIKO Braucht man des beim chat wenn man übenr chat uafs profiel möchte
     def get_user_by_id(self, user_id):
         """
         Findet einen bestimmten User über die id.

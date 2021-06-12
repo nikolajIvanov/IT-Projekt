@@ -103,7 +103,7 @@ class ChatMapper(Mapper):
 
         status = cursor.fetchall()
         # Status 0 = False, Status 1 = TRUE
-        #TODO: Check einbauen ob der Timestamp älter als 2 Wochen ist. Wenn ja -> delete_user_from_room
+        # TODO: Check einbauen ob der Timestamp älter als 2 Wochen ist. Wenn ja -> delete_user_from_room
 
         self._cnx.commit()
         cursor.close()
@@ -189,8 +189,8 @@ class ChatMapper(Mapper):
         cursor.close()
 
         users = []
-        for tuple in rooms:
-            for room in tuple:
+        for tuples in rooms:
+            for room in tuples:
                 room_dict = {"roomId": None, "teilnehmer": None}
                 room_dict["roomId"] = room
                 room_dict["teilnehmer"] = self.get_users_of_room(room)
