@@ -111,22 +111,32 @@ class ChatMapper(Mapper):
 
         return status
 
-    def get_roomId_by_roomName(self, name):
-        cursor = self._cnx.cursor(prepared=True)
-
-        query1 = """SELECT id FROM TeamUP.room WHERE name=%s"""
-        cursor.execute(query1, name)
-
-        room_id = cursor.fetchone()
-
-        self._cnx.commit()
-        cursor.close()
-
-        return room_id
-
     def create_user_room(self, room):
         # Öffnen der Datenbankverbindung
 
+        userid = self.find_userid_by_authid(room.get_userAuthId())
+        room.set_mitglieder_append(userid)
+
+        cursor = self._cnx.cursor(prepared=True)
+
+        query1 = """INSERT INTO TeamUP.room(groupId) VALUE (%s)"""
+
+        group = None
+        cursor.execute(query1, (group, ))
+        self._cnx.commit()
+        roomId = cursor.lastrowid
+        cursor.close()
+
+        for user in room.get_mitglieder():
+            if user == userid:
+                admitted = 0
+            else:
+                admitted = 1
+            self.add_user_to_room(roomId, user, admitted)
+        return 200
+
+    def create_learngruppen_room(self, room):
+        # Öffnen der Datenbankverbindung
         userid = self.find_userid_by_authid(room.get_userAuthId())
         room.set_mitglieder_append(userid)
 
@@ -193,6 +203,13 @@ class ChatMapper(Mapper):
         # Ausführen des SQL-Befehls
         cursor.execute(query, (userid,))
         rooms = cursor.fetchall()
+        query1 = """SELECT id, groupId from TeamUP.room WHERE id=%s"""
+        test = []
+        for room in rooms:
+            cursor.execute(query1, (room[0],))
+            test.append(cursor.fetchone())
+
+        test
 
 
         cursor.close()

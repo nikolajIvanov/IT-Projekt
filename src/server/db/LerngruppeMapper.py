@@ -175,13 +175,17 @@ class LerngruppeMapper(Mapper):
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor(prepared=True)
 
+            query_room = """INSERT INTO TeamUP.room(id) VALUES (DEFAULT)"""
+            cursor.execute(query_room)
+            roomId = cursor.lastrowid
+            self._cnx.commit()
             # Erstellen des SQL-Befehls für TABLE lerngruppe
-            query = """INSERT INTO teamup.lerngruppe (name, beschreibung, bild, lerntyp,admin, frequenz, lernort) 
-                       VALUES (%s ,%s ,%s ,%s ,%s, %s ,%s)"""
+            query = """INSERT INTO teamup.lerngruppe (name, beschreibung, bild, lerntyp,admin, frequenz, lernort, roomId) 
+                       VALUES (%s ,%s ,%s ,%s ,%s, %s ,%s, %s)"""
             # Daten für lerngruppe
             daten = (lerngruppe.get_name(), lerngruppe.get_beschreibung(), lerngruppe.get_profilBild(),
                      lerngruppe.get_lerntyp(), lerngruppe.get_admin(), lerngruppe.get_frequenz(),
-                     lerngruppe.get_lernort())
+                     lerngruppe.get_lernort(), roomId)
 
             # Ausführen des SQL-Befehls für lerngruppe
             cursor.execute(query, daten)
@@ -192,8 +196,8 @@ class LerngruppeMapper(Mapper):
 
             # Schleife setzt Mitglieder in die UserInLerngruppe Tabelle
             for mitglied in gruppenMitglieder:
-                query1 = """INSERT INTO teamup.userinlerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
-                data1 = (mitglied, gruppenId)
+                query1 = """INSERT INTO teamup.userinlerngruppe(userId, lerngruppeId, admitted) VALUES (%s, %s, %s)"""
+                data1 = (mitglied, gruppenId, 1)
                 cursor.execute(query1, data1)
 
             gruppenModule = lerngruppe.get_modul()

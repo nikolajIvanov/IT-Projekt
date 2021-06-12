@@ -58,6 +58,12 @@ CREATE TABLE `userInModul` (
 
 );
 
+CREATE TABLE `room` (
+    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `TIMESTAMP` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
 CREATE TABLE `lerngruppe` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     `timeStamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -67,13 +73,16 @@ CREATE TABLE `lerngruppe` (
     `admin` varchar(128) NOT NULL DEFAULT '',
     `beschreibung` varchar(128) NOT NULL DEFAULT '',
     `frequenz` varchar(128) NOT NULL DEFAULT '',
-    `lernort` varchar(128) NOT NULL DEFAULT ''
+    `lernort` varchar(128) NOT NULL DEFAULT '',
+    `roomId` int(11) NOT NULL,
+    FOREIGN KEY (roomId) REFERENCES room (id)
 );
 
 CREATE TABLE `userInLerngruppe`
 (
     `userId`       int(11) NOT NULL,
     `lerngruppeId` int(11) NOT NULL,
+    `admitted` BOOLEAN NOT NULL DEFAULT FALSE,
     FOREIGN KEY (userId) REFERENCES users (id),
     FOREIGN KEY (lerngruppeId) REFERENCES lerngruppe (id),
     PRIMARY KEY (userId, lerngruppeId)
@@ -107,12 +116,6 @@ CREATE TABLE `lerntyp` (
     `bild` MEDIUMBLOB NOT NULL ,
     `typ` varchar(128) NOT NULL DEFAULT '',
     `beschreibung` varchar(3000) NOT NULL DEFAULT ''
-);
-
-CREATE TABLE `room` (
-    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-    `groupId`int(11),
-    FOREIGN KEY (groupId) REFERENCES lerngruppe(id)
 );
 
 CREATE TABLE `message` (
