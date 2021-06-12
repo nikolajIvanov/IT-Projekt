@@ -19,5 +19,5 @@ class Chat(Namespace):
         room = msg['roomId']
         message = msg['message']
         sender = msg['userId']
-        emit('new_message', message)
+        emit('message', message)
         Administration.save_message(room, message, sender)

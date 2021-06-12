@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Divider, IconButton, List, ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
 import Header from "../../../components/Fonts/header";
 import ProfilAvatar from "../../../components/Avatar/ProfilAvatar";
@@ -6,9 +6,15 @@ import H3_bold from "../../../components/Fonts/h3_bold";
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear';
 import {useHistory} from "react-router-dom";
+import TeamUpApi from "../../../api/TeamUpApi";
 
 function Chatübersicht(props) {
     const redirect = useHistory()
+
+    useEffect(() =>
+    {
+        //Api Call für alle gruppen die der Nutzer hat
+    }, [])
 
     function getChat(){
         redirect.push("/chat/:id")

@@ -10,7 +10,6 @@ import Match from "../Matching/Match";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from "../../api/Firebase";
 import ChatFenster from "../Chat/Sections/ChatFenster";
-import Dashboard from "../Chat/Sections/ChatFenster";
 
 class Home extends Component {
     constructor(props) {
@@ -77,7 +76,6 @@ class Home extends Component {
         await this.setState({
             currentUser: firebase.auth().currentUser.uid
         });
-        //Api Call für die Matching-User muss auf current user gesetzt werden
         await TeamUpApi.getAPI().getMatchUserList(this.state.currentUser).then(users =>{
             this.setState({
                 users: users.result
@@ -129,7 +127,7 @@ class Home extends Component {
                         </Route>
                         <Route path="/me" component={MyProfil}/>
                         <Route path="/chat" exact component={Chat}/>
-                        <Route path="/chat/:id" exact component={Dashboard}/>
+                        <Route path="/chat/:id" exact component={ChatFenster}/>
                         <Route path="/gruppensuche" component={GruppenSuche}/>
                     </Switch>
                 </Router>

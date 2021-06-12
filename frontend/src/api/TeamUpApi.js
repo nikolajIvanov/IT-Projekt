@@ -133,6 +133,14 @@ export default class TeamUpApi {
         return this.#matching(this.#getMatchGroupsURL("?group_ids=" + array), UserBO)
     }
 
+    getChats(authId){
+
+    }
+
+    getChatContent(chatId){
+
+    }
+
     //TODO Delete Gruppe einfügen
 
     // Generische Methode um einen einzelnen Wert vom Backend ans Frontend zu übergeben.
