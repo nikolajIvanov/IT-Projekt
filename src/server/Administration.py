@@ -261,7 +261,7 @@ class Administration(object):
     @staticmethod
     def create_room(room):
         with ChatMapper() as mapper:
-            mapper.create_room(room)
+            mapper.create_user_room(room)
     ###################################################################################################################
     # Nicht genutzt Methoden
     ###################################################################################################################

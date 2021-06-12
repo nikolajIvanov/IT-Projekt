@@ -54,12 +54,13 @@ class ChatMapper(Mapper):
         # Rückgabe der Nachrichten
         return history
 
-    def add_user_to_room(self, room, user):
+    def add_user_to_room(self, room, user, admitted):
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
 
-        query1 = """INSERT INTO teamup.userInRoom(userId, roomId) VALUES (%s, %s)"""
-        data1 = (user, room)
+        query1 = """INSERT INTO teamup.userInRoom(userId, roomId, admitted) VALUES (%s, %s, %s)"""
+
+        data1 = (user, room, admitted)
         cursor.execute(query1, data1)
 
         self._cnx.commit()
@@ -123,20 +124,29 @@ class ChatMapper(Mapper):
 
         return room_id
 
-    def create_room(self, room):
+    def create_user_room(self, room):
         # Öffnen der Datenbankverbindung
+
+        userid = self.find_userid_by_authid(room.get_userAuthId())
+        room.set_mitglieder_append(userid)
+
         cursor = self._cnx.cursor(prepared=True)
 
-        query1 = """INSERT INTO teamup.room(name) VALUE %s"""
+        query1 = """INSERT INTO TeamUP.room(groupId) VALUE (%s)"""
 
-        name = RoomBO.get_name()
-        cursor.execute(query1, name)
-
+        group = None
+        cursor.execute(query1, (group, ))
         self._cnx.commit()
+        roomId = cursor.lastrowid
         cursor.close()
 
-        for i in room.getMitglieder():
-            ChatMapper.add_user_to_room(room=ChatMapper.get_roomId_by_roomName(name), user=i)
+        for user in room.get_mitglieder():
+            if user == userid:
+                admitted = 0
+            else:
+                admitted = 1
+            self.add_user_to_room(roomId, user, admitted)
+        return 200
 
     def delete_room_by_id(self, roomId):
         # Öffnen der Datenbankverbindung
@@ -178,15 +188,13 @@ class ChatMapper(Mapper):
         cursor = self._cnx.cursor()
 
         # Erstellen des SQL-Befehls
-        query = """SELECT roomId from TeamUP.userInRoom WHERE userId=%s"""
+        query = """SELECT roomId, userId, admitted from TeamUP.userInRoom WHERE userId=%s"""
 
         # Ausführen des SQL-Befehls
         cursor.execute(query, (userid,))
-
-        # Speichern der SQL Antwort
         rooms = cursor.fetchall()
 
-        # Schließen der Datenbankverbindung
+
         cursor.close()
 
         users = []

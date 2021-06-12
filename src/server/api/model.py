@@ -18,7 +18,10 @@ profil = api.inherit('ProfilBO', bo, {
     'profilBild': fields.String(attribute=lambda x: x.get_profilBild(),
                                 description='Bild eines Benutzers oder Lerngruppe'),
     'beschreibung': fields.String(attribute=lambda x: x.get_beschreibung(),
-                                  description='Beschreibung eines Benutzers oder Lerngruppe')
+                                  description='Beschreibung eines Benutzers oder Lerngruppe'),
+    'frequenz': fields.String(attribute=lambda x: x.get_frequenz(), description='Wie häufig will man sich treffen?'),
+    'lernort': fields.String(attribute=lambda x: x.get_lernort(),
+                             description='Wo findet das Treffen statt online/offline?'),
 })
 
 user = api.inherit('Nutzer', profil, {
@@ -29,12 +32,7 @@ user = api.inherit('Nutzer', profil, {
     'semester': fields.String(attribute=lambda x: x.get_semester(), description='Semester eines Benutzers'),
     'studiengang': fields.String(attribute=lambda x: x.get_studiengang(), description='Studiengang eines Benutzers'),
     'vorname': fields.String(attribute=lambda x: x.get_vorname(), description='Vorname eines Benutzers'),
-    ################################################
-    # Gehört in Profil
-    ################################################
-    'frequenz': fields.String(attribute=lambda x: x.get_frequenz(), description='Wie häufig will man sich treffen?'),
-    'lernort': fields.String(attribute=lambda x: x.get_lernort(),
-                             description='Wo findet das Treffen statt online/offline?'),
+
 })
 
 user_without_authid = api.inherit('Nutzer', profil, {
@@ -44,12 +42,6 @@ user_without_authid = api.inherit('Nutzer', profil, {
     'semester': fields.String(attribute=lambda x: x.get_semester(), description='Semester eines Benutzers'),
     'studiengang': fields.String(attribute=lambda x: x.get_studiengang(), description='Studiengang eines Benutzers'),
     'vorname': fields.String(attribute=lambda x: x.get_vorname(), description='Vorname eines Benutzers'),
-    ################################################
-    # Gehört in Profil
-    ################################################
-    'frequenz': fields.String(attribute=lambda x: x.get_frequenz(), description='Wie häufig will man sich treffen?'),
-    'lernort': fields.String(attribute=lambda x: x.get_lernort(),
-                             description='Wo findet das Treffen statt online/offline?'),
 })
 
 matching = api.model('MatchingBO', {

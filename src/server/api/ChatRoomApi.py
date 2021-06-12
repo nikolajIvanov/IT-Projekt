@@ -21,7 +21,7 @@ class ChatRoomApi(Resource):
         :return:
         """
         payload = api.payload
-        chat_room = RoomBO.create_room(name=payload["name"], mitglieder=payload["mitglieder"])
+        chat_room = RoomBO.create_room(userAuthId=payload["userAuthId"], partnerId=payload["partnerId"])
         Administration.create_room(chat_room)
     """ 
    @api.expect(room, validate=True)

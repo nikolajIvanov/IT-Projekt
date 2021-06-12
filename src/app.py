@@ -23,6 +23,7 @@ from server.api.ChatApi import ChatApi
 from server.Administration import Administration
 from server.api.Chat import Chat
 from server.api.ChatRoomApi import ChatRoomApi
+from server.api.MyRooms import MyRooms
 
 CORS(app, resources=r'/*')
 socketIo = SocketIO(app, cors_allowed_origins="*")
@@ -70,6 +71,7 @@ api.add_resource(UserMatchingApi, '/usermatch/<string:authId>')
 api.add_resource(LerngruppenMatchingApi, '/lerngruppenmatch/<string:authId>')
 
 api.add_resource(ChatApi, '/chat/<int:roomId>')
+api.add_resource(ChatRoomApi, '/chatrooms/')
 api.add_resource(ChatRoomApi, '/chatrooms/<string:authId>')
 
 api.add_resource(InitApi, '/init/<string:authId>')
