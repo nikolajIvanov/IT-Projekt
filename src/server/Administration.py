@@ -123,6 +123,11 @@ class Administration(object):
 
     @staticmethod
     def get_Lerngruppe_by_id(gruppen_id):
+        """
+
+        :param gruppen_id: Die Id einer Gruppe
+        :return: Objekt der Klasse Lerngruppe mit allen Attributen
+        """
         with LerngruppeMapper() as mapper:
             return mapper.find_by_id(gruppen_id)
 
