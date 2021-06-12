@@ -17,12 +17,11 @@ class NachrichtBO(BusinessObject):
     def get_senderId(self):
         return self.__senderId
 
-    def set_senderID(self,Id):
-        self.__senderId = Id
+    def set_senderID(self, senderid):
+        self.__senderId = senderid
 
     def get_roomId(self):
         return self.__roomId
 
     def set_roomId(self, Id):
         self.__roomId = Id
-

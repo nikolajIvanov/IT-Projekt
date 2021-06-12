@@ -1,5 +1,5 @@
 from server.bo.ProfilBO import ProfilBO
-from datetime import date, datetime
+from datetime import date
 
 
 class UserBO(ProfilBO):
