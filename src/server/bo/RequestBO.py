@@ -6,6 +6,7 @@ class RequestBO(BusinessObject):
         super().__init__()
         self.__auth_id = None
         self.__angefragter_id = None
+        self.__gruppe_id = None
 
     def get_auth_id(self):
         return self.__auth_id
@@ -18,6 +19,12 @@ class RequestBO(BusinessObject):
 
     def set_angefragter_id(self, angefragter_id):
         self.__angefragter_id = angefragter_id
+
+    def get_gruppe_id(self):
+        return self.__gruppe_id
+
+    def set_gruppe_id(self, gruppe_id):
+        self.__gruppe_id = gruppe_id
 
     @staticmethod
     def create_request(**kwargs):

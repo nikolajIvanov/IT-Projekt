@@ -59,6 +59,61 @@ class RequestMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
+    def get_gruppen_requests(self, auth_id):
+        try:
+            # Öffnen der Datenbankverbindung
+            cursor = self._cnx.cursor(prepared=True)
+            # TODO: Checken ob Anfrage gültig ist (älter als 2 Wochen)
+
+            lgquery = """SELECT id FROM TeamUP.lerngruppe WHERE admin=%s"""
+
+            cursor.execute(lgquery, (self.find_userid_by_authid(auth_id)))
+            gruppen_from_admin = cursor.fetchall()
+            erhalten = []
+            for gruppe in gruppen_from_admin:
+                # Erstellen des SQL-Befehls
+                query = """SELECT id, vonUserid, anGruppenid FROM TeamUP.gruppeAdmitted WHERE anGruppenid=%s"""  #
+
+                # Ausführen des SQL-Befehls
+                cursor.execute(query, (gruppe,))
+
+                # Speichern der SQL Antwort
+                erhaltene_requests = cursor.fetchall()
+
+                for anfrage in erhaltene_requests:
+                    message_dict = {"requestId": None, "vonUserId": None, "anGruppenId": None}
+                    message_dict["requestId"] = anfrage[0]
+                    message_dict["vonUserId"] = anfrage[1]
+                    message_dict["anGruppenId"] = anfrage[2]
+                    erhalten.append(message_dict.copy())
+
+            query2 = """SELECT id, vonUserid, anGruppenid FROM TeamUP.gruppeAdmitted WHERE vonUserid=%s"""
+
+            cursor.execute(query2, (auth_id,))
+
+            gesendete_requests = cursor.fetchall()
+
+            # Schließen der Datenbankverbindung
+            cursor.close()
+
+            gestellt = []
+            for anfrage in gesendete_requests:
+                message_dict = {"requestId": None, "vonUserId": None, "anGruppenId": None}
+                message_dict["requestId"] = anfrage[0]
+                message_dict["vonUserId"] = anfrage[1]
+                message_dict["anGruppenId"] = anfrage[2]
+                gestellt.append(message_dict.copy())
+
+            antwort = {"gestellt": gestellt,
+                       "erhalten": erhalten
+                       }
+
+            return print(antwort)
+
+        except mysql.connector.Error as err:
+            raise InternalServerError(err.msg)
+
+
     def get_requests_by_auth_id(self, authid):
         try:
             # Öffnen der Datenbankverbindung
@@ -119,4 +174,23 @@ class RequestMapper(Mapper):
         cursor.close()
 
     def create_group_request(self, request):
-        pass
+        try:
+            # Öffnen der Datenbankverbindung
+            cursor = self._cnx.cursor(prepared=True)
+
+            # Erstellen des SQL-Befehls
+            query = """INSERT INTO teamup.gruppeAdmitted(vonUserid, anGruppenid) VALUES (%s ,%s)"""
+            # Erstellen des SQL-Befehls
+
+            # Daten
+            daten = (RequestBO.get_auth_id(request), RequestBO.get_gruppe_id(request))
+
+            # Ausführen des SQL-Befehls
+            cursor.execute(query, daten)
+
+            self._cnx.commit()
+            cursor.close()
+
+            return 200
+        except mysql.connector.Error as err:
+            raise InternalServerError(err.msg)
