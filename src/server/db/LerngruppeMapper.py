@@ -193,12 +193,14 @@ class LerngruppeMapper(Mapper):
             gruppenId = cursor.lastrowid
 
             gruppenMitglieder = lerngruppe.get_mitglieder()
+            #TODO: create_room aufrufen
 
             # Schleife setzt Mitglieder in die UserInLerngruppe Tabelle
             for mitglied in gruppenMitglieder:
                 query1 = """INSERT INTO teamup.userinlerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
                 data1 = (mitglied, gruppenId)
                 cursor.execute(query1, data1)
+                #TODO: UserInRoom
 
             query2 = """INSERT INTO teamup.lerngruppeinmodul (lerngruppeId, modulId) VALUES (%s, %s) """
             data2 = (gruppenId, self.get_modulId_by_modul(lerngruppe.get_modul()[0]))

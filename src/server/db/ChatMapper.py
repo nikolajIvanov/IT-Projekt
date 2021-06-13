@@ -104,7 +104,7 @@ class ChatMapper(Mapper):
 
         return 200
 
-    def create_learngruppen_room(self, room):
+    def create_learngruppen_room(self, room, groupid):
         # Öffnen der Datenbankverbindung
         userid = self.find_userid_by_authid(room.get_userAuthId())
         room.set_mitglieder_append(userid)
@@ -113,18 +113,14 @@ class ChatMapper(Mapper):
 
         query1 = """INSERT INTO TeamUP.room(groupId) VALUE (%s)"""
 
-        group = None
+        group = groupid
         cursor.execute(query1, (group, ))
         self._cnx.commit()
         roomId = cursor.lastrowid
         cursor.close()
 
         for user in room.get_mitglieder():
-            if user == userid:
-                admitted = 0
-            else:
-                admitted = 1
-            self.add_user_to_room(roomId, user, admitted)
+            self.add_user_to_room(roomId, user)
         return 200
 
     def delete_room_by_id(self, roomId):
