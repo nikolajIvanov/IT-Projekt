@@ -5,8 +5,10 @@ from server.bo.RequestBO import RequestBO
 
 
 class RequestApi(Resource):
-    def get(self, auth_id):
-        pass
+
+    #TODO api marshal anbinden
+    def get(self, authId):
+        return Administration.get_request(authId)
 
     @api.expect(request)
     def post(self):

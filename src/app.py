@@ -77,6 +77,7 @@ api.add_resource(ChatRoomApi, '/chatrooms/<string:authId>')
 
 # Sendet einen Post befehl der ein argument type hat um zwischen gruppen und single unterscheiden zu können
 api.add_resource(RequestApi, '/request')
+api.add_resource(RequestApi, '/request/<string:authId>')
 
 api.add_resource(InitApi, '/init/<string:authId>')
 

@@ -16,6 +16,7 @@ class Administration(object):
     """
         Diese Klasse aggregiert nahezu sämtliche Applikationslogik (Engl. Business Logic).
     """
+
     def __init__(self):
         pass
 
@@ -104,6 +105,7 @@ class Administration(object):
     """
         Lerngruppen-spezifische Methoden
     """
+
     @staticmethod
     def create_lerngruppe(lerngruppe):
         """
@@ -150,7 +152,8 @@ class Administration(object):
         """
         with LerngruppeMapper() as mapper:
             return mapper.delete_user_from_lerngruppe(altes_mitglied)
-    #Todo MUSS BEI DER FUNK OBEN NE AUTH ID MIT EIG NICHT?
+
+    # Todo MUSS BEI DER FUNK OBEN NE AUTH ID MIT EIG NICHT?
     def update_lerngruppe(self, lerngruppe):
         """
         :param lerngruppe: lerngruppenobjekt
@@ -171,6 +174,7 @@ class Administration(object):
     """
         Modul und Studiengang-spezifische Methoden
     """
+
     @staticmethod
     def get_all_studiengang():
         with StudiengangMapper() as mapper:
@@ -189,6 +193,7 @@ class Administration(object):
     """
         Matching Methoden
     """
+
     @staticmethod
     def user_match_me(authId):
         with UserMapper() as mapper:
@@ -234,6 +239,7 @@ class Administration(object):
     """
         Chat Methoden
     """
+
     @staticmethod
     def get_chat_by_room(room):
         with ChatMapper() as mapper:
@@ -264,6 +270,7 @@ class Administration(object):
         with ChatMapper() as mapper:
             mapper.create_user_room(room)
 
+    # Anfrage-Methoden
     @staticmethod
     def create_request(request):
         with RequestMapper() as mapper:
@@ -272,7 +279,7 @@ class Administration(object):
     @staticmethod
     def get_request(authid):
         with RequestMapper() as mapper:
-            mapper.get_requests_by_auth_id(authid)
+            return mapper.get_requests_by_auth_id(authid)
 
     ###################################################################################################################
     # Nicht genutzt Methoden
