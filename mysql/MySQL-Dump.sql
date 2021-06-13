@@ -136,8 +136,7 @@ CREATE TABLE `userAdmitted` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `vonUserid` INT(11) NOT NULL,
-    `anUserid` INT(11) NOT NULL,
-    `admitted` BOOLEAN NOT NULL DEFAULT FALSE
+    `anUserid` INT(11) NOT NULL
 );
 
 CREATE TABLE `gruppeAdmitted` (
