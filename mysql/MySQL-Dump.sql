@@ -13,6 +13,8 @@ DROP TABLE IF EXISTS `modul`;
 DROP TABLE IF EXISTS `lerntyp`;
 DROP TABLE IF EXISTS `studiengang`;
 DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `userAdmitted`;
+DROP TABLE IF EXISTS `gruppeAdmitted`;
 
 
 CREATE TABLE `modul` (
@@ -130,4 +132,18 @@ CREATE TABLE `userInRoom` (
     FOREIGN KEY (userId) REFERENCES users (id),
     FOREIGN KEY (roomId) REFERENCES room (id),
     PRIMARY KEY (userId, roomId)
+);
+CREATE TABLE `userAdmitted` (
+    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `vonUserid` INT(11) NOT NULL,
+    `anUserid` INT(11) NOT NULL,
+    `roomid` INT(11) NOT NULL,
+    `admitted` BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE TABLE `gruppeAdmitted` (
+    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `vonUserid` int(11) NOT NULL,
+    `anGruppenid` int(11) NOT NULL,
+    `admitted` BOOLEAN NOT NULL DEFAULT FALSE
 );

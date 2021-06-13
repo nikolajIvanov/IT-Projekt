@@ -196,18 +196,16 @@ class ChatMapper(Mapper):
         userid = self.find_userid_by_authid(authId)
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor()
-
-        query_admin = """SELECT id, roomId, admin from TeamUP.lerngruppe WHERE admin=%s"""
+        """
+        # query_admin = SELECT id, roomId, admin from TeamUP.lerngruppe WHERE admin=%s
 
         cursor.execute(query_admin, (userid,))
         admin = cursor. fetchall()
-
-        query_mitglieder = """SELECT userId from TeamUP.userInLerngruppe WHERE lerngruppeId=%s AND admitted = 0"""
-
-        cursor.execute(query_mitglieder, (userid,))
-        unbestätigte_mitglieder = cursor.fetchall()
-
-
+        # query_mitglieder = SELECT userId from TeamUP.userInLerngruppe WHERE lerngruppeId=%s AND admitted = 0
+        for gruppe in admin:
+            cursor.execute(query_mitglieder, (gruppe[0],))
+            unbestätigte_mitglieder = cursor.fetchall()
+        """
 
         # Erstellen des SQL-Befehls
         query = """SELECT roomId, userId, admitted from TeamUP.userInRoom WHERE userId=%s"""
@@ -230,5 +228,12 @@ class ChatMapper(Mapper):
                 room_dict["roomId"] = room
                 room_dict["teilnehmer"] = self.get_users_of_room(room)
         users.append(room_dict.copy())
+
+        """
+        [
+            {"roomId": 1, },
+        ]
+        
+        """
 
         return print(users)
