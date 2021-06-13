@@ -117,3 +117,6 @@ class RequestMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
+
+    def create_group_request(self, request):
+        pass
