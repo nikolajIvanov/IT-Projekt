@@ -10,12 +10,12 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     large: {
-        width: theme.spacing(10),
-        height: theme.spacing(10),
+        width: theme.spacing(15),
+        height: theme.spacing(15),
     },
 }));
 
-function ProfilAvatar(props) {
+function MatchCardAvatar(props) {
     const classes = useStyles();
     return (
         <div className={classes.root}>
@@ -28,5 +28,4 @@ function ProfilAvatar(props) {
     );
 }
 
-export default ProfilAvatar;
-
+export default MatchCardAvatar;

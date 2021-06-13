@@ -2,6 +2,7 @@
 from .bo.MatchingBO import MatchingBO
 
 # Import aller Mapper Klassen
+from .db.RequestMapper import RequestMapper
 from .db.UserMapper import UserMapper
 from .db.LerngruppeMapper import LerngruppeMapper
 from .db.StudiengangMapper import StudiengangMapper
@@ -262,6 +263,12 @@ class Administration(object):
     def create_room(room):
         with ChatMapper() as mapper:
             mapper.create_user_room(room)
+
+    @staticmethod
+    def create_request(request):
+        with RequestMapper() as mapper:
+            mapper.create_request(request)
+
     ###################################################################################################################
     # Nicht genutzt Methoden
     ###################################################################################################################

@@ -107,7 +107,7 @@ class Home extends Component {
                     <Switch>
                         <Route path="/" exact>
                                 <h1 className="App">TeamUP</h1>
-                                {userList && groupList ?
+                                {userList ?
                                 <Match userList={userList}
                                        groupList={groupList}
                                        getView={this.setAuswahl}/>

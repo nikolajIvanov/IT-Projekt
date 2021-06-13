@@ -41,6 +41,12 @@ export default class TeamUpApi {
 
     #getMatchGroupsURL = (groupArray) => `${this.#serverBaseURL}/lerngruppenById${groupArray}`;
 
+    #getChatContentURL = (roomId) => `${this.#serverBaseURL}/chat/${roomId}`;
+
+    #getRoomsURL = (authId) => `${this.#serverBaseURL}/chatrooms/${authId}`;
+
+    #chatRequest = () => `${this.#serverBaseURL}/chatrooms`;
+
     // Wird bei jedem API Aufruf als erstes aufgerufen. Es erzeugt ein Objekt der Klasse TeamUpApi um somit die
     // einzelnen Objektmethoden aufrufen zu können.
     static getAPI() {
@@ -137,8 +143,16 @@ export default class TeamUpApi {
 
     }
 
-    getChatContent(chatId){
+    getChatContent(roomId){
+        return this.#getStatus(this.#getChatContentURL(roomId))
+    }
 
+    sendChatRequest(userdict){
+        return this.#addChatRequest(this.#chatRequest(), userdict)
+    }
+
+    getChatOverview(authId){
+        return this.#getStatus(this.#getRoomsURL(authId))
     }
 
     //TODO Delete Gruppe einfügen
@@ -157,6 +171,21 @@ export default class TeamUpApi {
         return this.#fetchAdvanced(url).then( statusCode => {
             return statusCode
         })
+    }
+
+    #addChatRequest = (url, userdict) =>{
+        return this.#fetchAdvanced(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(userdict)
+        }).then(
+            (res) => {
+                return res
+            }
+        )
     }
 
     #getAll = (url, BO) => {

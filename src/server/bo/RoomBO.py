@@ -6,14 +6,7 @@ class RoomBO(BusinessObject):
         super().__init__()
         self.__userAuthId = None
         self.__partnerId = None
-        self.__name = ""
         self.__mitglieder = []
-
-    def set_name(self, name):
-        self.__name = name
-
-    def get_name(self):
-        return self.__name
 
     def get_mitglieder(self):
         return self.__mitglieder
@@ -44,6 +37,4 @@ class RoomBO(BusinessObject):
         obj.set_userAuthId(kwargs["userAuthId"])
         obj.set_partnerId(kwargs["partnerId"])
         obj.set_mitglieder_append(kwargs["partnerId"])
-        #obj.set_name(kwargs["name"])
-        #obj.set_mitglieder(kwargs["mitglieder"])
         return obj

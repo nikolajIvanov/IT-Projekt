@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@900&family=Fjalla+One&display=swap');
 
+:root{
+  --primary: #2D89FF97;
+  --secondary: #ff9900;
+  --complement: #ff1500;
+}
+
 .App {
   text-align: center;
   font-family: 'Roboto Mono', monospace;
@@ -123,7 +129,7 @@
 }
 
 .button_primary{
-    background-color: #2D89FF97;
+    background-color: var(--primary);
     color: white;
   }
 
@@ -141,29 +147,23 @@
   margin: auto;
   width: 80%;
   border-radius: 10px;
-  background-color: #2D89FF97;
+  background-color: var(--primary);
 }
 
 .icon{
   color: #ffffff
 }
 
-.matchCard{
-  padding: 10px;
-  border-radius: 10px;
-  background-image: linear-gradient(-45deg, #2D89FF97, #000000);
-}
-
 .primary{
-    background-color: #2D89FF97;
+    background-color: var(--primary)
   }
 
 .secondary{
-  background-color: #ff9900
+  background-color: var(--secondary)
 }
 
 .complement{
-  background-color: #ff1500
+  background-color: var(--complement)
 }
 
 .register{
@@ -177,7 +177,8 @@
 
 .h1_bold{
   font-size: xx-large;
-  font-weight: bold
+  font-weight: bold;
+  margin-bottom: 0;
 }
 
 .h2_regular{
@@ -190,7 +191,8 @@
 }
 
 .h3_regular{
-  font-size: large
+  font-size: large;
+  margin-top: 0;
 }
 
 .h3_bold{
@@ -213,4 +215,38 @@
   letter-spacing: 5px;
   font-family: 'Catamaran', sans-serif;
   font-size: 80px
+}
+
+.matchWindow{
+  width: 70%;
+}
+
+.matchHeader{
+  overflow: hidden;
+  margin-top: 5%;
+  padding: 10% 10% 0 10%;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px 0 rgba(0, 74, 95, 0.2);
+}
+
+.matchHeaderItem{
+  display: inline-block;
+  margin: 0;
+  width: 30vw;
+  column-gap: 50%;
+  padding: 5% 0 0 0;
+}
+
+.matchBody{
+  padding: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.matchProfilBox{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

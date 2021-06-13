@@ -14,21 +14,23 @@ class Navigation extends Component {
             <div>
                 <AppBar position="sticky" style={theme.nav}>
                     <Toolbar style={theme.root}>
-                    <Link to="/">
-                        <BottomNavigationAction label="Home"
+                        <Link to="/">
+                            <BottomNavigationAction label="Home"
                                                 icon={<HomeIcon style={theme.icon}/>} />
-                    </Link>
-                    <Link to="/me">
-                        <BottomNavigationAction label="ProfilBO"
+                        </Link>
+                        <Link to="/me">
+                            <BottomNavigationAction label="ProfilBO"
                                                 icon={<PersonIcon style={theme.icon}/>} />
-                    </Link>
-                    <Link to="/chat">
-                        <BottomNavigationAction label="Chat"
+                        </Link>
+                        <Link to="/chat">
+                            <BottomNavigationAction label="Chat"
                                                 icon={<ChatIcon style={theme.icon}/>} />
-                    </Link>
-                    <BottomNavigationAction label="Logout"
+                        </Link>
+                        <Link to="/">
+                            <BottomNavigationAction label="Logout"
                                             icon={<ExitToAppIcon style={theme.icon}/>}
                                             onClick={this.props.logOut}/>
+                        </Link>
                     </Toolbar>
                 </AppBar>
             </div>

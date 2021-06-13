@@ -5,45 +5,7 @@ import InputFeld from "../../../components/Textfeld/InputFeld";
 import Grid from "@material-ui/core/Grid";
 import {Chip} from "@material-ui/core";
 import ButtonSend from "../../../components/Button/ButtonSend";
-
-/*
-function ChatFenster(props) {
-    let socket = null
-    const [data, setData] = React.useState("")
-
-    useEffect(() => {
-        const endPunkt = "http://localhost:5000/chat"
-        socket = io.connect(endPunkt, {reconnection: true})
-        console.log("Online")
-        socket.on('message', msg => printData(msg))
-        //Socket schließen wenn die Komponente geschlossen wid
-        return socket.close()
-    }, [])
-
-    function printData(msg){
-        console.log(msg)
-    }
-
-    function sendData(){
-        socket.emit('message', "hi")
-    }
-
-    function handleData(event){
-        setData(event.target.value)
-    }
-
-    return (
-        <div>
-            <H1_bold inhalt={"HI"}/>
-            <InputFeld onChange={handleData} value={data}/>
-            <ButtonPrimary onClick={sendData} inhalt={"Senden"}/>
-        </div>
-    );
-}
-
-export default ChatFenster;
-*/
-
+import TeamUpApi from "../../../api/TeamUpApi";
 
 class ChatFenster extends React.Component{
     constructor() {
@@ -62,22 +24,28 @@ class ChatFenster extends React.Component{
 
     //TODO statt Grid --> Liste machen
 
-    componentWillUnmount() {
+    componentWillUnmount(){
         this.socket.close()
     }
 
-    componentDidMount() {
-        //API call für alle Chats die schon existieren mit
-        // if else für eigene und Partner Daten speichern in variablen
+    async componentDidMount(){
+        //Chat später über Props beziehen von Chat
+        await TeamUpApi.getAPI().getChatContent(1).then(
+            content => content.forEach((message) => {
+                    console.log(message)
+                    this.handlePartner(message)
+                }
+            )
+        )
         const sensorEndpoint = "http://localhost:5000/chat"
-            this.socket = io.connect(sensorEndpoint, {
+        this.socket = io.connect(sensorEndpoint, {
             reconnection: true,
         });
         console.log("Chat ist offen")
-            this.socket.on("message", message => {
-                this.handlePartner(message)
-                console.log("message", message)
-            })
+        this.socket.on("message", message => {
+            this.handlePartner(message)
+            console.log("message", message)
+        })
     }
 
     handlePartner = (message) => {

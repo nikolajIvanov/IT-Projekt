@@ -82,3 +82,8 @@ mitglied = api.model('Mitglied', {
     'lerngruppenId': fields.Integer(attribute='lerngruppenId', description='Lerngruppen'),
     'userId': fields.Integer(attribute='userId', description='User Id des Absenders'),
 })
+
+request = api.model('Request', {
+    'authId': fields.String(attribute='authId', description='Auth ID des Current User'),
+    'angefragterId': fields.Integer(attribute="userId", description="User Id des Angefragten")
+})

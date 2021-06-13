@@ -4,10 +4,10 @@ import {Card, CardActions, CardContent} from "@material-ui/core";
 import theme from '../../theme'
 import ButtonChat from "../../components/Button/ButtonChat";
 import SectionProfilView from "./Sections/SectionProfilView";
-import {useHistory} from "react-router-dom";
+import TeamUpApi from "../../api/TeamUpApi";
+import firebase from "../../api/Firebase";
 
 function Profil(props) {
-    const redirect = useHistory()
     const[data, setData] = React.useState(null)
 
     useEffect(() => {
@@ -15,7 +15,21 @@ function Profil(props) {
     },[props.profil])
 
     function back(){
-        redirect.push("/chat")
+        const userarray = {
+            userAuthId: firebase.auth().currentUser.uid,
+            partnerId: data.getID()
+        }
+        console.log(userarray)
+        TeamUpApi.getAPI().sendChatRequest(userarray).then(
+            res => {
+                if (res === 200) {
+                    console.log("Anfrage war ein Erfolg")
+                }
+                else{
+                    console.log("Anfrage Misslungen")
+                }
+            }
+        )
     }
 
         return (

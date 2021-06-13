@@ -53,8 +53,9 @@ CREATE TABLE `userInModul` (
     FOREIGN KEY (userId) REFERENCES users (id),
     FOREIGN KEY (modulId) REFERENCES modul (id),
     PRIMARY KEY (userId, modulId)
-
 );
+
+
 
 CREATE TABLE `lerngruppe` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
