@@ -58,7 +58,9 @@ CREATE TABLE `userInModul` (
 
 CREATE TABLE `room` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-    `TIMESTAMP` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    `TIMESTAMP` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `groupId` int(11),
+    FOREIGN KEY (groupId) REFERENCES lerngruppe (id)
 );
 
 
@@ -137,7 +139,6 @@ CREATE TABLE `userAdmitted` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     `vonUserid` INT(11) NOT NULL,
     `anUserid` INT(11) NOT NULL,
-    `roomid` INT(11) NOT NULL,
     `admitted` BOOLEAN NOT NULL DEFAULT FALSE
 );
 
