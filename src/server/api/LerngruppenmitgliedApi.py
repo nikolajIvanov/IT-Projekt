@@ -6,11 +6,12 @@ from server.bo.Lerngruppe import Lerngruppe
 
 class LerngruppenmitgliedApi(Resource):
     @api.expect(mitglied)
-    @api.marshal_with(mitglied)
     def delete(self):
-        adm = Administration()
-        proposal = Lerngruppe.from_dict(api.payload)
-        return adm.delete_user_in_lerngruppe(proposal)
+        altes_mitglied = []
+        altes_mitglied.append(api.payload["lerngruppenId"])
+        altes_mitglied.append(api.payload["userId"])
+
+        return Administration.delete_user_in_lerngruppe(altes_mitglied)
 
     # TODO: Wann wird ein neues Mitglied hinzugefügt und was bekommt man vom Frontend?
     @api.expect(mitglied)
@@ -18,10 +19,5 @@ class LerngruppenmitgliedApi(Resource):
         new_mitglied = []
         new_mitglied.append(api.payload["lerngruppenId"])
         new_mitglied.append(api.payload["userId"])
-        proposal = Lerngruppe.create_lerngruppeBO(id=api.payload["id"], lerntyp=api.payload["lerntyp"],
-                                                  name=api.payload["name"], beschreibung=api.payload["beschreibung"],
-                                                  profilBild=api.payload["profilBild"], admin=api.payload["admin"],
-                                                  frequenz=api.payload["frequenz"], lernort=api.payload["lernort"],
-                                                  mitglieder=api.payload["mitglieder"])
 
-        return Administration.create_new_mitglied(proposal)
+        return Administration.create_new_mitglied(new_mitglied)

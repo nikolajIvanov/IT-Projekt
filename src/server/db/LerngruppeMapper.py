@@ -177,15 +177,14 @@ class LerngruppeMapper(Mapper):
 
             query_room = """INSERT INTO TeamUP.room(id) VALUES (DEFAULT)"""
             cursor.execute(query_room)
-            roomId = cursor.lastrowid
             self._cnx.commit()
             # Erstellen des SQL-Befehls für TABLE lerngruppe
-            query = """INSERT INTO teamup.lerngruppe (name, beschreibung, bild, lerntyp,admin, frequenz, lernort, 
-                                                      roomId) VALUES (%s ,%s ,%s ,%s ,%s, %s ,%s, %s)"""
+            query = """INSERT INTO teamup.lerngruppe (name, beschreibung, bild, lerntyp,admin, frequenz, lernort 
+                                                      ) VALUES (%s ,%s ,%s ,%s ,%s, %s ,%s)"""
             # Daten für lerngruppe
             daten = (lerngruppe.get_name(), lerngruppe.get_beschreibung(), lerngruppe.get_profilBild(),
                      lerngruppe.get_lerntyp(), lerngruppe.get_admin(), lerngruppe.get_frequenz(),
-                     lerngruppe.get_lernort(), roomId)
+                     lerngruppe.get_lernort())
 
             # Ausführen des SQL-Befehls für lerngruppe
             cursor.execute(query, daten)
@@ -197,8 +196,8 @@ class LerngruppeMapper(Mapper):
 
             # Schleife setzt Mitglieder in die UserInLerngruppe Tabelle
             for mitglied in gruppenMitglieder:
-                query1 = """INSERT INTO teamup.userinlerngruppe(userId, lerngruppeId, admitted) VALUES (%s, %s, %s)"""
-                data1 = (mitglied, gruppenId, 1)
+                query1 = """INSERT INTO teamup.userinlerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
+                data1 = (mitglied, gruppenId)
                 cursor.execute(query1, data1)
 
             query2 = """INSERT INTO teamup.lerngruppeinmodul (lerngruppeId, modulId) VALUES (%s, %s) """
@@ -210,13 +209,10 @@ class LerngruppeMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    # TODO In bearbeitung
-    # TODO: Muss als Parameter authId und lerngruppenID übergeben bekommen
-    def insert_user(self, user_authid, lerngruppe):
+    def insert_user(self, new_mitglied):
         """
         Speichert ein neues Mitglied in der Lerngruppe
-        :param user_authid:
-        :param lerngruppe:
+        :param new_mitglied: Liste mit GruppenID und UserID
         :return: Statuscode: 200 Wenn das anlegen erfolgreich war
         """
         try:
@@ -224,7 +220,7 @@ class LerngruppeMapper(Mapper):
             cursor = self._cnx.cursor(prepared=True)
 
             query1 = """INSERT INTO teamup.userinlerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
-            data1 = (user_authid, lerngruppe.get_id())
+            data1 = (new_mitglied[1], new_mitglied[0])
             cursor.execute(query1, data1)
 
             self._cnx.commit()
@@ -235,23 +231,21 @@ class LerngruppeMapper(Mapper):
 
     # TODO In bearbeitung
     # TODO: Muss als Parameter authId und lerngruppenID übergeben bekommen
-    def delete_user_from_lerngruppe(self, user_authid, lerngruppe):
+    def delete_user_from_lerngruppe(self, altes_mitglied):
         """
         Löscht den aktuellen User aus der Lerngruppe
-        :param user_authid: Die ID des Users
-        :param lerngruppe:Die ID der Lerngruppe
+        :param altes_mitglied: Liste mit GruppenID und UserID
         :return: Statuscode: 200 Wenn das anlegen erfolgreich war
         """
         try:
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor(prepared=True)
-            alteMitglieder = lerngruppe.get_mitglieder()
 
             # LerngruppenID bekommen über name
             query = """DELETE FROM teamup.userInLerngruppe WHERE teamup.userInLerngruppe.userId = %s
                         AND teamup.userinlerngruppe.lerngruppeId = %s"""
             # Mitglied ist in Liste Mitglied als einziges Element
-            cursor.execute(query, (user_authid, lerngruppe.get_id()))
+            cursor.execute(query, (altes_mitglied[1], altes_mitglied[0]))
 
             # Schließen der Datenbankverbindung
             self._cnx.commit()

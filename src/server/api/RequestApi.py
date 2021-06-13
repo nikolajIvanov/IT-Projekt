@@ -1,6 +1,6 @@
 from flask_restx import Resource
 from server.Administration import Administration
-from model import request, api
+from .model import request, api
 from server.bo.RequestBO import RequestBO
 
 
