@@ -126,7 +126,6 @@ CREATE TABLE `message` (
 CREATE TABLE `userInRoom` (
     `userId` int(11) NOT NULL,
     `roomId` int(11) NOT NULL,
-    `admitted` BOOLEAN NOT NULL DEFAULT FALSE,
     `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (userId) REFERENCES users (id),
     FOREIGN KEY (roomId) REFERENCES room (id),
