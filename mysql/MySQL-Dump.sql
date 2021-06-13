@@ -56,14 +56,6 @@ CREATE TABLE `userInModul` (
 
 );
 
-CREATE TABLE `room` (
-    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-    `TIMESTAMP` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `groupId` int(11),
-    FOREIGN KEY (groupId) REFERENCES lerngruppe (id)
-);
-
-
 CREATE TABLE `lerngruppe` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     `timeStamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -74,9 +66,14 @@ CREATE TABLE `lerngruppe` (
     `beschreibung` varchar(128) NOT NULL DEFAULT '',
     `frequenz` varchar(128) NOT NULL DEFAULT '',
     `lernort` varchar(128) NOT NULL DEFAULT '',
-    `roomId` int(11) NOT NULL,
-    FOREIGN KEY (admin) REFERENCES users (id),
-    FOREIGN KEY (roomId) REFERENCES room (id)
+    FOREIGN KEY (admin) REFERENCES users (id)
+);
+
+CREATE TABLE `room` (
+    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `TIMESTAMP` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `groupId` int(11),
+    FOREIGN KEY (groupId) REFERENCES lerngruppe (id)
 );
 
 CREATE TABLE `userInLerngruppe` (
