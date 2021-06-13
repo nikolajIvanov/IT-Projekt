@@ -269,6 +269,11 @@ class Administration(object):
         with RequestMapper() as mapper:
             mapper.create_request(request)
 
+    @staticmethod
+    def get_request(authid):
+        with RequestMapper() as mapper:
+            mapper.get_requests_by_auth_id(authid)
+
     ###################################################################################################################
     # Nicht genutzt Methoden
     ###################################################################################################################
