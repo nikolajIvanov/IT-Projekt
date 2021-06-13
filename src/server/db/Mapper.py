@@ -103,7 +103,24 @@ class Mapper(AbstractContextManager, ABC):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    @abstractmethod
+    def find_username_by_id(self, userid):
+        try:
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
+            cursor = self._cnx.cursor(prepared=True)
+            # erstellen des SQL-Befehls um die UserBO Daten abzufragen
+            query = """SELECT vorname, name FROM TeamUP.users WHERE id=%s"""
+
+            # Ausführen des ersten SQL-Befehls
+            cursor.execute(query, (userid,))
+            # Speichern der SQL Antwort
+            username = cursor.fetchone()
+
+            cursor.close()
+            # Rückgabe des UserBO
+            return username[0]
+        except mysql.connector.Error as err:
+            raise InternalServerError(err.msg)
+
     def find_all(self):
         pass
 

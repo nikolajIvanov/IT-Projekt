@@ -197,20 +197,29 @@ class ChatMapper(Mapper):
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor()
 
+        query_admin = """SELECT id, roomId, admin from TeamUP.lerngruppe WHERE admin=%s"""
+
+        cursor.execute(query_admin, (userid,))
+        admin = cursor. fetchall()
+
+        query_mitglieder = """SELECT userId from TeamUP.userInLerngruppe WHERE lerngruppeId=%s AND admitted = 0"""
+
+        cursor.execute(query_mitglieder, (userid,))
+        unbestätigte_mitglieder = cursor.fetchall()
+
+
+
         # Erstellen des SQL-Befehls
         query = """SELECT roomId, userId, admitted from TeamUP.userInRoom WHERE userId=%s"""
 
         # Ausführen des SQL-Befehls
         cursor.execute(query, (userid,))
         rooms = cursor.fetchall()
-        query1 = """SELECT id, groupId from TeamUP.room WHERE id=%s"""
+        query1 = """SELECT id FROM TeamUP.room WHERE id=%s"""
         test = []
         for room in rooms:
             cursor.execute(query1, (room[0],))
             test.append(cursor.fetchone())
-
-        test
-
 
         cursor.close()
 
@@ -223,6 +232,3 @@ class ChatMapper(Mapper):
         users.append(room_dict.copy())
 
         return print(users)
-
-    def find_all(self):
-        pass

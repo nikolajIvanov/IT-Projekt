@@ -16,7 +16,7 @@ class LerngruppenApi(Resource):
                                                   name=api.payload["name"], beschreibung=api.payload["beschreibung"],
                                                   profilBild=api.payload["profilBild"], admin=api.payload["admin"],
                                                   frequenz=api.payload["frequenz"], lernort=api.payload["lernort"],
-                                                  mitglieder=api.payload["mitglieder"])
+                                                  mitglieder=api.payload["mitglieder"], modul=api.payload["modul"])
         if proposal is not None:
             return Administration.create_lerngruppe(proposal)
         else:

@@ -180,8 +180,8 @@ class LerngruppeMapper(Mapper):
             roomId = cursor.lastrowid
             self._cnx.commit()
             # Erstellen des SQL-Befehls für TABLE lerngruppe
-            query = """INSERT INTO teamup.lerngruppe (name, beschreibung, bild, lerntyp,admin, frequenz, lernort, roomId) 
-                       VALUES (%s ,%s ,%s ,%s ,%s, %s ,%s, %s)"""
+            query = """INSERT INTO teamup.lerngruppe (name, beschreibung, bild, lerntyp,admin, frequenz, lernort, 
+                                                      roomId) VALUES (%s ,%s ,%s ,%s ,%s, %s ,%s, %s)"""
             # Daten für lerngruppe
             daten = (lerngruppe.get_name(), lerngruppe.get_beschreibung(), lerngruppe.get_profilBild(),
                      lerngruppe.get_lerntyp(), lerngruppe.get_admin(), lerngruppe.get_frequenz(),
@@ -189,7 +189,8 @@ class LerngruppeMapper(Mapper):
 
             # Ausführen des SQL-Befehls für lerngruppe
             cursor.execute(query, daten)
-
+            self._cnx.commit()
+            # Holt die aktuelle GruppenId, die erstellt worden ist
             gruppenId = cursor.lastrowid
 
             gruppenMitglieder = lerngruppe.get_mitglieder()
@@ -200,12 +201,9 @@ class LerngruppeMapper(Mapper):
                 data1 = (mitglied, gruppenId, 1)
                 cursor.execute(query1, data1)
 
-            gruppenModule = lerngruppe.get_modul()
-            # Schleife setzt Lerngruppe mit ModulId in die LerngruppeInModul Tabelle
-            for modul in gruppenModule:
-                query2 = """INSERT INTO teamup.lerngruppeinmodul (lerngruppeId, modulId) VALUES (%s, %s) """
-                data2 = (gruppenId, self.get_modulId_by_modul(modul))
-                cursor.execute(query2, data2)
+            query2 = """INSERT INTO teamup.lerngruppeinmodul (lerngruppeId, modulId) VALUES (%s, %s) """
+            data2 = (gruppenId, self.get_modulId_by_modul(lerngruppe.get_modul()))
+            cursor.execute(query2, data2)
             self._cnx.commit()
             cursor.close()
             return 200
