@@ -1,0 +1,18 @@
+{
+	"info": {
+		"_postman_id": "cbdb4ea6-2ad8-47a3-b0fb-0e340b893acd",
+		"name": "Init",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "InitalRequest",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		}
+	]
+}

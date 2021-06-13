@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "90c0dd71-32dd-4be3-8673-70139cb213a6",
+		"_postman_id": "b74db25f-57f7-4097-b385-284ab90a9d99",
 		"name": "User",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -193,7 +193,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000//modul/Wirtschaftsinformatik und digitale Medien",
+					"raw": "http://127.0.0.1:5000/modul/Wirtschaftsinformatik und digitale Medien",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -203,7 +203,6 @@
 					],
 					"port": "5000",
 					"path": [
-						"",
 						"modul",
 						"Wirtschaftsinformatik und digitale Medien"
 					]
