@@ -5,17 +5,16 @@ from server.bo.RequestBO import RequestBO
 
 
 class RequestApi(Resource):
+    def get(self, auth_id):
+        pass
 
     @api.expect(request)
     def post(self):
         """
-        Erstellt einen neuen Room in der Datenbank.
+        Erstellt eine neue Anfrage.
         :return:
         """
         payload = api.payload
         request_body = RequestBO.create_request(auth_id=payload["authId"], angefragter_id=payload["angefragterId"])
         Administration.create_request(request_body)
         return 200
-
-    def get(self, authId):
-        pass

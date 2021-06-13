@@ -14,11 +14,11 @@ class RequestMapper(Mapper):
             cursor = self._cnx.cursor(prepared=True)
 
             # Erstellen des SQL-Befehls
-            query = """INSERT INTO teamup.userAdmitted (vonUserid, anUserid) VALUES (%s ,%s)"""
+            query = """INSERT INTO teamup.userAdmitted(vonUserid, anUserid) VALUES (%s ,%s)"""
             # Erstellen des SQL-Befehls
 
             # Daten
-            daten = (RequestBO.get_auth_id(request), RequestBO.get_id(request))
+            daten = (RequestBO.get_auth_id(request), RequestBO.get_angefragter_id(request))
 
             # Ausführen des SQL-Befehls
             cursor.execute(query, daten)

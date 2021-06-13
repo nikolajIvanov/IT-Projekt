@@ -85,5 +85,5 @@ mitglied = api.model('Mitglied', {
 
 request = api.model('Request', {
     'authId': fields.String(attribute='authId', description='Auth ID des Current User'),
-    'angefragterId': fields.Integer(attribute="userId", description="User Id des Angefragten")
+    'angefragterId': fields.Integer(attribute='userId', description='User Id des Angefragten')
 })

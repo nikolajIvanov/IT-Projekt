@@ -4,7 +4,6 @@ import socket
 from flask_cors import CORS
 from flask_socketio import SocketIO, send, emit
 # Api Endpunkte
-from server.api import RequestApi
 from server.api.InitApi import InitApi
 from server.api.VieleUserApi import VieleUserApi
 from server.api.UsersApi import UsersApi
@@ -24,6 +23,7 @@ from server.api.ChatApi import ChatApi
 from server.Administration import Administration
 from server.api.Chat import Chat
 from server.api.ChatRoomApi import ChatRoomApi
+from server.api.RequestApi import RequestApi
 from server.api.MyRooms import MyRooms
 
 CORS(app, resources=r'/*')
@@ -76,7 +76,7 @@ api.add_resource(ChatRoomApi, '/chatrooms')
 api.add_resource(ChatRoomApi, '/chatrooms/<string:authId>')
 
 # Sendet einen Post befehl der ein argument type hat um zwischen gruppen und single unterscheiden zu können
-#api.add_resource(RequestApi, '/request')
+api.add_resource(RequestApi, '/request')
 
 api.add_resource(InitApi, '/init/<string:authId>')
 
