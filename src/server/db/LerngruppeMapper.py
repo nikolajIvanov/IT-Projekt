@@ -212,8 +212,7 @@ class LerngruppeMapper(Mapper):
     def insert_user(self, new_mitglied):
         """
         Speichert ein neues Mitglied in der Lerngruppe
-        :param user_authid:
-        :param lerngruppe:
+        :param new_mitglied: Liste mit GruppenID und UserID
         :return: Statuscode: 200 Wenn das anlegen erfolgreich war
         """
         try:
@@ -232,23 +231,21 @@ class LerngruppeMapper(Mapper):
 
     # TODO In bearbeitung
     # TODO: Muss als Parameter authId und lerngruppenID übergeben bekommen
-    def delete_user_from_lerngruppe(self, user_authid, lerngruppe):
+    def delete_user_from_lerngruppe(self, altes_mitglied):
         """
         Löscht den aktuellen User aus der Lerngruppe
-        :param user_authid: Die ID des Users
-        :param lerngruppe:Die ID der Lerngruppe
+        :param altes_mitglied: Liste mit GruppenID und UserID
         :return: Statuscode: 200 Wenn das anlegen erfolgreich war
         """
         try:
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor(prepared=True)
-            alteMitglieder = lerngruppe.get_mitglieder()
 
             # LerngruppenID bekommen über name
             query = """DELETE FROM teamup.userInLerngruppe WHERE teamup.userInLerngruppe.userId = %s
                         AND teamup.userinlerngruppe.lerngruppeId = %s"""
             # Mitglied ist in Liste Mitglied als einziges Element
-            cursor.execute(query, (user_authid, lerngruppe.get_id()))
+            cursor.execute(query, (altes_mitglied[1], altes_mitglied[0]))
 
             # Schließen der Datenbankverbindung
             self._cnx.commit()

@@ -142,14 +142,15 @@ class Administration(object):
         with LerngruppeMapper() as mapper:
             return mapper.delete_gruppe(gruppen_id)
 
-    def delete_user_in_lerngruppe(self, lerngruppe):
+    @staticmethod
+    def delete_user_in_lerngruppe(altes_mitglied):
         """
         :param lerngruppe: lerngruppenobjekt
         :return: Statuscode 200 User erfolgreich aus Gruppe gelöscht
         """
         with LerngruppeMapper() as mapper:
-            return mapper.delete_user_from_lerngruppe(lerngruppe)
-
+            return mapper.delete_user_from_lerngruppe(altes_mitglied)
+    #Todo MUSS BEI DER FUNK OBEN NE AUTH ID MIT EIG NICHT?
     def update_lerngruppe(self, lerngruppe):
         """
         :param lerngruppe: lerngruppenobjekt
@@ -158,7 +159,6 @@ class Administration(object):
         with LerngruppeMapper() as mapper:
             return mapper.update_lerngruppe(lerngruppe)
 
-    # TODO Wann erstellen wir einen neues Mitglied?
     @staticmethod
     def create_new_mitglied(new_mitglied):
         """
