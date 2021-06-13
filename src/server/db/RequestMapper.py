@@ -67,7 +67,7 @@ class RequestMapper(Mapper):
 
             lgquery = """SELECT id FROM TeamUP.lerngruppe WHERE admin=%s"""
 
-            cursor.execute(lgquery, (self.find_userid_by_authid(auth_id)))
+            cursor.execute(lgquery, (self.find_userid_by_authid(auth_id),))
             gruppen_from_admin = cursor.fetchall()
             erhalten = []
             for gruppe in gruppen_from_admin:
@@ -75,7 +75,7 @@ class RequestMapper(Mapper):
                 query = """SELECT id, vonUserid, anGruppenid FROM TeamUP.gruppeAdmitted WHERE anGruppenid=%s"""  #
 
                 # Ausführen des SQL-Befehls
-                cursor.execute(query, (gruppe,))
+                cursor.execute(query, (gruppe[0],))
 
                 # Speichern der SQL Antwort
                 erhaltene_requests = cursor.fetchall()
@@ -108,20 +108,18 @@ class RequestMapper(Mapper):
                        "erhalten": erhalten
                        }
 
-            return print(antwort)
+            return antwort
 
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
-
 
     def get_requests_by_auth_id(self, authid):
         try:
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor(prepared=True)
-            #TODO: Checken ob Anfrage gültig ist (älter als 2 Wochen)
+            # TODO: Checken ob Anfrage gültig ist (älter als 2 Wochen)
             # Erstellen des SQL-Befehls
-            query = """SELECT id, vonUserid, anUserid FROM TeamUP.userAdmitted WHERE vonUserid=%s"""#
-
+            query = """SELECT id, vonUserid, anUserid FROM TeamUP.userAdmitted WHERE vonUserid=%s"""  #
 
             # Ausführen des SQL-Befehls
             cursor.execute(query, (authid,))
@@ -140,7 +138,7 @@ class RequestMapper(Mapper):
 
             gestellt = []
             for anfrage in gestellte_requests:
-                message_dict = {"requestId":None,"vonUserId": None, "anUserId": None}
+                message_dict = {"requestId": None, "vonUserId": None, "anUserId": None}
                 message_dict["requestId"] = anfrage[0]
                 message_dict["vonUserId"] = anfrage[1]
                 message_dict["anUserId"] = anfrage[2]
@@ -148,15 +146,20 @@ class RequestMapper(Mapper):
 
             erhalten = []
             for anfrage in erhaltene_requests:
-                message_dict = {"requestId":None,"vonUserId": None, "anUserId": None}
+                message_dict = {"requestId": None, "vonUserId": None, "anUserId": None}
                 message_dict["requestId"] = anfrage[0]
                 message_dict["vonUserId"] = anfrage[1]
                 message_dict["anUserId"] = anfrage[2]
                 erhalten.append(message_dict.copy())
 
-            antwort = {"gestellt": gestellt,
-                       "erhalten": erhalten
-                       }
+            gruppen_ergebnis = self.get_gruppen_requests(authid)
+
+            antwort = {"user": {
+                "gestellt": gestellt,
+                "erhalten": erhalten
+            },
+                "gruppen": gruppen_ergebnis
+            }
 
             return antwort
 

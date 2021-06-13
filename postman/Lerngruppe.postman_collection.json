@@ -80,7 +80,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 0,\n    \"modul\":[\"Grundlagen PR\"],\n    \"profilBild\": \"1235\",\n    \"beschreibung\":\"Zweiter Versuch\",\n    \"lerntyp\": \"Visuell\",\n    \"name\": \"FPK\",\n    \"mitglieder\":[1],\n    \"admin\": \"1\"\n}",
+					"raw": "{\n    \"id\": 0,\n    \"modul\":[\"Grundlagen PR\"],\n    \"profilBild\": \"1235\",\n    \"beschreibung\":\"Zweiter Versuch\",\n    \"lerntyp\": \"Visuell\",\n    \"name\": \"FPK\",\n    \"mitglieder\":[1],\n    \"admin\": \"1\",\n    \"frequenz\": \"wöchentlich\",\n    \"lernort\": \"online\"\n\n}",
 					"options": {
 						"raw": {
 							"language": "json"

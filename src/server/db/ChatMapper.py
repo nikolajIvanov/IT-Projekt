@@ -171,7 +171,7 @@ class ChatMapper(Mapper):
         """
 
         # Erstellen des SQL-Befehls
-        query = """SELECT roomId, userId, admitted from TeamUP.userInRoom WHERE userId=%s"""
+        query = """SELECT roomId, userId from TeamUP.userInRoom WHERE userId=%s"""
 
         # Ausführen des SQL-Befehls
         cursor.execute(query, (userid,))
