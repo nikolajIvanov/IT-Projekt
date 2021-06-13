@@ -160,13 +160,13 @@ class Administration(object):
 
     # TODO Wann erstellen wir einen neues Mitglied?
     @staticmethod
-    def create_new_mitglied(lerngruppe):
+    def create_new_mitglied(new_mitglied):
         """
         :param lerngruppe:
-        :return:
+        :return: Statuscode 200 User wurde in Lerngruppe eingetragen
         """
         with LerngruppeMapper() as mapper:
-            return mapper.insert_user(lerngruppe)
+            return mapper.insert_user(new_mitglied)
 
     """
         Modul und Studiengang-spezifische Methoden

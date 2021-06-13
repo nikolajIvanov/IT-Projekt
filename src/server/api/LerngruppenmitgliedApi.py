@@ -18,10 +18,5 @@ class LerngruppenmitgliedApi(Resource):
         new_mitglied = []
         new_mitglied.append(api.payload["lerngruppenId"])
         new_mitglied.append(api.payload["userId"])
-        proposal = Lerngruppe.create_lerngruppeBO(id=api.payload["id"], lerntyp=api.payload["lerntyp"],
-                                                  name=api.payload["name"], beschreibung=api.payload["beschreibung"],
-                                                  profilBild=api.payload["profilBild"], admin=api.payload["admin"],
-                                                  frequenz=api.payload["frequenz"], lernort=api.payload["lernort"],
-                                                  mitglieder=api.payload["mitglieder"])
 
-        return Administration.create_new_mitglied(proposal)
+        return Administration.create_new_mitglied(new_mitglied)
