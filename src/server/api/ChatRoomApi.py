@@ -21,8 +21,10 @@ class ChatRoomApi(Resource):
         :return:
         """
         payload = api.payload
-        chat_room = RoomBO.create_room(userAuthId=payload["userAuthId"], partnerId=payload["partnerId"])
         # acceptRequest
+        Administration.delete_request(request=payload["requestId"])
+        # Chat Room erstellen
+        chat_room = RoomBO.create_room(userAuthId=payload["userAuthId"], partnerId=payload["partnerId"])
         Administration.create_room(chat_room)
         return 200
     """ 

@@ -30,6 +30,35 @@ class RequestMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
+    def get_requests_by_user_id(self, userid):
+        try:
+            # Öffnen der Datenbankverbindung
+            cursor = self._cnx.cursor()
+
+            # Erstellen des SQL-Befehls
+            query = """SELECT vonUserid, anUserid FROM TeamUP.userAdmitted WHERE anUserid=%s"""
+
+            # Ausführen des SQL-Befehls
+            cursor.execute(query, (userid,))
+
+            # Speichern der SQL Antwort
+            requests = cursor.fetchall()
+
+            # Schließen der Datenbankverbindung
+            cursor.close()
+
+            anfragen = []
+            for anfrage in anfragen:
+                message_dict = {"vonUserId": None, "anUserId": None}
+                message_dict["vonUserId"] = anfrage[0]
+                message_dict["anUserId"] = anfrage[1]
+                anfragen.append(message_dict.copy())
+            # Rückgabe der Nachrichten
+            return print(anfragen)
+
+        except mysql.connector.Error as err:
+            raise InternalServerError(err.msg)
+
     def get_requests_by_auth_id(self, authid):
         try:
             # Öffnen der Datenbankverbindung
@@ -77,5 +106,12 @@ class RequestMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-        def accept_request():
-            pass
+    def accept_request(self, requestid):
+        # Öffnen der Datenbankverbindung
+        cursor = self._cnx.cursor(prepared=True)
+
+        query1 = """DELETE FROM teamup.userAdmitted WHERE id = %s"""
+        cursor.execute(query1, (requestid,))
+
+        self._cnx.commit()
+        cursor.close()

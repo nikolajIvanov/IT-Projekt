@@ -281,6 +281,12 @@ class Administration(object):
         with RequestMapper() as mapper:
             return mapper.get_requests_by_auth_id(authid)
 
+    @staticmethod
+    def delete_request(request):
+        with RequestMapper() as mapper:
+            return mapper.accept_request(request)
+
+
     ###################################################################################################################
     # Nicht genutzt Methoden
     ###################################################################################################################
@@ -344,3 +350,4 @@ class Administration(object):
         """
         with LerngruppeMapper() as mapper:
             return mapper.delete_gruppe(name)
+
