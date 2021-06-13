@@ -62,7 +62,7 @@ class RequestMapper(Mapper):
     def get_requests_by_auth_id(self, authid):
         try:
             # Öffnen der Datenbankverbindung
-            cursor = self._cnx.cursor()
+            cursor = self._cnx.cursor(prepared=True)
             #TODO: Checken ob Anfrage gültig ist (älter als 2 Wochen)
             # Erstellen des SQL-Befehls
             query = """SELECT vonUserid, anUserid FROM TeamUP.userAdmitted WHERE vonUserid=%s"""#
@@ -72,24 +72,33 @@ class RequestMapper(Mapper):
             cursor.execute(query, (authid,))
 
             # Speichern der SQL Antwort
-            requests = cursor.fetchall()
+            gestellte_requests = cursor.fetchall()
 
             query2 = """SELECT vonUserid, anUserid FROM TeamUP.userAdmitted WHERE anUserid=%s"""
 
+            cursor.execute(query2, (self.find_userid_by_authid(authid),))
+
+            erhaltene_requests = cursor.fetchall()
 
             # Schließen der Datenbankverbindung
             cursor.close()
 
             anfragen = []
-            for anfrage in requests:
+            for anfrage in gestellte_requests:
                 message_dict = {"vonUserId": None, "anUserId": None}
                 message_dict["vonUserId"] = anfrage[0]
                 message_dict["anUserId"] = anfrage[1]
                 anfragen.append(message_dict.copy())
-            # Rückgabe der Nachrichten
 
 
-            return print(anfragen)
+            for anfrage in erhaltene_requests:
+                message_dict = {"vonUserId": None, "anUserId": None}
+                message_dict["vonUserId"] = anfrage[0]
+                message_dict["anUserId"] = anfrage[1]
+                anfragen.append(message_dict.copy())
+
+
+            return anfragen
 
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
