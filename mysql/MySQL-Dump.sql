@@ -80,7 +80,6 @@ CREATE TABLE `room` (
 CREATE TABLE `userInLerngruppe` (
     `userId`       int(11) NOT NULL,
     `lerngruppeId` int(11) NOT NULL,
-    `admitted` BOOLEAN NOT NULL DEFAULT FALSE,
     FOREIGN KEY (userId) REFERENCES users (id),
     FOREIGN KEY (lerngruppeId) REFERENCES lerngruppe (id),
     PRIMARY KEY (userId, lerngruppeId)

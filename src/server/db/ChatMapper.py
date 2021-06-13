@@ -1,5 +1,6 @@
 from server.db.Mapper import Mapper
 from server.bo.RoomBO import RoomBO
+from server.bo.Lerngruppe import Lerngruppe
 
 
 class ChatMapper(Mapper):
@@ -104,11 +105,8 @@ class ChatMapper(Mapper):
 
         return 200
 
-    def create_learngruppen_room(self, room, groupid):
+    def create_learngruppen_room(self, lerngruppe, groupid):
         # Öffnen der Datenbankverbindung
-        userid = self.find_userid_by_authid(room.get_userAuthId())
-        room.set_mitglieder_append(userid)
-
         cursor = self._cnx.cursor(prepared=True)
 
         query1 = """INSERT INTO TeamUP.room(groupId) VALUE (%s)"""
@@ -119,7 +117,7 @@ class ChatMapper(Mapper):
         roomId = cursor.lastrowid
         cursor.close()
 
-        for user in room.get_mitglieder():
+        for user in lerngruppe.get_mitglieder():
             self.add_user_to_room(roomId, user)
         return 200
 
