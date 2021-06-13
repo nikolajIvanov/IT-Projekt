@@ -72,7 +72,8 @@ api.add_resource(UserMatchingApi, '/usermatch/<string:authId>')
 api.add_resource(LerngruppenMatchingApi, '/lerngruppenmatch/<string:authId>')
 
 api.add_resource(ChatApi, '/chat/<int:roomId>')
-api.add_resource(ChatRoomApi, '/chatrooms')
+# Wird aufgerufen wenn eine Anfrage akzeptiert wurde
+api.add_resource(ChatRoomApi, '/accept_request')
 api.add_resource(ChatRoomApi, '/chatrooms/<string:authId>')
 
 # Sendet einen Post befehl der ein argument type hat um zwischen gruppen und single unterscheiden zu können

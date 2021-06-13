@@ -54,13 +54,13 @@ class ChatMapper(Mapper):
         # Rückgabe der Nachrichten
         return history
 
-    def add_user_to_room(self, room, user, admitted):
+    def add_user_to_room(self, room, user):
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
 
-        query1 = """INSERT INTO teamup.userInRoom(userId, roomId, admitted) VALUES (%s, %s, %s)"""
+        query1 = """INSERT INTO teamup.userInRoom(userId, roomId) VALUES (%s, %s)"""
 
-        data1 = (user, room, admitted)
+        data1 = (user, room)
         cursor.execute(query1, data1)
 
         self._cnx.commit()
@@ -83,34 +83,6 @@ class ChatMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    def admit_user_to_room(self, room, user):
-
-        cursor = self._cnx.cursor(prepared=True)
-
-        query1 = """UPDATE teamup.userInRoom SET TeamUP.userInRoom.admitted = 1 WHERE teamup.userInRoom.userId = %s
-                            AND teamup.userInRoom.roomId = %s"""
-        data1 = (user, room)
-        cursor.execute(query1, data1)
-
-        self._cnx.commit()
-        cursor.close()
-
-    def get_admit_status(self, room, user):
-        cursor = self._cnx.cursor(prepared=True)
-
-        query1 = """SELECT admitted, timestamp FROM TeamUP.userInRoom WHERE roomId=%s AND userId=%s"""
-        data1 = (room, user)
-        cursor.execute(query1, data1)
-
-        status = cursor.fetchall()
-        # Status 0 = False, Status 1 = TRUE
-        # TODO: Check einbauen ob der Timestamp älter als 2 Wochen ist. Wenn ja -> delete_user_from_room
-
-        self._cnx.commit()
-        cursor.close()
-
-        return status
-
     def create_user_room(self, room):
         # Öffnen der Datenbankverbindung
 
@@ -128,11 +100,8 @@ class ChatMapper(Mapper):
         cursor.close()
 
         for user in room.get_mitglieder():
-            if user == userid:
-                admitted = 0
-            else:
-                admitted = 1
-            self.add_user_to_room(roomId, user, admitted)
+            self.add_user_to_room(roomId, user)
+
         return 200
 
     def create_learngruppen_room(self, room):

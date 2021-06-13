@@ -76,3 +76,6 @@ class RequestMapper(Mapper):
 
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
+
+        def accept_request():
+            pass

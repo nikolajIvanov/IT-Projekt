@@ -22,6 +22,7 @@ class ChatRoomApi(Resource):
         """
         payload = api.payload
         chat_room = RoomBO.create_room(userAuthId=payload["userAuthId"], partnerId=payload["partnerId"])
+        # acceptRequest
         Administration.create_room(chat_room)
         return 200
     """ 
