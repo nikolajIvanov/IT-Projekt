@@ -10,6 +10,7 @@ class MatchingBO:
         self.__result.append(obj_id)
 
     def user_matching(self, mainUser, finderUser):
+        #TODO: Kommentieren?
         unsorted_user = []
         users = {"user": None, "score": None}
         for user in finderUser:
@@ -35,6 +36,7 @@ class MatchingBO:
         return self
 
     def lerngruppen_matching(self, mainUser, match_gruppen):
+        # TODO: Kommentieren?
         unsorted_gruppen = []
         gruppen = {"gruppenID": None, "score": None}
         for gruppe in match_gruppen:

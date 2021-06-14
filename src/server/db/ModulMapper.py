@@ -27,6 +27,7 @@ class ModulMapper(Mapper):
 
     def get_studiengangId_by_studiengang(self, studiengang):
         """
+        Sucht nach der ModulId anhand des Namen des Studiengangs
         :param studiengang: Ist der Name des Studiengangs
         :return: modulid
         """
