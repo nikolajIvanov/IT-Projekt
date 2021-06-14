@@ -236,9 +236,9 @@ class ChatMapper(Mapper):
             cursor.execute(query_mitglieder, (gruppe[0],))
             unbestätigte_mitglieder = cursor.fetchall()
         """
-        try:
-            # Erstellen des SQL-Befehls
-            query = """SELECT roomId, userId from TeamUP.userInRoom WHERE userId=%s"""
+
+        # Erstellen des SQL-Befehls
+        query = """SELECT roomId, userId from TeamUP.userInRoom WHERE userId=%s"""
 
         # Erstellen des SQL-Befehls
         query = """SELECT roomId from TeamUP.userInRoom WHERE userId=%s"""
