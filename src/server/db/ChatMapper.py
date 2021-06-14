@@ -238,7 +238,7 @@ class ChatMapper(Mapper):
             users = cursor.fetchall()
 
             user: None
-Re
+
             for u in users:
                 if u[0] == user_id:
                     user: None
