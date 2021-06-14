@@ -38,13 +38,13 @@ class RequestMapper(Mapper):
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
 
-        get_user_name = """SELECT name FROM TeamUP.users WHERE id=%s"""
-
+        get_user_name = """SELECT vorname, name FROM TeamUP.users WHERE id=%s"""
         cursor.execute(get_user_name, (userId,))
 
         name = cursor.fetchone()
+        ganzer_name = name[0] + name[1]
 
-        return name[0]
+        return ganzer_name[0]
 
     def get_requests_by_user_id(self, userid):
         try:
@@ -62,10 +62,9 @@ class RequestMapper(Mapper):
 
             # Schließen der Datenbankverbindung
             cursor.close()
-
+            message_dict = {}
             anfragen = []
             for anfrage in requests:
-                message_dict = {"vonUserId": None, "anUserId": None}
                 message_dict["vonUserId"] = anfrage[0]
                 message_dict["anUserId"] = anfrage[1]
                 anfragen.append(message_dict.copy())
@@ -86,43 +85,22 @@ class RequestMapper(Mapper):
             cursor.execute(lerngruppenid, (userid,))
             gruppen_from_admin = cursor.fetchall()
             erhalten = []
+            erhalten_abfrage = """SELECT gA.id, gA.vonUserid, gA.anGruppenid, gA.timestamp, l.name, l.bild 
+                                  FROM TeamUP.gruppeAdmitted gA JOIN TeamUP.lerngruppe l WHERE anGruppenid=%s"""
             for gruppe in gruppen_from_admin:
-                # Erstellen des SQL-Befehls
-                query = """SELECT id, vonUserid, anGruppenid FROM TeamUP.gruppeAdmitted WHERE anGruppenid=%s"""
 
-                # Ausführen des SQL-Befehls
-                cursor.execute(query, (gruppe[0],))
-
-                # Speichern der SQL Antwort
+                cursor.execute(erhalten_abfrage, (gruppe[0],))
                 erhaltene_requests = cursor.fetchall()
-
+                message_dict = {}
                 for anfrage in erhaltene_requests:
-                    message_dict = {"requestId": None, "vonUserId": None, "anGruppenId": None}
                     message_dict["requestId"] = anfrage[0]
                     message_dict["vonUserId"] = anfrage[1]
-                    message_dict["anGruppenId"] = anfrage[2]
+                    message_dict["timestamp"] = anfrage[2].strftime("%Y-%m-%d %H:%M:%S")
+                    message_dict["name"] = anfrage[3]
+                    message_dict["bild"] = anfrage[4]
                     erhalten.append(message_dict.copy())
 
-            query2 = """SELECT id, vonUserid, anGruppenid FROM TeamUP.gruppeAdmitted WHERE vonUserid=%s"""
-
-            cursor.execute(query2, (userid,))
-
-            gesendete_requests = cursor.fetchall()
-
-            # Schließen der Datenbankverbindung
-            cursor.close()
-
-            gestellt = []
-            for anfrage in gesendete_requests:
-                message_dict = {"requestId": None, "vonUserId": None, "anGruppenId": None}
-                message_dict["requestId"] = anfrage[0]
-                message_dict["vonUserId"] = anfrage[1]
-                message_dict["anGruppenId"] = anfrage[2]
-                gestellt.append(message_dict.copy())
-
-            antwort = {"gestellt": gestellt,
-                       "erhalten": erhalten
-                       }
+            antwort = {"erhalten": erhalten}
 
             return antwort
 
@@ -135,7 +113,8 @@ class RequestMapper(Mapper):
             cursor = self._cnx.cursor(prepared=True)
             # TODO: Checken ob Anfrage gültig ist (älter als 2 Wochen)
             # Erstellen des SQL-Befehls
-            get_gestellte_requests = """SELECT id, anUserid FROM TeamUP.userAdmitted WHERE vonUserid=%s"""
+            get_gestellte_requests = """SELECT uA.id, uA.anUserid , uA.timestamp,  u.vorname, u.name, 
+                                        u.bild FROM TeamUP.userAdmitted uA JOIN TeamUP.users u WHERE vonUserid=%s"""
 
             userid = self.find_userid_by_authid(authid)
 
@@ -145,41 +124,45 @@ class RequestMapper(Mapper):
             # Speichern der SQL Antwort
             gestellte_requests = cursor.fetchall()
 
-            get_erhaltene_requests = """SELECT id, vonUserid, anUserid FROM TeamUP.userAdmitted WHERE anUserid=%s"""
+            get_erhaltene_requests = """SELECT uA.id, uA.vonUserid, uA.timestamp,  u.vorname, u.name, 
+                                        u.bild FROM TeamUP.userAdmitted uA JOIN TeamUP.users u WHERE anUserid=%s"""
 
             cursor.execute(get_erhaltene_requests, (userid,))
 
             erhaltene_requests = cursor.fetchall()
 
-            # Schließen der Datenbankverbindung
             cursor.close()
 
+            message_dict = {}
             gestellt = []
             for anfrage in gestellte_requests:
-                message_dict = {"requestId": None, "anUserId": None, "name": None}
                 message_dict["requestId"] = anfrage[0]
                 message_dict["anUserId"] = anfrage[1]
-                message_dict["name"] = self.get_username_by_id(anfrage[1])
+                message_dict["timestamp"] = anfrage[2].strftime("%Y-%m-%d %H:%M:%S")
+                message_dict["name"] = anfrage[3] + ' ' + anfrage[4]
+                message_dict["bild"] = anfrage[5]
                 gestellt.append(message_dict.copy())
 
             erhalten = []
             for anfrage in erhaltene_requests:
-                message_dict = {"requestId": None, "vonUserId": None, "name": None}
                 message_dict["requestId"] = anfrage[0]
                 message_dict["vonUserId"] = anfrage[1]
-                message_dict["name"] = self.get_username_by_id(self.find_userid_by_authid(anfrage[1]))
+                message_dict["timestamp"] = anfrage[2].strftime("%Y-%m-%d %H:%M:%S")
+                message_dict["name"] = anfrage[3] + ' ' + anfrage[4]
+                message_dict["bild"] = anfrage[5]
                 erhalten.append(message_dict.copy())
 
             gruppen_ergebnis = self.get_gruppen_requests(userid)
 
-            antwort = {"user": {
+            # Speichert alle Anfragen in einem Dict, der als return Übergeben wird
+            requests = {"user": {
                 "gestellt": gestellt,
                 "erhalten": erhalten
             },
                 "gruppen": gruppen_ergebnis
             }
 
-            return antwort
+            return requests
 
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
@@ -198,18 +181,32 @@ class RequestMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
+    def accept_gruppen_request(self, requestid):
+        try:
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
+            cursor = self._cnx.cursor(prepared=True)
+
+            query1 = """DELETE FROM TeamUP.gruppeAdmitted WHERE id=%s"""
+            cursor.execute(query1, (requestid,))
+
+            self._cnx.commit()
+            cursor.close()
+            return 200
+        except mysql.connector.Error as err:
+            raise InternalServerError(err.msg)
+
     def create_group_request(self, request):
         try:
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
 
             # Erstellen des SQL-Befehls
-            query = """INSERT INTO TeamUP.gruppeAdmitted(vonUserid, anGruppenid) VALUES (%s ,%s)"""
+            gruppen_anfrage = """INSERT INTO TeamUP.gruppeAdmitted(vonUserid, anGruppenid) VALUES (%s ,%s)"""
 
             userid = self.find_userid_by_authid(request.get_auth_id())
 
             daten = (userid, request.get_gruppe_id())
-            cursor.execute(query, daten)
+            cursor.execute(gruppen_anfrage, daten)
 
             self._cnx.commit()
             cursor.close()
