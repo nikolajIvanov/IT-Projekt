@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS `userInModul`;
 DROP TABLE IF EXISTS `userInRoom`;
 DROP TABLE IF EXISTS `message`;
 DROP TABLE IF EXISTS `room`;
+DROP TABLE IF EXISTS `gruppeAdmitted`;
 DROP TABLE IF EXISTS `lerngruppe`;
 DROP TABLE IF EXISTS `modulInStudiengang`;
 DROP TABLE IF EXISTS `modul`;
@@ -14,7 +15,7 @@ DROP TABLE IF EXISTS `lerntyp`;
 DROP TABLE IF EXISTS `studiengang`;
 DROP TABLE IF EXISTS `userAdmitted`;
 DROP TABLE IF EXISTS `users`;
-DROP TABLE IF EXISTS `gruppeAdmitted`;
+
 
 
 CREATE TABLE `modul` (
