@@ -14,11 +14,11 @@ from .db.InitMapper import InitMapper
 
 class Administration(object):
     """
-        Diese Klasse aggregiert nahezu sämtliche Applikationslogik (Engl. Business Logic).
+    In dieser Klasse findet die ganze Business Logik statt. Hierüber werden die Mapper für die Datenbank aufgerufen.
     """
 
     """
-        Nutzer-spezifische Methoden
+    Nutzer-spezifische Methoden
     """
 
     def init(self, authId):
@@ -98,11 +98,9 @@ class Administration(object):
         """
         with UserMapper() as mapper:
             return mapper.find_by_id(user_id)
-
     """
-        Lerngruppen-spezifische Methoden
+    Lerngruppen-spezifische Methoden
     """
-
     @staticmethod
     def create_lerngruppe(lerngruppe):
         """
@@ -144,7 +142,7 @@ class Administration(object):
     @staticmethod
     def delete_user_in_lerngruppe(altes_mitglied):
         """
-        :param lerngruppe: lerngruppenobjekt
+        :param altes_mitglied: lerngruppenobjekt
         :return: Statuscode 200 User erfolgreich aus Gruppe gelöscht
         """
         with LerngruppeMapper() as mapper:
@@ -162,16 +160,14 @@ class Administration(object):
     @staticmethod
     def create_new_mitglied(new_mitglied):
         """
-        :param lerngruppe:
+        :param new_mitglied:
         :return: Statuscode 200 User wurde in Lerngruppe eingetragen
         """
         with LerngruppeMapper() as mapper:
             return mapper.insert_user(new_mitglied)
-
     """
-        Modul und Studiengang-spezifische Methoden
+    Modul und Studiengang-spezifische Methoden
     """
-
     @staticmethod
     def get_all_studiengang():
         with StudiengangMapper() as mapper:
@@ -186,11 +182,9 @@ class Administration(object):
     def get_lerntyp():
         with LerntypMapper() as mapper:
             return mapper.find_all()
-
     """
-        Matching Methoden
+    Matching Methoden
     """
-
     @staticmethod
     def user_match_me(authId):
         with UserMapper() as mapper:
@@ -232,11 +226,9 @@ class Administration(object):
             for lerngruppe_id in lerngruppenID:
                 lerngruppenBO.append(mapper.find_by_id(int(lerngruppe_id)))
         return lerngruppenBO
-
     """
-        Chat Methoden
+    Chat Methoden
     """
-
     @staticmethod
     def get_chat_by_room(room):
         with ChatMapper() as mapper:
@@ -291,7 +283,6 @@ class Administration(object):
     def delete_request(request):
         with RequestMapper() as mapper:
             return mapper.accept_request(request)
-
 
     ###################################################################################################################
     # Nicht genutzt Methoden
@@ -356,4 +347,3 @@ class Administration(object):
         """
         with LerngruppeMapper() as mapper:
             return mapper.delete_gruppe(name)
-
