@@ -334,11 +334,15 @@ class UserMapper(Mapper):
             query1 = """DELETE FROM TeamUP.userinmodul WHERE userId=%s"""
             # Erstellen des SQL-Befehls um die Einträge in der userInLerngruppe Datenbank zu löschen
             query2 = """DELETE FROM TeamUP.userInLerngruppe WHERE userId=%s"""
-            # Ausführen des ersten SQL-Befehls
+            # Löschen der Einträge in userinroom Tabelle
+            query3 = """DELETE FROM teamup.userinroom WHERE userId = %s"""
+            # Ausführen des SQL-Befehls
             cursor.execute(query1, (userid,))
-            # Ausführen des zweiten SQL-Befehls
+            # Ausführen des SQL-Befehls
             cursor.execute(query2, (userid,))
-            # Ausführen des ersten SQL-Befehls
+            # Ausführen des SQL-Befehls
+            cursor.execute(query3, (userid,))
+            # Ausführen des SQL-Befehls
             cursor.execute(query, (userid,))
 
             # Schließen der Datenbankverbindung
