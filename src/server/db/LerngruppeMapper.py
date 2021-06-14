@@ -176,9 +176,7 @@ class LerngruppeMapper(Mapper):
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor(prepared=True)
 
-            query_room = """INSERT INTO TeamUP.room(id) VALUES (DEFAULT)"""
-            cursor.execute(query_room)
-            self._cnx.commit()
+
             # Erstellen des SQL-Befehls für TABLE lerngruppe
             query = """INSERT INTO teamup.lerngruppe (name, beschreibung, bild, lerntyp,admin, frequenz, lernort 
                                                       ) VALUES (%s ,%s ,%s ,%s ,%s, %s ,%s)"""
@@ -229,6 +227,14 @@ class LerngruppeMapper(Mapper):
             data1 = (new_mitglied[1], new_mitglied[0])
             cursor.execute(query1, data1)
 
+            query1 = """ SELECT teamup.room.id  FROM teamup.room WHERE teamup.room.groupId = %s """
+            cursor.execute(query1, (new_mitglied[0],))
+            roomid = cursor.fetchone()
+
+            # Mitglied in Chatroom eintragen
+            query2 = """INSERT INTO teamup.userinroom(userId, roomId) VALUES (%s, %s) """
+            cursor.execute(query2, (new_mitglied[1], roomid[0]))
+
             self._cnx.commit()
             cursor.close()
             return 200
@@ -246,12 +252,21 @@ class LerngruppeMapper(Mapper):
         try:
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor(prepared=True)
-
-            # LerngruppenID bekommen über name
+            # User aus der Userinlerngruppe Tabelle löschen
             query = """DELETE FROM teamup.userInLerngruppe WHERE teamup.userInLerngruppe.userId = %s
-                        AND teamup.userinlerngruppe.lerngruppeId = %s"""
+                       AND teamup.userinlerngruppe.lerngruppeId = %s"""
+
             # Mitglied ist in Liste Mitglied als einziges Element
             cursor.execute(query, (altes_mitglied[1], altes_mitglied[0]))
+            # Gibt mir die Id des Gruppenraumes zurück
+            query1 = """ SELECT teamup.room.id  FROM teamup.room WHERE teamup.room.groupId = %s """
+            cursor.execute(query1, (altes_mitglied[0],))
+            roomid = cursor.fetchone()
+
+            #Mitglied aus Chatroom löschen
+            query2 = """DELETE FROM teamup.userinroom WHERE teamup.userinroom.userId = %s 
+                        AND teamup.userinroom.roomId = %s """
+            cursor.execute(query2, (altes_mitglied[1],roomid[0]))
 
             # Schließen der Datenbankverbindung
             self._cnx.commit()
@@ -270,6 +285,7 @@ class LerngruppeMapper(Mapper):
         try:
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor(prepared=True)
+
 
             # Erstellen des SQL-Befehls um lerngruppendaten zu holen
             query = """UPDATE teamup.lerngruppe SET bild=%s, name=%s, beschreibung=%s, admin=%s,
@@ -318,19 +334,34 @@ class LerngruppeMapper(Mapper):
             cursor = self._cnx.cursor(prepared=True)
 
             # Lerngruppe in lerngruppeInModul TABLE löschen
-            query_user = """DELETE FROM teamup.userinlerngruppe WHERE lerngruppeId=%s """
+            query_user = """DELETE FROM teamup.userinlerngruppe WHERE lerngruppeId= %s """
 
             # Lerngruppe in lerngruppeInModul TABLE löschen
-            query_modul = """DELETE FROM teamup.lerngruppeInModul WHERE lerngruppeId=%s """
+            query_modul = """DELETE FROM teamup.lerngruppeInModul WHERE lerngruppeId= %s """
+
+            query_admitted = """DELETE FROM teamup.gruppeadmitted WHERE anGruppenid= %s"""
+
+            query_roomId = """SELECT teamup.room.id FROM teamup.room WHERE teamup.room.groupId= %s"""
+            cursor.execute(query_roomId, (gruppen_id,))
+            roomid = cursor.fetchone()
+
+            query_userchatdelete= """DELETE FROM teamup.userinroom WHERE teamup.userinroom.roomId= %s"""
+            cursor.execute(query_userchatdelete, (roomid))
+
+            query_deletroom = """DELETE FROM teamup.room WHERE teamup.room.id= %s"""
+            cursor.execute(query_deletroom, (roomid))
 
             # Lerngruppen über die ID löschen
-            query_gruppe = """DELETE FROM teamup.lerngruppe WHERE id=%s """
+            query_gruppe = """DELETE FROM teamup.lerngruppe WHERE id= %s """
 
             # Löschen alle User aus der Datenbank der Lerngruppe
             cursor.execute(query_user, (gruppen_id,))
 
             # Löschen alle Moduleinträge der Lerngruppe
             cursor.execute(query_modul, (gruppen_id,))
+
+            # Löschen alle anfragen an die Lerngruppe
+            cursor.execute(query_admitted, (gruppen_id,))
 
             # Löschen der Lerngruppe
             cursor.execute(query_gruppe, (gruppen_id,))
