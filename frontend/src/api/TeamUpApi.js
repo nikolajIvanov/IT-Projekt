@@ -45,7 +45,7 @@ export default class TeamUpApi {
 
     #getRoomsURL = (authId) => `${this.#serverBaseURL}/chatrooms/${authId}`;
 
-    #chatRequest = () => `${this.#serverBaseURL}/chatrooms`;
+    #chatRequest = () => `${this.#serverBaseURL}/request`;
 
     // Wird bei jedem API Aufruf als erstes aufgerufen. Es erzeugt ein Objekt der Klasse TeamUpApi um somit die
     // einzelnen Objektmethoden aufrufen zu können.
