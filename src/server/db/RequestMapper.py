@@ -181,13 +181,16 @@ class RequestMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def accept_gruppen_request(self, requestid):
+    def accept_gruppen_request(self, new_user):
         try:
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
 
-            query1 = """DELETE FROM TeamUP.gruppeAdmitted WHERE id=%s"""
-            cursor.execute(query1, (requestid,))
+            query1 = """DELETE FROM TeamUP.gruppeAdmitted WHERE anGruppenid=%s AND vonUserid=%s"""
+
+            # Übergabe von LerngruppenId und UserId
+            data = (new_user[0], new_user[1])
+            cursor.execute(query1, data)
 
             self._cnx.commit()
             cursor.close()
