@@ -16,14 +16,13 @@ class ChatMapper(Mapper):
         :param nachricht: ist der Inhalt der Chatnachricht (String)
         """
         try:
-            # Öffnen der Datenbankverbindung
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
 
-            # Erstellen des SQL-Befehls für TABLE lerngruppe
+            # Erstellen des SQL-Befehls
             query = """INSERT INTO teamup.message (vonUserId, roomId, message) VALUES (%s ,%s ,%s)"""
             # Erstellen des SQL-Befehls
 
-            # Daten für lerngruppe
             daten = (user, room, nachricht)
 
             # Ausführen des SQL-Befehls für lerngruppe
@@ -40,7 +39,7 @@ class ChatMapper(Mapper):
         :return: Alle Nachrichten des Rooms
         """
         try:
-            # Öffnen der Datenbankverbindung
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor()
 
             # Erstellen des SQL-Befehls
@@ -52,7 +51,6 @@ class ChatMapper(Mapper):
             # Speichern der SQL Antwort
             messages = cursor.fetchall()
 
-            # Schließen der Datenbankverbindung
             cursor.close()
 
             # Dict in List umwandeln
@@ -70,9 +68,10 @@ class ChatMapper(Mapper):
 
     def add_user_to_room(self, room, user):
         try:
-            # Öffnen der Datenbankverbindung
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
 
+            # SQL Befehl erstellen
             query1 = """INSERT INTO teamup.userInRoom(userId, roomId) VALUES (%s, %s)"""
 
             data1 = (user, room)
@@ -91,9 +90,10 @@ class ChatMapper(Mapper):
         """
         try:
 
-            # Öffnen der Datenbankverbindung
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
 
+            # SQL Befehl erstellen
             query1 = """DELETE FROM teamup.userInRoom WHERE teamup.userInRoom.userId = %s
                         AND teamup.userInRoom.roomId = %s"""
             data1 = (user, room)
@@ -111,10 +111,11 @@ class ChatMapper(Mapper):
         :return: 200 - Raum wurde erfolgreich angelegt
         """
         try:
-            # Öffnen der Datenbankverbindung
+
             userid = self.find_userid_by_authid(room.get_userAuthId())
             room.set_mitglieder_append(userid)
 
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
 
             query1 = """INSERT INTO TeamUP.room(groupId) VALUE (%s)"""
@@ -140,7 +141,7 @@ class ChatMapper(Mapper):
         :return: 200 - Raum wurde erfolgreich angelegt
         """
         try:
-            # Öffnen der Datenbankverbindung
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
 
             query1 = """INSERT INTO TeamUP.room(groupId) VALUE (%s)"""
@@ -150,6 +151,7 @@ class ChatMapper(Mapper):
             roomId = cursor.lastrowid
             cursor.close()
 
+            # Erzeugen eines DB Eintrages für jeden selektierten User
             for user in lerngruppe.get_mitglieder():
                 self.add_user_to_room(roomId, user)
             return 200
@@ -162,7 +164,7 @@ class ChatMapper(Mapper):
         :param roomId: Id des Raums welcher gelöscht werden soll
         """
         try:
-            # Öffnen der Datenbankverbindung
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
 
             query1 = """DELETE FROM teamup.room WHERE teamup.room.id =%s"""
@@ -180,7 +182,7 @@ class ChatMapper(Mapper):
         :return: eine Liste mit allen UserId`s der Mitglieder
         """
         try:
-            # Öffnen der Datenbankverbindung
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor()
 
             # Erstellen des SQL-Befehls
@@ -195,6 +197,7 @@ class ChatMapper(Mapper):
             # Schließen der Datenbankverbindung
             cursor.close()
 
+            # Umwandels des Tuples in eine Liste
             users = []
             for tuples in users_tuple:
                 for i in tuples:
@@ -211,18 +214,22 @@ class ChatMapper(Mapper):
         :param user_id: UserId für welche der Name gefunden werden soll
         :return: Tuple mit dem Nutzer oder Lerngruppen Name
         """
+        # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor()
 
+        # SQL-Befehl erstellen
         get_group_name = """SELECT name FROM TeamUP.lerngruppe 
                             INNER JOIN TeamUP.room ON TeamUP.lerngruppe.id = room.groupId 
                             WHERE room.id=%s"""
 
         cursor.execute(get_group_name, (room_id,))
 
+        # speicher der SQL Antwort
         name = cursor.fetchone()
 
         cursor.close()
 
+        #Überprüfen ob es sich um einen User oder um eine Gruppe handelt
         if not name:
             cursor = self._cnx.cursor()
 
@@ -258,7 +265,7 @@ class ChatMapper(Mapper):
         """
 
         userid = self.find_userid_by_authid(authId)
-        # Öffnen der Datenbankverbindung
+        # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor()
         """
         # query_admin = SELECT id, roomId, admin from TeamUP.lerngruppe WHERE admin=%s
