@@ -1,6 +1,4 @@
 from server.db.Mapper import Mapper
-from server.bo.RoomBO import RoomBO
-from server.bo.Lerngruppe import Lerngruppe
 import mysql.connector.errors
 from werkzeug.exceptions import InternalServerError
 
@@ -11,6 +9,12 @@ class ChatMapper(Mapper):
         super().__init__()
 
     def add_message(self, user, room, nachricht):
+        """
+        Diese Methode speichert eine Chatnachricht auf der Datenbank ab.
+        :param user: ist die AuthId des Nutzers welcher die Nachricht versendet hat
+        :param room: ist die RoomId an welche die Nachricht gesendet wurde
+        :param nachricht: ist der Inhalt der Chatnachricht (String)
+        """
         try:
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor(prepared=True)
@@ -81,8 +85,9 @@ class ChatMapper(Mapper):
 
     def delete_user_from_room(self, room, user):
         """
-        :param:
-        :return:
+        Diese Methode löscht die zuordnung von einem User zu einem Raum
+        :param room: RoomId aus welcher der User entfernt werden soll
+        :param user: Die UserId des Nutzers welcher entfernt werden soll
         """
         try:
 
@@ -100,6 +105,11 @@ class ChatMapper(Mapper):
             raise InternalServerError(err.msg)
 
     def create_user_room(self, room):
+        """
+        Erzeugt ein neuen Chat Room für 2 Personen
+        :param room: ist das room Objekt
+        :return: 200 - Raum wurde erfolgreich angelegt
+        """
         try:
             # Öffnen der Datenbankverbindung
             userid = self.find_userid_by_authid(room.get_userAuthId())
@@ -123,14 +133,19 @@ class ChatMapper(Mapper):
             raise InternalServerError(err.msg)
 
     def create_learngruppen_room(self, lerngruppe, groupid):
+        """
+        Erzeugt ein neuen Gruppen Chatroom für eine Lerngruppe
+        :param lerngruppe: Lerngruppen Objekt
+        :param groupid: Id der Gruppe
+        :return: 200 - Raum wurde erfolgreich angelegt
+        """
         try:
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor(prepared=True)
 
             query1 = """INSERT INTO TeamUP.room(groupId) VALUE (%s)"""
 
-            group = groupid
-            cursor.execute(query1, (group, ))
+            cursor.execute(query1, (groupid, ))
             self._cnx.commit()
             roomId = cursor.lastrowid
             cursor.close()
@@ -142,6 +157,10 @@ class ChatMapper(Mapper):
             raise InternalServerError(err.msg)
 
     def delete_room_by_id(self, roomId):
+        """
+        Löscht einen Chatroom anhand seiner Id
+        :param roomId: Id des Raums welcher gelöscht werden soll
+        """
         try:
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor(prepared=True)
@@ -155,6 +174,11 @@ class ChatMapper(Mapper):
             raise InternalServerError(err.msg)
 
     def get_users_of_room(self, room):
+        """
+        Selektiert alle Nutzer welche sich in einem Chat Raum befinden
+        :param room: Ist die RoomId für welche die Nutzer geladen werden sollen
+        :return: eine Liste mit allen UserId`s der Mitglieder
+        """
         try:
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor()
@@ -181,7 +205,12 @@ class ChatMapper(Mapper):
             raise InternalServerError(err.msg)
 
     def get_room_bezeichnung(self, room_id, user_id):
-
+        """
+        Gibt den Namen einer Lerngruppe oder den Namen eins Chatpartners zurück
+        :param room_id: RoomId welche geprüft werden soll
+        :param user_id: UserId für welche der Name gefunden werden soll
+        :return: Tuple mit dem Nutzer oder Lerngruppen Name
+        """
         cursor = self._cnx.cursor()
 
         get_group_name = """SELECT name FROM TeamUP.lerngruppe 
@@ -222,6 +251,11 @@ class ChatMapper(Mapper):
             return {"gruppe": name[0]}
 
     def get_room_of_user(self, authId):
+        """
+        Selektiert alle Chat Rooms in denen ein User Mitglied ist.
+        :param authId: die Google AuthId des Nutzers für welchen die Räume gefunden werden sollen
+        :return: Tupple mit den Informationen RoomId, UserId und dem Name des Nutzers oder der Lerngruppe
+        """
 
         userid = self.find_userid_by_authid(authId)
         # Öffnen der Datenbankverbindung
