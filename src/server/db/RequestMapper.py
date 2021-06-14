@@ -30,6 +30,18 @@ class RequestMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
+    def get_username_by_id(self, userId):
+        # Öffnen der Datenbankverbindung
+        cursor = self._cnx.cursor(prepared=True)
+
+        get_user_name = """SELECT name FROM TeamUP.users WHERE id=%s"""
+
+        cursor.execute(get_user_name, (userId,))
+
+        name = cursor.fetchone()
+
+        return name[0]
+
     def get_requests_by_user_id(self, userid):
         try:
             # Öffnen der Datenbankverbindung
@@ -119,17 +131,17 @@ class RequestMapper(Mapper):
             cursor = self._cnx.cursor(prepared=True)
             # TODO: Checken ob Anfrage gültig ist (älter als 2 Wochen)
             # Erstellen des SQL-Befehls
-            query = """SELECT id, vonUserid, anUserid FROM TeamUP.userAdmitted WHERE vonUserid=%s"""  #
+            get_gestellte_requests = """SELECT id, anUserid FROM TeamUP.userAdmitted WHERE vonUserid=%s"""  #
 
             # Ausführen des SQL-Befehls
-            cursor.execute(query, (authid,))
+            cursor.execute(get_gestellte_requests, (authid,))
 
             # Speichern der SQL Antwort
             gestellte_requests = cursor.fetchall()
 
-            query2 = """SELECT id, vonUserid, anUserid FROM TeamUP.userAdmitted WHERE anUserid=%s"""
+            get_erhaltene_requests = """SELECT id, vonUserid, anUserid FROM TeamUP.userAdmitted WHERE anUserid=%s"""
 
-            cursor.execute(query2, (self.find_userid_by_authid(authid),))
+            cursor.execute(get_erhaltene_requests, (self.find_userid_by_authid(authid),))
 
             erhaltene_requests = cursor.fetchall()
 
@@ -138,18 +150,18 @@ class RequestMapper(Mapper):
 
             gestellt = []
             for anfrage in gestellte_requests:
-                message_dict = {"requestId": None, "vonUserId": None, "anUserId": None}
+                message_dict = {"requestId": None, "anUserId": None, "name": None}
                 message_dict["requestId"] = anfrage[0]
-                message_dict["vonUserId"] = anfrage[1]
-                message_dict["anUserId"] = anfrage[2]
+                message_dict["anUserId"] = anfrage[1]
+                message_dict["name"] = self.get_username_by_id(anfrage[1])
                 gestellt.append(message_dict.copy())
 
             erhalten = []
             for anfrage in erhaltene_requests:
-                message_dict = {"requestId": None, "vonUserId": None, "anUserId": None}
+                message_dict = {"requestId": None, "vonUserId": None, "name": None}
                 message_dict["requestId"] = anfrage[0]
                 message_dict["vonUserId"] = anfrage[1]
-                message_dict["anUserId"] = anfrage[2]
+                message_dict["name"] = self.get_username_by_id(self.find_userid_by_authid(anfrage[1]))
                 erhalten.append(message_dict.copy())
 
             gruppen_ergebnis = self.get_gruppen_requests(authid)

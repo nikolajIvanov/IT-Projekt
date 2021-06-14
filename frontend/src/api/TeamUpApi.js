@@ -47,6 +47,8 @@ export default class TeamUpApi {
 
     #chatRequest = () => `${this.#serverBaseURL}/request`;
 
+    #getChatRequests = (authId) => `${this.#serverBaseURL}/request/${authId}`;
+
     // Wird bei jedem API Aufruf als erstes aufgerufen. Es erzeugt ein Objekt der Klasse TeamUpApi um somit die
     // einzelnen Objektmethoden aufrufen zu können.
     static getAPI() {
@@ -139,8 +141,8 @@ export default class TeamUpApi {
         return this.#matching(this.#getMatchGroupsURL("?group_ids=" + array), UserBO)
     }
 
-    getChats(authId){
-
+    getChatOverview(authId){
+        return this.#getStatus(this.#chatRequest(authId))
     }
 
     getChatContent(roomId){
@@ -151,8 +153,8 @@ export default class TeamUpApi {
         return this.#addChatRequest(this.#chatRequest(), userdict)
     }
 
-    getChatOverview(authId){
-        return this.#getStatus(this.#getRoomsURL(authId))
+    getChatRequests(authId){
+        return this.#getStatus(this.#getChatRequests(authId))
     }
 
     //TODO Delete Gruppe einfügen

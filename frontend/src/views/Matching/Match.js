@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/styles';
 import GroupPersonSwitch from "../../components/Icon/GroupPersonSwitch"
 import FilterIcon from "../../components/Icon/FilterIcon";
 import UserMatchSection from "./Sections/UserMatchSection";

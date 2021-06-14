@@ -7,13 +7,23 @@ import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear';
 import {useHistory} from "react-router-dom";
 import TeamUpApi from "../../../api/TeamUpApi";
+import firebase from "../../../api/Firebase";
 
 function Chatübersicht(props) {
     const redirect = useHistory()
+    const [userRequests, setUserRequests] =React.useState([])
+    const [groupRequests, setGroupRequests] =React.useState([])
 
-    useEffect(() =>
-    {
+    useEffect(async () => {
+        const authId = firebase.auth().currentUser.uid
         //Api Call für alle gruppen die der Nutzer hat
+        await TeamUpApi.getAPI().getChatRequests(authId).then(
+            (requests) => {
+                setUserRequests(requests.user)
+                setGroupRequests(requests.gruppen)
+                console.log(userRequests.gestellt[0].name)
+            }
+        )
     }, [])
 
     function getChat(){
@@ -34,7 +44,7 @@ function Chatübersicht(props) {
                                 secondary="20:24"
                             />
                             <div>
-                            <H3_bold inhalt={"Angefragt"}/>
+                                <H3_bold inhalt={"Angefragt"}/>
                             </div>
                         </ListItem>
                     <Divider/>
