@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "New Request",
+			"name": "Accept Request",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -34,45 +34,10 @@
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "New Request",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"userAuthId\": 1111,\n    \"partnerId\":2\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://127.0.0.1:5000/accept_request",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "5000",
-							"path": [
-								"accept_request"
-							]
-						}
-					},
-					"_postman_previewlanguage": null,
-					"header": null,
-					"cookie": [],
-					"body": null
-				}
-			]
+			"response": []
 		},
 		{
-			"name": "New Request",
+			"name": "Chatrooms by AuthId",
 			"request": {
 				"method": "GET",
 				"header": [],

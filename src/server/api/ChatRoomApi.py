@@ -1,12 +1,11 @@
-from .model import room, api
+from .model import room, room_mitglieder, api
 from flask_restx import Resource
 from server.Administration import Administration
 from server.bo.RoomBO import RoomBO
 
 
 class ChatRoomApi(Resource):
-
-    @api.marshal_with(room)
+    @api.marshal_with(room_mitglieder)
     def get(self, authId):
         return Administration.get_rooms_of_user(authId)
 

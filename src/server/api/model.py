@@ -74,8 +74,15 @@ chat = api.model('Nachricht',  {
 })
 
 room = api.model('Room',  {
+    'requestId': fields.String(attribute='requestId', description='Id der request'),
     'roomId': fields.String(attribute='roomId', description='Room Id'),
     'userId': fields.String(attribute='userId', description='UserId der Mitglieder'),
+})
+
+room_mitglieder = api.model('Room',  {
+    'roomId': fields.Integer(attribute='roomId', description='Room Id'),
+    'teilnehmer': fields.List(fields.Integer, description='UserId der Mitglieder'),
+    'name': fields.String(attribute='name', description='Name der Gruppe oder des Lernpartners')
 })
 
 mitglied = api.model('Mitglied', {

@@ -258,7 +258,7 @@ class Administration(object):
     @staticmethod
     def get_rooms_of_user(authId):
         with ChatMapper() as mapper:
-            mapper.get_room_of_user(authId)
+            return mapper.get_room_of_user(authId)
 
     @staticmethod
     def delete_room_by_id(roomId):

@@ -154,49 +154,67 @@ class ChatMapper(Mapper):
                 users.append(i)
         return users
 
+    def get_room_bezeichnung(self, room_id, user_id):
+
+        cursor = self._cnx.cursor()
+
+        get_group_name = """SELECT name FROM TeamUP.lerngruppe 
+                            INNER JOIN TeamUP.room ON TeamUP.lerngruppe.id = room.groupId 
+                            WHERE room.id=%s"""
+
+        cursor.execute(get_group_name, (room_id,))
+
+        name = cursor.fetchone()
+
+        cursor.close()
+
+        if not name:
+            cursor = self._cnx.cursor()
+
+            get_users = """SELECT userId FROM TeamUP.userInRoom WHERE roomId=%s """
+
+            cursor.execute(get_users, (room_id,))
+            users = cursor.fetchall()
+
+            user: None
+
+            for u in users:
+                if u[0] == user_id:
+                    user: None
+                else:
+                    user = u
+
+            get_user_name = """SELECT name FROM TeamUP.users WHERE id=%s"""
+
+            cursor.execute(get_user_name, user)
+
+            name = cursor.fetchone()
+
+            return {"user": name[0]}
+
+        else:
+            return {"gruppe": name[0]}
+
     def get_room_of_user(self, authId):
 
         userid = self.find_userid_by_authid(authId)
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor()
-        """
-        # query_admin = SELECT id, roomId, admin from TeamUP.lerngruppe WHERE admin=%s
-
-        cursor.execute(query_admin, (userid,))
-        admin = cursor. fetchall()
-        # query_mitglieder = SELECT userId from TeamUP.userInLerngruppe WHERE lerngruppeId=%s AND admitted = 0
-        for gruppe in admin:
-            cursor.execute(query_mitglieder, (gruppe[0],))
-            unbestätigte_mitglieder = cursor.fetchall()
-        """
 
         # Erstellen des SQL-Befehls
-        query = """SELECT roomId, userId from TeamUP.userInRoom WHERE userId=%s"""
+        query = """SELECT roomId from TeamUP.userInRoom WHERE userId=%s"""
 
         # Ausführen des SQL-Befehls
         cursor.execute(query, (userid,))
         rooms = cursor.fetchall()
-        query1 = """SELECT id FROM TeamUP.room WHERE id=%s"""
-        test = []
-        for room in rooms:
-            cursor.execute(query1, (room[0],))
-            test.append(cursor.fetchone())
-
-        cursor.close()
 
         users = []
         for tuples in rooms:
             for room in tuples:
-                room_dict = {"roomId": None, "teilnehmer": None}
-                room_dict["roomId"] = room
-                room_dict["teilnehmer"] = self.get_users_of_room(room)
-        users.append(room_dict.copy())
+                room_dict = {"roomId": room,
+                             "teilnehmer": self.get_users_of_room(room),
+                             "name": self.get_room_bezeichnung(room, userid)
+                             }
+                users.append(room_dict.copy())
 
-        """
-        [
-            {"roomId": 1, },
-        ]
-        
-        """
-
-        return print(users)
+        return users
