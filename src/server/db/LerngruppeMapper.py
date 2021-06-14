@@ -1,5 +1,6 @@
 from server.bo.Lerngruppe import Lerngruppe
 from server.db.Mapper import Mapper
+from server.db.RequestMapper import RequestMapper
 import mysql.connector.errors
 from werkzeug.exceptions import InternalServerError
 from server.db.ChatMapper import ChatMapper
@@ -222,7 +223,6 @@ class LerngruppeMapper(Mapper):
         try:
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor(prepared=True)
-
             query1 = """INSERT INTO teamup.userinlerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
             data1 = (new_mitglied[1], new_mitglied[0])
             cursor.execute(query1, data1)
@@ -237,6 +237,8 @@ class LerngruppeMapper(Mapper):
 
             self._cnx.commit()
             cursor.close()
+            with RequestMapper() as mapper:
+                  mapper.accept_gruppen_request(new_mitglied)
             return 200
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
