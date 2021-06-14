@@ -45,9 +45,9 @@ export default class TeamUpApi {
 
     #getRoomsURL = (authId) => `${this.#serverBaseURL}/chatrooms/${authId}`;
 
-    #chatRequest = () => `${this.#serverBaseURL}/request`;
+    #chatRequestURL = () => `${this.#serverBaseURL}/request`;
 
-    #getChatRequests = (authId) => `${this.#serverBaseURL}/request/${authId}`;
+    #getChatRequestsURL = (authId) => `${this.#serverBaseURL}/request/${authId}`;
 
     // Wird bei jedem API Aufruf als erstes aufgerufen. Es erzeugt ein Objekt der Klasse TeamUpApi um somit die
     // einzelnen Objektmethoden aufrufen zu können.
@@ -89,14 +89,6 @@ export default class TeamUpApi {
 
     deleteUser(authId){
         return this.#delete(this.#userURL(authId));
-    }
-
-    getGruppe(gruppenId){
-        return this.#getSingle(this.#gruppeURL(gruppenId), LerngruppeBO);
-    }
-
-    getAllGruppe(){
-        return this.#getAll(this.#allGruppenURL(), LerngruppeBO);
     }
 
     setGruppe(lerngruppe){
@@ -141,20 +133,20 @@ export default class TeamUpApi {
         return this.#matching(this.#getMatchGroupsURL("?group_ids=" + array), UserBO)
     }
 
-    getChatOverview(authId){
-        return this.#getStatus(this.#chatRequest(authId))
-    }
-
     getChatContent(roomId){
         return this.#getStatus(this.#getChatContentURL(roomId))
     }
 
     sendChatRequest(userdict){
-        return this.#addChatRequest(this.#chatRequest(), userdict)
+        return this.#addChatRequest(this.#chatRequestURL(), userdict)
     }
 
     getChatRequests(authId){
-        return this.#getStatus(this.#getChatRequests(authId))
+        return this.#getStatus(this.#getChatRequestsURL(authId))
+    }
+
+    getChatrooms(authId){
+        return this.#getStatus(this.#getRoomsURL(authId))
     }
 
     //TODO Delete Gruppe einfügen
