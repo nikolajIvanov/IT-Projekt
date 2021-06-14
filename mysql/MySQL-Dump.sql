@@ -134,14 +134,17 @@ CREATE TABLE `userInRoom` (
 CREATE TABLE `userAdmitted` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `vonUserid` varchar(128) NOT NULL,
+    `vonUserid` int(11) NOT NULL,
     `anUserid` int(11) NOT NULL,
-    FOREIGN KEY (anUserid) REFERENCES users (id)
+    FOREIGN KEY (anUserid) REFERENCES users (id),
+    FOREIGN KEY (vonUserid) REFERENCES users (id)
 );
 
 CREATE TABLE `gruppeAdmitted` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `vonUserid` varchar(128) NOT NULL,
-    `anGruppenid` int(11) NOT NULL
+    `vonUserid` int(11) NOT NULL,
+    `anGruppenid` int(11) NOT NULL,
+    FOREIGN KEY (vonUserid) REFERENCES users (id),
+    FOREIGN KEY (anGruppenid) REFERENCES lerngruppe (id)
 );

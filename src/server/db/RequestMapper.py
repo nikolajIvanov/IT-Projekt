@@ -1,5 +1,4 @@
 from server.db.Mapper import Mapper
-from server.bo.RequestBO import RequestBO
 import mysql.connector.errors
 from werkzeug.exceptions import InternalServerError
 
@@ -9,19 +8,24 @@ class RequestMapper(Mapper):
         super().__init__()
 
     def create_request(self, request):
+        """
+        Erstellt eine neue Anfrage in der Datenbank. Dafür wird in der Tabelle userAdmitted die UserId des Anfragers
+        und des Angefragten gespeichert, sowie ein Timestamp gesetzt, mit dem Überprüft wird ob eine Anfrage älter als
+        2 Wochen ist.
+        :param request: BO der Klasse RequestBO mit der UserId des Anfragers und des Angefragten
+        :return: Statuscode 200 wenn die Erstellung erfolgreich war
+        """
         try:
-            # Öffnen der Datenbankverbindung
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
 
             # Erstellen des SQL-Befehls
-            query = """INSERT INTO teamup.userAdmitted(vonUserid, anUserid) VALUES (%s ,%s)"""
-            # Erstellen des SQL-Befehls
+            user_insert = """INSERT INTO TeamUP.userAdmitted(vonUserid, anUserid) VALUES (%s ,%s)"""
 
-            # Daten
-            daten = (RequestBO.get_auth_id(request), RequestBO.get_angefragter_id(request))
+            userid = self.find_userid_by_authid(request.get_auth_id())
 
-            # Ausführen des SQL-Befehls
-            cursor.execute(query, daten)
+            daten = (userid, request.get_angefragter_id())
+            cursor.execute(user_insert, daten)
 
             self._cnx.commit()
             cursor.close()
@@ -44,7 +48,7 @@ class RequestMapper(Mapper):
 
     def get_requests_by_user_id(self, userid):
         try:
-            # Öffnen der Datenbankverbindung
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor()
 
             # Erstellen des SQL-Befehls
@@ -60,31 +64,31 @@ class RequestMapper(Mapper):
             cursor.close()
 
             anfragen = []
-            for anfrage in anfragen:
+            for anfrage in requests:
                 message_dict = {"vonUserId": None, "anUserId": None}
                 message_dict["vonUserId"] = anfrage[0]
                 message_dict["anUserId"] = anfrage[1]
                 anfragen.append(message_dict.copy())
             # Rückgabe der Nachrichten
-            return print(anfragen)
+            return anfragen
 
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def get_gruppen_requests(self, auth_id):
+    def get_gruppen_requests(self, userid):
         try:
-            # Öffnen der Datenbankverbindung
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
             # TODO: Checken ob Anfrage gültig ist (älter als 2 Wochen)
 
-            lgquery = """SELECT id FROM TeamUP.lerngruppe WHERE admin=%s"""
+            lerngruppenid = """SELECT id FROM TeamUP.lerngruppe WHERE admin=%s"""
 
-            cursor.execute(lgquery, (self.find_userid_by_authid(auth_id),))
+            cursor.execute(lerngruppenid, (userid,))
             gruppen_from_admin = cursor.fetchall()
             erhalten = []
             for gruppe in gruppen_from_admin:
                 # Erstellen des SQL-Befehls
-                query = """SELECT id, vonUserid, anGruppenid FROM TeamUP.gruppeAdmitted WHERE anGruppenid=%s"""  #
+                query = """SELECT id, vonUserid, anGruppenid FROM TeamUP.gruppeAdmitted WHERE anGruppenid=%s"""
 
                 # Ausführen des SQL-Befehls
                 cursor.execute(query, (gruppe[0],))
@@ -101,7 +105,7 @@ class RequestMapper(Mapper):
 
             query2 = """SELECT id, vonUserid, anGruppenid FROM TeamUP.gruppeAdmitted WHERE vonUserid=%s"""
 
-            cursor.execute(query2, (auth_id,))
+            cursor.execute(query2, (userid,))
 
             gesendete_requests = cursor.fetchall()
 
@@ -125,23 +129,25 @@ class RequestMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def get_requests_by_auth_id(self, authid):
+    def get_user_requests(self, authid):
         try:
-            # Öffnen der Datenbankverbindung
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
             # TODO: Checken ob Anfrage gültig ist (älter als 2 Wochen)
             # Erstellen des SQL-Befehls
-            get_gestellte_requests = """SELECT id, anUserid FROM TeamUP.userAdmitted WHERE vonUserid=%s"""  #
+            get_gestellte_requests = """SELECT id, anUserid FROM TeamUP.userAdmitted WHERE vonUserid=%s"""
+
+            userid = self.find_userid_by_authid(authid)
 
             # Ausführen des SQL-Befehls
-            cursor.execute(get_gestellte_requests, (authid,))
+            cursor.execute(get_gestellte_requests, (userid,))
 
             # Speichern der SQL Antwort
             gestellte_requests = cursor.fetchall()
 
             get_erhaltene_requests = """SELECT id, vonUserid, anUserid FROM TeamUP.userAdmitted WHERE anUserid=%s"""
 
-            cursor.execute(get_erhaltene_requests, (self.find_userid_by_authid(authid),))
+            cursor.execute(get_erhaltene_requests, (userid,))
 
             erhaltene_requests = cursor.fetchall()
 
@@ -164,7 +170,7 @@ class RequestMapper(Mapper):
                 message_dict["name"] = self.get_username_by_id(self.find_userid_by_authid(anfrage[1]))
                 erhalten.append(message_dict.copy())
 
-            gruppen_ergebnis = self.get_gruppen_requests(authid)
+            gruppen_ergebnis = self.get_gruppen_requests(userid)
 
             antwort = {"user": {
                 "gestellt": gestellt,
@@ -179,28 +185,30 @@ class RequestMapper(Mapper):
             raise InternalServerError(err.msg)
 
     def accept_request(self, requestid):
-        # Öffnen der Datenbankverbindung
-        cursor = self._cnx.cursor(prepared=True)
+        try:
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
+            cursor = self._cnx.cursor(prepared=True)
 
-        query1 = """DELETE FROM teamup.userAdmitted WHERE id = %s"""
-        cursor.execute(query1, (requestid,))
+            query1 = """DELETE FROM TeamUP.userAdmitted WHERE id=%s"""
+            cursor.execute(query1, (requestid,))
 
-        self._cnx.commit()
-        cursor.close()
+            self._cnx.commit()
+            cursor.close()
+            return 200
+        except mysql.connector.Error as err:
+            raise InternalServerError(err.msg)
 
     def create_group_request(self, request):
         try:
-            # Öffnen der Datenbankverbindung
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
 
             # Erstellen des SQL-Befehls
-            query = """INSERT INTO teamup.gruppeAdmitted(vonUserid, anGruppenid) VALUES (%s ,%s)"""
-            # Erstellen des SQL-Befehls
+            query = """INSERT INTO TeamUP.gruppeAdmitted(vonUserid, anGruppenid) VALUES (%s ,%s)"""
 
-            # Daten
-            daten = (RequestBO.get_auth_id(request), RequestBO.get_gruppe_id(request))
+            userid = self.find_userid_by_authid(request.get_auth_id())
 
-            # Ausführen des SQL-Befehls
+            daten = (userid, request.get_gruppe_id())
             cursor.execute(query, daten)
 
             self._cnx.commit()

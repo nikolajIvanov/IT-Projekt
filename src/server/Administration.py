@@ -17,9 +17,6 @@ class Administration(object):
         Diese Klasse aggregiert nahezu sämtliche Applikationslogik (Engl. Business Logic).
     """
 
-    def __init__(self):
-        pass
-
     """
         Nutzer-spezifische Methoden
     """
@@ -270,16 +267,25 @@ class Administration(object):
         with ChatMapper() as mapper:
             mapper.create_user_room(room)
 
-    # Anfrage-Methoden
     @staticmethod
     def create_request(request):
+        """
+
+        :param request:
+        :return:
+        """
         with RequestMapper() as mapper:
-            mapper.create_request(request)
+            return mapper.create_request(request)
 
     @staticmethod
     def get_request(authid):
+        """
+        Holt die Chatanfragen des aktuellen Users und überprüft, ob Chatanfragen länger als 2 Wochen sind
+        :param authid: GoogleID des aktuellen Users
+        :return: Alle Chatanfragen des aktuellen Users
+        """
         with RequestMapper() as mapper:
-            return mapper.get_requests_by_auth_id(authid)
+            return mapper.get_user_requests(authid)
 
     @staticmethod
     def delete_request(request):
