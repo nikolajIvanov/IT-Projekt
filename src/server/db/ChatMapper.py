@@ -52,11 +52,10 @@ class ChatMapper(Mapper):
             messages = cursor.fetchall()
 
             cursor.close()
-
+            message_dict = {}
             # Dict in List umwandeln
             history = []
             for message in messages:
-                message_dict = {"userId": None, "message": None}
                 message_dict["userId"] = message[0]
                 message_dict["message"] = message[1]
                 history.append(message_dict.copy())
@@ -229,7 +228,7 @@ class ChatMapper(Mapper):
 
         cursor.close()
 
-        #Überprüfen ob es sich um einen User oder um eine Gruppe handelt
+        # Überprüfen ob es sich um einen User oder um eine Gruppe handelt
         if not name:
             cursor = self._cnx.cursor()
 
@@ -277,9 +276,6 @@ class ChatMapper(Mapper):
             cursor.execute(query_mitglieder, (gruppe[0],))
             unbestätigte_mitglieder = cursor.fetchall()
         """
-
-        # Erstellen des SQL-Befehls
-        query = """SELECT roomId, userId from TeamUP.userInRoom WHERE userId=%s"""
 
         # Erstellen des SQL-Befehls
         query = """SELECT roomId from TeamUP.userInRoom WHERE userId=%s"""
