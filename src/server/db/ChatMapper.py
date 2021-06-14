@@ -251,10 +251,10 @@ class ChatMapper(Mapper):
 
             name = cursor.fetchone()
 
-            return {"user": name[0]}
+            return name[0]
 
         else:
-            return {"gruppe": name[0]}
+            return name[0]
 
     def get_room_of_user(self, authId):
         """
