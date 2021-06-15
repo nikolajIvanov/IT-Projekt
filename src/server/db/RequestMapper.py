@@ -1,6 +1,7 @@
 from server.db.Mapper import Mapper
 import mysql.connector.errors
 from werkzeug.exceptions import InternalServerError
+from datetime import datetime, timedelta
 
 
 class RequestMapper(Mapper):
@@ -108,13 +109,21 @@ class RequestMapper(Mapper):
             raise InternalServerError(err.msg)
 
     def get_user_requests(self, authid):
+        """
+        Mit der Methode werden alle Anfragen die der aktuelle User erhalten oder versendet hat ins Frontend übergeben.
+        Es wird auch geprüft, ob der User Admin einer Lerngruppe ist und es Anfragen an die Lerngruppe gibt.
+        Die Methode wird aufgerufen, wenn der User auf seine Chatrooms klickt.
+        :param authid: Die GoogleID des aktuellen Users
+        :return: Dict mit allen Request eines Users
+        """
         try:
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
             # TODO: Checken ob Anfrage gültig ist (älter als 2 Wochen)
             # Erstellen des SQL-Befehls
             get_gestellte_requests = """SELECT uA.id, uA.anUserid , uA.timestamp,  u.vorname, u.name, 
-                                        u.bild FROM TeamUP.userAdmitted uA JOIN TeamUP.users u WHERE vonUserid=%s"""
+                                        u.bild FROM TeamUP.userAdmitted uA JOIN TeamUP.users u ON uA.anUserid = u.id 
+                                        WHERE vonUserid=%s"""
 
             userid = self.find_userid_by_authid(authid)
 
@@ -125,7 +134,8 @@ class RequestMapper(Mapper):
             gestellte_requests = cursor.fetchall()
 
             get_erhaltene_requests = """SELECT uA.id, uA.vonUserid, uA.timestamp,  u.vorname, u.name, 
-                                        u.bild FROM TeamUP.userAdmitted uA JOIN TeamUP.users u WHERE anUserid=%s"""
+                                        u.bild FROM TeamUP.userAdmitted uA JOIN TeamUP.users u ON uA.vonUserid = u.id 
+                                        WHERE anUserid=%s"""
 
             cursor.execute(get_erhaltene_requests, (userid,))
 
@@ -143,6 +153,7 @@ class RequestMapper(Mapper):
                 message_dict["bild"] = anfrage[5]
                 gestellt.append(message_dict.copy())
 
+            message_dict = {}
             erhalten = []
             for anfrage in erhaltene_requests:
                 message_dict["requestId"] = anfrage[0]
@@ -168,6 +179,12 @@ class RequestMapper(Mapper):
             raise InternalServerError(err.msg)
 
     def accept_request(self, requestid):
+        """
+        Mit dieser Methode wird die Anfrage eines Users gelöscht. Die Methode wird aufgerufen, wenn der User im Frontend
+        in seinen Chaträumen die Anfrage bestätigt.
+        :param requestid:
+        :return:
+        """
         try:
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
@@ -199,6 +216,11 @@ class RequestMapper(Mapper):
             raise InternalServerError(err.msg)
 
     def create_group_request(self, request):
+        """
+        Wird aufgerufen, wenn ein User eine Gruppenanfrage macht.
+        :param request: Bekommt ein Dict übergeben,  in der die aktuelle UserID und die LerngruppenID beinhaltet.
+        :return: Statuscode 200 Anfrage wurde in der DB angelegt.
+        """
         try:
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
