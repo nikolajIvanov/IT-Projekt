@@ -66,6 +66,8 @@ class UserMapper(Mapper):
                 matching_users.append(user)
 
             return mainUserBO, matching_users
+        except IndexError:
+            raise InternalServerError()
         #Falls während der funktion ein SQL Fehler eintritt wird diese abgebrochen und der Fehler wird zurückgegeben
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
