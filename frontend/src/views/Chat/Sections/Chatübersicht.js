@@ -2,8 +2,8 @@ import React, {useEffect} from 'react';
 import {Divider, List} from "@material-ui/core";
 import Header from "../../../components/Fonts/header";
 import Chatanfragen from "./Subsections/Chatanfragen";
-import Chats from "./Subsections/Chats";
 import firebase from "../../../api/Firebase";
+import Chats from "./Subsections/Chats";
 
 function Chatübersicht(props) {
     const authId = firebase.auth().currentUser.uid
@@ -17,8 +17,9 @@ function Chatübersicht(props) {
             <Header inhalt={"Chat"}/>
             <div>
                 <List className="chatWindow">
+                    <Chats/>
                     <Divider/>
-                    <Chats authId={authId}/>
+                    <Chatanfragen authId={authId}/>
                 </List>
             </div>
         </div>

@@ -16,7 +16,6 @@ function Chats(props) {
         TeamUpApi.getAPI().getChatrooms(1111).then(
             chats => {
                 setChats(chats)
-                console.log(chats)
             }
         )
     }, [])
@@ -24,17 +23,16 @@ function Chats(props) {
     return (
         <div>
             {chats.map(room =>
-            <p>{room.name}</p>
-            )}
             <ListItem className="chatPreviews" onClick={getChat}>
                 <ListItemAvatar>
                     <ProfilAvatar/>
                 </ListItemAvatar>
                 <ListItemText
-                    primary="Der Dave"
-                    secondary='15:14 - gesendet'
+                primary={room.name}
+                secondary='15:14 - gesendet'
                 />
             </ListItem>
+            )}
         </div>
     );
 }

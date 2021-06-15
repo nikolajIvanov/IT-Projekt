@@ -10,6 +10,8 @@ import {withStyles} from "@material-ui/styles";
 import PropTypes from "prop-types";
 import Logo from '../../Logo_LogIn.svg'
 import '../../assets/theme.css';
+import ButtonGoogleSignUp from "../../components/Button/ButtonGoogleSignUp";
+import {Divider} from "@material-ui/core";
 
 
 const styles = theme => ({
@@ -47,8 +49,9 @@ class Login2 extends Component {
                     <div className={classes.paper}>
                         <img src={Logo} alt="Logo" className={classes.img}/>
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            LogIn
                         </Typography>
+                        <p>{this.props.emailError}{this.props.passwordError}</p>
                         <form className={classes.form} noValidate>
                             <TextField
                                 variant="outlined"
@@ -85,9 +88,9 @@ class Login2 extends Component {
                             </Button>
                             <Grid container>
                                 <Grid item xs>
-                                    <Link>
+                                    <p style={{color:"blue",textDecoration:"underline"}}>
                                         Passwort vergessen?
-                                    </Link>
+                                    </p>
                                 </Grid>
                                 <Grid item>
                                     <p style={{color:"blue",textDecoration:"underline"}} onClick={this.props.switch}>
@@ -96,6 +99,9 @@ class Login2 extends Component {
                                 </Grid>
                             </Grid>
                         </form>
+                        <p className="App">Oder</p>
+                        <Divider/>
+                        <ButtonGoogleSignUp init={this.props.init}/>
                     </div>
                 </Container>
                 {/*

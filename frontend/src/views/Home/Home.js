@@ -21,7 +21,8 @@ class Home extends Component {
             dataLoad: false,
             users: null,
             groups: null,
-            currentUser:null
+            currentUser:null,
+            matches: true,
         }
     }
 
@@ -32,12 +33,16 @@ class Home extends Component {
 
     //soll Aufgerufen werden beim Switch in Matching
     callGroups = async () => {
-        await TeamUpApi.getAPI().getMatchGroupList(this.state.currentUser).then(lerngruppen => {
-            this.setState({
-                groups: lerngruppen.result
-            });
+        await TeamUpApi.getAPI().getMatchGroupList(this.state.currentUser).then(async lerngruppen => {
+            if (lerngruppen.status === 500) {
+                console.log(lerngruppen.status)
+            } else {
+                this.setState({
+                    groups: lerngruppen.result
+                });
+                await this.getGroups()
+            }
         })
-        await this.getGroups()
     }
 
     //Überprüft ob Group-matches gefunden wurden
@@ -76,12 +81,19 @@ class Home extends Component {
         await this.setState({
             currentUser: firebase.auth().currentUser.uid
         });
-        await TeamUpApi.getAPI().getMatchUserList(this.state.currentUser).then(users =>{
-            this.setState({
-                users: users.result
-            });
+        await TeamUpApi.getAPI().getMatchUserList(this.state.currentUser).then(async users => {
+            if (users.result.length < 1) {
+                this.setState({
+                    matches: false
+                });
+            }
+            else {
+                this.setState({
+                    users: users.result
+                });
+                await this.getUsers()
+            }
         })
-        await this.getUsers()
     }
 
     setAuswahl = async (user) => {
@@ -99,7 +111,7 @@ class Home extends Component {
         * */
 
         //TODO Skeleton wenn Nutzer nicht da ist
-        const {userList, suchobjekt, groupList} = this.state
+        const {userList, suchobjekt, groupList, matches} = this.state
         return (
             <div>
                 <Router>
@@ -111,7 +123,15 @@ class Home extends Component {
                                 <Match userList={userList}
                                        groupList={groupList}
                                        getView={this.setAuswahl}/>
-                                    : <h1 className="App">User konnte nicht geladen werden</h1>}
+                                    :
+                                    <>
+                                        {matches ?
+                                        <h1 className="App">Matching konnte nicht geladen werden</h1>
+                                                :
+                                            <h1 className="App">Keine Matchpartner vorhanden</h1>
+                                        }
+                                    </>
+                                    }
                         </Route>
                         <Route path="/profil">
                             {suchobjekt ?

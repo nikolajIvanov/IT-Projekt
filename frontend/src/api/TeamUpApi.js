@@ -47,6 +47,8 @@ export default class TeamUpApi {
 
     #chatRequestURL = () => `${this.#serverBaseURL}/request`;
 
+    #acceptUserRequestURL = () => `${this.#serverBaseURL}/accept_request`
+
     #getChatRequestsURL = (authId) => `${this.#serverBaseURL}/request/${authId}`;
 
     // Wird bei jedem API Aufruf als erstes aufgerufen. Es erzeugt ein Objekt der Klasse TeamUpApi um somit die
@@ -68,6 +70,12 @@ export default class TeamUpApi {
             return res.json();
         }
     )
+
+    #fetchMatching = (url, init) => fetch(url, init)
+        .then(res => {
+            return res.json()
+        })
+
     // Ein einzelner User wird vom Backend ans Frontend übergeben. Die Daten werden in einer Klasse gespeichert.
     getUser(authId) {
         return this.#getSingle(this.#userURL(authId), UserBO)
@@ -116,7 +124,7 @@ export default class TeamUpApi {
     }
 
     getMatchUserList(authId){
-        return this.#getStatus(this.#usersMatchURL(authId))
+        return this.#getMatchResponse(this.#usersMatchURL(authId))
     }
 
     getMatchGroupList(authId){
@@ -149,6 +157,10 @@ export default class TeamUpApi {
         return this.#getStatus(this.#getRoomsURL(authId))
     }
 
+    acceptUserRequest(anfrage){
+        return this.#add(this.#acceptUserRequestURL(), anfrage)
+    }
+
     //TODO Delete Gruppe einfügen
 
     // Generische Methode um einen einzelnen Wert vom Backend ans Frontend zu übergeben.
@@ -164,6 +176,12 @@ export default class TeamUpApi {
     #getStatus = (url) => {
         return this.#fetchAdvanced(url).then( statusCode => {
             return statusCode
+        })
+    }
+
+    #getMatchResponse = (url) => {
+        return this.#fetchMatching(url).then( response => {
+            return response
         })
     }
 
