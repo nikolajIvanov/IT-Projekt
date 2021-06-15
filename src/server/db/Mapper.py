@@ -80,6 +80,9 @@ class Mapper(AbstractContextManager, ABC):
         cursor.execute(query_user, (user_authid,))
         tuple_mainUser = cursor.fetchone()
 
+        if not tuple_mainUser:
+            raise InternalServerError('Es gibt keinen angelegten user')
+
         # Holt mir alle ModuleIDs von dem MainUser
         cursor.execute(query_module, (tuple_mainUser[0],))
         tuple_mainModul = cursor.fetchall()
