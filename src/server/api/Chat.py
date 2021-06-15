@@ -1,6 +1,7 @@
 from flask_socketio import Namespace, emit, send
 
 from server.Administration import Administration
+from server.api.ChatRoomApi import ChatRoomApi
 
 
 class Chat(Namespace):
@@ -21,3 +22,8 @@ class Chat(Namespace):
         sender = msg['userId']
         emit('message', message)
         Administration.save_message(room, message, sender)
+
+    def on_serverload(self, data):
+        chat_api = ChatRoomApi()
+        chatlist = chat_api.get(data["authid"])
+        emit('chatlist', chatlist)

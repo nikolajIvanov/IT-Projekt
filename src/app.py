@@ -24,7 +24,6 @@ from server.Administration import Administration
 from server.api.Chat import Chat
 from server.api.ChatRoomApi import ChatRoomApi
 from server.api.RequestApi import RequestApi
-from server.api.MyRooms import MyRooms
 
 CORS(app, resources=r'/*')
 socketIo = SocketIO(app, cors_allowed_origins="*")

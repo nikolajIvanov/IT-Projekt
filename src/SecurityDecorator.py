@@ -1,80 +1,52 @@
+import os
 from flask import request
 from google.auth.transport import requests
 import google.oauth2.id_token
-# TODO: Wir müssen überprüfen was die Bitch da macht
 from server.Administration import Administration
 
 
 def secured(function):
-    """Decorator zur Google Firebase-basierten Authentifizierung von Benutzern
-
-    Da es sich bei diesem System um eine basale Fallstudie zu Lehrzwecken handelt, wurde hier
-    bewusst auf ein ausgefeiltes Berechtigungskonzept verzichtet. Vielmehr soll dieses Decorator
-    einen Weg aufzeigen, wie man technisch mit vertretbarem Aufwand in eine Authentifizierung
-    einsteigen kann.
-
-    POLICY: Die hier demonstrierte Policy ist, dass jeder, der einen durch Firebase akzeptierten
-    Account besitzt, sich an diesem System anmelden kann. Bei jeder Anmeldung werden Klarname,
-    Mail-Adresse sowie die Google User ID in unserem System gespeichert bzw. geupdated. Auf diese
-    Weise könnte dann für eine Erweiterung des Systems auf jene Daten zurückgegriffen werden.
-    """
-    firebase_request_adapter = requests.Request()
-
     def wrapper(*args, **kwargs):
-        # Verify Firebase auth.
-        id_token = request.cookies.get("token")
-        error_message = None
+        firebase_request_adapter = requests.Request()
         claims = None
         objects = None
-
+        id_token = request.cookies.get("token")
+        # Bei Tests über Postman werden Tokens über den Header mitgegeben
+        # hier wird überprüft, ob die Cookies leer sind und bei bedarf wird
+        # dann der Token aus dem Header ausgelesen
+        if id_token is None:
+            try:
+                id_token = request.headers['Authorization'].split(' ').pop()
+            except BaseException:
+                id_token = None
         if id_token:
             try:
-                # Verify the token against the Firebase Auth API. This example
-                # verifies the token on each page load. For improved performance,
-                # some applications may wish to cache results in an encrypted
-                # session store (see for instance
-                # http://flask.pocoo.org/docs/1.0/quickstart/#sessions).
+                # Überprüfen ob Token gültig ist
                 claims = google.oauth2.id_token.verify_firebase_token(
                     id_token, firebase_request_adapter)
-
                 if claims is not None:
-                    adm = Administration()
-
-                    google_user_id = claims.get("user_id")
-                    email = claims.get("email")
-                    name = claims.get("name")
-                    # TODO: Müssen wir noch implementieren
-                    user = adm.get_user_by_google_user_id(google_user_id)
-                    if user is not None:
-                        """Fall: Der Benutzer ist unserem System bereits bekannt.
-                        Wir gehen davon aus, dass die google_user_id sich nicht ändert.
-                        Wohl aber können sich der zugehörige Klarname (name) und die
-                        E-Mail-Adresse ändern. Daher werden diese beiden Daten sicherheitshalber
-                        in unserem System geupdated."""
-                        user.set_name(name)
-                        user.set_email(email)
-                        adm.save_user(user)
-                    else:
-                        """Fall: Der Benutzer war bislang noch nicht eingelogged. 
-                        Wir legen daher ein neues User-Objekt an, um dieses ggf. später
-                        nutzen zu können.
-                        """
-                        user = adm.create_user(name, email, google_user_id)
-
-                    print(request.method, request.path, "angefragt durch:", name, email)
-
+                    print(request)
+                    if Administration().get_user_by_guid(claims.get("user_id")) is None:
+                        # Wenn der User bisher nicht in der Datenbank abgespeichert ist wird überprüft,
+                        # ob die Anfrage einen neuen User in der Datenbank abspeichern wird.
+                        # Wenn dies auch nicht der Fall ist dann ist der User nicht befugt diese Anfrage zu stellen.
+                        # Um die Entwicklung zu erleichtern wird bei lokaler
+                        # Ausführung nur im Terminal der Fehler ausgegeben.
+                        if not(request.full_path ==
+                               '/api/user?' and request.method == 'POST'):
+                            if os.getenv('GAE_ENV', '').startswith('standard'):
+                                return 'Bitte registrieren', 401
+                            else:
+                                print(
+                                    "Kein registrierter User, in der Cloud wird diese Anfrage abgelehnt!")
                     objects = function(*args, **kwargs)
                     return objects
                 else:
-                    return '', 401  # UNAUTHORIZED !!!
+                    # Dieser Part im Code sollte nicht aufgerufen werden
+                    return 'Internal Auth Error', 500
             except ValueError as exc:
-                # This will be raised if the token is expired or any other
-                # verification checks fail.
-                error_message = str(exc)
-                return exc, 401  # UNAUTHORIZED !!!
-
-        return '', 401  # UNAUTHORIZED !!!
-
+                # Wenn hier ein Fehler auftritt ist Token nicht gültig
+                print(exc)
+                return 'Kein gültiges Token', 401
+        return 'Es wurde kein Token übergeben', 401
     return wrapper
-
-
