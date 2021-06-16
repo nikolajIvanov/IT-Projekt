@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import io from "socket.io-client";
 import ButtonPrimary from "../../../components/Button/ButtonPrimary";
 import InputFeld from "../../../components/Textfeld/InputFeld";

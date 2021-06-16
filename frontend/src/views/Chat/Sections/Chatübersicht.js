@@ -17,7 +17,7 @@ function Chatübersicht(props) {
             <Header inhalt={"Chat"}/>
             <div>
                 <List className="chatWindow">
-                    <Chats/>
+                    <Chats switch={props.switch}/>
                     <Divider/>
                     <Chatanfragen authId={authId}/>
                 </List>

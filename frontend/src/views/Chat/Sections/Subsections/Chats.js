@@ -9,12 +9,13 @@ function Chats(props) {
     const [chats, setChats] = React.useState([])
 
     function getChat(){
-        redirect.push("/chat/:id")
+        props.switch()
     }
 
     useEffect(() =>{
         TeamUpApi.getAPI().getChatrooms(1111).then(
             chats => {
+                console.log(chats)
                 setChats(chats)
             }
         )
@@ -23,7 +24,7 @@ function Chats(props) {
     return (
         <div>
             {chats.map(room =>
-            <ListItem className="chatPreviews" onClick={getChat}>
+            <ListItem className="chatPreviews" onClick={() => getChat(room.id, room.teilnehmer)}>
                 <ListItemAvatar>
                     <ProfilAvatar/>
                 </ListItemAvatar>

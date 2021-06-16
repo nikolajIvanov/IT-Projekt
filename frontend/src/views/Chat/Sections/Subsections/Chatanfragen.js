@@ -31,13 +31,13 @@ function Chatanfragen(props) {
         anfrage.setRequestId(requestId)
         anfrage.setAuthId(props.authId)
         anfrage.setPartnerId(partnerId)
-        /*TeamUpApi.getAPI().acceptUserRequest(anfrage.getAll())
+        TeamUpApi.getAPI().acceptUserRequest(anfrage.getAll())
             .then((res) => console.log(res))
         if(accept === '')
             setAccept('1')
         else{
             setAccept('')
-        }*/
+        }
     }
 
     function anfrageAblehnen(requestId, partnerId){
@@ -78,7 +78,7 @@ function Chatanfragen(props) {
                                     <div>
                                         <IconButton>
                                             <AddIcon onClick={() =>
-                                                anfrageAnnehmen(request.requestId, request['anUserId'])}/>
+                                                anfrageAnnehmen(request.requestId, request.vonUserId)}/>
                                         </IconButton>
                                         <IconButton><ClearIcon/></IconButton>
                                     </div>
