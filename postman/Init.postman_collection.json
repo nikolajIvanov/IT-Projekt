@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "cbdb4ea6-2ad8-47a3-b0fb-0e340b893acd",
+		"_postman_id": "d6f6c440-3b70-4355-a509-7b5ea282ece3",
 		"name": "Init",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -10,7 +10,9 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": null
+				"url": {
+					"raw": ""
+				}
 			},
 			"response": []
 		}

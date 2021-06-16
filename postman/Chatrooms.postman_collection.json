@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "807ba1d3-1051-4039-9551-a98e009ffe4a",
+		"_postman_id": "b0806959-8152-4794-a35c-dfcd30cc44ff",
 		"name": "Chatrooms",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -64,10 +64,10 @@
 							]
 						}
 					},
-					"_postman_previewlanguage": null,
-					"header": null,
+					"_postman_previewlanguage": "Text",
+					"header": [],
 					"cookie": [],
-					"body": null
+					"body": ""
 				}
 			]
 		},
@@ -76,7 +76,9 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": null
+				"url": {
+					"raw": ""
+				}
 			},
 			"response": []
 		}

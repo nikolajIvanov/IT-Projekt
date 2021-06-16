@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b74db25f-57f7-4097-b385-284ab90a9d99",
+		"_postman_id": "90c0dd71-32dd-4be3-8673-70139cb213a6",
 		"name": "User",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -35,57 +35,12 @@
 			"response": []
 		},
 		{
-			"name": "User By ID",
-			"protocolProfileBehavior": {
-				"followOriginalHttpMethod": true
-			},
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://127.0.0.1:5000/users/TBzTNfKvzNgT2RB1EovLO6hmdpp1",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "5000",
-					"path": [
-						"users",
-						"TBzTNfKvzNgT2RB1EovLO6hmdpp1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Many User By IDs",
-			"protocolProfileBehavior": {
-				"followOriginalHttpMethod": true,
-				"disableBodyPruning": true
-			},
 			"request": {
-				"auth": {
-					"type": "noauth"
-				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "[\n    {\n        \"id\": [1, 2, 3]\n    }\n]",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/usersById",
+					"raw": "http://127.0.0.1:5000/usersById?user_ids=1,12",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -96,6 +51,12 @@
 					"port": "5000",
 					"path": [
 						"usersById"
+					],
+					"query": [
+						{
+							"key": "user_ids",
+							"value": "1,12"
+						}
 					]
 				}
 			},
@@ -136,7 +97,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/users/456",
+					"raw": "http://127.0.0.1:5000/users/1115",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -147,7 +108,7 @@
 					"port": "5000",
 					"path": [
 						"users",
-						"456"
+						"1115"
 					]
 				}
 			},
@@ -193,7 +154,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/modul/Wirtschaftsinformatik und digitale Medien",
+					"raw": "http://127.0.0.1:5000//modul/Wirtschaftsinformatik und digitale Medien",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -203,6 +164,7 @@
 					],
 					"port": "5000",
 					"path": [
+						"",
 						"modul",
 						"Wirtschaftsinformatik und digitale Medien"
 					]
@@ -366,7 +328,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n    {\n        \"id\": 0,\n    \"authId\":1111,\n    \"modul\":[\"Data Science\"],\n    \"profilBild\":\"Bild1\",\n    \"beschreibung\":\"Beschreibungsinhalt Beispielttext.\",\n    \"lerntyp\":\"Auditiv\",\n    \"geburtsdatum\":\"1990-12-01\",\n    \"name\": \"Mustermann\",\n    \"vorname\": \"Max\",\n    \"email\": \"Max@Mustermann.de\",\n    \"gender\":\"Mann\",\n    \"semester\":1,\n    \"studiengang\":\"Wirtschaftsinformatik und digitale Medien\",\n    \"frequenz\": \"wöchentlich\",\n    \"lernort\": \"online\"\n    },\n    {\n        \"id\": 0,\n    \"authId\":1112,\n    \"modul\":[\"Data Science\"],\n    \"profilBild\":\"Bild2\",\n    \"beschreibung\":\"Beschreibungsinhalt Beispielttext.\",\n    \"lerntyp\":\"Auditiv\",\n    \"geburtsdatum\":\"1990-12-01\",\n    \"name\": \"Meyer\",\n    \"vorname\": \"Mano\",\n    \"email\": \"Max@Mustermann.de\",\n    \"gender\":\"Mann\",\n    \"semester\":3,\n    \"studiengang\":\"Wirtschaftsinformatik und digitale Medien\",\n    \"frequenz\": \"täglich\",\n    \"lernort\": \"online\"\n    },\n        {\n        \"id\": 0,\n    \"authId\":1113,\n    \"modul\":[\"Organisation & Marketing\"],\n    \"profilBild\":\"Bild3\",\n    \"beschreibung\":\"Beschreibungsinhalt Beispielttext.\",\n    \"lerntyp\":\"Motorisch\",\n    \"geburtsdatum\":\"1990-12-01\",\n    \"name\": \"Olig\",\n    \"vorname\": \"Chris\",\n    \"email\": \"Max@Mustermann.de\",\n    \"gender\":\"Mann\",\n    \"semester\":2,\n    \"studiengang\":\"Online-Medien-Management\",\n    \"frequenz\": \"wöchentlich\",\n    \"lernort\": \"offline\"\n    },\n        {\n        \"id\": 0,\n    \"authId\":1114,\n    \"modul\":[\"Programmieren\"],\n    \"profilBild\":\"Bild4\",\n    \"beschreibung\":\"Beschreibungsinhalt Beispielttext.\",\n    \"lerntyp\":\"Visuell\",\n    \"geburtsdatum\":\"1990-12-01\",\n    \"name\": \"Lange\",\n    \"vorname\": \"Sepp\",\n    \"email\": \"Max@Mustermann.de\",\n    \"gender\":\"Mann\",\n    \"semester\":2,\n    \"studiengang\":\"Wirtschaftsinformatik und digitale Medien\",\n    \"frequenz\": \"wöchentlich\",\n    \"lernort\": \"online\"\n    },\n        {\n        \"id\": 0,\n    \"authId\":1115,\n    \"modul\":[\"Data Science\"],\n    \"profilBild\":\"Bild5\",\n    \"beschreibung\":\"Beschreibungsinhalt Beispielttext.\",\n    \"lerntyp\":\"Visuell\",\n    \"geburtsdatum\":\"1990-12-01\",\n    \"name\": \"Weffel\",\n    \"vorname\": \"Milli\",\n    \"email\": \"Max@Mustermann.de\",\n    \"gender\":\"Frau\",\n    \"semester\":1,\n    \"studiengang\":\"Wirtschaftsinformatik und digitale Medien\",\n    \"frequenz\": \"wöchentlich\",\n    \"lernort\": \"online\"\n    },\n        {\n        \"id\": 0,\n    \"authId\":1116,\n    \"modul\":[\"Data Science\"],\n    \"profilBild\":\"Bild6\",\n    \"beschreibung\":\"Beschreibungsinhalt Beispielttext.\",\n    \"lerntyp\":\"Mischform\",\n    \"geburtsdatum\":\"1990-12-01\",\n    \"name\": \"Müller\",\n    \"vorname\": \"Ardot\",\n    \"email\": \"Max@Mustermann.de\",\n    \"gender\":\"Mann\",\n    \"semester\":1,\n    \"studiengang\":\"Wirtschaftsinformatik und digitale Medien\",\n    \"frequenz\": \"Last Minute\",\n    \"lernort\": \"online\"\n    },\n        {\n        \"id\": 0,\n    \"authId\":1117,\n    \"modul\":[\"Organisation & Marketing\"],\n    \"profilBild\":\"Bild7\",\n    \"beschreibung\":\"Beschreibungsinhalt Beispielttext.\",\n    \"lerntyp\":\"Visuell\",\n    \"geburtsdatum\":\"1990-12-01\",\n    \"name\": \"Schweiger\",\n    \"vorname\": \"Benoto\",\n    \"email\": \"Max@Mustermann.de\",\n    \"gender\":\"Mann\",\n    \"semester\":2,\n    \"studiengang\":\"Online-Medien-Management\",\n    \"frequenz\": \"wöchentlich\",\n    \"lernort\": \"online\"\n    },\n        {\n        \"id\": 0,\n    \"authId\":1118,\n    \"modul\":[\"Data Science\"],\n    \"profilBild\":\"Bild8\",\n    \"beschreibung\":\"Beschreibungsinhalt Beispielttext.\",\n    \"lerntyp\":\"Mischform\",\n    \"geburtsdatum\":\"1990-12-01\",\n    \"name\": \"Weiss\",\n    \"vorname\": \"Nakoli\",\n    \"email\": \"Max@Mustermann.de\",\n    \"gender\":\"Frau\",\n    \"semester\":1,\n    \"studiengang\":\"Wirtschaftsinformatik und digitale Medien\",\n    \"frequenz\": \"täglich\",\n    \"lernort\": \"offline\"\n    },\n        {\n        \"id\": 0,\n    \"authId\":1119,\n    \"modul\":[\"Data Science\"],\n    \"profilBild\":\"Bild1\",\n    \"beschreibung\":\"Beschreibungsinhalt Beispielttext.\",\n    \"lerntyp\":\"Auditiv\",\n    \"geburtsdatum\":\"1990-12-01\",\n    \"name\": \"Mustermann\",\n    \"vorname\": \"Max\",\n    \"email\": \"Max@Mustermann.de\",\n    \"gender\":\"Mann\",\n    \"semester\":3,\n    \"studiengang\":\"Wirtschaftsinformatik und digitale Medien\",\n    \"frequenz\": \"wöchentlich\",\n    \"lernort\": \"offline\"\n    },\n        {\n        \"id\": 0,\n    \"authId\":1119,\n    \"modul\":[\"Organisation & Marketing\"],\n    \"profilBild\":\"Bild9\",\n    \"beschreibung\":\"Beschreibungsinhalt Beispielttext.\",\n    \"lerntyp\":\"Kommunikativ\",\n    \"geburtsdatum\":\"1990-12-01\",\n    \"name\": \"Grün\",\n    \"vorname\": \"Christarn\",\n    \"email\": \"Max@Mustermann.de\",\n    \"gender\":\"Mann\",\n    \"semester\":3,\n    \"studiengang\":\"Online-Medien-Management\",\n    \"frequenz\": \"Last Minute\",\n    \"lernort\": \"offline\"\n    },\n        {\n        \"id\": 0,\n    \"authId\":1120,\n    \"modul\":[\"Data Science\"],\n    \"profilBild\":\"Bild10\",\n    \"beschreibung\":\"Beschreibungsinhalt Beispielttext.\",\n    \"lerntyp\":\"Auditiv\",\n    \"geburtsdatum\":\"1990-12-01\",\n    \"name\": \"Anhalt\",\n    \"vorname\": \"Karsten\",\n    \"email\": \"Max@Mustermann.de\",\n    \"gender\":\"Mann\",\n    \"semester\":1,\n    \"studiengang\":\"Wirtschaftsinformatik und digitale Medien\",\n    \"frequenz\": \"wöchentlich\",\n    \"lernort\": \"online\"\n    }\n]",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -419,6 +381,24 @@
 						"2546"
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
 			},
 			"response": []
 		}

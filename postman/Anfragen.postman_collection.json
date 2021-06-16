@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0903efca-de3b-42d4-ab83-dbd4d07c6d18",
+		"_postman_id": "063f8174-f7d6-4416-8cd4-d5c4a0fdb453",
 		"name": "Anfragen",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n   \"authId\": \"1111\",\n    \"angefragterId\": 7\n}",
+					"raw": "{\n   \"authId\": \"1111\",\n    \"angefragterId\": 3\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -54,6 +54,37 @@
 					"path": [
 						"request",
 						"1111"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lerngruppenmitglied bestätigen",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"lerngruppenId\": 1,\n    \"userId\": 2\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/lerngruppen-mitglied",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"lerngruppen-mitglied"
 					]
 				}
 			},
