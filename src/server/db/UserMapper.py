@@ -55,7 +55,7 @@ class UserMapper(Mapper):
             query_matching_user = """SELECT id, lerntyp, semester, studiengang, frequenz, lernort FROM TeamUP.users 
                                      WHERE id=%s"""
 
-            #Es werden alle benötigten Informationen jedes Users geholt und in einem UserBO gespeichert
+            # Es werden alle benötigten Informationen jedes Users geholt und in einem UserBO gespeichert
             for user in unsorted_users:
                 cursor.execute(query_matching_user, (user, ))
                 tuple_user = cursor.fetchone()
@@ -68,7 +68,7 @@ class UserMapper(Mapper):
             return mainUserBO, matching_users
         except IndexError:
             raise InternalServerError()
-        #Falls während der funktion ein SQL Fehler eintritt wird diese abgebrochen und der Fehler wird zurückgegeben
+        # Falls während der funktion ein SQL Fehler eintritt wird diese abgebrochen und der Fehler wird zurückgegeben
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
