@@ -293,8 +293,23 @@ class Administration(object):
 
     @staticmethod
     def delete_request(request):
+        """
+        Löscht eine Chatanfrage aus der Datenbank
+        :param request: RequestId welche gelöscht werden soll
+        :return: 200 wenn der Eintrag gelöscht wurde
+        """
         with RequestMapper() as mapper:
-            return mapper.accept_request(request)
+            return mapper.delete_request(request)
+
+    @staticmethod
+    def delete_group_request(request):
+        """
+        Löscht eine Gruppenanfrage aus der Datenbank
+        :param request: RequestId welche gelöscht werden soll
+        :return: 200 wenn der Eintrag gelöscht wurde
+        """
+        with RequestMapper() as mapper:
+            return mapper.delete_group_request(request)
 
     ###################################################################################################################
     # Nicht genutzt Methoden

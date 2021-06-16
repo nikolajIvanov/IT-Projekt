@@ -190,12 +190,12 @@ class RequestMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def accept_request(self, requestid):
+    def delete_request(self, requestid):
         """
         Mit dieser Methode wird die Anfrage eines Users gelöscht. Die Methode wird aufgerufen, wenn der User im Frontend
         in seinen Chaträumen die Anfrage bestätigt.
         :param requestid:
-        :return:
+        :return: 200 wenn der Eintrag gelöscht wurde
         """
         try:
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
@@ -248,6 +248,25 @@ class RequestMapper(Mapper):
             self._cnx.commit()
             cursor.close()
 
+            return 200
+        except mysql.connector.Error as err:
+            raise InternalServerError(err.msg)
+
+    def delete_group_request(self,requestid):
+        """"
+        Löscht eine Gruppenanfrage aus der Datenbank
+        :param request: RequestId welche gelöscht werden soll
+        :return: 200 wenn der Eintrag gelöscht wurde
+        """
+        try:
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
+            cursor = self._cnx.cursor(prepared=True)
+
+            query1 = """DELETE FROM TeamUP.gruppeAdmitted WHERE id=%s"""
+            cursor.execute(query1, (requestid,))
+
+            self._cnx.commit()
+            cursor.close()
             return 200
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)

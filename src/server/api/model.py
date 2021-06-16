@@ -99,3 +99,8 @@ group_request = api.model('GroupRequest', {
     'authId': fields.String(attribute='authId', description='Auth ID des Current User'),
     'groupId': fields.Integer(attribute='groupId', description='Angefragte Gruppen ID')
 })
+
+delete_request = api.model('DeleteRequest', {
+    'type': fields.String(attribute='type', description='Typ der Anfrage Single oder Group'),
+    'requestId': fields.String(attribute='requestId', description='RequestId')
+})
