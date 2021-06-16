@@ -80,7 +80,7 @@ class RequestMapper(Mapper):
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
 
-            #Löscht alle Einträge die älter als 2 Wochen sind
+            # Löscht alle Einträge die älter als 2 Wochen sind
             anfragen_löschen = """DELETE FROM teamup.gruppeadmitted 
                                   WHERE teamup.gruppeadmitted.timestamp < NOW() - INTERVAL 14 DAY """
             cursor.execute(anfragen_löschen)
@@ -92,7 +92,7 @@ class RequestMapper(Mapper):
             cursor.execute(lerngruppenid, (userid,))
             gruppen_from_admin = cursor.fetchall()
             erhalten = []
-            erhalten_abfrage = """SELECT gA.id, gA.vonUserid, gA.anGruppenid, gA.timestamp, l.name, l.bild 
+            erhalten_abfrage = """SELECT gA.id, gA.vonUserid, gA.timestamp, l.name, l.bild 
                                   FROM TeamUP.gruppeAdmitted gA JOIN TeamUP.lerngruppe l WHERE anGruppenid=%s"""
             for gruppe in gruppen_from_admin:
 
@@ -107,7 +107,23 @@ class RequestMapper(Mapper):
                     message_dict["bild"] = anfrage[5]
                     erhalten.append(message_dict.copy())
 
-            antwort = {"erhalten": erhalten}
+            gesendet = []
+            gesendete_anfragen = """SELECT gA.id, gA.vonUserid, gA.timestamp, l.name, l.bild 
+                                  FROM TeamUP.gruppeAdmitted gA JOIN TeamUP.lerngruppe l WHERE vonUserid=%s """
+
+            cursor.execute(gesendete_anfragen, (userid,))
+            ausgehende_anfragen = cursor.fetchall()
+            gesendet_dict = {}
+            for anfrage in ausgehende_anfragen:
+                gesendet_dict["requestId"] = anfrage[0]
+                gesendet_dict["vonUserId"] = anfrage[1]
+                gesendet_dict["timestamp"] = anfrage[2].strftime("%Y-%m-%d %H:%M:%S")
+                gesendet_dict["name"] = anfrage[3]
+                gesendet_dict["bild"] = anfrage[4]
+                gesendet.append(gesendet_dict.copy())
+
+            antwort = {"erhalten": erhalten,
+                       "gesendet": gesendet}
 
             return antwort
 
@@ -126,7 +142,7 @@ class RequestMapper(Mapper):
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
             # TODO: Checken ob Anfrage gültig ist (älter als 2 Wochen)
-            #Löscht alle Einträge die älter als 2 Wochen sind
+            # Löscht alle Einträge die älter als 2 Wochen sind
             anfragen_löschen = """DELETE FROM teamup.useradmitted 
                                 WHERE teamup.useradmitted.timestamp < NOW() - INTERVAL 14 DAY """
             cursor.execute(anfragen_löschen)
@@ -251,7 +267,7 @@ class RequestMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def delete_group_request(self,requestid):
+    def delete_group_request(self, requestid):
         """"
         Löscht eine Gruppenanfrage aus der Datenbank
         :param request: RequestId welche gelöscht werden soll
