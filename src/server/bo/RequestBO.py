@@ -32,3 +32,10 @@ class RequestBO(BusinessObject):
         obj.set_auth_id(kwargs["auth_id"])
         obj.set_angefragter_id(kwargs["angefragter_id"])
         return obj
+
+    @staticmethod
+    def create_group_request(**kwargs):
+        obj = RequestBO()
+        obj.set_auth_id(kwargs["auth_id"])
+        obj.set_gruppe_id(kwargs["groupid"])
+        return obj

@@ -272,6 +272,16 @@ class Administration(object):
             return mapper.create_request(request)
 
     @staticmethod
+    def create_group_request(request):
+        """
+
+        :param request:
+        :return:
+        """
+        with RequestMapper() as mapper:
+            return mapper.create_group_request(request)
+
+    @staticmethod
     def get_request(authid):
         """
         Holt die Chatanfragen des aktuellen Users und überprüft, ob Chatanfragen länger als 2 Wochen sind

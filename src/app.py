@@ -2,6 +2,7 @@
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 # Api Endpunkte
+from server.api.GroupRequestApi import GroupRequestApi
 from server.api.InitApi import InitApi
 from server.api.VieleUserApi import VieleUserApi
 from server.api.UsersApi import UsersApi
@@ -87,6 +88,8 @@ api.add_resource(ChatRoomApi, '/chatrooms/<string:authId>')
 api.add_resource(RequestApi, '/request')
 # Übergibt alle Anfragen des aktuellen Users.
 api.add_resource(RequestApi, '/request/<string:authId>')
+# Erstellt eine Gruppenanfrage
+api.add_resource(GroupRequestApi, '/group_request')
 # Überprüft ob ein User in unserer Datenbank vorhanden ist
 api.add_resource(InitApi, '/init/<string:authId>')
 
