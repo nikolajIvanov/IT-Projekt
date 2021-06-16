@@ -79,6 +79,12 @@ class RequestMapper(Mapper):
         try:
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
+
+            #Löscht alle Einträge die älter als 2 Wochen sind
+            anfragen_löschen = """DELETE FROM teamup.gruppeadmitted 
+                                  WHERE teamup.gruppeadmitted.timestamp < NOW() - INTERVAL 14 DAY """
+            cursor.execute(anfragen_löschen)
+            self._cnx.commit()
             # TODO: Checken ob Anfrage gültig ist (älter als 2 Wochen)
 
             lerngruppenid = """SELECT id FROM TeamUP.lerngruppe WHERE admin=%s"""
@@ -120,6 +126,12 @@ class RequestMapper(Mapper):
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
             # TODO: Checken ob Anfrage gültig ist (älter als 2 Wochen)
+            #Löscht alle Einträge die älter als 2 Wochen sind
+            anfragen_löschen = """DELETE FROM teamup.useradmitted 
+                                WHERE teamup.useradmitted.timestamp < NOW() - INTERVAL 14 DAY """
+            cursor.execute(anfragen_löschen)
+            self._cnx.commit()
+
             # Erstellen des SQL-Befehls
             get_gestellte_requests = """SELECT uA.id, uA.anUserid , uA.timestamp,  u.vorname, u.name, 
                                         u.bild FROM TeamUP.userAdmitted uA JOIN TeamUP.users u ON uA.anUserid = u.id 
@@ -129,19 +141,6 @@ class RequestMapper(Mapper):
 
             # Ausführen des SQL-Befehls
             cursor.execute(get_gestellte_requests, (userid,))
-
-            # Speichern der SQL Antwort
-            prüfe_Zeit = cursor.fetchall()
-            time = datetime.now() - timedelta(weeks=2)
-            for date in prüfe_Zeit:
-                if date[2] < time:
-                    print(date[2])
-                    # Hier werden alle Anfragen die älter als zwei Wochen sind in der DB gelösccht mit DELETE
-                else:
-                    print("Weis ich noch nicht")
-                    # Ausführen des SQL-Befehls
-            cursor.execute(get_gestellte_requests, (userid,))
-
             # Speichern der SQL Antwort
             gestellte_requests = cursor.fetchall()
 
