@@ -2,6 +2,7 @@
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 # Api Endpunkte
+from server.api.DeleteRequestApi import DeleteRequestApi
 from server.api.GroupRequestApi import GroupRequestApi
 from server.api.InitApi import InitApi
 from server.api.VieleUserApi import VieleUserApi
@@ -92,6 +93,8 @@ api.add_resource(RequestApi, '/request/<string:authId>')
 api.add_resource(GroupRequestApi, '/group_request')
 # Überprüft ob ein User in unserer Datenbank vorhanden ist
 api.add_resource(InitApi, '/init/<string:authId>')
+# Löscht eine Anfrage von der Datenbank
+api.add_resource(DeleteRequestApi, '/delete_request')
 
 if __name__ == '__main__':
     # app.run(debug=True)
