@@ -1,12 +1,12 @@
 from server.db.Mapper import Mapper
 import mysql.connector.errors
 from werkzeug.exceptions import InternalServerError
-from datetime import datetime, timedelta
+from datetime import timedelta, datetime
 
 
 class RequestMapper(Mapper):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, cnx=None):
+        super().__init__(cnx)
 
     def create_request(self, request):
         """
@@ -128,6 +128,18 @@ class RequestMapper(Mapper):
             userid = self.find_userid_by_authid(authid)
 
             # Ausführen des SQL-Befehls
+            cursor.execute(get_gestellte_requests, (userid,))
+
+            # Speichern der SQL Antwort
+            prüfe_Zeit = cursor.fetchall()
+            time = datetime.now() - timedelta(weeks=2)
+            for date in prüfe_Zeit:
+                if date[2] < time:
+                    print(date[2])
+                    # Hier werden alle Anfragen die älter als zwei Wochen sind in der DB gelösccht mit DELETE
+                else:
+                    print("Weis ich noch nicht")
+                    # Ausführen des SQL-Befehls
             cursor.execute(get_gestellte_requests, (userid,))
 
             # Speichern der SQL Antwort

@@ -177,7 +177,6 @@ class LerngruppeMapper(Mapper):
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor(prepared=True)
 
-
             # Erstellen des SQL-Befehls für TABLE lerngruppe
             query = """INSERT INTO teamup.lerngruppe (name, beschreibung, bild, lerntyp,admin, frequenz, lernort 
                                                       ) VALUES (%s ,%s ,%s ,%s ,%s, %s ,%s)"""
@@ -204,7 +203,6 @@ class LerngruppeMapper(Mapper):
                 data1 = (mitglied, gruppenId)
                 cursor.execute(query1, data1)
 
-
             query2 = """INSERT INTO teamup.lerngruppeinmodul (lerngruppeId, modulId) VALUES (%s, %s) """
             data2 = (gruppenId, self.get_modulId_by_modul(lerngruppe.get_modul()[0]))
             cursor.execute(query2, data2)
@@ -221,24 +219,28 @@ class LerngruppeMapper(Mapper):
         :return: Statuscode: 200 Wenn das anlegen erfolgreich war
         """
         try:
-            # Öffnen der Datenbankverbindung
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
-            query1 = """INSERT INTO teamup.userinlerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
+
+            query1 = """INSERT INTO TeamUP.userinlerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
             data1 = (new_mitglied[1], new_mitglied[0])
             cursor.execute(query1, data1)
+            self._cnx.commit()
 
-            query1 = """ SELECT teamup.room.id  FROM teamup.room WHERE teamup.room.groupId = %s """
+            query1 = """ SELECT id  FROM TeamUP.room WHERE groupId = %s """
             cursor.execute(query1, (new_mitglied[0],))
             roomid = cursor.fetchone()
 
             # Mitglied in Chatroom eintragen
-            query2 = """INSERT INTO teamup.userinroom(userId, roomId) VALUES (%s, %s) """
+            query2 = """INSERT INTO TeamUP.userinroom(userId, roomId) VALUES (%s, %s) """
             cursor.execute(query2, (new_mitglied[1], roomid[0]))
 
             self._cnx.commit()
             cursor.close()
-            with RequestMapper() as mapper:
-                  mapper.accept_gruppen_request(new_mitglied)
+
+            mapper = RequestMapper(cnx=self._cnx)
+            mapper.accept_gruppen_request(new_mitglied)
+
             return 200
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
@@ -265,10 +267,10 @@ class LerngruppeMapper(Mapper):
             cursor.execute(query1, (altes_mitglied[0],))
             roomid = cursor.fetchone()
 
-            #Mitglied aus Chatroom löschen
+            # Mitglied aus Chatroom löschen
             query2 = """DELETE FROM teamup.userinroom WHERE teamup.userinroom.userId = %s 
                         AND teamup.userinroom.roomId = %s """
-            cursor.execute(query2, (altes_mitglied[1],roomid[0]))
+            cursor.execute(query2, (altes_mitglied[1], roomid[0]))
 
             # Schließen der Datenbankverbindung
             self._cnx.commit()
@@ -287,7 +289,6 @@ class LerngruppeMapper(Mapper):
         try:
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor(prepared=True)
-
 
             # Erstellen des SQL-Befehls um lerngruppendaten zu holen
             query = """UPDATE teamup.lerngruppe SET bild=%s, name=%s, beschreibung=%s, admin=%s,
@@ -347,8 +348,8 @@ class LerngruppeMapper(Mapper):
             cursor.execute(query_roomId, (gruppen_id,))
             roomid = cursor.fetchone()
 
-            query_userchatdelete= """DELETE FROM teamup.userinroom WHERE teamup.userinroom.roomId= %s"""
-            cursor.execute(query_userchatdelete, (roomid))
+            query_userchatdelete = """DELETE FROM teamup.userinroom WHERE teamup.userinroom.roomId= %s"""
+            cursor.execute(query_userchatdelete, roomid)
 
             query_deletroom = """DELETE FROM teamup.room WHERE teamup.room.id= %s"""
             cursor.execute(query_deletroom, (roomid))

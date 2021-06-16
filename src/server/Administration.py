@@ -160,7 +160,9 @@ class Administration(object):
     @staticmethod
     def create_new_mitglied(new_mitglied):
         """
-        :param new_mitglied:
+        Neuer Lerngruppenuser wird in die Tabelle userInLerngruppe und userinRoom geladen und die Gruppenanfrage wird
+        in gruppeAdmitted gelöscht.
+        :param new_mitglied: Neues Mitglied mit der UserId und LerngruppenId
         :return: Statuscode 200 User wurde in Lerngruppe eingetragen
         """
         with LerngruppeMapper() as mapper:
