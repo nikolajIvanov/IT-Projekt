@@ -1,7 +1,6 @@
 from flask_restx import Resource
 from server.Administration import Administration
 from .model import delete_request, api
-from server.bo.RequestBO import RequestBO
 
 
 class DeleteRequestApi(Resource):
@@ -9,8 +8,9 @@ class DeleteRequestApi(Resource):
     @api.expect(delete_request)
     def post(self):
         """
-        Löscht eine Anfrage aus der Datenbank
-        :return: Statuscode 200 wenn dsa Löschen erfolgreich war
+        Löscht eine Anfrage aus der Datenbank. Über den Parameter type im JSON wird zwischen Gruppen und Einzelanfragen
+        unterschieden.
+        :return: Statuscode 200 wenn das Löschen erfolgreich war
         """
         payload = api.payload
         if payload["type"] == "single":
