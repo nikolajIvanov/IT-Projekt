@@ -119,6 +119,7 @@ class ChatFenster extends React.Component{
                     <Grid item sx={12}>
                         <InputFeld onChange={this.handleMessage2} inhalt={sendData2}/>
                         <ButtonPrimary onClick={this.handleSend2} inhalt={"Senden"}/>
+                        <ButtonPrimary onClick={this.handleSend2} inhalt={"Lerngruppe erstellen"}/>
                     </Grid>
                 </Grid>
             </div>

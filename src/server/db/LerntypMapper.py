@@ -8,6 +8,10 @@ class LerntypMapper(Mapper):
         super().__init__()
 
     def find_all(self):
+        """
+        Gibt alle Lerntypen wieder, die wir definiert haben
+        :return: Alle Lerntypen
+        """
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("""SELECT id, bild, typ FROM TeamUP.lerntyp""")

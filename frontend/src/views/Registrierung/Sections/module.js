@@ -5,6 +5,7 @@ import TeamUpApi from "../../../api/TeamUpApi";
 
 function Module(props){
     const [Mod, setMod] = React.useState([])
+    const [accept, setAccept] = React.useState('')
 
     useEffect( () => {
         TeamUpApi.getAPI().getModul(props.studiengang)
@@ -19,7 +20,7 @@ function Module(props){
                 console.log(middle)
                 setMod(middle)
             })
-    });
+    }, [accept]);
 
     const handleChange = (mod) => {
         if (props.modul.includes(mod) === false) {

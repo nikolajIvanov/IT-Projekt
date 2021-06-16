@@ -23,9 +23,10 @@ class Administration(object):
 
     def init(self, authId):
         """
-        InitMethode
-        :param authId:
-        :return:
+        InitMethode. Wird nach der Anmeldung des Users aufgerufen, um zu überprüfen ob der User einen eintrag in der
+        DB hat.
+        :param authId: GoogleID des aktuellen Users
+        :return: Statuscode
         """
         with InitMapper() as mapper:
             return mapper.initialize(authId)
@@ -55,7 +56,8 @@ class Administration(object):
     @staticmethod
     def update_user_by_authId(nutzer):
         """
-        :param nutzer: Ist die authId
+        Updatet den aktuellen User
+        :param nutzer: GoogleID des aktuellen Users
         :return: Alle Objekte des Nutzers (aktualisiert)
         """
         with UserMapper() as mapper:
@@ -64,6 +66,7 @@ class Administration(object):
     @staticmethod
     def delete_user_by_authId(authId):
         """
+        Löscht den aktuellen User aus der Datenbank
         :param authId: GoogleID des Users
         :return:
         """
@@ -104,6 +107,7 @@ class Administration(object):
     @staticmethod
     def create_lerngruppe(lerngruppe):
         """
+        Erstellt eine neue Lerngruppe in der Datenbank
         :param lerngruppe: Objekt der Klasse Lerngruppe mit allen Attributen
         :return: Statuscode
         """
@@ -142,6 +146,7 @@ class Administration(object):
     @staticmethod
     def delete_user_in_lerngruppe(altes_mitglied):
         """
+        Löscht einen Mitglied aus der Lerngruppe
         :param altes_mitglied: lerngruppenobjekt
         :return: Statuscode 200 User erfolgreich aus Gruppe gelöscht
         """
@@ -151,6 +156,7 @@ class Administration(object):
     # Todo MUSS BEI DER FUNK OBEN NE AUTH ID MIT EIG NICHT?
     def update_lerngruppe(self, lerngruppe):
         """
+        Updatet eine Lerngruppe
         :param lerngruppe: lerngruppenobjekt
         :return: Statuscode 200 Lerngruppe wurde erfolgreich aktualisiert
         """
@@ -172,16 +178,29 @@ class Administration(object):
     """
     @staticmethod
     def get_all_studiengang():
+        """
+        Holt alle Studiengänge aus der DB
+        :return: Alle Studiengänge
+        """
         with StudiengangMapper() as mapper:
             return mapper.find_all()
 
     @staticmethod
     def get_modul_by_studiengang(studiengang):
+        """
+        Holt alle Module gefiltert nach den Studiengängen aus der DB
+        :param studiengang: Studiengang des aktuellen Users
+        :return: Gefilterte Module nach Studiengang
+        """
         with ModulMapper() as mapper:
             return mapper.get_studiengangId_by_studiengang(studiengang)
 
     @staticmethod
     def get_lerntyp():
+        """
+        Gibt alle Lerntypen aus der DB
+        :return: Alle Lerntypen
+        """
         with LerntypMapper() as mapper:
             return mapper.find_all()
     """
@@ -197,6 +216,12 @@ class Administration(object):
 
     @staticmethod
     def lerngruppe_match_me(authId):
+        """
+        Es werden alle User Kandidaten für das Matching aus der DB geholt und in der Klasse MatchingBO erfolgt das
+        Scoring
+        :param authId: GoogleID des aktuellen Users
+        :return: Eine sortierte Liste mit den UserIDs die für das Matching am besten in Frage kommen
+        """
         with LerngruppeMapper() as mapper:
             mainUser, finderGruppen = mapper.matching_method(authId)
 
@@ -233,40 +258,73 @@ class Administration(object):
     """
     @staticmethod
     def get_chat_by_room(room):
+        """
+        Wird aufgerufen, um die Chathistory aus einem bestimmten Raum zu holen
+        :param room: RaumID
+        :return: Alle Nachrichten aus dem Chat
+        """
         with ChatMapper() as mapper:
             return mapper.get_messages_by_room(room)
 
     @staticmethod
     def save_message(room, message, sender):
+        """
+        Speichert die Nachrichten, die im Frontend geschrieben werden
+        :param room: RoomID
+        :param message: Die Nachricht
+        :param sender: UserID des Senders
+        :return: Statuscode 200 erfolgreich in der DB gespeichert.
+        """
         with ChatMapper() as mapper:
             mapper.add_message(sender, room, message)
 
     @staticmethod
     def add_user_to_room(room, user):
+        """
+        Fügt einen neuen User in einen Chatroom hinzu. Wird genutzt, wenn ein User in eine Lerngruppe akzeptiert wurde
+        :param room: RoomID
+        :param user: UserID die dem Raum hinzugefügt werden soll
+        :return: Statuscode 200 erfolgreich in der DB gespeichert.
+        """
         with ChatMapper() as mapper:
             mapper.add_user_to_room(room, user)
 
     @staticmethod
     def get_rooms_of_user(authId):
+        """
+        Wird aufgerufen, wenn der User alle seine Chatrooms angezeigt bekommen will
+        :param authId: GoogleID des aktuellen Users
+        :return: Alle Chatrooms in die ein User sich befindet
+        """
         with ChatMapper() as mapper:
             return mapper.get_room_of_user(authId)
 
     @staticmethod
     def delete_room_by_id(roomId):
+        """
+        Löscht einen Chatroom. Wird aufgerufen, wenn eine Lerngruppe oder ein Single Chat gelöscht wird.
+        :param roomId: RoomID welche gelöscht werden soll
+        :return: Statuscode 200 erfolgreich in der DB gelöscht.
+        """
         with ChatMapper() as mapper:
             mapper.delete_room_by_id(roomId)
 
     @staticmethod
     def create_room(room):
+        """
+        Es wird ein neuer Single Chatroom erstellt
+        :param room: RoomID
+        :return: Statuscode 200 erfolgreich in der DB erstellt.
+        """
         with ChatMapper() as mapper:
             mapper.create_user_room(room)
 
     @staticmethod
     def create_request(request):
         """
-
+        Erstellt eine User Anfrage in der Datenbank
         :param request:
-        :return:
+        :return: Statuscode 200
         """
         with RequestMapper() as mapper:
             return mapper.create_request(request)
@@ -274,7 +332,7 @@ class Administration(object):
     @staticmethod
     def create_group_request(request):
         """
-
+        Erstellt eine Gruppenanfrage Anfrage in der Datenbank
         :param request:
         :return:
         """

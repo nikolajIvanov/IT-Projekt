@@ -2,6 +2,10 @@ from server.bo.BusinessObject import BusinessObject
 
 
 class RequestBO(BusinessObject):
+    """
+    Business Klasse in der alle relevanten Variablen und Methoden definiert wurden, um mit den Anfragen für einen Chat
+    im Backend umgehen zu können.
+    """
     def __init__(self):
         super().__init__()
         self.__auth_id = None
@@ -28,6 +32,12 @@ class RequestBO(BusinessObject):
 
     @staticmethod
     def create_request(**kwargs):
+        """
+        Erstellt ein Objekt der Klasse RequestBO in der alle relevanten Informationen für eine Single Anfrage
+        gespeichert werden
+        :param kwargs: Dict mit allen benötigten Informationen
+        :return: Befülltes Objekt
+        """
         obj = RequestBO()
         obj.set_auth_id(kwargs["auth_id"])
         obj.set_angefragter_id(kwargs["angefragter_id"])
@@ -35,6 +45,12 @@ class RequestBO(BusinessObject):
 
     @staticmethod
     def create_group_request(**kwargs):
+        """
+        Erstellt ein Objekt der Klasse RequestBO in der alle relevanten Informationen für eine Gruppen Anfrage
+        gespeichert werden
+        :param kwargs: Dict mit allen benötigten Informationen
+        :return: Befülltes Objekt
+        """
         obj = RequestBO()
         obj.set_auth_id(kwargs["auth_id"])
         obj.set_gruppe_id(kwargs["groupid"])

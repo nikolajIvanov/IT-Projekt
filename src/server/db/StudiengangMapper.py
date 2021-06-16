@@ -8,6 +8,10 @@ class StudiengangMapper(Mapper):
         super().__init__()
 
     def find_all(self):
+        """
+        Gibt alle Studiengänge aus der Datenbank wieder.
+        :return:
+        """
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT id, studiengang FROM TeamUP.studiengang")

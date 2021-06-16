@@ -55,7 +55,7 @@ class UserMapper(Mapper):
             query_matching_user = """SELECT id, lerntyp, semester, studiengang, frequenz, lernort FROM TeamUP.users 
                                      WHERE id=%s"""
 
-            #Es werden alle benötigten Informationen jedes Users geholt und in einem UserBO gespeichert
+            # Es werden alle benötigten Informationen jedes Users geholt und in einem UserBO gespeichert
             for user in unsorted_users:
                 cursor.execute(query_matching_user, (user, ))
                 tuple_user = cursor.fetchone()
@@ -68,7 +68,7 @@ class UserMapper(Mapper):
             return mainUserBO, matching_users
         except IndexError:
             raise InternalServerError()
-        #Falls während der funktion ein SQL Fehler eintritt wird diese abgebrochen und der Fehler wird zurückgegeben
+        # Falls während der funktion ein SQL Fehler eintritt wird diese abgebrochen und der Fehler wird zurückgegeben
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
@@ -202,6 +202,7 @@ class UserMapper(Mapper):
 
     def find_by_id(self, user_id):
         """
+        Sucht einen bestimmten User über die ID
         :param user_id: Ist die id
         :return: Alle Objekte des UserBO
         """
@@ -320,6 +321,7 @@ class UserMapper(Mapper):
 
     def delete_by_authId(self, user_authid):
         """
+        Löscht einen User aus der Datenbank
         :param user_authid: Die GoogleID des zu löschenden Users
         :return: Der Statuscode '200' wird zurückgegeben nachdem der User gelöscht wurde
         """

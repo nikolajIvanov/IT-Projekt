@@ -35,47 +35,15 @@ class RequestMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def get_username_by_id(self, userId):
-        # Öffnen der Datenbankverbindung
-        cursor = self._cnx.cursor(prepared=True)
-
-        get_user_name = """SELECT vorname, name FROM TeamUP.users WHERE id=%s"""
-        cursor.execute(get_user_name, (userId,))
-
-        name = cursor.fetchone()
-        ganzer_name = name[0] + name[1]
-
-        return ganzer_name[0]
-
-    def get_requests_by_user_id(self, userid):
-        try:
-            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
-            cursor = self._cnx.cursor()
-
-            # Erstellen des SQL-Befehls
-            query = """SELECT vonUserid, anUserid FROM TeamUP.userAdmitted WHERE anUserid=%s"""
-
-            # Ausführen des SQL-Befehls
-            cursor.execute(query, (userid,))
-
-            # Speichern der SQL Antwort
-            requests = cursor.fetchall()
-
-            # Schließen der Datenbankverbindung
-            cursor.close()
-            message_dict = {}
-            anfragen = []
-            for anfrage in requests:
-                message_dict["vonUserId"] = anfrage[0]
-                message_dict["anUserId"] = anfrage[1]
-                anfragen.append(message_dict.copy())
-            # Rückgabe der Nachrichten
-            return anfragen
-
-        except mysql.connector.Error as err:
-            raise InternalServerError(err.msg)
-
     def get_gruppen_requests(self, userid):
+        """
+        Prüft ob es Anfragen gibt, die älter als 2 Wochen sind und löscht diese. Es wird überprüft, ob der aktuelle
+        User eine Lerngruppe ist und falls es Anfragen an die Lerngruppe gibt, werden diese an den User übergeben.
+        Es wird geprüft, ob der User eine Gruppe angefragt hat. Diese Methode wird aufgerufen, wenn alle Anfragen
+        des aktuellen Users geprüft werden.
+        :param userid: UserID des aktuellen Users
+        :return: Alle Gruppen Anfragen
+        """
         try:
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
@@ -85,7 +53,6 @@ class RequestMapper(Mapper):
                                   WHERE teamup.gruppeadmitted.timestamp < NOW() - INTERVAL 14 DAY """
             cursor.execute(anfragen_löschen)
             self._cnx.commit()
-            # TODO: Checken ob Anfrage gültig ist (älter als 2 Wochen)
 
             lerngruppenid = """SELECT id FROM TeamUP.lerngruppe WHERE admin=%s"""
 
@@ -209,7 +176,7 @@ class RequestMapper(Mapper):
         """
         Mit dieser Methode wird die Anfrage eines Users gelöscht. Die Methode wird aufgerufen, wenn der User im Frontend
         in seinen Chaträumen die Anfrage bestätigt.
-        :param requestid:
+        :param requestid: Request  ID mit dem aktuellen User
         :return: 200 wenn der Eintrag gelöscht wurde
         """
         try:
@@ -226,6 +193,11 @@ class RequestMapper(Mapper):
             raise InternalServerError(err.msg)
 
     def accept_gruppen_request(self, new_user):
+        """
+        Wird aufgerufen, wenn der Admin einer Lerngruppe die Anfrage eines Users akzeptiert.
+        :param new_user:  Die GruppenID und die UserID des anfragers
+        :return: Statuscode 200: User erfolgreich akzeptiert.
+        """
         try:
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
@@ -270,7 +242,7 @@ class RequestMapper(Mapper):
     def delete_group_request(self, requestid):
         """"
         Löscht eine Gruppenanfrage aus der Datenbank
-        :param request: RequestId welche gelöscht werden soll
+        :param requestid: RequestId welche gelöscht werden soll
         :return: 200 wenn der Eintrag gelöscht wurde
         """
         try:
@@ -283,5 +255,49 @@ class RequestMapper(Mapper):
             self._cnx.commit()
             cursor.close()
             return 200
+        except mysql.connector.Error as err:
+            raise InternalServerError(err.msg)
+
+    ###################################################################################################################
+    # Nicht genutzt Methoden
+    ###################################################################################################################
+
+    def get_username_by_id(self, userId):
+        # Öffnen der Datenbankverbindung
+        cursor = self._cnx.cursor(prepared=True)
+
+        get_user_name = """SELECT vorname, name FROM TeamUP.users WHERE id=%s"""
+        cursor.execute(get_user_name, (userId,))
+
+        name = cursor.fetchone()
+        ganzer_name = name[0] + name[1]
+
+        return ganzer_name[0]
+
+    def get_requests_by_user_id(self, userid):
+        try:
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
+            cursor = self._cnx.cursor()
+
+            # Erstellen des SQL-Befehls
+            query = """SELECT vonUserid, anUserid FROM TeamUP.userAdmitted WHERE anUserid=%s"""
+
+            # Ausführen des SQL-Befehls
+            cursor.execute(query, (userid,))
+
+            # Speichern der SQL Antwort
+            requests = cursor.fetchall()
+
+            # Schließen der Datenbankverbindung
+            cursor.close()
+            message_dict = {}
+            anfragen = []
+            for anfrage in requests:
+                message_dict["vonUserId"] = anfrage[0]
+                message_dict["anUserId"] = anfrage[1]
+                anfragen.append(message_dict.copy())
+            # Rückgabe der Nachrichten
+            return anfragen
+
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)

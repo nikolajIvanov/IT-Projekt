@@ -2,6 +2,9 @@ from werkzeug.exceptions import InternalServerError
 
 
 class MatchingBO:
+    """
+    Klasse in der das Scoring der User und Lerngruppen stattfindet.
+    """
 
     def __init__(self):
         self.__result = []
@@ -13,7 +16,14 @@ class MatchingBO:
         self.__result.append(obj_id)
 
     def user_matching(self, mainUser, finderUser):
-        # TODO: Kommentieren?
+        """
+        Scoring Methode in der nach ausgewählten Kriterien geprüft wird, wie gut ein User zu dem aktuellen User passt.
+        Am ende werden alle User nach Scoring sortiert (die UserID mit dem höchsten Score steht an erster Stelle) und
+        die UserIDs werden in einer Liste an das Frontend übergeben
+        :param mainUser: Dict mit allen relevanten Informationen des aktuellen Users für das Scoring
+        :param finderUser: Liste mit allen relevanten Informationen aller Kandidaten die für das Matching infrage kommen
+        :return: Sortierte Liste mit allen infrage kommenden UserIDs
+        """
         try:
             unsorted_user = []
             users = {"user": None, "score": None}
@@ -32,18 +42,25 @@ class MatchingBO:
                 users["user"] = user.get_id()
                 users["score"] = score
                 unsorted_user.append(users.copy())
-
+            # Sortiert die Kandidaten nach Scoring
             sorted_user = sorted(unsorted_user, reverse=True, key=lambda k: k['score'])
             for i in sorted_user:
                 self.set_result(i["user"])
 
             return self
-
         except:
-            raise InternalServerError('Kein Matchingpartner vorhanden')
+            raise InternalServerError('Kein Matching Partner vorhanden')
 
     def lerngruppen_matching(self, mainUser, match_gruppen):
-        # TODO: Kommentieren?
+        """
+        Gruppen Scoring Methode in der nach ausgewählten Kriterien geprüft wird, wie gut ein Lerngruppe zu dem
+        aktuellen User passt. Am ende werden alle Lerngruppen nach Scoring sortiert (die LerngruppenID mit dem höchsten
+        Score steht an erster Stelle) und die LerngruppenIDs werden in einer Liste an das Frontend übergeben
+        :param mainUser: Dict mit allen relevanten Informationen des aktuellen Users für das Scoring
+        :param match_gruppen: Liste mit allen relevanten Informationen aller Gruppen Kandidaten die für das Matching
+        infrage kommen
+        :return: Sortierte Liste mit allen infrage kommenden LerngruppenIDs
+        """
         unsorted_gruppen = []
         gruppen = {"gruppenID": None, "score": None}
         for gruppe in match_gruppen:
@@ -59,7 +76,7 @@ class MatchingBO:
             unsorted_gruppen.append(gruppen.copy())
 
         sorted_gruppenID = sorted(unsorted_gruppen, reverse=True, key=lambda k: k['score'])
-
+        # Sortiert die Kandidaten nach Scoring
         for i in sorted_gruppenID:
             self.set_result(i["gruppenID"])
 

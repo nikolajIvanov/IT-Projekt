@@ -2,6 +2,10 @@ from server.bo.ProfilBO import ProfilBO
 
 
 class Lerngruppe(ProfilBO):
+    """
+    Business Klasse in der alle relevanten Variablen und Methoden definiert wurden, um mit einer Lerngruppe im Backend
+    umgehen zu können.
+    """
 
     def __init__(self):
         super().__init__()

@@ -55,8 +55,11 @@ class UserBO(ProfilBO):
     def get_vorname(self):
         return self.__vorname
 
-    # Rechnet das Geburtstag in Alter um
     def calculate_age(self):
+        """
+        Berechnet das aktuelle Alter eines Users
+        :return: Aktuelles Alter des Users
+        """
         today = date.today()
         # geb = datetime.strptime(self.get_geburtsdatum(), '%Y-%m-%d')
         geb = self.get_geburtsdatum()
@@ -68,7 +71,7 @@ class UserBO(ProfilBO):
         Diese besteht aus der ID, dem Namen, den Lerntyp und den Modulen der Superklasse ergänzt durch die GoogleId
 
         des jeweiligen Kunden."""
-        # TODO LERNTYP MODUL dazu allgemein attribute anschaun pls
+        # TODO LERNTYP MODUL dazu allgemein attribute anschauen pls
         return "Customer: {}, {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_authId(), self.get_name(),
                                                              self.get_email(), self.get_lerntyp(), self.get_modul(),
                                                              self.get_vorname())
