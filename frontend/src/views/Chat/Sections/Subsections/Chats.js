@@ -3,6 +3,7 @@ import {ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
 import ProfilAvatar from "../../../../components/Avatar/ProfilAvatar";
 import {useHistory} from "react-router-dom";
 import TeamUpApi from "../../../../api/TeamUpApi";
+import firebase from "../../../../api/Firebase";
 
 function Chats(props) {
     const redirect = useHistory()
@@ -13,7 +14,7 @@ function Chats(props) {
     }
 
     useEffect(() =>{
-        TeamUpApi.getAPI().getChatrooms(1111).then(
+        TeamUpApi.getAPI().getChatrooms(firebase.auth().currentUser.uid).then(
             chats => {
                 console.log(chats)
                 setChats(chats)

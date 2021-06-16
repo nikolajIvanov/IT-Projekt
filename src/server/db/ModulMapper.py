@@ -8,6 +8,10 @@ class ModulMapper(Mapper):
         super().__init__()
 
     def find_all(self):
+        """
+        Gibt alle Module aus der Datenbank zurück.
+        :return: Alle Module
+        """
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT id, bezeichnung FROM TeamUP.modul")
@@ -52,6 +56,7 @@ class ModulMapper(Mapper):
 
     def find_by_studiengangId(self, key):
         """
+        Sucht Studiengangspezifische Module
         :param key: Ist die authId
         :return: Alle Objekte des UserBO
         """

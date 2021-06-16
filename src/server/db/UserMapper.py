@@ -202,6 +202,7 @@ class UserMapper(Mapper):
 
     def find_by_id(self, user_id):
         """
+        Sucht einen bestimmten User über die ID
         :param user_id: Ist die id
         :return: Alle Objekte des UserBO
         """
@@ -320,6 +321,7 @@ class UserMapper(Mapper):
 
     def delete_by_authId(self, user_authid):
         """
+        Löscht einen User aus der Datenbank
         :param user_authid: Die GoogleID des zu löschenden Users
         :return: Der Statuscode '200' wird zurückgegeben nachdem der User gelöscht wurde
         """
