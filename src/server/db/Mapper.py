@@ -9,8 +9,8 @@ import os
 
 class Mapper(AbstractContextManager, ABC):
 
-    def __init__(self):
-        self._cnx = None
+    def __init__(self, cnx=None):
+        self._cnx = cnx
 
     def __enter__(self):
 
@@ -21,7 +21,7 @@ class Mapper(AbstractContextManager, ABC):
 
             self._cnx = connector.connect(user='demo', password='demo',
                                           unix_socket='/cloudsql/python-bankprojekt-thies:europe-west3:bank-db-thies',
-                                          database='bankproject')
+                                          database='TeamUP')
         else:
             """Wenn wir hier ankommen, dann handelt sich offenbar um die Ausführung des Codes in einer lokalen Umgebung,
             also auf einem Local Development Server. Hierbei stellen wir eine einfache Verbindung zu einer lokal

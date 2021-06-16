@@ -10,9 +10,7 @@ class LerngruppenmitgliedApi(Resource):
 
         return Administration.delete_user_in_lerngruppe(altes_mitglied)
 
-    # TODO: Wann wird ein neues Mitglied hinzugefügt und was bekommt man vom Frontend?
     @api.expect(mitglied)
     def put(self):
         new_mitglied = [api.payload["lerngruppenId"], api.payload["userId"]]
-
         return Administration.create_new_mitglied(new_mitglied)

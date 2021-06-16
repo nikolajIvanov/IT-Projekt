@@ -221,24 +221,28 @@ class LerngruppeMapper(Mapper):
         :return: Statuscode: 200 Wenn das anlegen erfolgreich war
         """
         try:
-            # Öffnen der Datenbankverbindung
+            # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
-            query1 = """INSERT INTO teamup.userinlerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
+
+            query1 = """INSERT INTO TeamUP.userinlerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
             data1 = (new_mitglied[1], new_mitglied[0])
             cursor.execute(query1, data1)
+            self._cnx.commit()
 
-            query1 = """ SELECT teamup.room.id  FROM teamup.room WHERE teamup.room.groupId = %s """
+            query1 = """ SELECT id  FROM TeamUP.room WHERE groupId = %s """
             cursor.execute(query1, (new_mitglied[0],))
             roomid = cursor.fetchone()
 
             # Mitglied in Chatroom eintragen
-            query2 = """INSERT INTO teamup.userinroom(userId, roomId) VALUES (%s, %s) """
+            query2 = """INSERT INTO TeamUP.userinroom(userId, roomId) VALUES (%s, %s) """
             cursor.execute(query2, (new_mitglied[1], roomid[0]))
 
             self._cnx.commit()
             cursor.close()
-            with RequestMapper() as mapper:
-                  mapper.accept_gruppen_request(new_mitglied)
+
+            mapper = RequestMapper(cnx=self._cnx)
+            mapper.accept_gruppen_request(new_mitglied)
+
             return 200
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)

@@ -1,12 +1,12 @@
 from server.db.Mapper import Mapper
 import mysql.connector.errors
 from werkzeug.exceptions import InternalServerError
-from datetime import datetime, timedelta
+from datetime import timedelta, datetime
 
 
 class RequestMapper(Mapper):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, cnx=None):
+        super().__init__(cnx)
 
     def create_request(self, request):
         """
@@ -132,6 +132,12 @@ class RequestMapper(Mapper):
 
             # Speichern der SQL Antwort
             gestellte_requests = cursor.fetchall()
+            time = datetime.now() - timedelta(weeks=2)
+            for date in gestellte_requests:
+                if date[2] < time:
+                    print(date[2])
+                else:
+                    print("Weis ich noch nicht")
 
             get_erhaltene_requests = """SELECT uA.id, uA.vonUserid, uA.timestamp,  u.vorname, u.name, 
                                         u.bild FROM TeamUP.userAdmitted uA JOIN TeamUP.users u ON uA.vonUserid = u.id 
