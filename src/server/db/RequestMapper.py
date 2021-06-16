@@ -131,13 +131,19 @@ class RequestMapper(Mapper):
             cursor.execute(get_gestellte_requests, (userid,))
 
             # Speichern der SQL Antwort
-            gestellte_requests = cursor.fetchall()
+            prüfe_Zeit = cursor.fetchall()
             time = datetime.now() - timedelta(weeks=2)
-            for date in gestellte_requests:
+            for date in prüfe_Zeit:
                 if date[2] < time:
                     print(date[2])
+                    # Hier werden alle Anfragen die älter als zwei Wochen sind in der DB gelösccht mit DELETE
                 else:
                     print("Weis ich noch nicht")
+                    # Ausführen des SQL-Befehls
+            cursor.execute(get_gestellte_requests, (userid,))
+
+            # Speichern der SQL Antwort
+            gestellte_requests = cursor.fetchall()
 
             get_erhaltene_requests = """SELECT uA.id, uA.vonUserid, uA.timestamp,  u.vorname, u.name, 
                                         u.bild FROM TeamUP.userAdmitted uA JOIN TeamUP.users u ON uA.vonUserid = u.id 

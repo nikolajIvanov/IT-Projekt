@@ -177,7 +177,6 @@ class LerngruppeMapper(Mapper):
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor(prepared=True)
 
-
             # Erstellen des SQL-Befehls für TABLE lerngruppe
             query = """INSERT INTO teamup.lerngruppe (name, beschreibung, bild, lerntyp,admin, frequenz, lernort 
                                                       ) VALUES (%s ,%s ,%s ,%s ,%s, %s ,%s)"""
@@ -203,7 +202,6 @@ class LerngruppeMapper(Mapper):
                 query1 = """INSERT INTO teamup.userinlerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
                 data1 = (mitglied, gruppenId)
                 cursor.execute(query1, data1)
-
 
             query2 = """INSERT INTO teamup.lerngruppeinmodul (lerngruppeId, modulId) VALUES (%s, %s) """
             data2 = (gruppenId, self.get_modulId_by_modul(lerngruppe.get_modul()[0]))
@@ -269,10 +267,10 @@ class LerngruppeMapper(Mapper):
             cursor.execute(query1, (altes_mitglied[0],))
             roomid = cursor.fetchone()
 
-            #Mitglied aus Chatroom löschen
+            # Mitglied aus Chatroom löschen
             query2 = """DELETE FROM teamup.userinroom WHERE teamup.userinroom.userId = %s 
                         AND teamup.userinroom.roomId = %s """
-            cursor.execute(query2, (altes_mitglied[1],roomid[0]))
+            cursor.execute(query2, (altes_mitglied[1], roomid[0]))
 
             # Schließen der Datenbankverbindung
             self._cnx.commit()
@@ -291,7 +289,6 @@ class LerngruppeMapper(Mapper):
         try:
             # Öffnen der Datenbankverbindung
             cursor = self._cnx.cursor(prepared=True)
-
 
             # Erstellen des SQL-Befehls um lerngruppendaten zu holen
             query = """UPDATE teamup.lerngruppe SET bild=%s, name=%s, beschreibung=%s, admin=%s,
@@ -351,8 +348,8 @@ class LerngruppeMapper(Mapper):
             cursor.execute(query_roomId, (gruppen_id,))
             roomid = cursor.fetchone()
 
-            query_userchatdelete= """DELETE FROM teamup.userinroom WHERE teamup.userinroom.roomId= %s"""
-            cursor.execute(query_userchatdelete, (roomid))
+            query_userchatdelete = """DELETE FROM teamup.userinroom WHERE teamup.userinroom.roomId= %s"""
+            cursor.execute(query_userchatdelete, roomid)
 
             query_deletroom = """DELETE FROM teamup.room WHERE teamup.room.id= %s"""
             cursor.execute(query_deletroom, (roomid))
