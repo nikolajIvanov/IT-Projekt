@@ -8,8 +8,9 @@ class Chat extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            chatSwitcher: true
-
+            chatSwitcher: true,
+            roomId: null,
+            partnerId: null,
         }
     }
 
@@ -21,7 +22,16 @@ class Chat extends Component {
         })
     }
 
+    setRoomId = (roomId) =>{
+        this.setState({
+            roomId: roomId
+        })
+    }
+
     render() {
+
+        // onClick={() => function(parameter)} : () => brauchst du
+        // damit die Funktion nicht beim rendern aufgerufen wird
 
         const {chatSwitcher} = this.state
         return (
@@ -29,7 +39,7 @@ class Chat extends Component {
             <div style={theme.card}>
                 {chatSwitcher ?
                      <>
-                         <Chatübersicht switch={this.switchChat}/>
+                         <Chatübersicht roomId={this.setRoomId} switch={this.switchChat}/>
                      </>
                     :
                     <>
