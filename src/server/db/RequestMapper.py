@@ -102,9 +102,9 @@ class RequestMapper(Mapper):
                 for anfrage in erhaltene_requests:
                     message_dict["requestId"] = anfrage[0]
                     message_dict["vonUserId"] = anfrage[1]
-                    message_dict["timestamp"] = anfrage[2].strftime("%Y-%m-%d %H:%M:%S")
-                    message_dict["name"] = anfrage[3]
-                    message_dict["bild"] = anfrage[4]
+                    message_dict["timestamp"] = anfrage[3].strftime("%Y-%m-%d %H:%M:%S")
+                    message_dict["name"] = anfrage[4]
+                    message_dict["bild"] = anfrage[5]
                     erhalten.append(message_dict.copy())
 
             antwort = {"erhalten": erhalten}
