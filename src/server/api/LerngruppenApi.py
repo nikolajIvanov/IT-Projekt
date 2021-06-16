@@ -7,8 +7,7 @@ from server.bo.Lerngruppe import Lerngruppe
 class LerngruppenApi(Resource):
     @api.marshal_list_with(lerngruppe)
     def get(self):
-        adm = Administration()
-        return adm.get_all_lerngruppen()
+        return Administration.get_all_lerngruppen()
 
     @api.expect(lerngruppe)
     def post(self):
