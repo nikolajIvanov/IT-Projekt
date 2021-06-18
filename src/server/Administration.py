@@ -21,25 +21,25 @@ class Administration(object):
     Nutzer-spezifische Methoden
     """
 
-    def init(self, authId):
+    def init(self, auth_id):
         """
         InitMethode. Wird nach der Anmeldung des Users aufgerufen, um zu überprüfen ob der User einen eintrag in der
         DB hat.
-        :param authId: GoogleID des aktuellen Users
+        :param auth_id: GoogleID des aktuellen Users
         :return: Statuscode
         """
         with InitMapper() as mapper:
-            return mapper.initialize(authId)
+            return mapper.initialize(auth_id)
 
     @staticmethod
-    def create_user_by_authId(authId):
+    def create_user_by_auth_id(auth_id):
         """
         Erstellt einen neuen User über die GoogleID. Wird am Ende der Registrierung aufgerufen.
-        :param authId: GoogleID des neuen Users
+        :param auth_id: GoogleID des neuen Users
         :return: Alle Objekte des Nutzers
         """
         with UserMapper() as mapper:
-            return mapper.insert_by_authId(authId)
+            return mapper.insert_by_auth_id(auth_id)
 
     @staticmethod
     def insert_many_user(users):
@@ -54,24 +54,24 @@ class Administration(object):
             # TODO Ardit kann man hier den Statuscode übergeben
 
     @staticmethod
-    def update_user_by_authId(nutzer):
+    def update_user_by_auth_id(nutzer):
         """
         Updatet den aktuellen User
         :param nutzer: GoogleID des aktuellen Users
         :return: Alle Objekte des Nutzers (aktualisiert)
         """
         with UserMapper() as mapper:
-            return mapper.update_by_authId(nutzer)
+            return mapper.update_by_auth_id(nutzer)
 
     @staticmethod
-    def delete_user_by_authId(authId):
+    def delete_user_by_auth_id(auth_id):
         """
         Löscht den aktuellen User aus der Datenbank
-        :param authId: GoogleID des Users
+        :param auth_id: GoogleID des Users
         :return:
         """
         with UserMapper() as mapper:
-            return mapper.delete_by_authId(authId)
+            return mapper.delete_by_auth_id(auth_id)
 
     @staticmethod
     def get_all_users():
@@ -83,14 +83,14 @@ class Administration(object):
             return mapper.find_all()
 
     @staticmethod
-    def get_user_by_authId(authId):
+    def get_user_by_auth_id(auth_id):
         """
         Holt einen bestimmten User über die GoogleID
-        :param authId: GoogleID des angefragten Users
+        :param auth_id: GoogleID des angefragten Users
         :return: User Objekt mit allen Attributen
         """
         with UserMapper() as mapper:
-            return mapper.find_by_authId(authId)
+            return mapper.find_by_authId(auth_id)
 
     # TODO KEINE VERWENDUNG NIKO Braucht man des beim chat wenn man übenr chat uafs profiel möchte
     def get_user_by_id(self, user_id):
@@ -101,9 +101,11 @@ class Administration(object):
         """
         with UserMapper() as mapper:
             return mapper.find_by_id(user_id)
+
     """
     Lerngruppen-spezifische Methoden
     """
+
     @staticmethod
     def create_lerngruppe(lerngruppe):
         """
@@ -124,7 +126,7 @@ class Administration(object):
             return mapper.find_all()
 
     @staticmethod
-    def get_Lerngruppe_by_id(gruppen_id):
+    def get_lerngruppe_by_id(gruppen_id):
         """
         Findet eine Lerngruppe über die ID
         :param gruppen_id: Die ID der gesuchten Gruppe
@@ -153,7 +155,6 @@ class Administration(object):
         with LerngruppeMapper() as mapper:
             return mapper.delete_user_from_lerngruppe(altes_mitglied)
 
-    # Todo MUSS BEI DER FUNK OBEN NE AUTH ID MIT EIG NICHT?
     def update_lerngruppe(self, lerngruppe):
         """
         Updatet eine Lerngruppe
@@ -173,9 +174,11 @@ class Administration(object):
         """
         with LerngruppeMapper() as mapper:
             return mapper.insert_user(new_mitglied)
+
     """
     Modul und Studiengang-spezifische Methoden
     """
+
     @staticmethod
     def get_all_studiengang():
         """
@@ -193,7 +196,7 @@ class Administration(object):
         :return: Gefilterte Module nach Studiengang
         """
         with ModulMapper() as mapper:
-            return mapper.get_studiengangId_by_studiengang(studiengang)
+            return mapper.get_studiengang_id_by_studiengang(studiengang)
 
     @staticmethod
     def get_lerntyp():
@@ -203,59 +206,63 @@ class Administration(object):
         """
         with LerntypMapper() as mapper:
             return mapper.find_all()
+
     """
     Matching Methoden
     """
+
     @staticmethod
-    def user_match_me(authId):
+    def user_match_me(auth_id):
         with UserMapper() as mapper:
-            mainUser, finderUser = mapper.matching_method(authId)
+            main_user, finder_user = mapper.matching_method(auth_id)
 
         match = MatchingBO()
-        return match.user_matching(mainUser, finderUser)
+        return match.user_matching(main_user, finder_user)
 
     @staticmethod
-    def lerngruppe_match_me(authId):
+    def lerngruppe_match_me(auth_id):
         """
         Es werden alle User Kandidaten für das Matching aus der DB geholt und in der Klasse MatchingBO erfolgt das
         Scoring
-        :param authId: GoogleID des aktuellen Users
+        :param auth_id: GoogleID des aktuellen Users
         :return: Eine sortierte Liste mit den UserIDs die für das Matching am besten in Frage kommen
         """
         with LerngruppeMapper() as mapper:
-            mainUser, finderGruppen = mapper.matching_method(authId)
+            main_user, finder_gruppen = mapper.matching_method(auth_id)
 
         match = MatchingBO()
-        return match.lerngruppen_matching(mainUser, finderGruppen)
+        return match.lerngruppen_matching(main_user, finder_gruppen)
 
     @staticmethod
-    def find_many_users_by_id(usersID):
+    def find_many_users_by_id(users_id):
         """
         Findet einen bestimmten User über die id.
-        :param usersID: Ist die UserID
+        :param users_id: Ist die UserID
         :return: Befüllten User mit allen relevanten Daten
         """
-        usersBO = []
+        users_bo = []
         with UserMapper() as mapper:
-            for user_id in usersID:
-                usersBO.append(mapper.find_by_id(int(user_id)))
-        return usersBO
+            for user_id in users_id:
+                users_bo.append(mapper.find_by_id(int(user_id)))
+        return users_bo
 
     @staticmethod
-    def find_many_lerngruppen_by_id(lerngruppenID):
+    def find_many_lerngruppen_by_id(lerngruppen_id):
         """
         Findet mehrere Lerngruppen über die ID.
-        :param lerngruppenID: Ist die UserID
+        :param lerngruppen_id: Ist die UserID
         :return: Befüllte Lerngruppen mit allen relevanten Daten
         """
-        lerngruppenBO = []
+        lerngruppen_bo = []
         with LerngruppeMapper() as mapper:
-            for lerngruppe_id in lerngruppenID:
-                lerngruppenBO.append(mapper.find_by_id(int(lerngruppe_id)))
-        return lerngruppenBO
+            for lerngruppe_id in lerngruppen_id:
+                lerngruppen_bo.append(mapper.find_by_id(int(lerngruppe_id)))
+        return lerngruppen_bo
+
     """
     Chat Methoden
     """
+
     @staticmethod
     def get_chat_by_room(room):
         """
@@ -290,24 +297,24 @@ class Administration(object):
             mapper.add_user_to_room(room, user)
 
     @staticmethod
-    def get_rooms_of_user(authId):
+    def get_rooms_of_user(auth_id):
         """
         Wird aufgerufen, wenn der User alle seine Chatrooms angezeigt bekommen will
-        :param authId: GoogleID des aktuellen Users
+        :param auth_id: GoogleID des aktuellen Users
         :return: Alle Chatrooms in die ein User sich befindet
         """
         with ChatMapper() as mapper:
-            return mapper.get_room_of_user(authId)
+            return mapper.get_room_of_user(auth_id)
 
     @staticmethod
-    def delete_room_by_id(roomId):
+    def delete_room_by_id(room_id):
         """
         Löscht einen Chatroom. Wird aufgerufen, wenn eine Lerngruppe oder ein Single Chat gelöscht wird.
-        :param roomId: RoomID welche gelöscht werden soll
+        :param room_id: RoomID welche gelöscht werden soll
         :return: Statuscode 200 erfolgreich in der DB gelöscht.
         """
         with ChatMapper() as mapper:
-            mapper.delete_room_by_id(roomId)
+            mapper.delete_room_by_id(room_id)
 
     @staticmethod
     def create_room(room):
@@ -373,7 +380,6 @@ class Administration(object):
     # Nicht genutzt Methoden
     ###################################################################################################################
 
-    # TODO: Wird benötigt?
     def get_lerngruppennamen(self, lerngruppe):
         """
         :param lerngruppe:
@@ -382,7 +388,6 @@ class Administration(object):
         with LerngruppeMapper() as mapper:
             return mapper.check_name(lerngruppe)
 
-    # TODO: Wird benötigt?
     def update_lerngruppe_by_name(self, lerngruppe):
         """
         :param lerngruppe:
@@ -391,7 +396,6 @@ class Administration(object):
         with LerngruppeMapper() as mapper:
             return mapper.update_info_from_lerngruppe(lerngruppe)
 
-    # TODO: Wird benötigt?
     def update_user_by_id(self, nutzer):
         """
         :param nutzer: Ist die Id
@@ -400,7 +404,6 @@ class Administration(object):
         with UserMapper() as mapper:
             return mapper.update_by_id(nutzer)
 
-    # TODO: Wird benötigt?
     def delete_user_by_id(self, nutzer):
         """
         :param nutzer: Ist der zu löschende Nutzer
@@ -409,13 +412,16 @@ class Administration(object):
         with UserMapper() as mapper:
             return mapper.delete_by_authId(nutzer)
 
-    # TODO: Wird benötigt?
     def get_user_by_name(self, value):
+        """
+        Findet einen Nutzer anhand seines Namens
+        :param value: Der Name des Nutzers
+        :return: Das Nutzer Objekt
+        """
         with UserMapper() as mapper:
             return mapper.find_by_name(value)
 
-    # TODO: Wird benötigt?
-    def get_Lerngruppe_by_name(self, name):
+    def get_lerngruppe_by_name(self, name):
         """
         Eine bestimmte Lerngruppe durch den Parameter namen anzeigen lassen
         :param name:
@@ -424,7 +430,6 @@ class Administration(object):
         with LerngruppeMapper() as mapper:
             return mapper.find_by_name(name)
 
-    # TODO: Wird benötigt?
     def delete_lerngruppe_by_name(self, name):
         """
         :param name: Ist der lerngruppen

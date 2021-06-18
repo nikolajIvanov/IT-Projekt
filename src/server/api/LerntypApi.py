@@ -7,4 +7,8 @@ class LerntypApi(Resource):
 
     @api.marshal_with(lerntyp)
     def get(self):
+        """
+        Läd alle Lerntypen welche in der Datenbank vorhanden sind
+        :return: Alle angelegten Lerntypen
+        """
         return Administration.get_lerntyp()

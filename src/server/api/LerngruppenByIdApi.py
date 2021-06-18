@@ -12,5 +12,5 @@ class LerngruppenByIdApi(Resource):
         """
         parser = reqparse.RequestParser()
         parser.add_argument('group_ids', action='split')
-        lerngruppenID = parser.parse_args()["group_ids"]
-        return Administration.find_many_lerngruppen_by_id(lerngruppenID)
+        lerngruppen_id = parser.parse_args()["group_ids"]
+        return Administration.find_many_lerngruppen_by_id(lerngruppen_id)
