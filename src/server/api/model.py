@@ -82,6 +82,7 @@ room = api.model('Room',  {
 room_mitglieder = api.model('Room',  {
     'roomId': fields.Integer(attribute='roomId', description='Room Id'),
     'teilnehmer': fields.List(fields.Integer, description='UserId der Mitglieder'),
+    'myId': fields.Integer(attribute='myId', decription='Id des aktuellen Nutzers'),
     'name': fields.String(attribute='name', description='Name der Gruppe oder des Lernpartners')
 })
 

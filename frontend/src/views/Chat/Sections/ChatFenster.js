@@ -11,8 +11,7 @@ class ChatFenster extends React.Component{
     constructor() {
         super();
         this.state = {
-            myId: 1,
-            partnerId: 2,
+            partnerId: null,
             sendData: "",
             //Nur zur Demo
             sendData2: "",
@@ -29,10 +28,18 @@ class ChatFenster extends React.Component{
     }
 
     async componentDidMount(){
-        //Chat später über Props beziehen von Chat
-        await TeamUpApi.getAPI().getChatContent(1).then(
+        //TODO kann gelöscht werden sobald ein 1 zu 1 chat steht (setzt die partnerId)
+        await this.props.teilnehmer.forEach(teilnehmer => {
+            if(teilnehmer !== this.props.myId){
+                this.setState({
+                    partnerId: teilnehmer
+                })
+            }
+        })
+
+        //Sucht den Inhalt zu einer RaumId, welche über Props übergeben werden
+        await TeamUpApi.getAPI().getChatContent(this.props.roomId).then(
             content => content.forEach((message) => {
-                    console.log(message)
                     this.handlePartner(message)
                 }
             )
@@ -41,16 +48,13 @@ class ChatFenster extends React.Component{
         this.socket = io.connect(sensorEndpoint, {
             reconnection: true,
         });
-        console.log("Chat ist offen")
         this.socket.on("message", message => {
             this.handlePartner(message)
-            console.log("message", message)
         })
     }
 
     handlePartner = (message) => {
-        //hier soll die eigene Id eingesetzt werden
-        if(message.userId === 1){
+        if(message.userId === this.props.myId){
             this.setState({
                 chat: [...this.state.chat, (
                     <Grid item className="leftChat" sx={6}>
@@ -59,7 +63,7 @@ class ChatFenster extends React.Component{
                 )]
             })
         }
-        if(message.userId === 2){
+        if(message.userId === this.state.partnerId){
             this.setState({
                 chat: [...this.state.chat, (
                     <Grid item className="rightChat" sx={6}>
@@ -85,9 +89,9 @@ class ChatFenster extends React.Component{
 
     handleSend1 = () => {
         this.socket.emit("message", {
-            roomId: 1,
+            roomId: this.props.roomId,
             message: this.state.sendData,
-            userId: this.state.myId})
+            userId: this.props.myId})
         console.log("Emit Clicked")
         this.setState({sendData: ""})
     }
@@ -95,7 +99,7 @@ class ChatFenster extends React.Component{
     //Nur zu Demo-Zwecken
     handleSend2 = () => {
         this.socket.emit("message", {
-            roomId: 1,
+            roomId: this.props.roomId,
             message: this.state.sendData2,
             userId: this.state.partnerId})
         console.log("Emit Clicked")

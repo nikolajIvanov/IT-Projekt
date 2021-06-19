@@ -10,7 +10,8 @@ class Chat extends Component {
         this.state = {
             chatSwitcher: true,
             roomId: null,
-            partnerId: null,
+            teilnehmer: null,
+            myId: null,
         }
     }
 
@@ -28,22 +29,37 @@ class Chat extends Component {
         })
     }
 
+    setTeilnehmer = (teilnehmer) =>{
+        this.setState({
+            teilnehmer: teilnehmer
+        })
+    }
+
+    setId = (myId) =>{
+        this.setState({
+            myId: myId
+        })
+    }
+
     render() {
+        const {chatSwitcher, roomId, teilnehmer, myId} = this.state
 
-        // onClick={() => function(parameter)} : () => brauchst du
-        // damit die Funktion nicht beim rendern aufgerufen wird
-
-        const {chatSwitcher} = this.state
         return (
 
             <div style={theme.card}>
                 {chatSwitcher ?
                      <>
-                         <Chatübersicht roomId={this.setRoomId} switch={this.switchChat}/>
+                         <Chatübersicht roomId={this.setRoomId}
+                                        myId={this.setId}
+                                        teilnehmer={this.setTeilnehmer}
+                                        switch={this.switchChat}/>
                      </>
                     :
                     <>
-                        <ChatFenster />
+                        <ChatFenster roomId={roomId}
+                                     myId={myId}
+                                     teilnehmer={teilnehmer}
+                        />
                     </>
                 }
             </div>

@@ -5,11 +5,11 @@ import Chatanfragen from "./Subsections/Chatanfragen";
 import firebase from "../../../api/Firebase";
 import Chats from "./Subsections/Chats";
 
+
+// Zeigt alle Chatanfragen und bestehende Chats eines Nutzers
 function Chatübersicht(props) {
     const authId = firebase.auth().currentUser.uid
-
     useEffect(async () => {
-
     }, [])
 
     return (
@@ -17,9 +17,16 @@ function Chatübersicht(props) {
             <Header inhalt={"Chat"}/>
             <div>
                 <List className="chatWindow">
-                    <Chats switch={props.switch}/>
+                    <Chats
+                        roomId={props.roomId}
+                        myId={props.myId}
+                        teilnehmer={props.teilnehmer}
+                        switch={props.switch}
+                        authId={authId}
+                    />
                     <Divider/>
-                    <Chatanfragen authId={authId}/>
+                    <Chatanfragen
+                        authId={authId}/>
                 </List>
             </div>
         </div>
