@@ -18,9 +18,9 @@ class LerntypMapper(Mapper):
 
         tuples = cursor.fetchall()
 
-        for (id, bild, typ) in tuples:
+        for (lerntyp_id, bild, typ) in tuples:
             obj = LerntypBO()
-            obj.set_id(id)
+            obj.set_id(lerntyp_id)
             obj.set_bild(bild)
             obj.set_lerntyp(typ)
             result.append(obj)

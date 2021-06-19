@@ -8,6 +8,10 @@ class VieleUserApi(Resource):
 
     @api.expect(user)
     def post(self):
+        """
+        Legt mehrere Nutzer gleichzeitig an
+        :return: Alle angelegten Nutzer mit deren Attributen
+        """
         payload = api.payload
         users = []
         if payload:

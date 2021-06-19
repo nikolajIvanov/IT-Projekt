@@ -6,24 +6,24 @@ from server.bo.UserBO import UserBO
 
 class UserApi(Resource):
     @api.marshal_with(user)
-    def get(self, authId):
+    def get(self, authid):
         """
         Übergibt den aktuellen User ans Frontend
-        :param authId:
+        :param authid:
         :return: User Objekt mit allen Daten
         """
-        return Administration.get_user_by_authId(authId)
+        return Administration.get_user_by_auth_id(authid)
 
-    def delete(self, authId):
+    def delete(self, auth_id):
         """
         Löscht den aktuellen User über die GoogleID
-        :param authId: GoogleID des Users
+        :param auth_id: GoogleID des Users
         :return: Statuscode 200: User wurde erfolgreich gelöscht
         """
-        return Administration.delete_user_by_authId(authId)
+        return Administration.delete_user_by_auth_id(auth_id)
 
     @api.expect(user)
-    def put(self, authId):
+    def put(self):
         payload = api.payload
         proposal = UserBO.create_userBO(id=payload["id"], authId=payload["authId"], profilBild=payload["profilBild"],
                                         name=payload["name"], geburtsdatum=payload["geburtsdatum"],
@@ -36,6 +36,6 @@ class UserApi(Resource):
             proposal.set_module_append(modul)
 
         if proposal is not None:
-            return Administration.update_user_by_authId(proposal)
+            return Administration.update_user_by_auth_id(proposal)
         else:
             return 'Der User konnte nicht aktualisiert werden, da keine Daten mitgeschickt wurden', 500

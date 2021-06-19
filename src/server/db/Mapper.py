@@ -1,6 +1,6 @@
 import mysql.connector as connector
 from contextlib import AbstractContextManager
-from abc import ABC, abstractmethod
+from abc import ABC
 from werkzeug.exceptions import InternalServerError
 import mysql.connector.errors
 from server.bo.UserBO import UserBO
@@ -36,7 +36,7 @@ class Mapper(AbstractContextManager, ABC):
     def __exit__(self, exc_type, exc_val, exc_tb):
         self._cnx.close()
 
-    def get_modulId_by_modul(self, modul):
+    def get_modul_id_by_modul(self, modul):
 
         """
         Sucht nach der Modul ID über die Modul bezeichnung. Wird verwendet, um eine Verbindung zwischen dem Objekt
@@ -65,7 +65,7 @@ class Mapper(AbstractContextManager, ABC):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def find_modulID_for_matching(self, user_authid):
+    def find_modul_id_for_matching(self, user_authid):
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor(buffered=True)
 
@@ -78,27 +78,27 @@ class Mapper(AbstractContextManager, ABC):
 
         # Holt die Informationen des MainUsers über die authid
         cursor.execute(query_user, (user_authid,))
-        tuple_mainUser = cursor.fetchone()
+        tuple_main_user = cursor.fetchone()
 
-        if not tuple_mainUser:
+        if not tuple_main_user:
             raise InternalServerError('Es gibt keinen angelegten user')
 
         # Holt mir alle ModuleIDs von dem MainUser
-        cursor.execute(query_module, (tuple_mainUser[0],))
-        tuple_mainModul = cursor.fetchall()
+        cursor.execute(query_module, (tuple_main_user[0],))
+        tuple_main_modul = cursor.fetchall()
 
         # Erstellt mir ein UserBO des aktuellen Users
-        mainUserBO = UserBO.create_matching_userBO(id=tuple_mainUser[0], lerntyp=tuple_mainUser[1],
-                                                   semester=tuple_mainUser[2], studiengang=tuple_mainUser[3],
-                                                   frequenz=tuple_mainUser[4], lernort=tuple_mainUser[5])
+        main_user_bo = UserBO.create_matching_userBO(id=tuple_main_user[0], lerntyp=tuple_main_user[1],
+                                                     semester=tuple_main_user[2], studiengang=tuple_main_user[3],
+                                                     frequenz=tuple_main_user[4], lernort=tuple_main_user[5])
 
         # Speichert mir alle Module des Users in das BO
-        for i in tuple_mainModul:  # Löst die Liste von fetchall auf
+        for i in tuple_main_modul:  # Löst die Liste von fetchall auf
             for x in i:  # Löse den Tuple von der Liste auf
-                mainUserBO.set_module_append(x)
+                main_user_bo.set_module_append(x)
 
         cursor.close()
-        return mainUserBO
+        return main_user_bo
 
     def find_userid_by_authid(self, authid):
         """
@@ -123,6 +123,11 @@ class Mapper(AbstractContextManager, ABC):
             raise InternalServerError(err.msg)
 
     def find_username_by_id(self, userid):
+        """
+        Sucht nach dem Namen eines Nutzers anhand seiner Id
+        :param userid: Nutzer Id für welche der Name gefunden werden soll.
+        :return: Name des Nutzers
+        """
         try:
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)

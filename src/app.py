@@ -1,4 +1,4 @@
-# Import aller Nötigen Flask Packages
+# Import aller nötigen Flask Packages
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 # Api Endpunkte

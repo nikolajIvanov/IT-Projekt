@@ -85,7 +85,7 @@ class UserBO(ProfilBO):
         """
         obj = UserBO()
         obj.set_id(kwargs["id"])
-        obj.set_profilBild(kwargs["profilBild"])
+        obj.set_profil_bild(kwargs["profilBild"])
         obj.set_name(kwargs["name"])
         obj.set_geburtsdatum(kwargs["geburtsdatum"])
         obj.set_email(kwargs["email"])

@@ -6,6 +6,11 @@ from server.Administration import Administration
 class NutzerByNameApi(Resource):
     @api.marshal_with(user)
     def get(self, name):
+        """
+        Gibt die Daten eines Nutzers anhand seines Namens wieder
+        :param name: Name des Nutzers
+        :return: Nutzer Daten
+        """
         adm = Administration()
         nutzer = adm.get_user_by_name(name)
         return nutzer
