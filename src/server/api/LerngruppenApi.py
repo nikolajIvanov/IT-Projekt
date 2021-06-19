@@ -7,15 +7,23 @@ from server.bo.Lerngruppe import Lerngruppe
 class LerngruppenApi(Resource):
     @api.marshal_list_with(lerngruppe)
     def get(self):
+        """
+        Findet alle angelegten Lerngruppen
+        :return: alle in der DB vorhandenen Lerngruppen
+        """
         return Administration.get_all_lerngruppen()
 
     @api.expect(lerngruppe)
     def post(self):
-        proposal = Lerngruppe.create_lerngruppeBO(id=api.payload["id"], lerntyp=api.payload["lerntyp"],
-                                                  name=api.payload["name"], beschreibung=api.payload["beschreibung"],
-                                                  profilBild=api.payload["profilBild"], admin=api.payload["admin"],
-                                                  frequenz=api.payload["frequenz"], lernort=api.payload["lernort"],
-                                                  mitglieder=api.payload["mitglieder"], modul=api.payload["modul"])
+        """
+        Erzeugt eine neue Lerngruppe
+        :return: Alle Daten der angelegten Lerngruppe
+        """
+        proposal = Lerngruppe.create_lerngruppe_bo(id=api.payload["id"], lerntyp=api.payload["lerntyp"],
+                                                   name=api.payload["name"], beschreibung=api.payload["beschreibung"],
+                                                   profilBild=api.payload["profilBild"], admin=api.payload["admin"],
+                                                   frequenz=api.payload["frequenz"], lernort=api.payload["lernort"],
+                                                   mitglieder=api.payload["mitglieder"], modul=api.payload["modul"])
         if proposal is not None:
             return Administration.create_lerngruppe(proposal)
         else:

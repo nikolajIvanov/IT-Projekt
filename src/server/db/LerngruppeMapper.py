@@ -11,7 +11,6 @@ class LerngruppeMapper(Mapper):
     def __init__(self):
         super().__init__()
 
-    # TODO Erledigt
     def matching_method(self, user_authid):
         """
         Sucht alle passenden Kandidaten, die für das Matching in Frage kommen. Dafür sucht man den aktuellen User über
@@ -31,7 +30,7 @@ class LerngruppeMapper(Mapper):
         # Datentyp SET wird genutzt, um sicher zu gehen, dass die User nur einmal vorkommen
         unsorted_gruppen = set()
 
-        mainUserBO = self.find_modulID_for_matching(user_authid)
+        main_user_bo = self.find_modul_id_for_matching(user_authid)
 
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor(buffered=True)
@@ -39,7 +38,7 @@ class LerngruppeMapper(Mapper):
         query3 = """SELECT lerngruppeId FROM TeamUP.lerngruppeInModul WHERE modulId=%s"""
 
         # Holt alle Lerngruppen, die in den selben Modulen sind wie der aktuelle User
-        for modul_id in mainUserBO.get_modul():
+        for modul_id in main_user_bo.get_modul():
             cursor.execute(query3, (modul_id,))
             match_user = cursor.fetchall()
             lerngruppe_in_modul.append(match_user)
@@ -54,14 +53,13 @@ class LerngruppeMapper(Mapper):
         for gruppe in unsorted_gruppen:
             cursor.execute(query_matching_gruppe, (gruppe,))
             tuple_gruppe = cursor.fetchone()
-            gruppe = Lerngruppe.create_matching_lerngruppenBO(id=tuple_gruppe[0], lerntyp=tuple_gruppe[1],
-                                                              frequenz=tuple_gruppe[2], lernort=tuple_gruppe[3])
+            gruppe = Lerngruppe.create_matching_lerngruppen_bo(id=tuple_gruppe[0], lerntyp=tuple_gruppe[1],
+                                                               frequenz=tuple_gruppe[2], lernort=tuple_gruppe[3])
 
             matching_gruppen.append(gruppe)
 
-        return mainUserBO, matching_gruppen
+        return main_user_bo, matching_gruppen
 
-    # TODO Erledigt
     def find_all(self):
 
         try:
@@ -78,12 +76,12 @@ class LerngruppeMapper(Mapper):
                 raise InternalServerError('Keine Lerngruppen vorhanden')
             # Erstellt mit den erhaltenen daten alle Lerngruppen und fügt sie zur Liste 'result' hinzu
             for (gruppen_id, lerntyp, name, beschreibung, profilBild, admin, frequenz, lernort) in tuples:
-                lerngruppe = Lerngruppe.create_lerngruppeBO(id=gruppen_id, lerntyp=lerntyp, name=name,
-                                                            beschreibung=beschreibung, profilBild=profilBild,
-                                                            admin=admin, frequenz=frequenz, lernort=lernort)
+                lerngruppe = Lerngruppe.create_lerngruppe_bo(id=gruppen_id, lerntyp=lerntyp, name=name,
+                                                             beschreibung=beschreibung, profilBild=profilBild,
+                                                             admin=admin, frequenz=frequenz, lernort=lernort)
 
-                self.find_lerngruppe_inModul(lerngruppe)
-                self.find_user_inLerngruppe(lerngruppe)
+                self.find_lerngruppe_in_modul(lerngruppe)
+                self.find_user_in_lerngruppe(lerngruppe)
                 result.append(lerngruppe)
 
             cursor.close()
@@ -92,8 +90,7 @@ class LerngruppeMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    # TODO Erledigt
-    def find_lerngruppe_inModul(self, lerngruppe):
+    def find_lerngruppe_in_modul(self, lerngruppe):
         """
         Findet alle Module, die eine Lerngruppe anbietet.
         :param lerngruppe: Lerngruppen BO, in der die Module eingetragen werden soll
@@ -114,8 +111,7 @@ class LerngruppeMapper(Mapper):
 
         cursor.close()
 
-    # TODO Erledigt
-    def find_user_inLerngruppe(self, lerngruppe):
+    def find_user_in_lerngruppe(self, lerngruppe):
         """
         Findet alle Mitglieder eine Lerngruppe
         :param lerngruppe: Lerngruppen BO, in der die Mitglieder eingetragen werden soll
@@ -136,7 +132,6 @@ class LerngruppeMapper(Mapper):
 
         cursor.close()
 
-    # TODO Erledigt
     def find_by_id(self, gruppen_id):
         try:
             cursor = self._cnx.cursor()
@@ -153,12 +148,12 @@ class LerngruppeMapper(Mapper):
 
             # Auflösen der ersten SQL Antwort (Lerngruppe) und setzen der Parameter
             (lerntyp, name, beschreibung, profilBild, admin, frequenz, lernort) = tupel
-            lerngruppe = Lerngruppe.create_lerngruppeBO(id=gruppen_id, lerntyp=lerntyp, name=name,
-                                                        beschreibung=beschreibung, profilBild=profilBild,
-                                                        admin=admin, frequenz=frequenz, lernort=lernort)
+            lerngruppe = Lerngruppe.create_lerngruppe_bo(id=gruppen_id, lerntyp=lerntyp, name=name,
+                                                         beschreibung=beschreibung, profilBild=profilBild,
+                                                         admin=admin, frequenz=frequenz, lernort=lernort)
 
-            self.find_lerngruppe_inModul(lerngruppe)
-            self.find_user_inLerngruppe(lerngruppe)
+            self.find_lerngruppe_in_modul(lerngruppe)
+            self.find_user_in_lerngruppe(lerngruppe)
             cursor.close()
             return lerngruppe
         except IndexError:
@@ -166,7 +161,6 @@ class LerngruppeMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    # TODO Erledigt
     def insert_lerngruppe(self, lerngruppe):
         """
         Erstellt eine neue Lerngruppe in der Datenbank
@@ -181,7 +175,7 @@ class LerngruppeMapper(Mapper):
             query = """INSERT INTO teamup.lerngruppe (name, beschreibung, bild, lerntyp,admin, frequenz, lernort 
                                                       ) VALUES (%s ,%s ,%s ,%s ,%s, %s ,%s)"""
             # Daten für lerngruppe
-            daten = (lerngruppe.get_name(), lerngruppe.get_beschreibung(), lerngruppe.get_profilBild(),
+            daten = (lerngruppe.get_name(), lerngruppe.get_beschreibung(), lerngruppe.get_profil_bild(),
                      lerngruppe.get_lerntyp(), lerngruppe.get_admin(), lerngruppe.get_frequenz(),
                      lerngruppe.get_lernort())
 
@@ -189,22 +183,22 @@ class LerngruppeMapper(Mapper):
             cursor.execute(query, daten)
             self._cnx.commit()
             # Holt die aktuelle GruppenId, die erstellt worden ist
-            gruppenId = cursor.lastrowid
+            gruppen_id = cursor.lastrowid
 
-            gruppenMitglieder = lerngruppe.get_mitglieder()
+            gruppen_mitglieder = lerngruppe.get_mitglieder()
 
             # Chatmapper aufrufen um einen room zu erstellen und mitglieder einem Room zuzuordnen
             with ChatMapper() as mapper:
-                mapper.create_learngruppen_room(lerngruppe, gruppenId)
+                mapper.create_learngruppen_room(lerngruppe, gruppen_id)
 
             # Schleife setzt Mitglieder in die UserInLerngruppe Tabelle
-            for mitglied in gruppenMitglieder:
+            for mitglied in gruppen_mitglieder:
                 query1 = """INSERT INTO teamup.userinlerngruppe(userId, lerngruppeId) VALUES (%s, %s)"""
-                data1 = (mitglied, gruppenId)
+                data1 = (mitglied, gruppen_id)
                 cursor.execute(query1, data1)
 
             query2 = """INSERT INTO teamup.lerngruppeinmodul (lerngruppeId, modulId) VALUES (%s, %s) """
-            data2 = (gruppenId, self.get_modulId_by_modul(lerngruppe.get_modul()[0]))
+            data2 = (gruppen_id, self.get_modul_id_by_modul(lerngruppe.get_modul()[0]))
             cursor.execute(query2, data2)
             self._cnx.commit()
             cursor.close()
@@ -279,7 +273,6 @@ class LerngruppeMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    # TODO: Ardit hier noch komplettes Errorhandling und Statuscode zurück
     def update_lerngruppe(self, lerngruppe):
         """
         Updatet eine komplette Lerngruppe mit allen Werten
@@ -294,7 +287,7 @@ class LerngruppeMapper(Mapper):
             query = """UPDATE teamup.lerngruppe SET bild=%s, name=%s, beschreibung=%s, admin=%s,
                             lerntyp=%s WHERE lerngruppe.id=%s"""
             # Auslesen und speichern der restlichen UserBO Daten
-            daten = (lerngruppe.get_profilBild(), lerngruppe.get_name(), lerngruppe.get_beschreibung(),
+            daten = (lerngruppe.get_profil_bild(), lerngruppe.get_name(), lerngruppe.get_beschreibung(),
                      lerngruppe.get_admin(), lerngruppe.get_lerntyp(), lerngruppe.get_id())
             cursor.execute(query, daten)
 
@@ -314,7 +307,7 @@ class LerngruppeMapper(Mapper):
                 # Erstellen des SQL-Befehls
                 query2 = """INSERT INTO TeamUP.lerngruppeinmodul(lerngruppeId, modulId)  VALUES (%s, %s)"""
                 # Auslesen und speichern der users.id und modul.id
-                data = (lerngruppe.get_id(), self.get_modulId_by_modul(i))
+                data = (lerngruppe.get_id(), self.get_modul_id_by_modul(i))
                 # (Bitte kein Komma nach data) Ausführen des SQL-Befehls
                 cursor.execute(query2, data)
 
@@ -325,7 +318,6 @@ class LerngruppeMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    # TODO Erledigt
     def delete_gruppe(self, gruppen_id):
         """
         Löscht eine komplette Lerngruppe und die dazugehörigen Verbindungen
@@ -344,8 +336,8 @@ class LerngruppeMapper(Mapper):
 
             query_admitted = """DELETE FROM teamup.gruppeadmitted WHERE anGruppenid= %s"""
 
-            query_roomId = """SELECT teamup.room.id FROM teamup.room WHERE teamup.room.groupId= %s"""
-            cursor.execute(query_roomId, (gruppen_id,))
+            query_room_id = """SELECT teamup.room.id FROM teamup.room WHERE teamup.room.groupId= %s"""
+            cursor.execute(query_room_id, (gruppen_id,))
             roomid = cursor.fetchone()
 
             query_userchatdelete = """DELETE FROM teamup.userinroom WHERE teamup.userinroom.roomId= %s"""
@@ -378,7 +370,6 @@ class LerngruppeMapper(Mapper):
     ###################################################################################################################
     # Nicht genutzt Methoden
     ###################################################################################################################
-    # TODO Wird das noch benötigt?
     def check_name(self, lerngruppe):
         """
         :param lerngruppe:
@@ -403,7 +394,6 @@ class LerngruppeMapper(Mapper):
 
         return result
 
-    # TODO Wird das noch benötigt?
     def find_by_name(self, lerngruppe):
         result = []
         cursor = self._cnx.cursor()
@@ -432,7 +422,7 @@ class LerngruppeMapper(Mapper):
         lerngruppe.set_modul(modul)
         lerngruppe.set_name(name)
         lerngruppe.set_beschreibung(beschreibung)
-        lerngruppe.set_profilBild(profilbild)
+        lerngruppe.set_profil_bild(profilbild)
         lerngruppe.set_admin(admin)
         lerngruppe.set_mitglieder(mitglieder)
         result.append(lerngruppe)
@@ -442,8 +432,7 @@ class LerngruppeMapper(Mapper):
 
         return result
 
-    # TODO: Wird benötigt?
-    def find_by_id_test(self, gruppenId):
+    def find_by_id_test(self, gruppen_id):
         try:
             cursor = self._cnx.cursor()
 
@@ -452,7 +441,7 @@ class LerngruppeMapper(Mapper):
             WHERE id = (%s)"""
 
             # Ausführen des ersten SQL-Befehls
-            cursor.execute(query, (gruppenId,))
+            cursor.execute(query, (gruppen_id,))
 
             # Speichern der SQL Antwort
             tupel = cursor.fetchall()
@@ -463,11 +452,11 @@ class LerngruppeMapper(Mapper):
             # Auflösen der ersten SQL Antwort (Lerngruppe) und setzen der Parameter
             (lerntyp, name, beschreibung, bild, admin, frequenz, lernort) = tupel[0]
             lerngruppe = Lerngruppe()
-            lerngruppe.set_id(gruppenId)
+            lerngruppe.set_id(gruppen_id)
             lerngruppe.set_lerntyp(lerntyp)
             lerngruppe.set_name(name)
             lerngruppe.set_beschreibung(beschreibung)
-            lerngruppe.set_profilBild(bild)
+            lerngruppe.set_profil_bild(bild)
             lerngruppe.set_admin(admin)
             lerngruppe.set_frequenz(frequenz)
             lerngruppe.set_lernort(lernort)
@@ -476,7 +465,7 @@ class LerngruppeMapper(Mapper):
             query1 = """SELECT teamup.modul.bezeichnung FROM teamup.modul JOIN teamup.lerngruppeinmodul lim 
                         ON modul.id = lim.modulId WHERE lim.lerngruppeId =%s"""
             # Ausführen des zweiten SQL-Befehls
-            cursor.execute(query1, (gruppenId,))
+            cursor.execute(query1, (gruppen_id,))
             # Speichern der SQL Antwort
             tupel1 = cursor.fetchall()
 
@@ -489,7 +478,7 @@ class LerngruppeMapper(Mapper):
             query2 = """SELECT teamup.userinlerngruppe.userId FROM teamup.userinlerngruppe 
                         WHERE teamup.userinlerngruppe.lerngruppeId =%s"""
             # Ausführen des zweiten SQL-Befehls
-            cursor.execute(query2, (gruppenId,))
+            cursor.execute(query2, (gruppen_id,))
             # Speichern der SQL Antwort
             tupel2 = cursor.fetchall()
 
@@ -502,8 +491,7 @@ class LerngruppeMapper(Mapper):
         except mysql.connector.Error as err:
             return 400, err.msg
 
-    # TODO Wird das noch benötigt?
-    def update_info_from_lerngruppe_ALT(self, lerngruppe):
+    def update_info_from_lerngruppe_alt(self, lerngruppe):
 
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
@@ -520,7 +508,7 @@ class LerngruppeMapper(Mapper):
                         lerntyp=%s WHERE lerngruppe.id=%s"""
 
         # Auslesen und speichern der restlichen UserBO Daten
-        daten = (lerngruppe.get_profilBild(), lerngruppe.get_name(), lerngruppe.get_beschreibung(),
+        daten = (lerngruppe.get_profil_bild(), lerngruppe.get_name(), lerngruppe.get_beschreibung(),
                  lerngruppe.get_admin(), lerngruppe.get_lerntyp())
 
         # Erstellen des SQL-Befehls um das Lerngruppenmodul anzupassen

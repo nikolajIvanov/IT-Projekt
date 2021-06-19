@@ -3,6 +3,6 @@ from server.Administration import Administration
 
 
 class InitApi(Resource):
-    def get(self, authId):
+    def get(self, auth_id):
         adm = Administration()
-        return adm.init(authId)
+        return adm.init(auth_id)

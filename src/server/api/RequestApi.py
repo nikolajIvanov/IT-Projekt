@@ -6,14 +6,14 @@ from server.bo.RequestBO import RequestBO
 
 class RequestApi(Resource):
 
-    #TODO api marshal anbinden
-    def get(self, authId):
+    # TODO api marshal anbinden
+    def get(self, auth_id):
         """
         Übergibt alle Anfragen des aktuellen Users.
-        :param authId: GoogleID des aktuellen Users
+        :param auth_id: GoogleID des aktuellen Users
         :return: Dict mit allen Anfragen
         """
-        return Administration.get_request(authId)
+        return Administration.get_request(auth_id)
 
     @api.expect(request)
     def post(self):

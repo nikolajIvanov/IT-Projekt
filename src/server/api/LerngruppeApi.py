@@ -7,13 +7,27 @@ from server.bo.Lerngruppe import Lerngruppe
 class LerngruppeApi(Resource):
     @api.marshal_with(lerngruppe)
     def get(self, gruppen_id):
-        return Administration.get_Lerngruppe_by_id(gruppen_id)
+        """
+        Findet eine Lerngruppe anhand deren Id und gibt die Attribute der Lerngruppe aus
+        :param gruppen_id: Id der Lerngruppe für welche die Daten abgerufen werden sollen
+        :return: Alle Attribute der Lerngruppe
+        """
+        return Administration.get_lerngruppe_by_id(gruppen_id)
 
     def delete(self, gruppen_id):
+        """
+        Löscht eine Lerngruppe anhand der Lerngruppen Id
+        :param gruppen_id: Id der Lerngruppe welche gelöscht werden soll
+        :return: 200 - wenn die Gruppe erfolgreich gelöscht wurde
+        """
         return Administration.delete_lerngruppe_by_id(gruppen_id)
 
     @api.expect(lerngruppe, validate=True)
-    def put(self, gruppen_id):
+    def put(self):
+        """
+        Aktualisiert Daten einer Lerngruppe
+        :return: 200 - wenn die Daten erfolgreich aktualisiert wurden
+        """
         adm = Administration()
-        lerngruppenBO = Lerngruppe.from_dict(api.payload)
-        return adm.update_lerngruppe(lerngruppenBO)
+        lerngruppen_bo = Lerngruppe.from_dict(api.payload)
+        return adm.update_lerngruppe(lerngruppen_bo)

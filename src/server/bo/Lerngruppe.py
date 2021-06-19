@@ -43,7 +43,7 @@ class Lerngruppe(ProfilBO):
         obj = Lerngruppe()
         obj.set_id(dictionary["id"])
         obj.set_modul(dictionary["modul"])
-        obj.set_profilBild(dictionary["profilBild"])
+        obj.set_profil_bild(dictionary["profilBild"])
         obj.set_beschreibung(dictionary["beschreibung"])
         obj.set_lerntyp(dictionary["lerntyp"])
         obj.set_name(dictionary["name"])
@@ -54,7 +54,7 @@ class Lerngruppe(ProfilBO):
         return obj
 
     @staticmethod
-    def create_lerngruppeBO(**kwargs):
+    def create_lerngruppe_bo(**kwargs):
         """
         Allgemeine Klassenmethode zur erstellung eines Lerngruppen Objektes.
         :param kwargs: Bekommt alle Werte aus der Lerngruppen Tabelle
@@ -62,7 +62,7 @@ class Lerngruppe(ProfilBO):
         """
         obj = Lerngruppe()
         obj.set_id(kwargs["id"])
-        obj.set_profilBild(kwargs["profilBild"])
+        obj.set_profil_bild(kwargs["profilBild"])
         obj.set_beschreibung(kwargs["beschreibung"])
         obj.set_lerntyp(kwargs["lerntyp"])
         obj.set_name(kwargs["name"])
@@ -76,7 +76,7 @@ class Lerngruppe(ProfilBO):
         return obj
 
     @staticmethod
-    def create_matching_lerngruppenBO(**kwargs):
+    def create_matching_lerngruppen_bo(**kwargs):
         """
         Allgemeine Klassenmethode zur erstellung eines Lerngruppen Objektes.
         :param kwargs: Bekommt alle Werte aus der Lerngruppen Tabelle

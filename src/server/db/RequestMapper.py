@@ -1,7 +1,6 @@
 from server.db.Mapper import Mapper
 import mysql.connector.errors
 from werkzeug.exceptions import InternalServerError
-from datetime import timedelta, datetime
 
 
 class RequestMapper(Mapper):
@@ -49,9 +48,9 @@ class RequestMapper(Mapper):
             cursor = self._cnx.cursor(prepared=True)
 
             # Löscht alle Einträge die älter als 2 Wochen sind
-            anfragen_löschen = """DELETE FROM teamup.gruppeadmitted 
+            anfragen_loeschen = """DELETE FROM teamup.gruppeadmitted 
                                   WHERE teamup.gruppeadmitted.timestamp < NOW() - INTERVAL 14 DAY """
-            cursor.execute(anfragen_löschen)
+            cursor.execute(anfragen_loeschen)
             self._cnx.commit()
 
             lerngruppenid = """SELECT id FROM TeamUP.lerngruppe WHERE admin=%s"""
@@ -108,11 +107,10 @@ class RequestMapper(Mapper):
         try:
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
-            # TODO: Checken ob Anfrage gültig ist (älter als 2 Wochen)
             # Löscht alle Einträge die älter als 2 Wochen sind
-            anfragen_löschen = """DELETE FROM teamup.useradmitted 
+            anfragen_loeschen = """DELETE FROM teamup.useradmitted 
                                 WHERE teamup.useradmitted.timestamp < NOW() - INTERVAL 14 DAY """
-            cursor.execute(anfragen_löschen)
+            cursor.execute(anfragen_loeschen)
             self._cnx.commit()
 
             # Erstellen des SQL-Befehls
@@ -262,12 +260,12 @@ class RequestMapper(Mapper):
     # Nicht genutzt Methoden
     ###################################################################################################################
 
-    def get_username_by_id(self, userId):
+    def get_username_by_id(self, user_id):
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
 
         get_user_name = """SELECT vorname, name FROM TeamUP.users WHERE id=%s"""
-        cursor.execute(get_user_name, (userId,))
+        cursor.execute(get_user_name, (user_id,))
 
         name = cursor.fetchone()
         ganzer_name = name[0] + name[1]

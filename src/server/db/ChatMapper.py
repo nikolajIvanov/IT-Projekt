@@ -33,9 +33,10 @@ class ChatMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def get_messages_by_room(self, roomId):
+    def get_messages_by_room(self, room_id):
         """
-        :param roomId: Ist die Id des ChatRoom
+        Diese Methode läd alle Nachrichten welche an einen Room gesendet wurden
+        :param room_id: Ist die Id des ChatRoom
         :return: Alle Nachrichten des Rooms
         """
         try:
@@ -46,7 +47,7 @@ class ChatMapper(Mapper):
             query = """SELECT vonUserId, message FROM TeamUP.message WHERE roomId=%s"""
 
             # Ausführen des SQL-Befehls
-            cursor.execute(query, (roomId,))
+            cursor.execute(query, (room_id,))
 
             # Speichern der SQL Antwort
             messages = cursor.fetchall()
@@ -66,6 +67,11 @@ class ChatMapper(Mapper):
             raise InternalServerError(err.msg)
 
     def add_user_to_room(self, room, user):
+        """
+        Fügt ein User zu einem Chat Room hinzu
+        :param room: roomId zu welcher der User hinzugefügt werden soll
+        :param user: userId welche zu dem Room hinzugefügt werden soll
+        """
         try:
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
@@ -111,7 +117,7 @@ class ChatMapper(Mapper):
         """
         try:
 
-            userid = self.find_userid_by_authid(room.get_userAuthId())
+            userid = self.find_userid_by_authid(room.get_user_auth_id())
             room.set_mitglieder_append(userid)
 
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
@@ -122,11 +128,11 @@ class ChatMapper(Mapper):
             group = None
             cursor.execute(query1, (group, ))
             self._cnx.commit()
-            roomId = cursor.lastrowid
+            room_id = cursor.lastrowid
             cursor.close()
 
             for user in room.get_mitglieder():
-                self.add_user_to_room(roomId, user)
+                self.add_user_to_room(room_id, user)
 
             return 200
         except mysql.connector.Error as err:
@@ -147,30 +153,31 @@ class ChatMapper(Mapper):
 
             cursor.execute(query1, (groupid, ))
             self._cnx.commit()
-            roomId = cursor.lastrowid
+            room_id = cursor.lastrowid
             cursor.close()
 
             # Erzeugen eines DB Eintrages für jeden selektierten User
             for user in lerngruppe.get_mitglieder():
-                self.add_user_to_room(roomId, user)
+                self.add_user_to_room(room_id, user)
             return 200
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def delete_room_by_id(self, roomId):
+    def delete_room_by_id(self, room_id):
         """
         Löscht einen Chatroom anhand seiner Id
-        :param roomId: Id des Raums welcher gelöscht werden soll
+        :param room_id: Id des Raums welcher gelöscht werden soll
         """
         try:
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
 
             query1 = """DELETE FROM teamup.room WHERE teamup.room.id =%s"""
-            cursor.execute(query1, roomId)
+            cursor.execute(query1, room_id)
 
             self._cnx.commit()
             cursor.close()
+            return 200
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
@@ -208,7 +215,7 @@ class ChatMapper(Mapper):
 
     def get_room_bezeichnung(self, room_id, user_id):
         """
-        Gibt den Namen einer Lerngruppe oder den Namen eins Chatpartners zurück
+        Gibt den Namen einer Lerngruppe oder den Namen eines Chatpartners zurück
         :param room_id: RoomId welche geprüft werden soll
         :param user_id: UserId für welche der Name gefunden werden soll
         :return: Tuple mit dem Nutzer oder Lerngruppen Name
@@ -256,14 +263,14 @@ class ChatMapper(Mapper):
         else:
             return name[0]
 
-    def get_room_of_user(self, authId):
+    def get_room_of_user(self, auth_id):
         """
         Selektiert alle Chat Rooms in denen ein User Mitglied ist.
-        :param authId: die Google AuthId des Nutzers für welchen die Räume gefunden werden sollen
+        :param auth_id: die Google AuthId des Nutzers für welchen die Räume gefunden werden sollen
         :return: Tupple mit den Informationen RoomId, UserId und dem Name des Nutzers oder der Lerngruppe
         """
 
-        userid = self.find_userid_by_authid(authId)
+        userid = self.find_userid_by_authid(auth_id)
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor()
         """

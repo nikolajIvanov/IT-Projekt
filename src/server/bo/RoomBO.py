@@ -21,17 +21,17 @@ class RoomBO(BusinessObject):
     def set_mitglieder_append(self, value):
         self.__mitglieder.append(value)
 
-    def get_userAuthId(self):
+    def get_user_auth_id(self):
         return self.__userAuthId
 
-    def set_userAuthId(self, userAuthId):
-        self.__userAuthId = userAuthId
+    def set_user_auth_id(self, user_auth_id):
+        self.__userAuthId = user_auth_id
 
-    def get_partnerId(self):
+    def get_partner_id(self):
         return self.__partnerId
 
-    def set_partnerId(self, partnerId):
-        self.__partnerId = partnerId
+    def set_partner_id(self, partner_id):
+        self.__partnerId = partner_id
 
     @staticmethod
     def create_room(**kwargs):
@@ -42,7 +42,7 @@ class RoomBO(BusinessObject):
         :return: Befülltes Objekt
         """
         obj = RoomBO()
-        obj.set_userAuthId(kwargs["userAuthId"])
-        obj.set_partnerId(kwargs["partnerId"])
+        obj.set_user_auth_id(kwargs["userAuthId"])
+        obj.set_partner_id(kwargs["partnerId"])
         obj.set_mitglieder_append(kwargs["partnerId"])
         return obj
