@@ -288,7 +288,6 @@ class ChatMapper(Mapper):
         for tuples in rooms:
             for room in tuples:
                 room_dict = {"roomId": room,
-                             "myId": userid,
                              "teilnehmer": self.get_users_of_room(room),
                              "name": self.get_room_bezeichnung(room, userid)
                              }
