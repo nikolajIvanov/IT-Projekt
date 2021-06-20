@@ -56,7 +56,7 @@ def get_history(roomId):
 # Wird aufgerufen, wenn ein neuer User erstellt werden soll oder wenn alle User angezeigt werden sollen
 api.add_resource(UsersApi, '/users')
 # Gibt den aktuellen User mit allen Informationen zurück
-api.add_resource(UserApi, '/users/<string:authId>')
+api.add_resource(UserApi, '/users/<string:auth_id>')
 # Wird im Matching genutzt, um bestimmte Werte für die Cards zu holen
 api.add_resource(UsersByIdApi, '/usersById')
 # Wird verwendet, um über Postman viele User gleichzeitig anzulegen
@@ -76,23 +76,23 @@ api.add_resource(ModulApi, '/modul/<string:studiengang>')
 # Zeigt alle Lerntypen an
 api.add_resource(LerntypApi, '/lerntyp')
 # Herzstück der App. Macht das Matching für die User
-api.add_resource(UserMatchingApi, '/usermatch/<string:authId>')
+api.add_resource(UserMatchingApi, '/usermatch/<string:auth_id>')
 # Herzstück der App. Macht das Matching für die Lerngruppen
-api.add_resource(LerngruppenMatchingApi, '/lerngruppenmatch/<string:authId>')
+api.add_resource(LerngruppenMatchingApi, '/lerngruppenmatch/<string:auth_id>')
 # Zeigt den Chatverlauf eines Raumes an
-api.add_resource(ChatApi, '/chat/<int:roomId>')
+api.add_resource(ChatApi, '/chat/<int:room_id>')
 # Wird aufgerufen wenn eine User Anfrage akzeptiert wurde
 api.add_resource(ChatRoomApi, '/accept_request')
 # Zeigt alle Chatrooms an, die bestätigt worden sind
-api.add_resource(ChatRoomApi, '/chatrooms/<string:authId>')
+api.add_resource(ChatRoomApi, '/chatrooms/<string:auth_id>')
 # Sendet einen Post Befehl der ein Argument type hat um zwischen gruppen und single unterscheiden zu können
 api.add_resource(RequestApi, '/request')
 # Übergibt alle Anfragen des aktuellen Users.
-api.add_resource(RequestApi, '/request/<string:authId>')
+api.add_resource(RequestApi, '/request/<string:auth_id>')
 # Erstellt eine Gruppenanfrage
 api.add_resource(GroupRequestApi, '/group_request')
 # Überprüft ob ein User in unserer Datenbank vorhanden ist
-api.add_resource(InitApi, '/init/<string:authId>')
+api.add_resource(InitApi, '/init/<string:auth_id>')
 # Löscht eine Anfrage von der Datenbank
 api.add_resource(DeleteRequestApi, '/delete_request')
 
