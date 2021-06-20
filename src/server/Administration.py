@@ -32,7 +32,7 @@ class Administration(object):
             return mapper.initialize(authId)
 
     @staticmethod
-    def create_user_by_authId(authId):
+    def create_user_by_authId(auth_id):
         """
         Erstellt einen neuen User über die GoogleID. Wird am Ende der Registrierung aufgerufen.
         :param authId: GoogleID des neuen Users
