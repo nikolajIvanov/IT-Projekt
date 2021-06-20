@@ -21,21 +21,21 @@ class Administration(object):
     Nutzer-spezifische Methoden
     """
 
-    def init(self, auth_id):
+    def init(self, authId):
         """
         InitMethode. Wird nach der Anmeldung des Users aufgerufen, um zu überprüfen ob der User einen eintrag in der
         DB hat.
-        :param auth_id: GoogleID des aktuellen Users
+        :param authId: GoogleID des aktuellen Users
         :return: Statuscode
         """
         with InitMapper() as mapper:
-            return mapper.initialize(auth_id)
+            return mapper.initialize(authId)
 
     @staticmethod
-    def create_user_by_auth_id(auth_id):
+    def create_user_by_authId(authId):
         """
         Erstellt einen neuen User über die GoogleID. Wird am Ende der Registrierung aufgerufen.
-        :param auth_id: GoogleID des neuen Users
+        :param authId: GoogleID des neuen Users
         :return: Alle Objekte des Nutzers
         """
         with UserMapper() as mapper:
@@ -396,6 +396,7 @@ class Administration(object):
         with LerngruppeMapper() as mapper:
             return mapper.update_info_from_lerngruppe(lerngruppe)
 
+    # TODO: Wird benötigt?
     def update_user_by_id(self, nutzer):
         """
         :param nutzer: Ist die Id
