@@ -90,7 +90,7 @@ class Administration(object):
         :return: User Objekt mit allen Attributen
         """
         with UserMapper() as mapper:
-            return mapper.find_by_authId(auth_id)
+            return mapper.find_by_auth_id(auth_id)
 
     # TODO KEINE VERWENDUNG NIKO Braucht man des beim chat wenn man übenr chat uafs profiel möchte
     def get_user_by_id(self, user_id):

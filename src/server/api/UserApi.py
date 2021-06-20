@@ -6,13 +6,13 @@ from server.bo.UserBO import UserBO
 
 class UserApi(Resource):
     @api.marshal_with(user)
-    def get(self, authid):
+    def get(self, auth_id):
         """
         Übergibt den aktuellen User ans Frontend
-        :param authid:
+        :param auth_id:
         :return: User Objekt mit allen Daten
         """
-        return Administration.get_user_by_auth_id(authid)
+        return Administration.get_user_by_auth_id(auth_id)
 
     def delete(self, auth_id):
         """

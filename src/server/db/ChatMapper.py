@@ -106,6 +106,7 @@ class ChatMapper(Mapper):
 
             self._cnx.commit()
             cursor.close()
+            return 200
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
@@ -295,6 +296,7 @@ class ChatMapper(Mapper):
         for tuples in rooms:
             for room in tuples:
                 room_dict = {"roomId": room,
+                             "myId": userid,
                              "teilnehmer": self.get_users_of_room(room),
                              "name": self.get_room_bezeichnung(room, userid)
                              }
