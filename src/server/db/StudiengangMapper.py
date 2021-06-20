@@ -10,7 +10,7 @@ class StudiengangMapper(Mapper):
     def find_all(self):
         """
         Gibt alle Studiengänge aus der Datenbank wieder.
-        :return:
+        :return:alle Studiengänge
         """
         result = []
         cursor = self._cnx.cursor()

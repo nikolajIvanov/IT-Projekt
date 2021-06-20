@@ -59,13 +59,13 @@ class ProfilBO(BusinessObject):
         """
         self.__modul.append(module)
 
-    def get_profilBild(self):
+    def get_profil_bild(self):
         """Gibt das Bild eines Profiles zurück
         :return: Bild eines Profiles
         """
         return self.__profilBild
 
-    def set_profilBild(self, bild):
+    def set_profil_bild(self, bild):
         """Fügt dem ProfilBO ein Bild hinzu.
         :param bild: Module
         """

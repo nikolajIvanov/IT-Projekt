@@ -1,5 +1,4 @@
 from flask_socketio import Namespace, emit, send
-
 from server.Administration import Administration
 from server.api.ChatRoomApi import ChatRoomApi
 
@@ -15,6 +14,10 @@ class Chat(Namespace):
         emit('my_response', data)
 
     def on_message(self, msg):
+        """
+        Verarbeitet ein Chatnachricht. Sendet die Nachricht an alle Empfänger und speichert sie auf der DB
+        :param msg: Nachrichtenobjekt
+        """
         print(msg)
         send(msg, broadcast=True)
         room = msg['roomId']
@@ -24,6 +27,10 @@ class Chat(Namespace):
         Administration.save_message(room, message, sender)
 
     def on_serverload(self, data):
+        """
+        Läd die Nachrichten Historie für einen Chat
+        :param data: Daten des Chats
+        """
         chat_api = ChatRoomApi()
         chatlist = chat_api.get(data["authid"])
         emit('chatlist', chatlist)

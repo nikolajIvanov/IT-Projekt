@@ -31,7 +31,7 @@ class UserMapper(Mapper):
             # Datentyp SET wird genutzt, um sicher zu gehen, dass die User nur einmal vorkommen
             unsorted_users = set()
 
-            mainUserBO = self.find_modulID_for_matching(user_authid)
+            main_user_bo = self.find_modul_id_for_matching(user_authid)
 
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(buffered=True)
@@ -39,7 +39,7 @@ class UserMapper(Mapper):
             query3 = """SELECT userId FROM TeamUP.userInModul WHERE modulId=%s"""
 
             # Holt alle User, die in den selben Modulen sind wie der aktuelle User
-            for modul_id in mainUserBO.get_modul():
+            for modul_id in main_user_bo.get_modul():
                 cursor.execute(query3, (modul_id,))
                 match_user = cursor.fetchall()
                 users_in_modul.append(match_user)
@@ -47,7 +47,7 @@ class UserMapper(Mapper):
             for i in users_in_modul:  # Löst die Liste von fetchall auf
                 for x in i:  # Löse den Tuple von der Liste auf
                     # Stellt sicher, dass der aktuelle User nicht berücksichtigt wird
-                    if x[0] == mainUserBO.get_id():
+                    if x[0] == main_user_bo.get_id():
                         continue
                     else:
                         unsorted_users.add(x[0])
@@ -65,14 +65,14 @@ class UserMapper(Mapper):
 
                 matching_users.append(user)
 
-            return mainUserBO, matching_users
+            return main_user_bo, matching_users
         except IndexError:
             raise InternalServerError()
         # Falls während der funktion ein SQL Fehler eintritt wird diese abgebrochen und der Fehler wird zurückgegeben
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def insert_by_authId(self, user):
+    def insert_by_auth_id(self, user):
         """
         Methode zur Anlegung eines neuen Users in der Datenbank
         :param user: Ist das Nutzerobjekt
@@ -88,7 +88,7 @@ class UserMapper(Mapper):
                     VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s, %s, %s, %s, %s, %s, %s)"""
 
             # Auslesen der UserBO Daten
-            daten = (user.get_authId(), user.get_profilBild(), user.get_name(),
+            daten = (user.get_authId(), user.get_profil_bild(), user.get_name(),
                      datetime.datetime.strptime(user.get_geburtsdatum(), '%Y-%m-%d'), user.get_email(),
                      user.get_beschreibung(), user.get_lerntyp(), user.get_gender(), user.get_semester(),
                      user.get_studiengang(), user.get_vorname(), user.get_frequenz(), user.get_lernort())
@@ -107,7 +107,7 @@ class UserMapper(Mapper):
             # Datenbankeintrag für jedes Modul erzeugen
             for i in module:
                 # Auslesen und speichern der users.id und modul.id
-                data = (self.find_userid_by_authid(user.get_authId()), self.get_modulId_by_modul(i))
+                data = (self.find_userid_by_authid(user.get_authId()), self.get_modul_id_by_modul(i))
                 # (Bitte kein Komma nach data) Ausführen des SQL- Befehls
                 cursor.execute(query1, data)
             # Bestätigung der Datenbankabfrage/ änderung
@@ -160,7 +160,7 @@ class UserMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def find_by_authId(self, user_authid):
+    def find_by_auth_id(self, user_authid):
         """
         Sucht einen bestimmten User in der Tabelle und gibt die Werte nach vorne durch
         :param user_authid: GoogleID eines bestimmten Users
@@ -262,7 +262,7 @@ class UserMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def update_by_authId(self, nutzer):
+    def update_by_auth_id(self, nutzer):
         """
         Updatet einen Vorhandenen User. Die Transitive Tabelle userInModul wird ebenfalls geupdatet.
         :param nutzer: Ist das Nutzerobjekt mit den neuen Werten
@@ -281,7 +281,7 @@ class UserMapper(Mapper):
             authid = nutzer.get_authId()
 
             # Auslesen und speichern der restlichen UserBO Daten
-            daten = (authid, nutzer.get_profilBild(), nutzer.get_name(), nutzer.get_email(), nutzer.get_beschreibung(),
+            daten = (authid, nutzer.get_profil_bild(), nutzer.get_name(), nutzer.get_email(), nutzer.get_beschreibung(),
                      nutzer.get_lerntyp(), nutzer.get_gender(), nutzer.get_semester(), nutzer.get_studiengang(),
                      nutzer.get_vorname(), nutzer.get_frequenz(), nutzer.get_lernort(), authid)
 
@@ -309,7 +309,7 @@ class UserMapper(Mapper):
                 # Erstellen des SQL-Befehls
                 query2 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
                 # Auslesen und speichern der users.id und modul.id
-                data = (nutzer.get_id(), self.get_modulId_by_modul(i))
+                data = (nutzer.get_id(), self.get_modul_id_by_modul(i))
                 # cursor_ins.execute(query2, data)
                 cursor.execute(query2, data)
             # Bestätigung der Datenbankabfrage/ änderung
@@ -319,7 +319,7 @@ class UserMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def delete_by_authId(self, user_authid):
+    def delete_by_auth_id(self, user_authid):
         """
         Löscht einen User aus der Datenbank
         :param user_authid: Die GoogleID des zu löschenden Users
@@ -357,11 +357,12 @@ class UserMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    ###################################################################################################################
-    # Nicht genutzt Methoden
-    ###################################################################################################################
-    # TODO Wird das noch benötigt?
     def find_by_name(self, name):
+        """
+        Findet einen Nutzer anhand seines Namens
+        :param name: Der Name des Nutzers
+        :return: Das Nutzer Objekt
+        """
 
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor()
@@ -380,7 +381,10 @@ class UserMapper(Mapper):
 
         return user
 
-    # TODO: Alte Version von Update. Soll noch drinnen bleiben. Wird beim Refactoring entfernt.
+    ###################################################################################################################
+    # Nicht genutzt Methoden
+    ###################################################################################################################
+
     def update_by_authId2(self, nutzer):
         """
         :param nutzer: Ist das Nutzerobjekt
@@ -397,11 +401,11 @@ class UserMapper(Mapper):
         authid = nutzer.get_authId()
 
         # Auslesen und speichern der restlichen UserBO Daten
-        daten = (authid, nutzer.get_profilBild(), nutzer.get_name(), nutzer.get_email(), nutzer.get_beschreibung(),
+        daten = (authid, nutzer.get_profil_bild(), nutzer.get_name(), nutzer.get_email(), nutzer.get_beschreibung(),
                  nutzer.get_lerntyp(), nutzer.get_gender(), nutzer.get_semester(), nutzer.get_studiengang(),
                  nutzer.get_vorname(), authid)
 
-        # TODO: Ist dieser Aufruf nötig? -> Sollte später kontrolliert werden. Wird aktuell benötigt, um die
+
         # User ID für das weitere Vorgehen aus der DB zu holen, falls sie falsch übergeben wurde (Postman)
         query_id = """SELECT users.id FROM TeamUP.users WHERE authId=%s"""
         # Ausführen des SQL-Befehls
@@ -433,7 +437,7 @@ class UserMapper(Mapper):
             # Erstellen des SQL-Befehls
             query2 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
             # Auslesen und speichern der users.id und modul.id
-            data = (nutzer.get_id(), self.get_modulId_by_modul(i))
+            data = (nutzer.get_id(), self.get_modul_id_by_modul(i))
             # (Bitte kein Komma nach data) Ausführen des SQL-Befehls
             cursor.execute(query2, data)
         # Schließen der Datenbankverbindung
@@ -441,9 +445,8 @@ class UserMapper(Mapper):
         cursor.close()
 
         # Rückgabe der Userdaten (aktualisiert)
-        return self.find_by_authId(authid)
+        return self.find_by_auth_id(authid)
 
-    # TODO: Wird diese Methode benötigt?
     def update_by_id(self, nutzer):
         """
         :param nutzer: Ist das Nutzerobjekt
@@ -458,7 +461,7 @@ class UserMapper(Mapper):
                        WHERE users.id=%s"""
 
         # Auslesen und speichern der restlichen UserBO Daten
-        daten = (nutzer.get_authId, nutzer.get_profilBild(), nutzer.get_name(), nutzer.get_email(),
+        daten = (nutzer.get_authId, nutzer.get_profil_bild(), nutzer.get_name(), nutzer.get_email(),
                  nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(), nutzer.get_semester(),
                  nutzer.get_studiengang(), nutzer.get_vorname(), nutzer.get_id())
 
@@ -489,7 +492,7 @@ class UserMapper(Mapper):
             # Erstellen des SQL-Befehls
             query2 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
             # Auslesen und speichern der users.id und modul.id
-            data = (nutzer.get_id(), self.get_modulId_by_modul(i))
+            data = (nutzer.get_id(), self.get_modul_id_by_modul(i))
             # (Bitte kein Komma nach data) Ausführen des SQL-Befehls
             cursor.execute(query2, data)
         # Schließen der Datenbankverbindung
@@ -499,7 +502,6 @@ class UserMapper(Mapper):
         # Rückgabe der Userdaten (aktualisiert)
         return 200
 
-    # TODO: Wird diese Methode benötigt?
     def delete_by_id(self, userid):
         """
         :param userid: Ist das Nutzerobjekt
@@ -521,7 +523,6 @@ class UserMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    # TODO: Wird diese Methode benötigt?
     def get_modulForUser(self, authId):
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor()
@@ -543,7 +544,6 @@ class UserMapper(Mapper):
 
         return user
 
-    # TODO: Wird diese Methode benötigt?
     def get_Id_by_authId(self, authId):
         """
         :param authId: Ist die authId
@@ -567,7 +567,6 @@ class UserMapper(Mapper):
         # Rückgabe der UserId
         return userid[0]
 
-    # TODO: Wird diese Methode benötigt?
     def delete_gruppe_by_id(self, authId):
         """
         :param authId:
@@ -575,7 +574,6 @@ class UserMapper(Mapper):
         """
         pass
 
-    # TODO: Wird diese Methode benötigt?
     def join_gruppe_by_id(self, authId):
         """
         :param authId:

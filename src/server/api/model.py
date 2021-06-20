@@ -15,7 +15,7 @@ profil = api.inherit('ProfilBO', bo, {
                              description='Lerntyp eines Benutzers oder Lerngruppe'),
     'modul': fields.List(fields.String, attribute=lambda x: x.get_modul(),
                          description='Module eines Benutzers oder Lerngruppe'),
-    'profilBild': fields.String(attribute=lambda x: x.get_profilBild(),
+    'profilBild': fields.String(attribute=lambda x: x.get_profil_bild(),
                                 description='Bild eines Benutzers oder Lerngruppe'),
     'beschreibung': fields.String(attribute=lambda x: x.get_beschreibung(),
                                   description='Beschreibung eines Benutzers oder Lerngruppe'),
@@ -82,6 +82,7 @@ room = api.model('Room',  {
 room_mitglieder = api.model('Room',  {
     'roomId': fields.Integer(attribute='roomId', description='Room Id'),
     'teilnehmer': fields.List(fields.Integer, description='UserId der Mitglieder'),
+    'myId': fields.Integer(attribute='myId', decription='Id des aktuellen Nutzers'),
     'name': fields.String(attribute='name', description='Name der Gruppe oder des Lernpartners')
 })
 
