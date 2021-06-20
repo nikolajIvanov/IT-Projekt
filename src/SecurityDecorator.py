@@ -26,27 +26,14 @@ def secured(function):
                     id_token, firebase_request_adapter)
                 if claims is not None:
                     print(request)
-                    if Administration().get_user_by_guid(claims.get("user_id")) is None:
-                        # Wenn der User bisher nicht in der Datenbank abgespeichert ist wird überprüft,
-                        # ob die Anfrage einen neuen User in der Datenbank abspeichern wird.
-                        # Wenn dies auch nicht der Fall ist dann ist der User nicht befugt diese Anfrage zu stellen.
-                        # Um die Entwicklung zu erleichtern wird bei lokaler
-                        # Ausführung nur im Terminal der Fehler ausgegeben.
-                        if not(request.full_path ==
-                               '/api/user?' and request.method == 'POST'):
-                            if os.getenv('GAE_ENV', '').startswith('standard'):
-                                return 'Bitte registrieren', 401
-                            else:
-                                print(
-                                    "Kein registrierter User, in der Cloud wird diese Anfrage abgelehnt!")
                     objects = function(*args, **kwargs)
                     return objects
                 else:
-                    # Dieser Part im Code sollte nicht aufgerufen werden
-                    return 'Internal Auth Error', 500
+                    return '', 401
+
             except ValueError as exc:
                 # Wenn hier ein Fehler auftritt ist Token nicht gültig
-                print(exc)
-                return 'Kein gültiges Token', 401
+                return exc, 401
         return 'Es wurde kein Token übergeben', 401
+
     return wrapper
