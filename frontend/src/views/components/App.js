@@ -140,11 +140,14 @@ class App extends React.Component {
                     case "auth/user-not-found":
                         this.setEmailError("User nicht gefunden")
                         break
+                    case "auth/email-already-in-use":
+                        this.setEmailError("Es existiert ein Account mit dieser Email")
+                        break
                     case "auth/wrong-password":
                         this.setPasswordError("Falsches Passwort")
+                        break
                 }
             }
-                //Email und Passwort falsch oder existiert nicht Error Meldung
             )
     }
 

@@ -111,10 +111,16 @@
 }
 
 .chatOutlines{
-  max-width: 70vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10%;
+  width: 50vw;
   height: 40vh;
   overflow-x: hidden;
   overflow-y: auto;
+  background-color: rgba(0, 144, 240, 0.21);
 }
 
 .sendBox{

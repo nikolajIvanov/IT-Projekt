@@ -31,7 +31,7 @@ class UsersApi(Resource):
             proposal.set_module_append(modul)
         if proposal is not None:
 
-            return Administration.create_user_by_auth_id(proposal)
+            return Administration.create_user_by_authId(proposal)
         else:
             return 'Der User konnte nicht angelegt werden, da keine Daten mitgeschickt wurden', 500
 
