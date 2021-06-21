@@ -91,8 +91,8 @@ export default class TeamUpApi {
     }
 
     // Ruft im Backend einen konkreten User auf und updatet die Werte, die im Übergabeparameter vorhanden sind.
-    updateUser(authId, user){
-        return this.#update(this.#userURL(authId), user, UserBO);
+    updateUser(user){
+        return this.#update(this.#allUsersURL(), user, UserBO);
     }
 
     deleteUser(authId){

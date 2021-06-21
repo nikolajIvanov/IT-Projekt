@@ -100,6 +100,8 @@ export default class UserBO extends ProfilBO {
         this.beschreibung = user.beschreibung;
         this.lerntyp = user.lerntyp;
         this.modul = user.modul;
+        this.frequenz = user.frequenz;
+        this.lernort = user.lernort;
         this.profilBild = user.profilBild;
         this.istinGruppe = user.istinGruppe;
         this.authId = user.authId;
