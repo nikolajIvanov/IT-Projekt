@@ -55,8 +55,6 @@ def get_history(roomId):
 # Api Endpunkte werden mit der Funktion add_resource an Flask übergeben
 # Wird aufgerufen, wenn ein neuer User erstellt werden soll oder wenn alle User angezeigt werden sollen
 api.add_resource(UsersApi, '/users')
-# Gibt den aktuellen User mit allen Informationen zurück
-api.add_resource(UserApi, '/users/<string:auth_id>')
 # Wird im Matching genutzt, um bestimmte Werte für die Cards zu holen
 api.add_resource(UsersByIdApi, '/usersById')
 # Wird verwendet, um über Postman viele User gleichzeitig anzulegen
