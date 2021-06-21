@@ -4,6 +4,7 @@ import Header from "../../../components/Fonts/header";
 import Chatanfragen from "./Subsections/Chatanfragen";
 import firebase from "../../../api/Firebase";
 import Chats from "./Subsections/Chats";
+import H1_bold from "../../../components/Fonts/h1_bold";
 
 
 // Zeigt alle Chatanfragen und bestehende Chats eines Nutzers
@@ -14,7 +15,7 @@ function Chatübersicht(props) {
 
     return (
         <div>
-            <Header inhalt={"Chat"}/>
+            <H1_bold inhalt={"Chatübersicht"}/>
             <div>
                 <List className="chatWindow">
                     <Chats

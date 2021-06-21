@@ -3,9 +3,10 @@ import io from "socket.io-client";
 import ButtonPrimary from "../../../components/Button/ButtonPrimary";
 import InputFeld from "../../../components/Textfeld/InputFeld";
 import Grid from "@material-ui/core/Grid";
-import {Chip} from "@material-ui/core";
+import {Chip, ListItem} from "@material-ui/core";
 import ButtonSend from "../../../components/Button/ButtonSend";
 import TeamUpApi from "../../../api/TeamUpApi";
+import List from "@material-ui/core/List";
 
 class ChatFenster extends React.Component{
     constructor() {
@@ -106,24 +107,24 @@ class ChatFenster extends React.Component{
         this.setState({sendData2: ""})
     }
 
+    createLerngruppe = () =>{
+
+    }
+
     render() {
         const {chat, sendData, sendData2} = this.state
         return (
             <div className="card">
-                <Grid container className="chatOutlines">
+                <div className="chatOutlines">
                         {chat.map((chat) =>
                             <div>{chat}</div>
                         )}
-                    <Grid item sx={12} className="sendBox">
-                        <ButtonSend onClick={this.handleSend1} onChange={this.handleMessage}
-                                    inhalt={sendData}/>
-                    </Grid>
-                </Grid>
-                <Grid container className="chatOutlines">
+                </div>
+                <Grid container className="card">
                     <Grid item sx={12}>
-                        <InputFeld onChange={this.handleMessage2} inhalt={sendData2}/>
-                        <ButtonPrimary onClick={this.handleSend2} inhalt={"Senden"}/>
-                        <ButtonPrimary onClick={this.handleSend2} inhalt={"Lerngruppe erstellen"}/>
+                        <ButtonSend onClick={this.handleSend1} onChange={this.handleMessage}
+                                        inhalt={sendData}/>
+                        <ButtonPrimary onClick={this.createLerngruppe} inhalt={"Lerngruppe erstellen"}/>
                     </Grid>
                 </Grid>
             </div>

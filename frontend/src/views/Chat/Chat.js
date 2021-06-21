@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import theme from "../../theme";
 import Chatübersicht from "./Sections/Chatübersicht";
 import ChatFenster from "./Sections/ChatFenster";
+import Grid from "@material-ui/core/Grid";
+import H1_bold from "../../components/Fonts/h1_bold";
 
 
 class Chat extends Component {
@@ -46,22 +48,31 @@ class Chat extends Component {
 
         return (
 
-            <div style={theme.card}>
-                {chatSwitcher ?
-                     <>
-                         <Chatübersicht roomId={this.setRoomId}
-                                        myId={this.setId}
-                                        teilnehmer={this.setTeilnehmer}
-                                        switch={this.switchChat}/>
-                     </>
-                    :
-                    <>
-                        <ChatFenster roomId={roomId}
-                                     myId={myId}
-                                     teilnehmer={teilnehmer}
-                        />
-                    </>
-                }
+            <div>
+                <Grid container className="chatComponent">
+                    <Grid item sx={3} className="chatItem">
+                        <Chatübersicht roomId={this.setRoomId}
+                                       myId={this.setId}
+                                       teilnehmer={this.setTeilnehmer}
+                                       switch={this.switchChat}/>
+                    </Grid>
+                    <Grid item sx={9} className="chatItem">
+                        {chatSwitcher ?
+                             <>
+                                 <div className="root">
+                                     <H1_bold inhalt={"Chatfenster"}/>
+                                 </div>
+                             </>
+                            :
+                            <>
+                                <ChatFenster roomId={roomId}
+                                             myId={myId}
+                                             teilnehmer={teilnehmer}
+                                />
+                            </>
+                        }
+                    </Grid>
+                </Grid>
             </div>
 
 

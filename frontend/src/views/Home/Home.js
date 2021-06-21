@@ -10,6 +10,7 @@ import Match from "../Matching/Match";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from "../../api/Firebase";
 import ChatFenster from "../Chat/Sections/ChatFenster";
+import NoMatch from "./Subsection/NoMatch";
 
 class Home extends Component {
     constructor(props) {
@@ -118,7 +119,6 @@ class Home extends Component {
                     <Navigation logOut={this.handleLogOut}/>
                     <Switch>
                         <Route path="/" exact>
-                                <h1 className="App">TeamUP</h1>
                                 {userList ?
                                 <Match userList={userList}
                                        groupList={groupList}
@@ -128,7 +128,7 @@ class Home extends Component {
                                         {matches ?
                                         <h1 className="App">Matching konnte nicht geladen werden</h1>
                                                 :
-                                            <h1 className="App">Keine Matchpartner vorhanden</h1>
+                                            <NoMatch/>
                                         }
                                     </>
                                     }
