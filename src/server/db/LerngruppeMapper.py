@@ -26,6 +26,9 @@ class LerngruppeMapper(Mapper):
         # Speichert alle User, die in den selben Modulen sind
         lerngruppe_in_modul = []
 
+        # Speichert alle Lerngruppen in welchen ich bereits mitglied bin
+        connected_groups = []
+
         # Die Variable users speichert alle Users, die für das Matching in Frage kommen
         # Datentyp SET wird genutzt, um sicher zu gehen, dass die User nur einmal vorkommen
         unsorted_gruppen = set()
@@ -34,6 +37,17 @@ class LerngruppeMapper(Mapper):
 
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor(buffered=True)
+
+        # Query erstellen um Gruppen zu finden in welchen ich bereits mitglied bin
+        user_gruppen = """SELECT lerngruppeId from TeamUP.userInLerngruppe WHERE userId=%s"""
+
+        # Alle Lerngruppen abrufen in welchen der User bereits Mitglied ist
+        cursor.execute(user_gruppen, (self.find_userid_by_authid(user_authid),))
+        u_gruppen = cursor.fetchall()
+
+        for tuples in u_gruppen:
+            for gruppe in tuples:
+                connected_groups.append(gruppe)
 
         query3 = """SELECT lerngruppeId FROM TeamUP.lerngruppeInModul WHERE modulId=%s"""
 
@@ -46,6 +60,12 @@ class LerngruppeMapper(Mapper):
         for i in lerngruppe_in_modul:  # Löst die Liste von fetchall auf
             for x in i:  # Löse den Tuple von der Liste auf
                 unsorted_gruppen.add(x[0])
+
+        for gruppe in connected_groups:
+            if gruppe in unsorted_gruppen:
+                unsorted_gruppen.remove(gruppe)
+            else:
+                pass
 
         query_matching_gruppe = """SELECT id, lerntyp, frequenz, lernort FROM TeamUP.lerngruppe WHERE id=%s"""
 
