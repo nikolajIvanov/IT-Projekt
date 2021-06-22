@@ -5,12 +5,12 @@ import Profil from "../Profil & Gruppe/Profil";
 import Gruppe from "../Profil & Gruppe/Gruppe";
 import MyProfil from "../Profil & Gruppe/ProfilBearbeiten";
 import Chat from "../Chat/Chat";
-import GruppenSuche from "../Matching/GruppenSuche";
 import Match from "../Matching/Match";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from "../../api/Firebase";
 import ChatFenster from "../Chat/Sections/ChatFenster";
 import NoMatch from "./Subsection/NoMatch";
+import GruppeBearbeiten from "../Profil & Gruppe/GruppeBearbeiten";
 
 class Home extends Component {
     constructor(props) {
@@ -112,7 +112,7 @@ class Home extends Component {
         * */
 
         //TODO Skeleton wenn Nutzer nicht da ist
-        const {userList, suchobjekt, groupList, matches} = this.state
+        const {userList, suchobjekt, groupList, matches, myId, partnerId} = this.state
         return (
             <div>
                 <Router>
@@ -148,7 +148,8 @@ class Home extends Component {
                         <Route path="/me" component={MyProfil}/>
                         <Route path="/chat" exact component={Chat}/>
                         <Route path="/chat/:id" exact component={ChatFenster}/>
-                        <Route path="/gruppensuche" component={GruppenSuche}/>
+                        <Route path="/gruppe_erstellen"><GruppeBearbeiten myId={myId}
+                                                                      partnerId={partnerId}/></Route>
                     </Switch>
                 </Router>
             </div>

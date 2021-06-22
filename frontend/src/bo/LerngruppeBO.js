@@ -42,6 +42,19 @@ export default class LerngruppeBO extends ProfilBO {
         this.admin.push(lerngruppe.admin);
 
     }
+    getAll(){
+         return {
+             name : this.name,
+             beschreibung : this.beschreibung,
+             lerntyp : this.lerntyp,
+             modul : this.modul,
+             profilBild : this.profilBild,
+             mitglieder : this.mitglieder,
+             admin : this.admin
+         }
+
+    }
+
     static fromJSON(user) {
         let result = [];
         if (Array.isArray(user)) {
