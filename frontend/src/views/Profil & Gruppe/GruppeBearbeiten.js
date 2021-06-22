@@ -63,7 +63,7 @@ function GruppeBearbeiten (props) {
         lerntyp : lerntyp,
         modul : modul,
         profilBild : bild,
-        mitglieder : [props.partnerId],
+        mitglieder : [props.partnerId, props.myId],
         admin : props.myId,
         frequenz: frequenz,
         lernort: lernort

@@ -16,6 +16,7 @@ function GroupSectionModul(props) {
                         value: i.getModul()
                     })
                 })
+                console.log(middle)
                 setDropdown(middle)
             })
     }, [props.studien])
@@ -25,14 +26,15 @@ function GroupSectionModul(props) {
             {dropdown ?
                 <>
                     <H3_bold inhalt={"Gib das Lermodul an"}/>
-                    <DropDown map={dropdown} input={props.modul}
+                    <DropDown map={[{key:0, value:"-Wähle ein Modul-"}].concat(dropdown)}
+                              input={props.modul}
                               handleChange={(event) => props.setModul(event.target.value)}/>
                 </>
                 :
                 <H3_bold inhalt={"Module werden geladen..."}/>
             }
         </div>
-    );
-}
+    )
+};
 
 export default GroupSectionModul;
