@@ -13,33 +13,59 @@ import GroupSectionLerntyp from "./Sections/GroupSectionLerntyp";
 import GroupSectionModul from "./Sections/GroupSectionModul";
 import GroupSectionName from "./Sections/GroupSectionName";
 import GroupSectionStudien from "./Sections/GroupSectionStudien";
-import H3_bold from "../../components/Fonts/h3_bold";
 import H3_regular from "../../components/Fonts/h3_regular";
+import ButtonPrimary from "../../components/Button/ButtonPrimary";
 
 function GruppeBearbeiten (props) {
+
+
+    const verlassen = (<div style={theme.root}>
+        <Paper style={theme.modalCard}>
+            <h1>Wollen Sie die Gruppenerstellung wirklich verlassen?</h1>
+            <ButtonDelete inhalt={"Verlassen"} onClick={() => redirect.push("/")}/>
+        </Paper>
+    </div>)
+
+    const erfolg = (<div style={theme.root}>
+        <Paper style={theme.modalCard}>
+            <h1>Die gruppe wurde erfolgreich angelegt 🥳</h1>
+            <ButtonPrimary inhalt={"Verlassen"} onClick={() => redirect.push("/")}/>
+        </Paper>
+    </div>)
+
+    const fehlgeschlagen = (<div style={theme.root}>
+        <Paper style={theme.modalCard}>
+            <h1>Die gruppe wurde erfolgreich angelegt 🥳</h1>
+            <ButtonPrimary inhalt={"Verlassen"} onClick={() => redirect.push("/")}/>
+        </Paper>
+    </div>)
+
     const redirect = useHistory()
 
     const [modal, setModal] = React.useState(false)
-    const [myId, setMyId] = React.useState('')
-    const [partnerId, setPartnerId] = React.useState('')
+    const [modalType, setModalType] = React.useState(verlassen)
     const [name, setName] = React.useState('')
     const [beschreibung, setBeschreibung] = React.useState('')
     const [bild, setBild] = React.useState('')
     const [modul, setModul] = React.useState('')
     const [studiengang, setStudiengang] = React.useState('')
     const [lerntyp, setLerntyp] = React.useState('')
+    const [frequenz, setFrequenz] = React.useState('')
+    const [lernort, setLernort] = React.useState('')
 
     console.log(modul)
 
 
-    const informationen ={
+    const informationen = {
         name : name,
         beschreibung : beschreibung,
         lerntyp : lerntyp,
         modul : modul,
         profilBild : bild,
-        mitglieder : [partnerId],
-        admin : myId
+        mitglieder : [2],
+        admin : 1,
+        frequenz: "wöchentlich",
+        lernort: "online"
     }
 
 
@@ -48,20 +74,16 @@ function GruppeBearbeiten (props) {
         gruppe.setAll(informationen)
         console.log(gruppe)
         await TeamUpApi.getAPI().setGruppe(gruppe.getAll()).then(gruppe =>{
-            this.setState({
-                apiGruppe: gruppe,
-                update: true
-            });
+            if(gruppe === 200){
+                setModalType(erfolg)
+                setModal(true)
+            }
+            else{
+                setModalType(fehlgeschlagen)
+                setModal(true)
+            }
         })
-
     }
-
-    const verlassen = (<div style={theme.root}>
-        <Paper style={theme.modalCard}>
-            <h1>Wollen Sie die Gruppenerstellung wirklich verlassen?</h1>
-                <ButtonDelete inhalt={"Verlassen"} onClick={() => redirect.push("/")}/>
-        </Paper>
-    </div>)
 
         //TODO Abbrechen Modal hinzufügen
         return (
@@ -102,7 +124,7 @@ function GruppeBearbeiten (props) {
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description"
                 >
-                    {verlassen}
+                    {modalType}
                 </Modal>
             </div>
         );

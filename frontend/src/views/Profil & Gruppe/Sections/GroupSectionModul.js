@@ -16,10 +16,9 @@ function GroupSectionModul(props) {
                         value: i.getModul()
                     })
                 })
-                console.log(middle)
                 setDropdown(middle)
             })
-    }, [])
+    }, [props.studien])
 
     return (
         <div className="card">
