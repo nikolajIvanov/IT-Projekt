@@ -127,7 +127,7 @@ class ChatMapper(Mapper):
             query1 = """INSERT INTO TeamUP.room(groupId) VALUE (%s)"""
 
             group = None
-            cursor.execute(query1, (group, ))
+            cursor.execute(query1, (group,))
             self._cnx.commit()
             room_id = cursor.lastrowid
             cursor.close()
@@ -152,7 +152,7 @@ class ChatMapper(Mapper):
 
             query1 = """INSERT INTO TeamUP.room(groupId) VALUE (%s)"""
 
-            cursor.execute(query1, (groupid, ))
+            cursor.execute(query1, (groupid,))
             self._cnx.commit()
             room_id = cursor.lastrowid
             cursor.close()
@@ -286,7 +286,7 @@ class ChatMapper(Mapper):
         """
 
         # Erstellen des SQL-Befehls
-        query = """SELECT roomId from TeamUP.userInRoom WHERE userId=%s"""
+        query = """SELECT userInRoom.userId from TeamUP.userInRoom WHERE userId=%s"""
 
         # Ausführen des SQL-Befehls
         cursor.execute(query, (userid,))
@@ -296,6 +296,7 @@ class ChatMapper(Mapper):
         for tuples in rooms:
             for room in tuples:
                 room_dict = {"roomId": room,
+                             "groupId": self.get_group_of_room(room),
                              "myId": userid,
                              "teilnehmer": self.get_users_of_room(room),
                              "name": self.get_room_bezeichnung(room, userid)
@@ -303,3 +304,21 @@ class ChatMapper(Mapper):
                 users.append(room_dict.copy())
 
         return users
+
+    def get_group_of_room(self, room):
+        # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
+        cursor = self._cnx.cursor()
+
+        query = """SELECT groupId FROM TeamUP.room WHERE id=%s"""
+
+        # Ausführen des SQL-Befehls
+        cursor.execute(query, (room,))
+
+        group = cursor.fetchall()
+
+        gruppe = None
+        for element in group:
+            for gruppe_id in element:
+                gruppe = gruppe_id
+
+        return gruppe
