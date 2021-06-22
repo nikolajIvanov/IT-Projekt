@@ -8,10 +8,10 @@ DROP TABLE IF EXISTS `userInRoom`;
 DROP TABLE IF EXISTS `message`;
 DROP TABLE IF EXISTS `room`;
 DROP TABLE IF EXISTS `gruppeAdmitted`;
+DROP TABLE IF EXISTS `lerntyp`;
 DROP TABLE IF EXISTS `lerngruppe`;
 DROP TABLE IF EXISTS `modulInStudiengang`;
 DROP TABLE IF EXISTS `modul`;
-DROP TABLE IF EXISTS `lerntyp`;
 DROP TABLE IF EXISTS `studiengang`;
 DROP TABLE IF EXISTS `userAdmitted`;
 DROP TABLE IF EXISTS `users`;
@@ -24,6 +24,13 @@ CREATE TABLE `modul` (
     `wahl/pflicht` varchar(128) NOT NULL DEFAULT '',
     `edv-nr` int(11) NOT NULL ,
     `bezeichnung` varchar(128) NOT NULL DEFAULT ''
+);
+
+CREATE TABLE `lerntyp` (
+    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `bild` MEDIUMBLOB NOT NULL ,
+    `typ` varchar(128) NOT NULL DEFAULT '',
+    `beschreibung` varchar(3000) NOT NULL DEFAULT ''
 );
 
 --
@@ -40,12 +47,13 @@ CREATE TABLE `users` (
     `geburtsdatum` DATE NOT NULL,
     `email` varchar(128) NOT NULL DEFAULT '',
     `beschreibung` varchar(128) NOT NULL DEFAULT '',
-    `lerntyp` varchar(128) NOT NULL DEFAULT '',
+    `lerntyp` int(11) NOT NULL DEFAULT 999,
     `gender` varchar(128) NOT NULL DEFAULT '',
     `semester` int(11) NOT NULL ,
     `studiengang` varchar(128) NOT NULL DEFAULT '',
     `frequenz` varchar(128) NOT NULL DEFAULT '',
-    `lernort` varchar(128) NOT NULL DEFAULT ''
+    `lernort` varchar(128) NOT NULL DEFAULT '',
+    FOREIGN KEY (lerntyp) REFERENCES lerntyp (id)
  );
 
 CREATE TABLE `userInModul` (
@@ -63,12 +71,13 @@ CREATE TABLE `lerngruppe` (
     `timeStamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `bild` LONGBLOB NOT NULL,
     `name` varchar(128) NOT NULL DEFAULT '',
-    `lerntyp` varchar(128) NOT NULL DEFAULT 999,
+    `lerntyp` int(11) NOT NULL DEFAULT 999,
     `admin` int(11) NOT NULL,
     `beschreibung` varchar(128) NOT NULL DEFAULT '',
     `frequenz` varchar(128) NOT NULL DEFAULT '',
     `lernort` varchar(128) NOT NULL DEFAULT '',
-    FOREIGN KEY (admin) REFERENCES users (id)
+    FOREIGN KEY (admin) REFERENCES users (id),
+    FOREIGN KEY (lerntyp) REFERENCES lerntyp (id)
 );
 
 CREATE TABLE `room` (
@@ -107,12 +116,6 @@ CREATE TABLE `modulInStudiengang` (
     PRIMARY KEY (studiengangId, modulId)
 );
 
-CREATE TABLE `lerntyp` (
-    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-    `bild` MEDIUMBLOB NOT NULL ,
-    `typ` varchar(128) NOT NULL DEFAULT '',
-    `beschreibung` varchar(3000) NOT NULL DEFAULT ''
-);
 
 CREATE TABLE `message` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
