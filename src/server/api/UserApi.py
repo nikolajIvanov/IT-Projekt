@@ -1,7 +1,6 @@
 from .model import user, api
 from flask_restx import Resource
 from server.Administration import Administration
-from server.bo.UserBO import UserBO
 
 
 class UserApi(Resource):

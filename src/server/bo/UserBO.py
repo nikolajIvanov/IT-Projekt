@@ -87,7 +87,6 @@ class UserBO(ProfilBO):
         obj.set_id(kwargs["id"])
         obj.set_profil_bild(kwargs["profilBild"])
         obj.set_name(kwargs["name"])
-        obj.set_geburtsdatum(kwargs["geburtsdatum"])
         obj.set_email(kwargs["email"])
         obj.set_beschreibung(kwargs["beschreibung"])
         obj.set_lerntyp(kwargs["lerntyp"])
@@ -100,6 +99,8 @@ class UserBO(ProfilBO):
         obj.set_lernort(kwargs["lernort"])
         if "modul" in kwargs:
             obj.set_module_append(kwargs["modul"])
+        
+
         return obj
 
     @staticmethod
