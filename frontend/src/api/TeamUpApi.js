@@ -218,7 +218,7 @@ export default class TeamUpApi {
                 'Content-type': 'application/json',
             },
             body: JSON.stringify(businessObject)
-        }).then(r => console.log(r))
+        })
     }
 
     // Generische Methode um ein vorhandenes Objekt im Backend zu updaten (PUT Methode).
