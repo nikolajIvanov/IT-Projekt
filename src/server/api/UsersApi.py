@@ -39,7 +39,7 @@ class UsersApi(Resource):
     def put(self):
         payload = api.payload
         proposal = UserBO.create_userBO(id=payload["id"], authId=payload["authId"], profilBild=payload["profilBild"],
-                                        name=payload["name"], geburtsdatum=payload["geburtsdatum"],
+                                        name=payload["name"],
                                         email=payload["email"], beschreibung=payload["beschreibung"],
                                         lerntyp=payload["lerntyp"], gender=payload["gender"],
                                         semester=payload["semester"], studiengang=payload["studiengang"],
