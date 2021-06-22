@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import theme from "../../theme";
 import Chatübersicht from "./Sections/Chatübersicht";
 import ChatFenster from "./Sections/ChatFenster";
 import Grid from "@material-ui/core/Grid";
 import H1_bold from "../../components/Fonts/h1_bold";
+import { withRouter } from 'react-router-dom';
 
 
 class Chat extends Component {
@@ -12,8 +12,7 @@ class Chat extends Component {
         this.state = {
             chatSwitcher: true,
             roomId: null,
-            teilnehmer: null,
-            myId: null,
+            teilnehmer: null
         }
     }
 
@@ -37,14 +36,8 @@ class Chat extends Component {
         })
     }
 
-    setId = (myId) =>{
-        this.setState({
-            myId: myId
-        })
-    }
-
     render() {
-        const {chatSwitcher, roomId, teilnehmer, myId} = this.state
+        const {chatSwitcher, roomId, teilnehmer} = this.state
 
         return (
 
@@ -52,7 +45,7 @@ class Chat extends Component {
                 <Grid container className="chatComponent">
                     <Grid item sx={3} className="chatItem">
                         <Chatübersicht roomId={this.setRoomId}
-                                       myId={this.setId}
+                                       myId={this.props.setMyId}
                                        teilnehmer={this.setTeilnehmer}
                                        switch={this.switchChat}/>
                     </Grid>
@@ -66,8 +59,9 @@ class Chat extends Component {
                             :
                             <>
                                 <ChatFenster roomId={roomId}
-                                             myId={myId}
+                                             myId={this.props.myId}
                                              teilnehmer={teilnehmer}
+                                             setPartnerId={this.props.setPartnerId}
                                 />
                             </>
                         }

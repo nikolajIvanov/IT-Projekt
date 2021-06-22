@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import {Divider, List} from "@material-ui/core";
-import Header from "../../../components/Fonts/header";
 import Chatanfragen from "./Subsections/Chatanfragen";
 import firebase from "../../../api/Firebase";
 import Chats from "./Subsections/Chats";

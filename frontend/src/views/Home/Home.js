@@ -24,6 +24,8 @@ class Home extends Component {
             groups: null,
             currentUser:null,
             matches: true,
+            myId: null,
+            partnerId: null
         }
     }
 
@@ -103,6 +105,18 @@ class Home extends Component {
         })
     }
 
+    setMyId = (id) => {
+        this.setState({
+            myId: id
+        })
+    }
+
+    setPartnerId = (partnerId) => {
+        this.setState({
+            partnerId: partnerId
+        })
+    }
+
     render() {
         /*
         * Profil --> bekommt das ausgewählte Nutzerobjekt
@@ -146,7 +160,9 @@ class Home extends Component {
                             }
                         </Route>
                         <Route path="/me" component={MyProfil}/>
-                        <Route path="/chat" exact component={Chat}/>
+                        <Route path="/chat" exact ><Chat setMyId={this.setMyId}
+                                                         myId={myId}
+                                                         setPartnerId={this.setPartnerId}/></Route>
                         <Route path="/chat/:id" exact component={ChatFenster}/>
                         <Route path="/gruppe_erstellen"><GruppeBearbeiten myId={myId}
                                                                       partnerId={partnerId}/></Route>

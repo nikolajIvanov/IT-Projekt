@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import "../../assets/theme.css"
 import TeamUpApi from "../../api/TeamUpApi";
 import {Card, CardActions, CardContent, Divider, Modal, Paper} from "@material-ui/core";
@@ -15,27 +15,31 @@ import GroupSectionName from "./Sections/GroupSectionName";
 import GroupSectionStudien from "./Sections/GroupSectionStudien";
 import H3_regular from "../../components/Fonts/h3_regular";
 import ButtonPrimary from "../../components/Button/ButtonPrimary";
+import H2_bold from "../../components/Fonts/h2_bold";
+import GroupSectionFrequenz from "./Sections/GroupSectionFrequenz";
+import GroupSectionLernort from "./Sections/GroupSectionLernort";
 
 function GruppeBearbeiten (props) {
 
 
     const verlassen = (<div style={theme.root}>
         <Paper style={theme.modalCard}>
-            <h1>Wollen Sie die Gruppenerstellung wirklich verlassen?</h1>
+            <H2_bold inhalt={"Wollen Sie die Gruppenerstellung wirklich verlassen?"}/>
             <ButtonDelete inhalt={"Verlassen"} onClick={() => redirect.push("/")}/>
         </Paper>
     </div>)
 
     const erfolg = (<div style={theme.root}>
         <Paper style={theme.modalCard}>
-            <h1>Die gruppe wurde erfolgreich angelegt 🥳</h1>
+            <H2_bold inhalt={"Die gruppe wurde erfolgreich angelegt 🥳"}/>
             <ButtonPrimary inhalt={"Verlassen"} onClick={() => redirect.push("/")}/>
         </Paper>
     </div>)
 
     const fehlgeschlagen = (<div style={theme.root}>
         <Paper style={theme.modalCard}>
-            <h1>Die gruppe wurde erfolgreich angelegt 🥳</h1>
+            <H2_bold inhalt={"Es ist ein fehler bei der Erstellung aufgetreten 😰"}/>
+            <H3_regular inhalt={"Um auf der Seite zu bleiben, auf die Fläche um das Fenster klicken."}/>
             <ButtonPrimary inhalt={"Verlassen"} onClick={() => redirect.push("/")}/>
         </Paper>
     </div>)
@@ -53,19 +57,16 @@ function GruppeBearbeiten (props) {
     const [frequenz, setFrequenz] = React.useState('')
     const [lernort, setLernort] = React.useState('')
 
-    console.log(modul)
-
-
     const informationen = {
         name : name,
         beschreibung : beschreibung,
         lerntyp : lerntyp,
         modul : modul,
         profilBild : bild,
-        mitglieder : [2],
-        admin : 1,
-        frequenz: "wöchentlich",
-        lernort: "online"
+        mitglieder : [props.partnerId],
+        admin : props.myId,
+        frequenz: frequenz,
+        lernort: lernort
     }
 
 
@@ -112,6 +113,12 @@ function GruppeBearbeiten (props) {
                                 <H3_regular inhalt={"wähle ein Studiengang aus um ein " +
                                 "Modul zu setzen"}/>
                             }
+                            <Divider/>
+                            <GroupSectionFrequenz setFrequenz={setFrequenz}
+                                                 frequenz={frequenz}/>
+                            <Divider/>
+                            <GroupSectionLernort setLernort={setLernort}
+                                                 lernort={lernort}/>
                         </CardContent>
                         <CardActions style={theme.root}>
                             <ButtonDelete inhalt={"Abbrechen"} onClick={() => setModal(true)}/>
