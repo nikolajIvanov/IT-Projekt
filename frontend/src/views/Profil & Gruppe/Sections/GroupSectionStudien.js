@@ -25,7 +25,7 @@ function GroupSectionStudien(props) {
             {studien ?
                 <>
                     <H3_bold inhalt={"Gib den Studiengang ein"}/>
-                    <DropDown map={studien} input={props.studiengang}
+                    <DropDown map={[{key:0, value:"-Wähle ein Studiengang-"}].concat(studien)} input={props.studiengang}
                               handleChange={(event) => props.setStudiengang(event.target.value)}/>
                 </> :
                 <H3_bold inhalt={"Studiengänge konnten nicht geladen werden"}/>
