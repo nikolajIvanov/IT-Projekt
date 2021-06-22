@@ -97,9 +97,11 @@ class UserBO(ProfilBO):
         obj.set_authId(kwargs["authId"])
         obj.set_frequenz(kwargs["frequenz"])
         obj.set_lernort(kwargs["lernort"])
+        if "geburtsdatum" in kwargs:
+            obj.set_geburtsdatum(kwargs["geburtsdatum"])
         if "modul" in kwargs:
             obj.set_module_append(kwargs["modul"])
-        
+
 
         return obj
 
