@@ -2,7 +2,7 @@ USE `TeamUP`;
 
 INSERT INTO studiengang(studiengang) VALUES
     ('Audiovisuelle Medien'),
-    ('Crossmedia-Redaktion/Public Relations'),
+    ('Crossmedia-Redaktion Public Relations'),
     ('Deutsch-chinesischer Studiengang Medien und Technologie'),
     ('Informationsdesign'),
     ('Infomationswissenschaften'),

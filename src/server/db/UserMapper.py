@@ -1,4 +1,5 @@
 from server.bo.UserBO import UserBO
+from server.db.ChatMapper import ChatMapper
 from server.db.Mapper import Mapper
 import datetime
 import mysql.connector.errors
@@ -27,6 +28,9 @@ class UserMapper(Mapper):
             # Speichert alle User, die in den selben Modulen sind
             users_in_modul = []
 
+            # Speichert alle User welche bereits gematched wurden
+            connected_users = []
+
             # Die Variable users speichert alle Users, die für das Matching in Frage kommen
             # Datentyp SET wird genutzt, um sicher zu gehen, dass die User nur einmal vorkommen
             unsorted_users = set()
@@ -35,6 +39,20 @@ class UserMapper(Mapper):
 
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(buffered=True)
+
+            # Query erstellen um User zu finden welche schon ein Match sind
+            user_rooms = """SELECT roomId from TeamUP.userInRoom WHERE userId=%s"""
+
+            # Alle User welche bereits gematched haben
+            cursor.execute(user_rooms, (self.find_userid_by_authid(user_authid),))
+            u_rooms = cursor.fetchall()
+
+            for tuples in u_rooms:
+                for room in tuples:
+                    with ChatMapper() as mapper:
+                        for user in mapper.get_users_of_room(room):
+                            connected_users.append(user)
+
 
             query3 = """SELECT userId FROM TeamUP.userInModul WHERE modulId=%s"""
 
@@ -54,6 +72,12 @@ class UserMapper(Mapper):
 
             query_matching_user = """SELECT id, lerntyp, semester, studiengang, frequenz, lernort FROM TeamUP.users 
                                      WHERE id=%s"""
+            # Bereits gematchte Nutzer aus der Liste entfernen.
+            for user in connected_users:
+                if user in unsorted_users:
+                    unsorted_users.remove(user)
+                else:
+                    pass
 
             # Es werden alle benötigten Informationen jedes Users geholt und in einem UserBO gespeichert
             for user in unsorted_users:

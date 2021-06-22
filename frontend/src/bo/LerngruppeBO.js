@@ -4,7 +4,8 @@ export default class LerngruppeBO extends ProfilBO {
      constructor() {
         super();
         this.mitglieder = [];
-        this.admin = [];
+        this.admin = null;
+
 }
     getMitglieder(){
          return this.mitglieder;
@@ -23,13 +24,16 @@ export default class LerngruppeBO extends ProfilBO {
 
     getAll(){
         return {
+            id: this.id,
             name: this.name,
             beschreibung: this.beschreibung,
             lerntyp: this.lerntyp,
             modul: this.modul,
             profilBild: this.profilBild,
             mitglieder: this.mitglieder,
-            admin: this.admin
+            admin: this.admin,
+            frequenz: this.frequenz,
+            lernort: this.lernort
         }
     }
     setAll(lerngruppe){
@@ -38,10 +42,13 @@ export default class LerngruppeBO extends ProfilBO {
         this.lerntyp = lerngruppe.lerntyp;
         this.modul = lerngruppe.modul;
         this.profilBild = lerngruppe.profilBild;
-        this.mitglieder.push(lerngruppe.mitglieder);
-        this.admin.push(lerngruppe.admin);
+        this.mitglieder = lerngruppe.mitglieder;
+        this.admin = lerngruppe.admin;
+        this.frequenz = lerngruppe.frequenz;
+        this.lernort = lerngruppe.lernort
 
     }
+
     static fromJSON(user) {
         let result = [];
         if (Array.isArray(user)) {

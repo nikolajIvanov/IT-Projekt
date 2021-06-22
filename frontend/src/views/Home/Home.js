@@ -5,11 +5,12 @@ import Profil from "../Profil & Gruppe/Profil";
 import Gruppe from "../Profil & Gruppe/Gruppe";
 import MyProfil from "../Profil & Gruppe/ProfilBearbeiten";
 import Chat from "../Chat/Chat";
-import GruppenSuche from "../Matching/GruppenSuche";
 import Match from "../Matching/Match";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from "../../api/Firebase";
 import ChatFenster from "../Chat/Sections/ChatFenster";
+import NoMatch from "./Subsection/NoMatch";
+import GruppeBearbeiten from "../Profil & Gruppe/GruppeBearbeiten";
 
 class Home extends Component {
     constructor(props) {
@@ -23,6 +24,8 @@ class Home extends Component {
             groups: null,
             currentUser:null,
             matches: true,
+            myId: null,
+            partnerId: null
         }
     }
 
@@ -102,6 +105,18 @@ class Home extends Component {
         })
     }
 
+    setMyId = (id) => {
+        this.setState({
+            myId: id
+        })
+    }
+
+    setPartnerId = (partnerId) => {
+        this.setState({
+            partnerId: partnerId
+        })
+    }
+
     render() {
         /*
         * Profil --> bekommt das ausgewählte Nutzerobjekt
@@ -111,14 +126,13 @@ class Home extends Component {
         * */
 
         //TODO Skeleton wenn Nutzer nicht da ist
-        const {userList, suchobjekt, groupList, matches} = this.state
+        const {userList, suchobjekt, groupList, matches, myId, partnerId} = this.state
         return (
             <div>
                 <Router>
                     <Navigation logOut={this.handleLogOut}/>
                     <Switch>
                         <Route path="/" exact>
-                                <h1 className="App">TeamUP</h1>
                                 {userList ?
                                 <Match userList={userList}
                                        groupList={groupList}
@@ -128,7 +142,7 @@ class Home extends Component {
                                         {matches ?
                                         <h1 className="App">Matching konnte nicht geladen werden</h1>
                                                 :
-                                            <h1 className="App">Keine Matchpartner vorhanden</h1>
+                                            <NoMatch/>
                                         }
                                     </>
                                     }
@@ -146,9 +160,12 @@ class Home extends Component {
                             }
                         </Route>
                         <Route path="/me" component={MyProfil}/>
-                        <Route path="/chat" exact component={Chat}/>
+                        <Route path="/chat" exact ><Chat setMyId={this.setMyId}
+                                                         myId={myId}
+                                                         setPartnerId={this.setPartnerId}/></Route>
                         <Route path="/chat/:id" exact component={ChatFenster}/>
-                        <Route path="/gruppensuche" component={GruppenSuche}/>
+                        <Route path="/gruppe_erstellen"><GruppeBearbeiten myId={myId}
+                                                                      partnerId={partnerId}/></Route>
                     </Switch>
                 </Router>
             </div>

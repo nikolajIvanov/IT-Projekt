@@ -33,7 +33,7 @@ class ProfilBearbeiten extends React.Component {
         console.log(this.state.apiUser)
         const user = new UserBO()
         user.setAll(this.state.apiUser)
-        await TeamUpApi.getAPI().updateUser(firebase.auth().currentUser.uid, user.getAll()).then(user =>{
+        await TeamUpApi.getAPI().updateUser(user.getAll()).then(user =>{
             this.props.history.push("/");
             this.setState({
                 apiUser: user,

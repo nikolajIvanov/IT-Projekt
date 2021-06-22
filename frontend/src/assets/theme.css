@@ -57,6 +57,17 @@
   flex-direction: row;
 }
 
+.chatComponent{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5% 10% 0 10%;
+}
+
+.chatBox{
+  width: 60vw;
+}
+
 .chatPreviews{
   display: flex;
   justify-content: space-between;
@@ -68,7 +79,7 @@
 }
 
 .chatField{
-  width: 25vw;
+  width: 40vw;
   height: 50vw;
   background-color: #cdcdcd;
   padding: 2%;
@@ -96,16 +107,20 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  overflow-anchor: auto;
 }
 
 .chatOutlines{
-  padding: 2%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  width: 30vw;
-  height: 50vw;
-  position: relative
+  padding-top: 10%;
+  width: 50vw;
+  height: 40vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: rgba(0, 144, 240, 0.21);
 }
 
 .sendBox{
@@ -145,9 +160,29 @@
 
 .nav{
   margin: auto;
-  width: 80%;
-  border-radius: 10px;
+  box-shadow: 0 8px 20px 0 rgba(10, 27, 68, 0.29);
+  position: sticky;
   background-color: var(--primary);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.TeamUpIcon{
+  width: 2.5vw;
+  height: 2.5vw;
+}
+
+.logout-icon{
+  width: 25vw;
+  height: 2.5vw;
+  color: white;
+}
+
+.font-logo{
+  width: 20em;
+  height: 5em;
 }
 
 .icon{
