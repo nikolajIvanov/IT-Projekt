@@ -47,7 +47,11 @@ export default class TeamUpApi {
 
     #chatRequestURL = () => `${this.#serverBaseURL}/request`;
 
+    #chatRequestGroupURL = () => `${this.#serverBaseURL}/group_request`;
+
     #acceptUserRequestURL = () => `${this.#serverBaseURL}/accept_request`
+
+    #acceptGroupRequestURL = () => `${this.#serverBaseURL}/group_request`
 
     #getChatRequestsURL = (authId) => `${this.#serverBaseURL}/request/${authId}`;
 
@@ -145,6 +149,10 @@ export default class TeamUpApi {
         return this.#addChatRequest(this.#chatRequestURL(), userdict)
     }
 
+    sendChatRequestGroup(userdict){
+        return this.#addChatRequest(this.#chatRequestGroupURL(), userdict)
+    }
+
     getChatRequests(authId){
         return this.#getStatus(this.#getChatRequestsURL(authId))
     }
@@ -155,6 +163,10 @@ export default class TeamUpApi {
 
     acceptUserRequest(anfrage){
         return this.#add(this.#acceptUserRequestURL(), anfrage)
+    }
+
+    acceptGroupRequest(anfrage){
+        return this.#add(this.#acceptGroupRequestURL(), anfrage)
     }
 
     //TODO Delete Gruppe einfügen

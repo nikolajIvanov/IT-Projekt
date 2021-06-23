@@ -17,7 +17,7 @@ function Chatanfragen(props) {
         //Api Call für alle gruppen die der Nutzer hat
         TeamUpApi.getAPI().getChatRequests(props.authId).then(
             async (requests) => {
-                //console.log(requests)
+                console.log(requests)
                 await setUserRequests(requests.user)
                 await setGroupRequests(requests.gruppen)
                 setRender(true)
@@ -40,12 +40,25 @@ function Chatanfragen(props) {
         }
     }
 
-    function anfrageAblehnen(requestId, partnerId){
-        //TODO noch implementieren
+    function anfrageAnnahmenGroup(requestId, partnerId){
+        console.log(requestId,partnerId)
+        const anfrage = new AnfrageBO()
+        anfrage.setRequestId(requestId)
+        anfrage.setAuthId(props.authId)
+        anfrage.setPartnerId(partnerId)
+        TeamUpApi.getAPI().acceptGroupRequest(anfrage.getAll())
+            .then((res) => console.log(res))
+        if(accept === '')
+            setAccept('1')
+        else{
+            setAccept('')
+        }
     }
 
+    function anfrageAblehnen(requestId, partnerId){
+        //TODO noch erstellen
+    }
 
-    //TODO requests erhalten Buttons müssen API Call machen die Anfrage bestätigen oder löschen
     return (
         <div>
             {rendered ?
@@ -96,11 +109,14 @@ function Chatanfragen(props) {
                                         <ProfilAvatar/>
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary={request.name}
-                                        secondary="19:14"
+                                        primary={request.vonUserName}
+                                        secondary={request.name}
                                     />
                                     <div>
-                                        <IconButton><AddIcon/></IconButton>
+                                        <IconButton>
+                                            <AddIcon onClick={() =>
+                                                anfrageAnnahmenGroup(request.requestId, request.vonUserId)}/>
+                                        </IconButton>
                                         <IconButton><ClearIcon/></IconButton>
                                     </div>
                                 </ListItem>
@@ -114,6 +130,6 @@ function Chatanfragen(props) {
             }
         </div>
     );
-}
+};
 
 export default Chatanfragen;

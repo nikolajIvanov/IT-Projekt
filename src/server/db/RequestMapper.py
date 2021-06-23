@@ -68,9 +68,10 @@ class RequestMapper(Mapper):
                 for anfrage in erhaltene_requests:
                     message_dict["requestId"] = anfrage[0]
                     message_dict["vonUserId"] = anfrage[1]
-                    message_dict["timestamp"] = anfrage[3].strftime("%Y-%m-%d %H:%M:%S")
-                    message_dict["name"] = anfrage[4]
-                    message_dict["bild"] = anfrage[5]
+                    message_dict["vonUserName"] = self.get_username_by_id(anfrage[1])
+                    message_dict["timestamp"] = anfrage[2].strftime("%Y-%m-%d %H:%M:%S")
+                    message_dict["name"] = anfrage[3]
+                    message_dict["bild"] = anfrage[4]
                     erhalten.append(message_dict.copy())
 
             gesendet = []
@@ -256,10 +257,6 @@ class RequestMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    ###################################################################################################################
-    # Nicht genutzt Methoden
-    ###################################################################################################################
-
     def get_username_by_id(self, user_id):
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
@@ -268,9 +265,13 @@ class RequestMapper(Mapper):
         cursor.execute(get_user_name, (user_id,))
 
         name = cursor.fetchone()
-        ganzer_name = name[0] + name[1]
+        ganzer_name = name[0] + " " + name[1]
 
-        return ganzer_name[0]
+        return ganzer_name
+
+    ###################################################################################################################
+    # Nicht genutzt Methoden
+    ###################################################################################################################
 
     def get_requests_by_user_id(self, userid):
         try:
