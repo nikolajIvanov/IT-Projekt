@@ -1,9 +1,11 @@
+from SecurityDecorator import secured
 from .model import api, mitglied
 from flask_restx import Resource
 from server.Administration import Administration
 
 
 class LerngruppenmitgliedApi(Resource):
+    @secured
     @api.expect(mitglied)
     def delete(self):
         """
@@ -14,6 +16,7 @@ class LerngruppenmitgliedApi(Resource):
 
         return Administration.delete_user_in_lerngruppe(altes_mitglied)
 
+    @secured
     @api.expect(mitglied)
     def put(self):
         """

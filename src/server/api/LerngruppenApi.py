@@ -1,3 +1,4 @@
+from SecurityDecorator import secured
 from .model import lerngruppe, api
 from flask_restx import Resource
 from server.Administration import Administration
@@ -5,6 +6,7 @@ from server.bo.Lerngruppe import Lerngruppe
 
 
 class LerngruppenApi(Resource):
+    @secured
     @api.marshal_list_with(lerngruppe)
     def get(self):
         """
@@ -13,6 +15,7 @@ class LerngruppenApi(Resource):
         """
         return Administration.get_all_lerngruppen()
 
+    @secured
     @api.expect(lerngruppe)
     def post(self):
         """

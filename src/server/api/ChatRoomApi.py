@@ -1,3 +1,4 @@
+from SecurityDecorator import secured
 from .model import room, room_mitglieder, api
 from flask_restx import Resource
 from server.Administration import Administration
@@ -5,6 +6,7 @@ from server.bo.RoomBO import RoomBO
 
 
 class ChatRoomApi(Resource):
+    @secured
     @api.marshal_with(room_mitglieder)
     def get(self, auth_id):
         """
@@ -15,6 +17,7 @@ class ChatRoomApi(Resource):
         return Administration.get_rooms_of_user(auth_id)
 
     # TODO: Kann es den selben Endpunkt haben?
+    @secured
     def delete(self, room_id):
         """
         Löscht einen Chatroom anhand seiner Id
@@ -23,6 +26,7 @@ class ChatRoomApi(Resource):
         """
         return Administration.delete_room_by_id(room_id)
 
+    @secured
     @api.expect(room)
     def post(self):
         """

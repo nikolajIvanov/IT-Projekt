@@ -2,9 +2,11 @@ from .model import user, api
 from flask_restx import Resource
 from server.Administration import Administration
 from server.bo.UserBO import UserBO
+from src.SecurityDecorator import secured
 
 
 class UsersApi(Resource):
+    @secured
     @api.marshal_list_with(user)
     def get(self):
         """Auslesen aller Nutzer-Objekte
@@ -12,6 +14,7 @@ class UsersApi(Resource):
         """
         return Administration.get_all_users()
 
+    @secured
     @api.expect(user)
     def post(self):
         """

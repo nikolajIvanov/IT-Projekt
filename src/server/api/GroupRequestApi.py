@@ -1,11 +1,13 @@
 from flask_restx import Resource
+
+from SecurityDecorator import secured
 from server.Administration import Administration
 from .model import group_request, api
 from server.bo.RequestBO import RequestBO
 
 
 class GroupRequestApi(Resource):
-
+    @secured
     @api.expect(group_request)
     def post(self):
         """

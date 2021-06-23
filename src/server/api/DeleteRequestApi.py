@@ -1,10 +1,12 @@
 from flask_restx import Resource
+
+from SecurityDecorator import secured
 from server.Administration import Administration
 from .model import delete_request, api
 
 
 class DeleteRequestApi(Resource):
-
+    @secured
     @api.expect(delete_request)
     def post(self):
         """

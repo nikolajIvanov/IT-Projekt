@@ -1,13 +1,16 @@
-from datetime import datetime, timedelta
-time = datetime.now()
-print(time)
-print(time - timedelta(weeks=2))
-"""time = datetime.now()
-time_between_insertion = datetime.now() - (datetime.now() - (time.day-2))
+def test(**kwargs):
+    print(kwargs["a"])
 
-if time_between_insertion.days > 30:
-    print("The insertion date is older than 30 days")
 
-else:
-    print("The insertion date is not older than 30 days")
-"""
+test(a=1, b=2)
+
+from server.Administration import Administration
+from server.db.Mapper import Mapper
+
+#Administration().get_rooms_of_user(1)
+#Administration().get_chat_by_room(1)
+
+Administration().get_request("1111")
+
+
+

@@ -1,9 +1,11 @@
+from SecurityDecorator import secured
 from .model import lerngruppe, api
 from flask_restx import Resource, reqparse
 from server.Administration import Administration
 
 
 class LerngruppenByIdApi(Resource):
+    @secured
     @api.marshal_list_with(lerngruppe)
     def get(self):
         """

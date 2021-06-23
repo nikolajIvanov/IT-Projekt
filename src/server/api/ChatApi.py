@@ -1,10 +1,11 @@
+from SecurityDecorator import secured
 from .model import api, chat
 from flask_restx import Resource
 from server.Administration import Administration
 
 
 class ChatApi(Resource):
-
+    @secured
     @api.marshal_list_with(chat)
     def get(self, room_id):
         """

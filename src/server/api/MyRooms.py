@@ -1,10 +1,11 @@
+from SecurityDecorator import secured
 from .model import room, api
 from flask_restx import Resource
 from server.Administration import Administration
 
 
 class MyRooms(Resource):
-
+    @secured
     @api.marshal_with(room)
     def get(self, auth_id):
         """
