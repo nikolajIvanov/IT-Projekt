@@ -26,7 +26,7 @@ profil = api.inherit('ProfilBO', bo, {
 
 user = api.inherit('Nutzer', profil, {
     'authId': fields.String(attribute=lambda x: x.get_authId(), description='GoogleID eines Benutzers'),
-    'geburtsdatum': fields.String(attribute=lambda x: x.get_geburtsdatum(), description='Geburtsdatum eines Benutzers'),
+    'geburtsdatum': fields.Integer(attribute=lambda x: x.get_geburtsdatum(), description='Geburtsdatum eines Benutzers'),
     'email': fields.String(attribute=lambda x: x.get_email(), description='E-Mail-Adresse eines Benutzers'),
     'gender': fields.String(attribute=lambda x: x.get_gender(), description='Gender eines Benutzers'),
     'semester': fields.String(attribute=lambda x: x.get_semester(), description='Semester eines Benutzers'),

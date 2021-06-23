@@ -13,15 +13,9 @@ class ChatFenster extends React.Component{
         this.state = {
             partnerId: null,
             sendData: "",
-            //Nur zur Demo
-            sendData2: "",
-            myData: [],
-            partnerData: [],
             chat:[]
         }
     }
-
-    //TODO statt Grid --> Liste machen
 
     componentWillUnmount(){
         this.socket.close()
@@ -36,7 +30,6 @@ class ChatFenster extends React.Component{
                 })
             }
         })
-
         //Sucht den Inhalt zu einer RaumId, welche über Props übergeben werden
         await TeamUpApi.getAPI().getChatContent(this.props.roomId).then(
             content => content.forEach((message) => {

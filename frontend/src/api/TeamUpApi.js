@@ -61,7 +61,7 @@ export default class TeamUpApi {
     }
     // Der API Call findet über diese Methode statt. Je nachdem um welche HTTP Methode es sich handelt, wird ein
     // anderer Body übergeben sowie die URLs für das Backend.
-    #fetchAdvanced = (url, init) => fetch(url, init)
+    #fetchAdvanced = (url, init) => fetch(url, {...{'credentials':'same-origin'},...init})
         .then(res => {
             //HTTP Error werden nicht zurück gewiesen
             if (!res.ok) {
@@ -101,10 +101,6 @@ export default class TeamUpApi {
 
     setGruppe(lerngruppe){
         return this.#add(this.#allGruppenURL(), lerngruppe);
-    }
-
-    updateGruppe(gruppenId, lerngruppe){
-        return this.#update(this.#gruppeURL(gruppenId),lerngruppe)
     }
 
     getStudiengang(){

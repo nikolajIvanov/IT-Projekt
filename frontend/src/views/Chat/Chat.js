@@ -3,7 +3,6 @@ import Chatübersicht from "./Sections/Chatübersicht";
 import ChatFenster from "./Sections/ChatFenster";
 import Grid from "@material-ui/core/Grid";
 import H1_bold from "../../components/Fonts/h1_bold";
-import { withRouter } from 'react-router-dom';
 
 
 class Chat extends Component {
@@ -19,9 +18,16 @@ class Chat extends Component {
     //TODO wie erkenne ich das ich den Chat verlasse ? --> push verwenden und navbar ausblenden
 
     switchChat = () => {
-        this.setState({
-            chatSwitcher: false
-        })
+        if(this.state.chatSwitcher === true) {
+            this.setState({
+                chatSwitcher: false
+            })
+        }
+        else{
+            this.setState({
+                chatSwitcher: true
+            })
+        }
     }
 
     setRoomId = (roomId) =>{

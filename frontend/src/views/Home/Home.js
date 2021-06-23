@@ -163,7 +163,6 @@ class Home extends Component {
                         <Route path="/chat" exact ><Chat setMyId={this.setMyId}
                                                          myId={myId}
                                                          setPartnerId={this.setPartnerId}/></Route>
-                        <Route path="/chat/:id" exact component={ChatFenster}/>
                         <Route path="/gruppe_erstellen"><GruppeBearbeiten myId={myId}
                                                                       partnerId={partnerId}/></Route>
                     </Switch>

@@ -22,22 +22,22 @@ class App extends React.Component {
             }
     }
 
-    componentDidMount() {
-        firebase.auth()
+    async componentDidMount() {
+        await firebase.auth()
             .onAuthStateChanged(user => {
-            if (user) {
-                this.setState({
-                        user: user
-                    }
-                )
-                this.setInit()
+                if (user) {
+                    this.setState({
+                            user: user
+                        }
+                    )
+                    this.setInit()
 
-            } else {
-                this.setState({
-                    user: ''
-                })
-            }
-        });
+                } else {
+                    this.setState({
+                        user: ''
+                    })
+                }
+            });
     }
 
     setPassword = (password) =>{
@@ -103,6 +103,12 @@ class App extends React.Component {
 
     setInit = async () => {
         const user = firebase.auth().currentUser.uid
+        await firebase.auth()
+            .currentUser.getIdToken().then(
+            (token) => {
+                document.cookie = `token=${token};path=/`
+            }
+        );
         const code = await TeamUpApi.getAPI().getInit(user)
         if(code === 200){
             this.setState({

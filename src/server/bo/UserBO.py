@@ -1,3 +1,5 @@
+import datetime
+
 from server.bo.ProfilBO import ProfilBO
 from datetime import date
 
@@ -7,7 +9,7 @@ class UserBO(ProfilBO):
         super().__init__()
         self.__email = ""
         self.__authId = ""
-        self.__geburtsdatum = ""
+        self.__geburtsdatum = None
         self.__gender = ""
         self.__semester = ""
         self.__studiengang = ""

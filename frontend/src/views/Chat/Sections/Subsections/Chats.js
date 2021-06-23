@@ -13,7 +13,6 @@ function Chats(props) {
 
     //Übergibt alle RoomInformationen an die Vaterkomponente Chat
     function getChat(roomId, myId, teilnehmer){
-        console.log(roomId, myId, teilnehmer)
         props.roomId(roomId)
         props.myId(myId)
         props.teilnehmer(teilnehmer)
@@ -24,6 +23,7 @@ function Chats(props) {
     useEffect(() =>{
         TeamUpApi.getAPI().getChatrooms(firebase.auth().currentUser.uid).then(
             chats => {
+                console.log(chats)
                 setChats(chats)
             }
         )

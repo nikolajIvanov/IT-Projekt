@@ -47,13 +47,13 @@ CREATE TABLE `users` (
     `geburtsdatum` DATE NOT NULL,
     `email` varchar(128) NOT NULL DEFAULT '',
     `beschreibung` varchar(128) NOT NULL DEFAULT '',
-    `lerntyp` int(11) NOT NULL DEFAULT 999,
+    /* Lerntyp auf int oder varchar?*/
+    `lerntyp` varchar(128) NOT NULL DEFAULT '',
     `gender` varchar(128) NOT NULL DEFAULT '',
     `semester` int(11) NOT NULL ,
     `studiengang` varchar(128) NOT NULL DEFAULT '',
     `frequenz` varchar(128) NOT NULL DEFAULT '',
-    `lernort` varchar(128) NOT NULL DEFAULT '',
-    FOREIGN KEY (lerntyp) REFERENCES lerntyp (id)
+    `lernort` varchar(128) NOT NULL DEFAULT ''
  );
 
 CREATE TABLE `userInModul` (
@@ -71,13 +71,12 @@ CREATE TABLE `lerngruppe` (
     `timeStamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `bild` LONGBLOB NOT NULL,
     `name` varchar(128) NOT NULL DEFAULT '',
-    `lerntyp` int(11) NOT NULL DEFAULT 999,
+    `lerntyp` varchar(128) NOT NULL DEFAULT '',
     `admin` int(11) NOT NULL,
     `beschreibung` varchar(128) NOT NULL DEFAULT '',
     `frequenz` varchar(128) NOT NULL DEFAULT '',
     `lernort` varchar(128) NOT NULL DEFAULT '',
-    FOREIGN KEY (admin) REFERENCES users (id),
-    FOREIGN KEY (lerntyp) REFERENCES lerntyp (id)
+    FOREIGN KEY (admin) REFERENCES users (id)
 );
 
 CREATE TABLE `room` (

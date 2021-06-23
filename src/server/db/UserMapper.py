@@ -53,7 +53,6 @@ class UserMapper(Mapper):
                         for user in mapper.get_users_of_room(room):
                             connected_users.append(user)
 
-
             query3 = """SELECT userId FROM TeamUP.userInModul WHERE modulId=%s"""
 
             # Holt alle User, die in den selben Modulen sind wie der aktuelle User
@@ -81,7 +80,7 @@ class UserMapper(Mapper):
 
             # Es werden alle benötigten Informationen jedes Users geholt und in einem UserBO gespeichert
             for user in unsorted_users:
-                cursor.execute(query_matching_user, (user, ))
+                cursor.execute(query_matching_user, (user,))
                 tuple_user = cursor.fetchone()
                 user = UserBO.create_matching_userBO(id=tuple_user[0], lerntyp=tuple_user[1], semester=tuple_user[2],
                                                      studiengang=tuple_user[3], frequenz=tuple_user[4],
@@ -428,7 +427,6 @@ class UserMapper(Mapper):
         daten = (authid, nutzer.get_profil_bild(), nutzer.get_name(), nutzer.get_email(), nutzer.get_beschreibung(),
                  nutzer.get_lerntyp(), nutzer.get_gender(), nutzer.get_semester(), nutzer.get_studiengang(),
                  nutzer.get_vorname(), authid)
-
 
         # User ID für das weitere Vorgehen aus der DB zu holen, falls sie falsch übergeben wurde (Postman)
         query_id = """SELECT users.id FROM TeamUP.users WHERE authId=%s"""
