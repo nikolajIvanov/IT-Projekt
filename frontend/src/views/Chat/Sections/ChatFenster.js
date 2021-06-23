@@ -100,7 +100,10 @@ class ChatFenster extends React.Component{
                     <Grid item sx={12}>
                         <ButtonSend onClick={this.handleSend} onChange={this.handleMessage}
                                         inhalt={sendData}/>
+                        {this.props.groupId === null ?
                         <ButtonPrimary onClick={this.createLerngruppe} inhalt={"Lerngruppe erstellen"}/>
+                            : null
+                        }
                     </Grid>
                 </Grid>
             </div>

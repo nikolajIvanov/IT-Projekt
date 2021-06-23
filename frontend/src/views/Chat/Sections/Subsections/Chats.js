@@ -12,18 +12,19 @@ function Chats(props) {
 
 
     //Übergibt alle RoomInformationen an die Vaterkomponente Chat
-    function getChat(roomId, myId, teilnehmer){
+    function getChat(roomId, myId, teilnehmer, groupId){
         props.roomId(roomId)
         props.myId(myId)
         props.teilnehmer(teilnehmer)
         props.switch()
+        console.log(groupId)
+        props.groupId(groupId)
     }
 
     //Ruft alle Räume auf, in denen sich der aktuelle Nutzer befindet
     useEffect(() =>{
         TeamUpApi.getAPI().getChatrooms(firebase.auth().currentUser.uid).then(
             chats => {
-                console.log(chats)
                 setChats(chats)
             }
         )
@@ -33,7 +34,7 @@ function Chats(props) {
         <div>
             {chats.map(room =>
             <ListItem className="chatPreviews" onClick={() =>
-                getChat(room.roomId, room.myId, room.teilnehmer)}>
+                getChat(room.roomId, room.myId, room.teilnehmer, room.groupId)}>
                 <ListItemAvatar>
                     <ProfilAvatar/>
                 </ListItemAvatar>
