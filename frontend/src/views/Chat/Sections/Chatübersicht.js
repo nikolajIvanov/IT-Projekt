@@ -19,6 +19,7 @@ function Chatübersicht(props) {
                 <List className="chatWindow">
                     <Chats
                         roomId={props.roomId}
+                        groupId={props.groupId}
                         myId={props.myId}
                         teilnehmer={props.teilnehmer}
                         switch={props.switch}
