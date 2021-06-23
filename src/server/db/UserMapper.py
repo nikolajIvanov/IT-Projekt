@@ -53,6 +53,16 @@ class UserMapper(Mapper):
                         for user in mapper.get_users_of_room(room):
                             connected_users.append(user)
 
+            # Query erstellen um User zu finden an welche ich schon eine Anfrage gestellt habe
+            angefragt_user = """SELECT anUserid from TeamUP.userAdmitted WHERE vonUserid=%s"""
+
+            # Alle User finden an die ich schon eine Anfrage gestellt habe
+            cursor.execute(angefragt_user, (self.find_userid_by_authid(user_authid),))
+            anfragen = cursor.fetchall()
+            for tuples in anfragen:
+                for anfrage in tuples:
+                    connected_users.append(anfrage)
+
             query3 = """SELECT userId FROM TeamUP.userInModul WHERE modulId=%s"""
 
             # Holt alle User, die in den selben Modulen sind wie der aktuelle User

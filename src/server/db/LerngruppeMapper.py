@@ -49,6 +49,16 @@ class LerngruppeMapper(Mapper):
             for gruppe in tuples:
                 connected_groups.append(gruppe)
 
+        # Query erstellen um Lerngruppen zu finden an welche ich schon eine Anfrage gestellt habe
+        angefragte_lerngruppe = """SELECT anGruppenid from TeamUP.gruppeAdmitted WHERE vonUserid=%s"""
+
+        # Alle Lerngruppen finden an die ich schon eine Anfrage gestellt habe
+        cursor.execute(angefragte_lerngruppe, (self.find_userid_by_authid(user_authid),))
+        anfragen = cursor.fetchall()
+        for tuples in anfragen:
+            for anfrage in tuples:
+                connected_groups.append(anfrage)
+
         query3 = """SELECT lerngruppeId FROM TeamUP.lerngruppeInModul WHERE modulId=%s"""
 
         # Holt alle Lerngruppen, die in den selben Modulen sind wie der aktuelle User
