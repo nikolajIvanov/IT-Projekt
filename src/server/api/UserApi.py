@@ -15,6 +15,7 @@ class UserApi(Resource):
         """
         return Administration.get_user_by_auth_id(auth_id)
 
+    @secured
     def delete(self, auth_id):
         """
         Löscht den aktuellen User über die GoogleID

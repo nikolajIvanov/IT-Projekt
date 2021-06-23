@@ -38,6 +38,7 @@ class UsersApi(Resource):
         else:
             return 'Der User konnte nicht angelegt werden, da keine Daten mitgeschickt wurden', 500
 
+    @secured
     @api.expect(user)
     def put(self):
         payload = api.payload
