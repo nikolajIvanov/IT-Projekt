@@ -11,6 +11,7 @@ class Chat extends Component {
         this.state = {
             chatSwitcher: true,
             roomId: null,
+            groupId: '',
             teilnehmer: null
         }
     }
@@ -42,8 +43,14 @@ class Chat extends Component {
         })
     }
 
+    setGroup = (groupId) =>{
+        this.setState({
+            groupId: groupId
+        })
+    }
+
     render() {
-        const {chatSwitcher, roomId, teilnehmer} = this.state
+        const {chatSwitcher, roomId, teilnehmer, groupId} = this.state
 
         return (
 
@@ -52,6 +59,7 @@ class Chat extends Component {
                     <Grid item sx={3} className="chatItem">
                         <Chatübersicht roomId={this.setRoomId}
                                        myId={this.props.setMyId}
+                                       groupId={this.setGroup}
                                        teilnehmer={this.setTeilnehmer}
                                        switch={this.switchChat}/>
                     </Grid>
@@ -67,6 +75,7 @@ class Chat extends Component {
                                 <ChatFenster roomId={roomId}
                                              myId={this.props.myId}
                                              teilnehmer={teilnehmer}
+                                             groupId={groupId}
                                              setPartnerId={this.props.setPartnerId}
                                 />
                             </>

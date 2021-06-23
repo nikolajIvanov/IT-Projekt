@@ -71,7 +71,7 @@ export default class TeamUpApi {
         }
     )
 
-    #fetchMatching = (url, init) => fetch(url, init)
+    #fetchMatching = (url, init) => fetch(url, {...{'credentials':'same-origin'},...init})
         .then(res => {
             return res.json()
         })
