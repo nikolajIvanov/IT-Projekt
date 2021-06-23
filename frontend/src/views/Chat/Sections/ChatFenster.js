@@ -2,10 +2,11 @@ import React from 'react';
 import io from "socket.io-client";
 import ButtonPrimary from "../../../components/Button/ButtonPrimary";
 import Grid from "@material-ui/core/Grid";
-import {Chip} from "@material-ui/core";
+import {Chip, IconButton, Input, InputBase} from "@material-ui/core";
 import ButtonSend from "../../../components/Button/ButtonSend";
 import TeamUpApi from "../../../api/TeamUpApi";
 import { withRouter } from 'react-router-dom';
+import SendIcon from "@material-ui/icons/Send";
 
 class ChatFenster extends React.Component{
     constructor() {
@@ -73,33 +74,46 @@ class ChatFenster extends React.Component{
         })
     }
 
-    handleSend = () => {
+    handleSend = (e) => {
         this.socket.emit("message", {
             roomId: this.props.roomId,
             message: this.state.sendData,
             userId: this.props.myId})
-        console.log("Emit Clicked")
         this.setState({sendData: ""})
     }
 
-    createLerngruppe = () =>{
+    createLerngruppe = (e) =>{
         this.props.setPartnerId(this.state.partnerId)
         this.props.history.push("/gruppe_erstellen")
+    }
+
+    onKeyUp = (event) => {
+        if ((event.charCode === 13) && (this.state.sendData !== '')){
+            this.handleSend()
+        }
     }
 
     render() {
         const {chat, sendData} = this.state
         return (
-            <div className="card">
+            <div className="card" onKeyPress={this.onKeyUp}>
                 <div className="chatOutlines">
                         {chat.map((chat) =>
                             <div>{chat}</div>
                         )}
                 </div>
                 <Grid container className="card">
+                    {/* Input Base sollte eingebunden werden --> e prevent error*/}
                     <Grid item sx={12}>
-                        <ButtonSend onClick={this.handleSend} onChange={this.handleMessage}
-                                        inhalt={sendData}/>
+                        <InputBase
+                            placeholder="Schreib was"
+                            value={sendData}
+                            onChange={this.handleMessage}
+                            inputProps={{ 'aria-label': 'search google maps' }}
+                        />
+                        <IconButton onClick={this.handleSend}>
+                            <SendIcon />
+                        </IconButton>
                         {this.props.groupId === null ?
                         <ButtonPrimary onClick={this.createLerngruppe} inhalt={"Lerngruppe erstellen"}/>
                             : null

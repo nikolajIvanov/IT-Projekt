@@ -64,8 +64,6 @@ CREATE TABLE `userInModul` (
     PRIMARY KEY (userId, modulId)
 );
 
-
-
 CREATE TABLE `lerngruppe` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     `timeStamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

@@ -8,7 +8,6 @@ import Chat from "../Chat/Chat";
 import Match from "../Matching/Match";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from "../../api/Firebase";
-import ChatFenster from "../Chat/Sections/ChatFenster";
 import NoMatch from "./Subsection/NoMatch";
 import GruppeBearbeiten from "../Profil & Gruppe/GruppeBearbeiten";
 

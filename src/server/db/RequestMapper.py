@@ -58,8 +58,8 @@ class RequestMapper(Mapper):
             cursor.execute(lerngruppenid, (userid,))
             gruppen_from_admin = cursor.fetchall()
             erhalten = []
-            erhalten_abfrage = """SELECT gA.id, gA.vonUserid, gA.timestamp, l.name, l.bild 
-                                  FROM TeamUP.gruppeAdmitted gA JOIN TeamUP.lerngruppe l WHERE anGruppenid=%s"""
+            erhalten_abfrage = """SELECT gA.id, gA.vonUserid, gA.timestamp, l.name, l.id, l.bild 
+                                  FROM TeamUP.gruppeAdmitted gA JOIN TeamUP.lerngruppe l ON gA.anGruppenid = l.id WHERE anGruppenid=%s"""
             for gruppe in gruppen_from_admin:
 
                 cursor.execute(erhalten_abfrage, (gruppe[0],))
@@ -71,7 +71,8 @@ class RequestMapper(Mapper):
                     message_dict["vonUserName"] = self.get_username_by_id(anfrage[1])
                     message_dict["timestamp"] = anfrage[2].strftime("%Y-%m-%d %H:%M:%S")
                     message_dict["name"] = anfrage[3]
-                    message_dict["bild"] = anfrage[4]
+                    message_dict["gruppenId"] = anfrage[4]
+                    message_dict["bild"] = anfrage[5]
                     erhalten.append(message_dict.copy())
 
             gesendet = []

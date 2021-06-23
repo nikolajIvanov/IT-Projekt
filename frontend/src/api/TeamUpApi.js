@@ -51,7 +51,7 @@ export default class TeamUpApi {
 
     #acceptUserRequestURL = () => `${this.#serverBaseURL}/accept_request`
 
-    #acceptGroupRequestURL = () => `${this.#serverBaseURL}/group_request`
+    #acceptGroupRequestURL = () => `${this.#serverBaseURL}/lerngruppen-mitglied`
 
     #getChatRequestsURL = (authId) => `${this.#serverBaseURL}/request/${authId}`;
 
@@ -166,7 +166,7 @@ export default class TeamUpApi {
     }
 
     acceptGroupRequest(anfrage){
-        return this.#add(this.#acceptGroupRequestURL(), anfrage)
+        return this.#put(this.#acceptGroupRequestURL(), anfrage)
     }
 
     //TODO Delete Gruppe einfügen
@@ -221,6 +221,17 @@ export default class TeamUpApi {
     #add = (url, businessObject) =>{
         return this.#fetchAdvanced(url, {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(businessObject)
+        })
+    }
+
+    #put = (url, businessObject) =>{
+        return this.#fetchAdvanced(url, {
+            method: 'PUT',
             headers: {
                 'Accept': 'application/json, text/plain',
                 'Content-type': 'application/json',

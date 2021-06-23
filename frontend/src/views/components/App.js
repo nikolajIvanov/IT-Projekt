@@ -18,7 +18,7 @@ class App extends React.Component {
             emailError: '',
             passwordError :'',
             hasAccount: true,
-            exist: true,
+            exist: false,
             }
     }
 
@@ -189,11 +189,13 @@ class App extends React.Component {
             {this.state.user ? (
                 <>
                     {this.state.exist ? (
+                        <>
                             <Home/>
+                        </>
                                 ):(
-                            <>
-                            <Registrierung exist={this.setExist}/>
-                            </>
+                                    <>
+                                        <Registrierung exist={this.setExist}/>
+                                    </>
                     )}
                 </>
                 ) : (

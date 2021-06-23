@@ -112,19 +112,17 @@ function Registrierung(props) {
 
     //Die Checkbox prüft welche Komponente momentan in der Registrierung angezeigt wird und ob die Input werte leer sind
     //Falls leere werte übergeben werden wird ein Modal über handleOpen() aufgerufen
-    const checkBox = () => {
-        if (checkData[count] === ''){
-           handleOpen()
-        }
-        else{
+    const checkBox = async () => {
+        if (checkData[count] === '') {
+            handleOpen()
+        } else {
             //TODO auf length setzen
-            if(count === (checkData.length -1)) {
+            if (count === (checkData.length - 1)) {
                 user.setAll(infos)
-                TeamUpApi.getAPI().setUser(user.getAll())
+                await TeamUpApi.getAPI().setUser(user.getAll())
                 console.log(user.getAll())
                 props.exist()
-            }
-            else{
+            } else {
                 setCount(count + 1);
                 handleNext()
             }

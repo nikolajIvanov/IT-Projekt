@@ -17,7 +17,6 @@ function Chats(props) {
         props.myId(myId)
         props.teilnehmer(teilnehmer)
         props.switch()
-        console.log(groupId)
         props.groupId(groupId)
     }
 

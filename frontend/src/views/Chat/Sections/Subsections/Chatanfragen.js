@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Divider, IconButton, List, ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
+import {IconButton, ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
 import ProfilAvatar from "../../../../components/Avatar/ProfilAvatar";
 import TeamUpApi from "../../../../api/TeamUpApi";
 import H3_bold from "../../../../components/Fonts/h3_bold";
@@ -26,7 +26,6 @@ function Chatanfragen(props) {
     }, [accept])
 
     function anfrageAnnehmen(requestId, partnerId){
-        console.log(requestId,partnerId)
         const anfrage = new AnfrageBO()
         anfrage.setRequestId(requestId)
         anfrage.setAuthId(props.authId)
@@ -40,13 +39,13 @@ function Chatanfragen(props) {
         }
     }
 
-    function anfrageAnnahmenGroup(requestId, partnerId){
-        console.log(requestId,partnerId)
-        const anfrage = new AnfrageBO()
-        anfrage.setRequestId(requestId)
-        anfrage.setAuthId(props.authId)
-        anfrage.setPartnerId(partnerId)
-        TeamUpApi.getAPI().acceptGroupRequest(anfrage.getAll())
+    function anfrageAnnahmenGroup(lerngruppenId, partnerId){
+        console.log(lerngruppenId, partnerId)
+        const request = {
+            lerngruppenId : lerngruppenId,
+            userId : partnerId
+        }
+        TeamUpApi.getAPI().acceptGroupRequest(request)
             .then((res) => console.log(res))
         if(accept === '')
             setAccept('1')
@@ -115,7 +114,7 @@ function Chatanfragen(props) {
                                     <div>
                                         <IconButton>
                                             <AddIcon onClick={() =>
-                                                anfrageAnnahmenGroup(request.requestId, request.vonUserId)}/>
+                                                anfrageAnnahmenGroup(request.gruppenId, request.vonUserId)}/>
                                         </IconButton>
                                         <IconButton><ClearIcon/></IconButton>
                                     </div>
