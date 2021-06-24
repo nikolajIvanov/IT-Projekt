@@ -33,7 +33,7 @@ class Lerngruppe(ProfilBO):
         Diese besteht aus der ID, dem Namen, den Lerntyp und den Modulen der Superklasse ergänzt durch die GoogleId
 
         des jeweiligen Kunden."""
-        # TODO LERNTYP MODUL dazu allgemein attribute anschaun pls
+        # TODO LERNTYP MODUL dazu allgemein attribute anschauen pls
         return "Customer: {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_name(), self.get_lerntyp(),
                                                          self.get_modul(), self.get_mitglieder(), self.get_admin())
 

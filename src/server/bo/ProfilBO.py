@@ -24,7 +24,7 @@ class ProfilBO(BusinessObject):
 
     def set_name(self, name):
         """ Setzt den Profilnamen des Profiles.
-        :param name: Profielname
+        :param name: Profilname
         """
         self.__name = name
 

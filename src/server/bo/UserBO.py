@@ -104,7 +104,6 @@ class UserBO(ProfilBO):
         if "modul" in kwargs:
             obj.set_module_append(kwargs["modul"])
 
-
         return obj
 
     @staticmethod
