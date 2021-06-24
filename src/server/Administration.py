@@ -155,7 +155,8 @@ class Administration(object):
         with LerngruppeMapper() as mapper:
             return mapper.delete_user_from_lerngruppe(altes_mitglied)
 
-    def update_lerngruppe(self, lerngruppe):
+    @staticmethod
+    def update_lerngruppe(lerngruppe):
         """
         Updatet eine Lerngruppe
         :param lerngruppe: lerngruppenobjekt
