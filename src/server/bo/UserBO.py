@@ -1,3 +1,4 @@
+#TODO Warum wird hier Datetime importiert?
 import datetime
 
 from server.bo.ProfilBO import ProfilBO
@@ -21,10 +22,10 @@ class UserBO(ProfilBO):
     def set_email(self, value):
         self.__email = value
 
-    def get_authId(self):
+    def get_auth_id(self):
         return self.__authId
 
-    def set_authId(self, value):
+    def set_auth_id(self, value):
         self.__authId = value
 
     def get_geburtsdatum(self,):
@@ -74,7 +75,7 @@ class UserBO(ProfilBO):
 
         des jeweiligen Kunden."""
         # TODO LERNTYP MODUL dazu allgemein attribute anschauen pls
-        return "Customer: {}, {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_authId(), self.get_name(),
+        return "Customer: {}, {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_auth_id(), self.get_name(),
                                                              self.get_email(), self.get_lerntyp(), self.get_modul(),
                                                              self.get_vorname())
 
@@ -96,7 +97,7 @@ class UserBO(ProfilBO):
         obj.set_semester(kwargs["semester"])
         obj.set_studiengang(kwargs["studiengang"])
         obj.set_vorname(kwargs["vorname"])
-        obj.set_authId(kwargs["authId"])
+        obj.set_auth_id(kwargs["authId"])
         obj.set_frequenz(kwargs["frequenz"])
         obj.set_lernort(kwargs["lernort"])
         if "geburtsdatum" in kwargs:
