@@ -374,7 +374,7 @@ class LerngruppeMapper(Mapper):
             cursor.execute(query_userchatdelete, roomid)
 
             query_deletroom = """DELETE FROM teamup.room WHERE teamup.room.id= %s"""
-            cursor.execute(query_deletroom, (roomid))
+            cursor.execute(query_deletroom, roomid)
 
             # Lerngruppen über die ID löschen
             query_gruppe = """DELETE FROM teamup.lerngruppe WHERE id= %s """
