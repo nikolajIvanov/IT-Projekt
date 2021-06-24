@@ -50,7 +50,7 @@ class MatchingBO:
 
             return self
         # TODO NIKO Check mal bitte den PEP 8 Fehler
-        except:
+        except InternalServerError:
             raise InternalServerError('Kein Matching Partner vorhanden')
 
     def lerngruppen_matching(self, main_user, match_gruppen):
