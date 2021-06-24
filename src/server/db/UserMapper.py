@@ -121,7 +121,7 @@ class UserMapper(Mapper):
                     VALUES (%s ,%s ,%s ,%s ,%s ,%s ,%s, %s, %s, %s, %s, %s, %s)"""
 
             # Auslesen der UserBO Daten
-            daten = (user.get_authId(), user.get_profil_bild(), user.get_name(),
+            daten = (user.get_auth_id(), user.get_profil_bild(), user.get_name(),
                      datetime.datetime.strptime(user.get_geburtsdatum(), '%Y-%m-%d'), user.get_email(),
                      user.get_beschreibung(), user.get_lerntyp(), user.get_gender(), user.get_semester(),
                      user.get_studiengang(), user.get_vorname(), user.get_frequenz(), user.get_lernort())
@@ -140,7 +140,7 @@ class UserMapper(Mapper):
             # Datenbankeintrag für jedes Modul erzeugen
             for i in module:
                 # Auslesen und speichern der users.id und modul.id
-                data = (self.find_userid_by_authid(user.get_authId()), self.get_modul_id_by_modul(i))
+                data = (self.find_userid_by_authid(user.get_auth_id()), self.get_modul_id_by_modul(i))
                 # (Bitte kein Komma nach data) Ausführen des SQL- Befehls
                 cursor.execute(query1, data)
             # Bestätigung der Datenbankabfrage/ änderung
@@ -311,7 +311,7 @@ class UserMapper(Mapper):
                            frequenz=%s, lernort=%s WHERE authId=%s"""
 
             # Auslesen der authId zur weiteren verwendung
-            authid = nutzer.get_authId()
+            authid = nutzer.get_auth_id()
 
             # Auslesen und speichern der restlichen UserBO Daten
             daten = (authid, nutzer.get_profil_bild(), nutzer.get_name(), nutzer.get_email(), nutzer.get_beschreibung(),
@@ -431,7 +431,7 @@ class UserMapper(Mapper):
                        beschreibung=%s, lerntyp=%s, gender=%s,semester=%s, studiengang=%s, vorname=%s WHERE authId=%s"""
 
         # Auslesend der authId zur weitern verwendung
-        authid = nutzer.get_authId()
+        authid = nutzer.get_auth_id()
 
         # Auslesen und speichern der restlichen UserBO Daten
         daten = (authid, nutzer.get_profil_bild(), nutzer.get_name(), nutzer.get_email(), nutzer.get_beschreibung(),
@@ -493,7 +493,7 @@ class UserMapper(Mapper):
                        WHERE users.id=%s"""
 
         # Auslesen und speichern der restlichen UserBO Daten
-        daten = (nutzer.get_authId, nutzer.get_profil_bild(), nutzer.get_name(), nutzer.get_email(),
+        daten = (nutzer.get_auth_id, nutzer.get_profil_bild(), nutzer.get_name(), nutzer.get_email(),
                  nutzer.get_beschreibung(), nutzer.get_lerntyp(), nutzer.get_gender(), nutzer.get_semester(),
                  nutzer.get_studiengang(), nutzer.get_vorname(), nutzer.get_id())
 
@@ -555,7 +555,7 @@ class UserMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-    def get_modulForUser(self, authId):
+    def get_modul_for_user(self, authId):
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor()
 
