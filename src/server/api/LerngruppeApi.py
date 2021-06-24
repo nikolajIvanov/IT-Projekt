@@ -32,6 +32,5 @@ class LerngruppeApi(Resource):
         Aktualisiert Daten einer Lerngruppe
         :return: 200 - wenn die Daten erfolgreich aktualisiert wurden
         """
-        adm = Administration()
         lerngruppen_bo = Lerngruppe.from_dict(api.payload)
-        return adm.update_lerngruppe(lerngruppen_bo)
+        return Administration.update_lerngruppe(lerngruppen_bo)
