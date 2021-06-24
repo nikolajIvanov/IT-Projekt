@@ -39,17 +39,17 @@ def add_user_to_room(usertooroom):
 
 
 @socketIo.on('private_message', namespace='/private')
-def nachricht(payLoad):
-    room = payLoad['roomId']
-    message = payLoad['message']
-    sender = payLoad['userId']
+def nachricht(pay_load):
+    room = pay_load['roomId']
+    message = pay_load['message']
+    sender = pay_load['userId']
     emit('new_message', message, room=room)
     Administration.save_message(room, message, sender)
 
 
 @socketIo.on('roomId', namespace='/private')
-def get_history(roomId):
-    return Administration.get_chat_by_room(roomId)
+def get_history(room_id):
+    return Administration.get_chat_by_room(room_id)
 
 
 # Api Endpunkte werden mit der Funktion add_resource an Flask übergeben
