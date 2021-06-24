@@ -45,17 +45,17 @@ class UserBO(ProfilBO):
     def set_semester(self, semester):
         self.__semester = semester
 
-    def set_studiengang(self, studiengang):
-        self.__studiengang = studiengang
-
     def get_studiengang(self):
         return self.__studiengang
 
-    def set_vorname(self, vorname):
-        self.__vorname = vorname
+    def set_studiengang(self, studiengang):
+        self.__studiengang = studiengang
 
     def get_vorname(self):
         return self.__vorname
+
+    def set_vorname(self, vorname):
+        self.__vorname = vorname
 
     def calculate_age(self):
         """
