@@ -18,7 +18,6 @@ class RequestApi(Resource):
         """
         return Administration.get_request(auth_id)
 
-
     @secured
     @api.expect(request)
     def post(self):
