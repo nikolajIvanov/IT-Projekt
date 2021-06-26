@@ -17,6 +17,7 @@ class VieleUserApi(Resource):
         users = []
         if payload:
             for _user in payload:
+                # Erzeugt für jeden Nutzer in der Liste ein User Business Objekt
                 proposal = UserBO.create_user_bo(id=_user["id"], authId=_user["authId"], profilBild=_user["profilBild"],
                                                  name=_user["name"], geburtsdatum=_user["geburtsdatum"],
                                                  email=_user["email"], beschreibung=_user["beschreibung"],

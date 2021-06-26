@@ -1,5 +1,4 @@
 from flask_restx import Resource
-
 from SecurityDecorator import secured
 from server.Administration import Administration
 from .model import group_request, api

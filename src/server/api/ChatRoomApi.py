@@ -16,7 +16,6 @@ class ChatRoomApi(Resource):
         """
         return Administration.get_rooms_of_user(auth_id)
 
-    # TODO: Kann es den selben Endpunkt haben?
     @secured
     def delete(self, room_id):
         """
