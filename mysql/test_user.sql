@@ -12,7 +12,6 @@ INSERT INTO TeamUP.users (id, timeStamp, authId, bild, name, vorname, geburtsdat
 INSERT INTO TeamUP.users (id, timeStamp, authId, bild, name, vorname, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang, frequenz, lernort) VALUES (9, '2021-06-08 15:25:25', '1119', 0x42696C64390D, 'Grün', 'Christarn', '1994-12-18', 'Christarn@mail.de', 'Beschreibungsinhalt Beispielttext.', 'Kommunikativ', 'Mann', 3, 'Online-Medien-Management', 'Last Minute', 'offline');
 INSERT INTO TeamUP.users (id, timeStamp, authId, bild, name, vorname, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang, frequenz, lernort) VALUES (10, '2021-06-08 15:25:25', '1120', 0x42696C643130, 'Anhalt', 'Karsten', '1994-12-18', 'Karsten@mail.de', 'Beschreibungsinhalt Beispielttext.', 'Auditiv', 'Mann', 1, 'Wirtschaftsinformatik und digitale Medien', 'wöchentlich', 'online');
 INSERT INTO TeamUP.users (id, timeStamp, authId, bild, name, vorname, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang, frequenz, lernort) VALUES (11, '2021-06-08 10:38:13', '2546', 0x42696C6420557064617465, 'Nikolaj', 'Sag ich niemals', '1990-12-01', 'ni012@hdm-stuttgart.de', 'Ich schaffe es', 'Visuell', 'Mann', 1, 'Wirtschaftsinformatik und digitale Medien', 'wöchentlich', 'online');
-INSERT INTO TeamUP.users (id, timeStamp, authId, bild, name, vorname, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang, frequenz, lernort) VALUES (12, '2021-06-08 15:25:25', 'TBzTNfKvzNgT2RB1EovLO6hmdpp1', 0x42696C64310D ,'Ivanov', 'Nikolaj', '1994-12-18', 'nikolaj.i.94@googlemail.com', '', 'Auditiv', 'mann', 4, 'Wirtschaftsinformatik und digitale Medien', 'wöchentlich', 'online');
 
 INSERT INTO TeamUP.userInModul (userId, modulId) VALUES (4, 151);
 INSERT INTO TeamUP.userInModul (userId, modulId) VALUES (3, 152);
@@ -23,4 +22,3 @@ INSERT INTO TeamUP.userInModul (userId, modulId) VALUES (2, 167);
 INSERT INTO TeamUP.userInModul (userId, modulId) VALUES (5, 167);
 INSERT INTO TeamUP.userInModul (userId, modulId) VALUES (6, 167);
 INSERT INTO TeamUP.userInModul (userId, modulId) VALUES (8, 167);
-INSERT INTO TeamUP.userInModul (userId, modulId) VALUES (10, 167);

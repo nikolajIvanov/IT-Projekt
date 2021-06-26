@@ -1,4 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@900&family=Fjalla+One&display=swap');
+
+:root{
+  --primary: #2D89FF97;
+  --secondary: #ff9900;
+  --complement: #ff1500;
+}
 
 .App {
   text-align: center;
@@ -45,9 +52,132 @@
   align-items: center;
 }
 
-.row{
+.chatComponent{
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.chatBox{
+  width: 70%;
+  height: 100%;
+  background-color: rgba(0, 144, 240, 0.21);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.sideBar{
+  width: 30%;
+  height: 100%;
+}
+
+.chatsBox{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  height: 78vh;
+}
+
+.chatHeader{
+  display: flex;
+  align-items: center;
+  padding: 2%;
+  height: 60px;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #f8f8f8;
+}
+
+.textField{
+  width: 100%;
+  margin: 0 0 0 2%;
+  padding-left: 2%;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.chatFooter{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: #e5e5e5;
+}
+
+.chatPreviews{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chatKopf{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8f8f8;
+  padding: 0 2% 0 2%;
+  height: 60px;
+  box-shadow: rgba(46, 156, 240, 0.1) 0px 5px, rgba(46, 156, 240, 0.1) 0px 10px, rgba(46, 156, 240, 0.1) 0px 15px, rgba(46, 156, 240, 0.1) 0px 20px, rgba(240, 46, 170, 0.05) 0px 25px;
+}
+
+.chatUeberschrift{
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.leftUebersicht{
+  padding: 0 3% 0 3%;
+}
+
+.rightChat{
+  padding: 2%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.leftChat{
+  padding: 2%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.Chatbox{
+  min-width: 10vw;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.chatOutlines{
+  padding: 0 10% 0 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  height: 78vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.emptyChatWindow{
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chatBild{
+  width: 50%;
+  height: 50%;
+}
+
+.sendBox{
+  position: absolute;
+  bottom: 0;
 }
 
 .scrollBox{
@@ -66,7 +196,7 @@
 }
 
 .button_primary{
-    background-color: #2D89FF97;
+    background-color: var(--primary);
     color: white;
   }
 
@@ -82,31 +212,45 @@
 
 .nav{
   margin: auto;
-  width: 80%;
-  border-radius: 10px;
-  background-color: #2D89FF97;
+  box-shadow: 0 8px 20px 0 rgba(10, 27, 68, 0.29);
+  position: sticky;
+  background-color: var(--primary);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.TeamUpIcon{
+  width: 2.5vw;
+  height: 2.5vw;
+}
+
+.logout-icon{
+  width: 25vw;
+  height: 2.5vw;
+  color: white;
+}
+
+.font-logo{
+  width: 20em;
+  height: 5em;
 }
 
 .icon{
   color: #ffffff
 }
 
-.matchCard{
-  padding: 10px;
-  border-radius: 10px;
-  background-image: linear-gradient(-45deg, #2D89FF97, #000000);
-}
-
 .primary{
-    background-color: #2D89FF97;
+    background-color: var(--primary)
   }
 
 .secondary{
-  background-color: #ff9900
+  background-color: var(--secondary)
 }
 
 .complement{
-  background-color: #ff1500
+  background-color: var(--complement)
 }
 
 .register{
@@ -120,7 +264,8 @@
 
 .h1_bold{
   font-size: xx-large;
-  font-weight: bold
+  font-weight: bold;
+  margin-bottom: 0;
 }
 
 .h2_regular{
@@ -133,7 +278,8 @@
 }
 
 .h3_regular{
-  font-size: large
+  font-size: large;
+  margin-top: 0;
 }
 
 .h3_bold{
@@ -148,4 +294,46 @@
 .p_bold{
   font-size: medium;
   font-weight: bold
+}
+
+.header{
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 5px;
+  font-family: 'Catamaran', sans-serif;
+  font-size: 80px
+}
+
+.matchWindow{
+  width: 70%;
+}
+
+.matchHeader{
+  overflow: hidden;
+  margin-top: 5%;
+  padding: 10% 10% 0 10%;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px 0 rgba(0, 74, 95, 0.2);
+}
+
+.matchHeaderItem{
+  display: inline-block;
+  margin: 0;
+  width: 30vw;
+  column-gap: 50%;
+  padding: 5% 0 0 0;
+}
+
+.matchBody{
+  padding: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.matchProfilBox{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

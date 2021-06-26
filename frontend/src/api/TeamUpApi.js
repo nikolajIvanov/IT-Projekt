@@ -41,6 +41,20 @@ export default class TeamUpApi {
 
     #getMatchGroupsURL = (groupArray) => `${this.#serverBaseURL}/lerngruppenById${groupArray}`;
 
+    #getChatContentURL = (roomId) => `${this.#serverBaseURL}/chat/${roomId}`;
+
+    #getRoomsURL = (authId) => `${this.#serverBaseURL}/chatrooms/${authId}`;
+
+    #chatRequestURL = () => `${this.#serverBaseURL}/request`;
+
+    #chatRequestGroupURL = () => `${this.#serverBaseURL}/group_request`;
+
+    #acceptUserRequestURL = () => `${this.#serverBaseURL}/accept_request`
+
+    #acceptGroupRequestURL = () => `${this.#serverBaseURL}/lerngruppen-mitglied`
+
+    #getChatRequestsURL = (authId) => `${this.#serverBaseURL}/request/${authId}`;
+
     // Wird bei jedem API Aufruf als erstes aufgerufen. Es erzeugt ein Objekt der Klasse TeamUpApi um somit die
     // einzelnen Objektmethoden aufrufen zu können.
     static getAPI() {
@@ -51,7 +65,7 @@ export default class TeamUpApi {
     }
     // Der API Call findet über diese Methode statt. Je nachdem um welche HTTP Methode es sich handelt, wird ein
     // anderer Body übergeben sowie die URLs für das Backend.
-    #fetchAdvanced = (url, init) => fetch(url, init)
+    #fetchAdvanced = (url, init) => fetch(url, {...{'credentials':'same-origin'},...init})
         .then(res => {
             //HTTP Error werden nicht zurück gewiesen
             if (!res.ok) {
@@ -60,6 +74,12 @@ export default class TeamUpApi {
             return res.json();
         }
     )
+
+    #fetchMatching = (url, init) => fetch(url, {...{'credentials':'same-origin'},...init})
+        .then(res => {
+            return res.json()
+        })
+
     // Ein einzelner User wird vom Backend ans Frontend übergeben. Die Daten werden in einer Klasse gespeichert.
     getUser(authId) {
         return this.#getSingle(this.#userURL(authId), UserBO)
@@ -75,28 +95,16 @@ export default class TeamUpApi {
     }
 
     // Ruft im Backend einen konkreten User auf und updatet die Werte, die im Übergabeparameter vorhanden sind.
-    updateUser(authId, user){
-        return this.#update(this.#userURL(authId), user, UserBO);
+    updateUser(user){
+        return this.#update(this.#allUsersURL(), user, UserBO);
     }
 
     deleteUser(authId){
         return this.#delete(this.#userURL(authId));
     }
 
-    getGruppe(gruppenId){
-        return this.#getSingle(this.#gruppeURL(gruppenId), LerngruppeBO);
-    }
-
-    getAllGruppe(){
-        return this.#getAll(this.#allGruppenURL(), LerngruppeBO);
-    }
-
     setGruppe(lerngruppe){
         return this.#add(this.#allGruppenURL(), lerngruppe);
-    }
-
-    updateGruppe(gruppenId, lerngruppe){
-        return this.#update(this.#gruppeURL(gruppenId),lerngruppe)
     }
 
     getStudiengang(){
@@ -116,7 +124,7 @@ export default class TeamUpApi {
     }
 
     getMatchUserList(authId){
-        return this.#getStatus(this.#usersMatchURL(authId))
+        return this.#getMatchResponse(this.#usersMatchURL(authId))
     }
 
     getMatchGroupList(authId){
@@ -131,6 +139,34 @@ export default class TeamUpApi {
     getGroupByMatch(groupArray){
         let array = groupArray.join();
         return this.#matching(this.#getMatchGroupsURL("?group_ids=" + array), UserBO)
+    }
+
+    getChatContent(roomId){
+        return this.#getStatus(this.#getChatContentURL(roomId))
+    }
+
+    sendChatRequest(userdict){
+        return this.#addChatRequest(this.#chatRequestURL(), userdict)
+    }
+
+    sendChatRequestGroup(userdict){
+        return this.#addChatRequest(this.#chatRequestGroupURL(), userdict)
+    }
+
+    getChatRequests(authId){
+        return this.#getStatus(this.#getChatRequestsURL(authId))
+    }
+
+    getChatrooms(authId){
+        return this.#getStatus(this.#getRoomsURL(authId))
+    }
+
+    acceptUserRequest(anfrage){
+        return this.#add(this.#acceptUserRequestURL(), anfrage)
+    }
+
+    acceptGroupRequest(anfrage){
+        return this.#put(this.#acceptGroupRequestURL(), anfrage)
     }
 
     //TODO Delete Gruppe einfügen
@@ -151,6 +187,27 @@ export default class TeamUpApi {
         })
     }
 
+    #getMatchResponse = (url) => {
+        return this.#fetchMatching(url).then( response => {
+            return response
+        })
+    }
+
+    #addChatRequest = (url, userdict) =>{
+        return this.#fetchAdvanced(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(userdict)
+        }).then(
+            (res) => {
+                return res
+            }
+        )
+    }
+
     #getAll = (url, BO) => {
         return this.#fetchAdvanced(url).then((responseJSON) => {
             let responseBOs = BO.fromJSON(responseJSON);
@@ -169,7 +226,18 @@ export default class TeamUpApi {
                 'Content-type': 'application/json',
             },
             body: JSON.stringify(businessObject)
-        }).then(r => console.log(r))
+        })
+    }
+
+    #put = (url, businessObject) =>{
+        return this.#fetchAdvanced(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(businessObject)
+        })
     }
 
     // Generische Methode um ein vorhandenes Objekt im Backend zu updaten (PUT Methode).

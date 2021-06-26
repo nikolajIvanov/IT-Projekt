@@ -1,10 +1,11 @@
-# Import aller Nötigen Flask Packages
+# Import aller nötigen Flask Packages
 from flask_cors import CORS
-from flask_socketio import SocketIO, send
+from flask_socketio import SocketIO, emit
 # Api Endpunkte
+from server.api.DeleteRequestApi import DeleteRequestApi
+from server.api.GroupRequestApi import GroupRequestApi
 from server.api.InitApi import InitApi
 from server.api.VieleUserApi import VieleUserApi
-from server.api.test_api import TestApi
 from server.api.UsersApi import UsersApi
 from server.api.UserApi import UserApi
 from server.api.LerngruppeApi import LerngruppeApi
@@ -18,40 +19,82 @@ from server.api.UserMatchingApi import UserMatchingApi
 from server.api.LerngruppenMatchingApi import LerngruppenMatchingApi
 from server.api.UsersByIdApi import UsersByIdApi
 from server.api.LerngruppenByIdApi import LerngruppenByIdApi
-
+from server.api.ChatApi import ChatApi
+from server.Administration import Administration
+from server.api.Chat import Chat
+from server.api.ChatRoomApi import ChatRoomApi
+from server.api.RequestApi import RequestApi
 
 CORS(app, resources=r'/*')
 socketIo = SocketIO(app, cors_allowed_origins="*")
+app.config.from_pyfile('flask.cfg', silent=True)
+
+socketIo.on_namespace(Chat('/chat'))
 
 
-@socketIo.on("message")
-def handleMessage(msg):
-    print(msg)
-    send(msg, broadcast=True)
-    return None
+@socketIo.on('usertoroom', namespace='/private')
+def add_user_to_room(usertooroom):
+    # Erwarte ein JSON mit den Attributen userId und roomId
+    Administration.add_user_to_room(usertooroom['userId'], usertooroom['roomId'])
+
+
+@socketIo.on('private_message', namespace='/private')
+def nachricht(pay_load):
+    room = pay_load['roomId']
+    message = pay_load['message']
+    sender = pay_load['userId']
+    emit('new_message', message, room=room)
+    Administration.save_message(room, message, sender)
+
+
+@socketIo.on('roomId', namespace='/private')
+def get_history(room_id):
+    return Administration.get_chat_by_room(room_id)
 
 
 # Api Endpunkte werden mit der Funktion add_resource an Flask übergeben
-api.add_resource(TestApi, '/test-api/<int:number>')
+# Wird aufgerufen, wenn ein neuer User erstellt werden soll oder wenn alle User angezeigt werden sollen
 api.add_resource(UsersApi, '/users')
-api.add_resource(UserApi, '/users/<string:authId>')
+# Gibt den aktuellen User mit allen Informationen zurück
+api.add_resource(UserApi, '/users/<string:auth_id>')
+# Wird im Matching genutzt, um bestimmte Werte für die Cards zu holen
 api.add_resource(UsersByIdApi, '/usersById')
+# Wird verwendet, um über Postman viele User gleichzeitig anzulegen
 api.add_resource(VieleUserApi, '/viele-user')
-
+# Erstellt oder löscht eine Lerngruppe
 api.add_resource(LerngruppenApi, '/lerngruppen')
-api.add_resource(LerngruppeApi, '/lerngruppe/<int:id>')
+# Ruft eine Lerngruppe auf
+api.add_resource(LerngruppeApi, '/lerngruppe/<int:gruppen_id>')
+# Wird aufgerufen, wenn der Admin einer Lerngruppe ein neues Mitglied bestätigt
 api.add_resource(LerngruppenmitgliedApi, '/lerngruppen-mitglied')
+# Wird im Matching genutzt, um alle Lerngruppen zu laden, die für ein Matching infrage kommen
 api.add_resource(LerngruppenByIdApi, '/lerngruppenById')
-
+# Gibt alle Studiengänge der HdM aus
 api.add_resource(StudiengangApi, '/studiengang')
+# Zeigt alle Module eines Studiengangs an
 api.add_resource(ModulApi, '/modul/<string:studiengang>')
+# Zeigt alle Lerntypen an
 api.add_resource(LerntypApi, '/lerntyp')
-
-api.add_resource(UserMatchingApi, '/usermatch/<string:authId>')
-api.add_resource(LerngruppenMatchingApi, '/lerngruppenmatch/<string:authId>')
-
-api.add_resource(InitApi, '/init/<string:authId>')
-
+# Herzstück der App. Macht das Matching für die User
+api.add_resource(UserMatchingApi, '/usermatch/<string:auth_id>')
+# Herzstück der App. Macht das Matching für die Lerngruppen
+api.add_resource(LerngruppenMatchingApi, '/lerngruppenmatch/<string:auth_id>')
+# Zeigt den Chatverlauf eines Raumes an
+api.add_resource(ChatApi, '/chat/<int:room_id>')
+# Wird aufgerufen wenn eine User Anfrage akzeptiert wurde
+api.add_resource(ChatRoomApi, '/accept_request')
+# Zeigt alle Chatrooms an, die bestätigt worden sind
+api.add_resource(ChatRoomApi, '/chatrooms/<string:auth_id>')
+# Sendet einen Post Befehl der ein Argument type hat um zwischen gruppen und single unterscheiden zu können
+api.add_resource(RequestApi, '/request')
+# Übergibt alle Anfragen des aktuellen Users.
+api.add_resource(RequestApi, '/request/<string:auth_id>')
+# Erstellt eine Gruppenanfrage
+api.add_resource(GroupRequestApi, '/group_request')
+# Überprüft ob ein User in unserer Datenbank vorhanden ist
+api.add_resource(InitApi, '/init/<string:auth_id>')
+# Löscht eine Anfrage von der Datenbank
+api.add_resource(DeleteRequestApi, '/delete_request')
 
 if __name__ == '__main__':
     # app.run(debug=True)

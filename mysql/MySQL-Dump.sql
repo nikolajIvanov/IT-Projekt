@@ -2,15 +2,20 @@ CREATE DATABASE IF NOT EXISTS `TeamUP` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `TeamUP`;
 
 DROP TABLE IF EXISTS `userInLerngruppe`;
-DROP TABLE IF EXISTS `adminInLerngruppe`;
 DROP TABLE IF EXISTS `lerngruppeInModul`;
 DROP TABLE IF EXISTS `userInModul`;
+DROP TABLE IF EXISTS `userInRoom`;
+DROP TABLE IF EXISTS `message`;
+DROP TABLE IF EXISTS `room`;
+DROP TABLE IF EXISTS `gruppeAdmitted`;
+DROP TABLE IF EXISTS `lerntyp`;
 DROP TABLE IF EXISTS `lerngruppe`;
-DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `modulInStudiengang`;
 DROP TABLE IF EXISTS `modul`;
-DROP TABLE IF EXISTS `lerntyp`;
 DROP TABLE IF EXISTS `studiengang`;
+DROP TABLE IF EXISTS `userAdmitted`;
+DROP TABLE IF EXISTS `users`;
+
 
 
 CREATE TABLE `modul` (
@@ -19,6 +24,13 @@ CREATE TABLE `modul` (
     `wahl/pflicht` varchar(128) NOT NULL DEFAULT '',
     `edv-nr` int(11) NOT NULL ,
     `bezeichnung` varchar(128) NOT NULL DEFAULT ''
+);
+
+CREATE TABLE `lerntyp` (
+    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `bild` MEDIUMBLOB NOT NULL ,
+    `typ` varchar(128) NOT NULL DEFAULT '',
+    `beschreibung` varchar(3000) NOT NULL DEFAULT ''
 );
 
 --
@@ -32,17 +44,16 @@ CREATE TABLE `users` (
     `bild` LONGBLOB NOT NULL ,
     `name` varchar(128) NOT NULL DEFAULT '',
     `vorname` varchar(128) NOT NULL DEFAULT '',
-     /* Geburtstag muss gesetzt werden im FROTNEND deswegen müssen wir im BE kein Default definieren */
-    `geburtsdatum` DATE NOT NULL DEFAULT '01.01.1900',
+    `geburtsdatum` DATE NOT NULL,
     `email` varchar(128) NOT NULL DEFAULT '',
     `beschreibung` varchar(128) NOT NULL DEFAULT '',
+    /* Lerntyp auf int oder varchar?*/
     `lerntyp` varchar(128) NOT NULL DEFAULT '',
     `gender` varchar(128) NOT NULL DEFAULT '',
     `semester` int(11) NOT NULL ,
     `studiengang` varchar(128) NOT NULL DEFAULT '',
     `frequenz` varchar(128) NOT NULL DEFAULT '',
     `lernort` varchar(128) NOT NULL DEFAULT ''
-
  );
 
 CREATE TABLE `userInModul` (
@@ -51,7 +62,6 @@ CREATE TABLE `userInModul` (
     FOREIGN KEY (userId) REFERENCES users (id),
     FOREIGN KEY (modulId) REFERENCES modul (id),
     PRIMARY KEY (userId, modulId)
-
 );
 
 CREATE TABLE `lerngruppe` (
@@ -59,15 +69,22 @@ CREATE TABLE `lerngruppe` (
     `timeStamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `bild` LONGBLOB NOT NULL,
     `name` varchar(128) NOT NULL DEFAULT '',
-    `lerntyp` varchar(128) NOT NULL DEFAULT 999,
-    `admin` varchar(128) NOT NULL DEFAULT '',
+    `lerntyp` varchar(128) NOT NULL DEFAULT '',
+    `admin` int(11) NOT NULL,
     `beschreibung` varchar(128) NOT NULL DEFAULT '',
     `frequenz` varchar(128) NOT NULL DEFAULT '',
-    `lernort` varchar(128) NOT NULL DEFAULT ''
+    `lernort` varchar(128) NOT NULL DEFAULT '',
+    FOREIGN KEY (admin) REFERENCES users (id)
 );
 
-CREATE TABLE `userInLerngruppe`
-(
+CREATE TABLE `room` (
+    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `TIMESTAMP` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `groupId` int(11),
+    FOREIGN KEY (groupId) REFERENCES lerngruppe (id)
+);
+
+CREATE TABLE `userInLerngruppe` (
     `userId`       int(11) NOT NULL,
     `lerngruppeId` int(11) NOT NULL,
     FOREIGN KEY (userId) REFERENCES users (id),
@@ -75,8 +92,7 @@ CREATE TABLE `userInLerngruppe`
     PRIMARY KEY (userId, lerngruppeId)
 );
 
-CREATE TABLE `lerngruppeInModul`
-(
+CREATE TABLE `lerngruppeInModul` (
     `lerngruppeId`  int(11) NOT NULL,
     `modulId`       int(11) NOT NULL,
     FOREIGN KEY (lerngruppeId) REFERENCES lerngruppe (id),
@@ -89,8 +105,7 @@ CREATE TABLE `studiengang` (
     `studiengang` varchar(128) NOT NULL DEFAULT ''
 );
 
-CREATE TABLE `modulInStudiengang`
-(
+CREATE TABLE `modulInStudiengang` (
     `studiengangId`  int(11) NOT NULL,
     `modulId`       int(11) NOT NULL,
     FOREIGN KEY (studiengangId) REFERENCES studiengang (id),
@@ -98,9 +113,39 @@ CREATE TABLE `modulInStudiengang`
     PRIMARY KEY (studiengangId, modulId)
 );
 
-CREATE TABLE `lerntyp` (
+
+CREATE TABLE `message` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-    `bild` MEDIUMBLOB NOT NULL ,
-    `typ` varchar(128) NOT NULL DEFAULT '',
-    `beschreibung` varchar(3000) NOT NULL DEFAULT ''
+    `TIMESTAMP` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `vonUserId`int(11) NOT NULL,
+    `roomId`int(11) NOT NULL,
+    `message`varchar(128) NOT NULL DEFAULT '',
+    FOREIGN KEY (VonuserId) REFERENCES users (id),
+    FOREIGN KEY (roomId) REFERENCES room (id)
+);
+
+CREATE TABLE `userInRoom` (
+    `userId` int(11) NOT NULL,
+    `roomId` int(11) NOT NULL,
+    `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (userId) REFERENCES users (id),
+    FOREIGN KEY (roomId) REFERENCES room (id),
+    PRIMARY KEY (userId, roomId)
+);
+CREATE TABLE `userAdmitted` (
+    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `vonUserid` int(11) NOT NULL,
+    `anUserid` int(11) NOT NULL,
+    FOREIGN KEY (anUserid) REFERENCES users (id),
+    FOREIGN KEY (vonUserid) REFERENCES users (id)
+);
+
+CREATE TABLE `gruppeAdmitted` (
+    `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `vonUserid` int(11) NOT NULL,
+    `anGruppenid` int(11) NOT NULL,
+    FOREIGN KEY (vonUserid) REFERENCES users (id),
+    FOREIGN KEY (anGruppenid) REFERENCES lerngruppe (id)
 );

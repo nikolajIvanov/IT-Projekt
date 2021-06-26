@@ -6,9 +6,9 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {withStyles} from "@material-ui/styles";
 import PropTypes from "prop-types";
-import SignUpWithGoogle from "../../components/Button/SignUpWithGoogle";
 import Logo from '../../Logo_LogIn.svg'
 import '../../assets/theme.css';
+import Link from "@material-ui/core/Link";
 
 const styles = theme  => ({
   paper: {
@@ -54,11 +54,10 @@ class SignUp extends Component {
 
       <div className={classes.paper}>
           <img src={Logo} alt="Logo" className={classes.img}/>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" style={{marginBottom: "10%"}}>
           Erstellen Sie Ihr kostenloses Konto
         </Typography>
-        <SignUpWithGoogle/>
-        <p className="App">Oder</p>
+        <p>{this.props.emailError}{this.props.passwordError}</p>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -73,7 +72,6 @@ class SignUp extends Component {
                 value ={this.props.email}
                 onChange={(e) => this.props.setEmail(e.target.value)}
               />
-              <p className="errorMsg">{this.props.emailError}</p>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -90,8 +88,6 @@ class SignUp extends Component {
                 onChange={(e) => this.props.setPassword(e.target.value)}
               />
             </Grid>
-            <p className="errorMsg">{this.props.passwordError}</p>
-
           </Grid>
           <Button
             fullWidth
@@ -102,9 +98,11 @@ class SignUp extends Component {
           >
             Anmelden
           </Button>
-          <Grid container justify="flex-end">
+          <Grid container>
+            <Grid item xs>
+            </Grid>
             <Grid item>
-              <p className="sText" style={{color:"blue",textDecoration:"underline"}} onClick={this.props.switch} >
+              <p style={{color:"blue",textDecoration:"underline"}} onClick={this.props.switch}>
                 Du hast einen Account? Einloggen
               </p>
             </Grid>

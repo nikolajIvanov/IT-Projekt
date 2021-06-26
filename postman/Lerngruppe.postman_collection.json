@@ -74,13 +74,47 @@
 			"response": []
 		},
 		{
+			"name": "Many Lerngruppen By IDs Copy",
+			"protocolProfileBehavior": {
+				"followOriginalHttpMethod": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/lerngruppenById?group_ids=1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"lerngruppenById"
+					],
+					"query": [
+						{
+							"key": "group_ids",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Lerngruppe erstellen",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 0,\n    \"modul\":[\"Grundlagen PR\"],\n    \"profilBild\": \"1235\",\n    \"beschreibung\":\"Zweiter Versuch\",\n    \"lerntyp\": \"Visuell\",\n    \"name\": \"FPK\",\n    \"mitglieder\":[1],\n    \"admin\": \"1\"\n}",
+					"raw": "{\n    \"id\": 0,\n    \"modul\":[\"Data Science\"],\n    \"profilBild\": \"8474\",\n    \"beschreibung\":\"Zweiter Versuch\",\n    \"lerntyp\": \"Visuell\",\n    \"name\": \"FPK\",\n    \"mitglieder\":[2, 3],\n    \"admin\": 1,\n    \"frequenz\": \"wöchentlich\",\n    \"lernort\": \"offline\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"

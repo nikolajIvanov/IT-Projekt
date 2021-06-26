@@ -1,6 +1,7 @@
 import React from 'react';
 import {Paper, Typography} from "@material-ui/core";
 import DropDown from "../../../components/Textfeld/Dropdown";
+import lernort from "../../../components/Konstante(DropDown)/Lernort";
 
 //TODO Infofeld für die Lernorte
 
@@ -9,21 +10,6 @@ export default function Lernort(props) {
     const handleLernort = (event) => {
         props.setLernort(event.target.value);
     };
-
-    const lernort = [
-        {
-        value: '',
-        label: '',
-        },
-        {
-        value:'online',
-        label: 'online',
-        },
-        {
-        value: 'offline',
-        label: 'offline',
-        }
-    ]
 
     return (
         <Paper style={props.mode}>

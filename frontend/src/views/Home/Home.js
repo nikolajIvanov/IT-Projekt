@@ -4,12 +4,12 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Profil from "../Profil & Gruppe/Profil";
 import Gruppe from "../Profil & Gruppe/Gruppe";
 import MyProfil from "../Profil & Gruppe/ProfilBearbeiten";
-import Chat2 from "../Chat/ChatTest2";
-import GruppenSuche from "../Matching/GruppenSuche";
+import Chat from "../Chat/Chat";
 import Match from "../Matching/Match";
 import TeamUpApi from "../../api/TeamUpApi";
 import firebase from "../../api/Firebase";
-import Logo from "../../assets/Logo-teamUp_2.png"
+import NoMatch from "./Subsection/NoMatch";
+import GruppeBearbeiten from "../Profil & Gruppe/GruppeBearbeiten";
 
 class Home extends Component {
     constructor(props) {
@@ -21,7 +21,10 @@ class Home extends Component {
             dataLoad: false,
             users: null,
             groups: null,
-            currentUser:null
+            currentUser:null,
+            matches: true,
+            myId: null,
+            partnerId: null
         }
     }
 
@@ -32,12 +35,16 @@ class Home extends Component {
 
     //soll Aufgerufen werden beim Switch in Matching
     callGroups = async () => {
-        await TeamUpApi.getAPI().getMatchGroupList(this.state.currentUser).then(lerngruppen => {
-            this.setState({
-                groups: lerngruppen.result
-            });
+        await TeamUpApi.getAPI().getMatchGroupList(this.state.currentUser).then(async lerngruppen => {
+            if (lerngruppen.status === 500) {
+                console.log(lerngruppen.status)
+            } else {
+                this.setState({
+                    groups: lerngruppen.result
+                });
+                await this.getGroups()
+            }
         })
-        await this.getGroups()
     }
 
     //Überprüft ob Group-matches gefunden wurden
@@ -76,18 +83,36 @@ class Home extends Component {
         await this.setState({
             currentUser: firebase.auth().currentUser.uid
         });
-        //Api Call für die Matching-User muss auf current user gesetzt werden
-        await TeamUpApi.getAPI().getMatchUserList(this.state.currentUser).then(users =>{
-            this.setState({
-                users: users.result
-            });
+        await TeamUpApi.getAPI().getMatchUserList(this.state.currentUser).then(async users => {
+            if (users.result.length < 1) {
+                this.setState({
+                    matches: false
+                });
+            }
+            else {
+                this.setState({
+                    users: users.result
+                });
+                await this.getUsers()
+            }
         })
-        await this.getUsers()
     }
 
     setAuswahl = async (user) => {
         await this.setState({
             suchobjekt: user
+        })
+    }
+
+    setMyId = (id) => {
+        this.setState({
+            myId: id
+        })
+    }
+
+    setPartnerId = (partnerId) => {
+        this.setState({
+            partnerId: partnerId
         })
     }
 
@@ -100,19 +125,26 @@ class Home extends Component {
         * */
 
         //TODO Skeleton wenn Nutzer nicht da ist
-        const {userList, suchobjekt, groupList} = this.state
+        const {userList, suchobjekt, groupList, matches, myId, partnerId} = this.state
         return (
             <div>
                 <Router>
                     <Navigation logOut={this.handleLogOut}/>
                     <Switch>
                         <Route path="/" exact>
-                                <h1 className="App">TeamUP</h1>
-                                {userList && groupList ?
+                                {userList ?
                                 <Match userList={userList}
                                        groupList={groupList}
                                        getView={this.setAuswahl}/>
-                                    : <h1 className="App">User konnte nicht geladen werden</h1>}
+                                    :
+                                    <>
+                                        {matches ?
+                                        <h1 className="App">Matching konnte nicht geladen werden</h1>
+                                                :
+                                            <NoMatch/>
+                                        }
+                                    </>
+                                    }
                         </Route>
                         <Route path="/profil">
                             {suchobjekt ?
@@ -127,8 +159,11 @@ class Home extends Component {
                             }
                         </Route>
                         <Route path="/me" component={MyProfil}/>
-                        <Route path="/chat"  component={Chat2}/>
-                        <Route path="/gruppensuche" component={GruppenSuche}/>
+                        <Route path="/chat" exact ><Chat setMyId={this.setMyId}
+                                                         myId={myId}
+                                                         setPartnerId={this.setPartnerId}/></Route>
+                        <Route path="/gruppe_erstellen"><GruppeBearbeiten myId={myId}
+                                                                      partnerId={partnerId}/></Route>
                     </Switch>
                 </Router>
             </div>

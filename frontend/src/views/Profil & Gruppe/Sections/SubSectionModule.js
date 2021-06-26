@@ -21,7 +21,7 @@ function SubSectionModule(props) {
                 })
                 setMod(middle)
             })
-    });
+    }, [props.change]);
 
     const handleChange = (mod) => {
         if (props.modul.includes(mod) === false) {

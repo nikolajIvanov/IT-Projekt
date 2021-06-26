@@ -18,26 +18,26 @@ class App extends React.Component {
             emailError: '',
             passwordError :'',
             hasAccount: true,
-            exist: true,
+            exist: false,
             }
     }
 
-    componentDidMount() {
-        firebase.auth()
+    async componentDidMount() {
+        await firebase.auth()
             .onAuthStateChanged(user => {
-            if (user) {
-                console.log(user)
-                this.setState({
-                        user: user
-                    }
-                )
+                if (user) {
+                    this.setState({
+                            user: user
+                        }
+                    )
+                    this.setInit()
 
-            } else {
-                this.setState({
-                    user: ''
-                })
-            }
-        });
+                } else {
+                    this.setState({
+                        user: ''
+                    })
+                }
+            });
     }
 
     setPassword = (password) =>{
@@ -54,6 +54,12 @@ class App extends React.Component {
 
     switch = () =>{
         const {hasAccount} = this.state
+        this.setState({
+            email : '',
+            password :'',
+            emailError: '',
+            passwordError :''
+        })
         if(hasAccount){
             this.setState({
                 hasAccount:false
@@ -66,18 +72,26 @@ class App extends React.Component {
         }
     }
 
-    setPasswordError = () =>{
-
+    setPasswordError = (err) =>{
+        this.setState({
+            emailError:'',
+            passwordError: err,
+            password:''
+        })
     }
 
-    setEmailError = () =>{
-
+    setEmailError = (err) =>{
+        this.setState({
+            passwordError:'',
+            emailError: err,
+            email : ''
+        })
     }
 
     clearInput = () =>{
         this.setState({
             email : '',
-            passwort: ''
+            passwort: '',
         })
     }
 
@@ -89,8 +103,13 @@ class App extends React.Component {
 
     setInit = async () => {
         const user = firebase.auth().currentUser.uid
+        await firebase.auth()
+            .currentUser.getIdToken().then(
+            (token) => {
+                document.cookie = `token=${token};path=/`
+            }
+        );
         const code = await TeamUpApi.getAPI().getInit(user)
-        console.log(code)
         if(code === 200){
             this.setState({
                 user:true,
@@ -112,14 +131,29 @@ class App extends React.Component {
                 this.state.email,
                 this.state.password
             )
-            .catch(
-                //Email und Passwort falsch oder existiert nicht Error Meldung
-            )
             .then(() =>
             this.clearInput()
             )
             .then(() =>
             this.setInit()
+            )
+            .catch( error => {
+                    console.log(error.code)
+                switch (error.code) {
+                    case "auth/invalid-email":
+                        this.setEmailError("Ungültige Email")
+                        break
+                    case "auth/user-not-found":
+                        this.setEmailError("User nicht gefunden")
+                        break
+                    case "auth/email-already-in-use":
+                        this.setEmailError("Es existiert ein Account mit dieser Email")
+                        break
+                    case "auth/wrong-password":
+                        this.setPasswordError("Falsches Passwort")
+                        break
+                }
+            }
             )
     }
 
@@ -130,15 +164,22 @@ class App extends React.Component {
                 this.state.email,
                 this.state.password
             )
-            .catch(
-                //Email und Passwort existiert schon Error Meldung
-            )
             .then(() =>
             this.clearInput()
              )
             .then(() =>
                 this.setInit()
             )
+            .catch( error => {
+            console.log(error.code)
+                switch (error.code) {
+                    case "auth/invalid-email":
+                        this.setEmailError("Ungültige Email")
+                        break
+                    case "auth/weak-password":
+                        this.setPasswordError("Ihr Password sollte min. 6 Zeichen enthalten")
+                }
+            })
     }
 
 
@@ -148,11 +189,13 @@ class App extends React.Component {
             {this.state.user ? (
                 <>
                     {this.state.exist ? (
+                        <>
                             <Home/>
+                        </>
                                 ):(
-                            <>
-                            <Registrierung exist={this.setExist}/>
-                            </>
+                                    <>
+                                        <Registrierung exist={this.setExist}/>
+                                    </>
                     )}
                 </>
                 ) : (
@@ -166,19 +209,22 @@ class App extends React.Component {
                                     setEmail={this.setEmail}
                                     setPassword={this.setPassword}
                                     switch = {this.switch}
-                                    passwordError ={this.setPasswordError}
-                                    emailError = {this.setEmailError}
+                                    passwordError ={this.state.passwordError}
+                                    emailError = {this.state.emailError}
+                                    init = {this.setInit}
                                 />
                             </>
                             ) : (
                             <>
                                 <SignUp
+                                    email={this.state.email}
+                                    password={this.state.password}
                                     setEmail={this.setEmail}
                                     setPassword={this.setPassword}
                                     handleSignUp={this.handleSignUp}
                                     switch = {this.switch}
-                                    passwordError={this.setPasswordError}
-                                    emailError={this.setEmailError}
+                                    passwordError ={this.state.passwordError}
+                                    emailError = {this.state.emailError}
                                     />
                             </>
                         )}

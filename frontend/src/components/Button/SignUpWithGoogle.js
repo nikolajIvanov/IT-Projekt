@@ -16,7 +16,9 @@ const uiConfig = {
 export default function SignUpWithGoogle() {
         return (
             <>
-                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
+                <StyledFirebaseAuth
+                    uiConfig={uiConfig}
+                    firebaseAuth={firebase.auth()} />
             </>
         );
 }

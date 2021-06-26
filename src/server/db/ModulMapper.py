@@ -8,15 +8,19 @@ class ModulMapper(Mapper):
         super().__init__()
 
     def find_all(self):
+        """
+        Gibt alle Module aus der Datenbank zurück.
+        :return: Alle Module
+        """
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT id, bezeichnung FROM TeamUP.modul")
 
         tuples = cursor.fetchall()
 
-        for (id, modul) in tuples:
+        for (modul_id, modul) in tuples:
             obj = ModulBO()
-            obj.set_id(id)
+            obj.set_id(modul_id)
             obj.set_modul(modul)
             result.append(obj)
 
@@ -25,8 +29,9 @@ class ModulMapper(Mapper):
 
         return result
 
-    def get_studiengangId_by_studiengang(self, studiengang):
+    def get_studiengang_id_by_studiengang(self, studiengang):
         """
+        Sucht nach der ModulId anhand des Namen des Studiengangs
         :param studiengang: Ist der Name des Studiengangs
         :return: modulid
         """
@@ -40,17 +45,18 @@ class ModulMapper(Mapper):
         cursor.execute(query, (studiengang,))
 
         # Speichern der SQL Antwort
-        studiengangId = cursor.fetchone()
+        studiengang_id = cursor.fetchone()
 
         # Schließen der Datenbankverbindung
         self._cnx.commit()
         cursor.close()
         # Rückgabe der Modulid
 
-        return self.find_by_studiengangId(studiengangId[0])
+        return self.find_by_studiengang_id(studiengang_id[0])
 
-    def find_by_studiengangId(self, key):
+    def find_by_studiengang_id(self, key):
         """
+        Sucht Studiengangspezifische Module
         :param key: Ist die authId
         :return: Alle Objekte des UserBO
         """
@@ -63,15 +69,14 @@ class ModulMapper(Mapper):
         query = """SELECT modul.id, modul.bezeichnung FROM TeamUP.modul INNER JOIN TeamUP.modulInStudiengang mIS 
         on modul.id = mIS.modulId WHERE mIS.studiengangId =%s"""
 
-
         # Ausführen des ersten SQL-Befehls
         cursor.execute(query, (key,))
         tuples = cursor.fetchall()
 
         # Auflösen der ersten SQL Antwort (UserBO) und setzen der Parameter
-        for (id, modul) in tuples:
+        for (modul_id, modul) in tuples:
             obj = ModulBO()
-            obj.set_id(id)
+            obj.set_id(modul_id)
             obj.set_modul(modul)
             result.append(obj)
 

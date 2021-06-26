@@ -1,9 +1,11 @@
-from .model import user, api
 from flask_restx import Resource
+
+from SecurityDecorator import secured
 from server.Administration import Administration
 
 
 class InitApi(Resource):
-    def get(self, authId):
+    @secured
+    def get(self, auth_id):
         adm = Administration()
-        return adm.init(authId)
+        return adm.init(auth_id)

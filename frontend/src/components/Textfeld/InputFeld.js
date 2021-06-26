@@ -18,7 +18,6 @@ export default function InputFeld(props) {
         <form className={classes.root} noValidate autoComplete="off">
             <div>
                 <TextField
-                    disabled={props.disabled}
                     id="standard-error-helper-text"
                     label={props.text}
                     value={props.inhalt}

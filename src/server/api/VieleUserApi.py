@@ -1,3 +1,4 @@
+from SecurityDecorator import secured
 from .model import user, api
 from flask_restx import Resource
 from server.Administration import Administration
@@ -5,24 +6,31 @@ from server.bo.UserBO import UserBO
 
 
 class VieleUserApi(Resource):
-
+    @secured
     @api.expect(user)
-    @api.marshal_with(user)
     def post(self):
-        adm = Administration()
+        """
+        Legt mehrere Nutzer gleichzeitig an
+        :return: Alle angelegten Nutzer mit deren Attributen
+        """
         payload = api.payload
         users = []
-        for user in payload:
-            proposal = UserBO.create_userBO(id=user["id"], authId=user["authId"], profilBild=user["profilBild"],
-                                            name=user["name"], geburtsdatum=user["geburtsdatum"],
-                                            email=user["email"], beschreibung=user["beschreibung"],
-                                            lerntyp=user["lerntyp"], gender=user["gender"],
-                                            semester=user["semester"], studiengang=user["studiengang"],
-                                            vorname=user["vorname"], frequenz=payload["frequenz"],
-                                            lernort=payload["lernort"])
-            users.append(proposal)
-
-        if users is not None:
-            return adm.insert_many_user(users)
+        if payload:
+            for _user in payload:
+                proposal = UserBO.create_userBO(id=_user["id"], authId=_user["authId"], profilBild=_user["profilBild"],
+                                                name=_user["name"], geburtsdatum=_user["geburtsdatum"],
+                                                email=_user["email"], beschreibung=_user["beschreibung"],
+                                                lerntyp=_user["lerntyp"], gender=_user["gender"],
+                                                semester=_user["semester"], studiengang=_user["studiengang"],
+                                                vorname=_user["vorname"], frequenz=_user["frequenz"],
+                                                lernort=_user["lernort"])
+                users.append(proposal)
+                return Administration.insert_many_user(users)
         else:
-            return '', 500
+            return 'Die User konnten nicht angelegt werden, da keine Daten mitgeschickt wurden', 500
+
+        # TODO: Ardit die IF-Abfrage bringt nichts. Ich kann keine Werte übergeben und laufe in einen Error
+        if users is not None:
+            return Administration.insert_many_user(users)
+        else:
+            return 'Die User konnten nicht angelegt werden, da keine Daten mitgeschickt wurden', 500

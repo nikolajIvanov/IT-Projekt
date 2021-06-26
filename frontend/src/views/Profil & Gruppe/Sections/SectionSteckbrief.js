@@ -11,6 +11,7 @@ import SubSectionUserinfo from "./SubSectionUserinfo";
 // Dient als Molekül für die Seite ProfilBO und Gruppe.
 export default function SectionSteckbrief(props) {
     const [studien, setStudien] = React.useState([])
+    const [change, setChange] = React.useState('')
 
     useEffect(() => {
         TeamUpApi.getAPI().getStudiengang()
@@ -24,7 +25,7 @@ export default function SectionSteckbrief(props) {
                 })
                 setStudien(middle)
             })
-    })
+    }, [])
 
     // Speichert die neuen Werte für  die Variable: Semester
     const handleSemesterChange = (e) => {
@@ -37,9 +38,16 @@ export default function SectionSteckbrief(props) {
     const handleStudiengangChange = (e) => {
         let newObject = props.apiObject;
         newObject.setModul([])
-        console.log(newObject.getModul())
         newObject.setStudiengang(e.target.value)
         props.handleChange(newObject)
+        if(change === ''){
+            console.log("change")
+            setChange('1')
+        }
+        else {
+            console.log("other change")
+            setChange('')
+        }
     }
 
     // Speichert die neuen Werte für  die Variable: Beschreibung
@@ -96,7 +104,9 @@ export default function SectionSteckbrief(props) {
                         </div>
                     </Grid>
                 <Grid style={theme.root} item xs={12}>
-                    <SubSectionModule setModul={handleModul} modul={props.apiObject.getModul()}
+                    <SubSectionModule setModul={handleModul}
+                                      change={change}
+                                      modul={props.apiObject.getModul()}
                                       studiengang={props.apiObject.getStudiengang()}/>
                 </Grid>
             </Grid>

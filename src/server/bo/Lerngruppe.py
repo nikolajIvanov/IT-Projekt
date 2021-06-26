@@ -2,6 +2,10 @@ from server.bo.ProfilBO import ProfilBO
 
 
 class Lerngruppe(ProfilBO):
+    """
+    Business Klasse in der alle relevanten Variablen und Methoden definiert wurden, um mit einer Lerngruppe im Backend
+    umgehen zu können.
+    """
 
     def __init__(self):
         super().__init__()
@@ -29,7 +33,7 @@ class Lerngruppe(ProfilBO):
         Diese besteht aus der ID, dem Namen, den Lerntyp und den Modulen der Superklasse ergänzt durch die GoogleId
 
         des jeweiligen Kunden."""
-        # TODO LERNTYP MODUL dazu allgemein attribute anschaun pls
+        # TODO LERNTYP MODUL dazu allgemein attribute anschauen pls
         return "Customer: {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_name(), self.get_lerntyp(),
                                                          self.get_modul(), self.get_mitglieder(), self.get_admin())
 
@@ -39,7 +43,7 @@ class Lerngruppe(ProfilBO):
         obj = Lerngruppe()
         obj.set_id(dictionary["id"])
         obj.set_modul(dictionary["modul"])
-        obj.set_profilBild(dictionary["profilBild"])
+        obj.set_profil_bild(dictionary["profilBild"])
         obj.set_beschreibung(dictionary["beschreibung"])
         obj.set_lerntyp(dictionary["lerntyp"])
         obj.set_name(dictionary["name"])
@@ -50,7 +54,7 @@ class Lerngruppe(ProfilBO):
         return obj
 
     @staticmethod
-    def create_lerngruppeBO(**kwargs):
+    def create_lerngruppe_bo(**kwargs):
         """
         Allgemeine Klassenmethode zur erstellung eines Lerngruppen Objektes.
         :param kwargs: Bekommt alle Werte aus der Lerngruppen Tabelle
@@ -58,7 +62,7 @@ class Lerngruppe(ProfilBO):
         """
         obj = Lerngruppe()
         obj.set_id(kwargs["id"])
-        obj.set_profilBild(kwargs["profilBild"])
+        obj.set_profil_bild(kwargs["profilBild"])
         obj.set_beschreibung(kwargs["beschreibung"])
         obj.set_lerntyp(kwargs["lerntyp"])
         obj.set_name(kwargs["name"])
@@ -72,7 +76,7 @@ class Lerngruppe(ProfilBO):
         return obj
 
     @staticmethod
-    def create_matching_lerngruppenBO(**kwargs):
+    def create_matching_lerngruppen_bo(**kwargs):
         """
         Allgemeine Klassenmethode zur erstellung eines Lerngruppen Objektes.
         :param kwargs: Bekommt alle Werte aus der Lerngruppen Tabelle

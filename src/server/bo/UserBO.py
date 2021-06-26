@@ -1,5 +1,8 @@
-from src.server.bo.ProfilBO import ProfilBO
-from datetime import date, datetime
+#TODO Warum wird hier Datetime importiert?
+import datetime
+
+from server.bo.ProfilBO import ProfilBO
+from datetime import date
 
 
 class UserBO(ProfilBO):
@@ -7,7 +10,7 @@ class UserBO(ProfilBO):
         super().__init__()
         self.__email = ""
         self.__authId = ""
-        self.__geburtsdatum = ""
+        self.__geburtsdatum = None
         self.__gender = ""
         self.__semester = ""
         self.__studiengang = ""
@@ -19,10 +22,10 @@ class UserBO(ProfilBO):
     def set_email(self, value):
         self.__email = value
 
-    def get_authId(self):
+    def get_auth_id(self):
         return self.__authId
 
-    def set_authId(self, value):
+    def set_auth_id(self, value):
         self.__authId = value
 
     def get_geburtsdatum(self,):
@@ -43,20 +46,23 @@ class UserBO(ProfilBO):
     def set_semester(self, semester):
         self.__semester = semester
 
-    def set_studiengang(self, studiengang):
-        self.__studiengang = studiengang
-
     def get_studiengang(self):
         return self.__studiengang
 
-    def set_vorname(self, vorname):
-        self.__vorname = vorname
+    def set_studiengang(self, studiengang):
+        self.__studiengang = studiengang
 
     def get_vorname(self):
         return self.__vorname
 
-    # Rechnet das Geburtstag in Alter um
+    def set_vorname(self, vorname):
+        self.__vorname = vorname
+
     def calculate_age(self):
+        """
+        Berechnet das aktuelle Alter eines Users
+        :return: Aktuelles Alter des Users
+        """
         today = date.today()
         # geb = datetime.strptime(self.get_geburtsdatum(), '%Y-%m-%d')
         geb = self.get_geburtsdatum()
@@ -68,8 +74,8 @@ class UserBO(ProfilBO):
         Diese besteht aus der ID, dem Namen, den Lerntyp und den Modulen der Superklasse ergänzt durch die GoogleId
 
         des jeweiligen Kunden."""
-        # TODO LERNTYP MODUL dazu allgemein attribute anschaun pls
-        return "Customer: {}, {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_authId(), self.get_name(),
+        # TODO LERNTYP MODUL dazu allgemein attribute anschauen pls
+        return "Customer: {}, {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_auth_id(), self.get_name(),
                                                              self.get_email(), self.get_lerntyp(), self.get_modul(),
                                                              self.get_vorname())
 
@@ -82,9 +88,8 @@ class UserBO(ProfilBO):
         """
         obj = UserBO()
         obj.set_id(kwargs["id"])
-        obj.set_profilBild(kwargs["profilBild"])
+        obj.set_profil_bild(kwargs["profilBild"])
         obj.set_name(kwargs["name"])
-        obj.set_geburtsdatum(kwargs["geburtsdatum"])
         obj.set_email(kwargs["email"])
         obj.set_beschreibung(kwargs["beschreibung"])
         obj.set_lerntyp(kwargs["lerntyp"])
@@ -92,11 +97,14 @@ class UserBO(ProfilBO):
         obj.set_semester(kwargs["semester"])
         obj.set_studiengang(kwargs["studiengang"])
         obj.set_vorname(kwargs["vorname"])
-        obj.set_authId(kwargs["authId"])
+        obj.set_auth_id(kwargs["authId"])
         obj.set_frequenz(kwargs["frequenz"])
         obj.set_lernort(kwargs["lernort"])
+        if "geburtsdatum" in kwargs:
+            obj.set_geburtsdatum(kwargs["geburtsdatum"])
         if "modul" in kwargs:
             obj.set_module_append(kwargs["modul"])
+
         return obj
 
     @staticmethod

@@ -1,23 +1,27 @@
-from .model import lerngruppe, api
+from SecurityDecorator import secured
+from .model import api, mitglied
 from flask_restx import Resource
 from server.Administration import Administration
-from server.bo.Lerngruppe import Lerngruppe
 
 
 class LerngruppenmitgliedApi(Resource):
-    @api.marshal_with(lerngruppe)
+    @secured
+    @api.expect(mitglied)
     def delete(self):
-        adm = Administration()
-        proposal = Lerngruppe.from_dict(api.payload)
-        return adm.delete_user_by_list(proposal)
+        """
+        Löscht einen Nutzer aus einer Lerngruppe
+        :return: 200 - wenn der Nutzer erfolgreich gelöscht wurde
+        """
+        altes_mitglied = [api.payload["lerngruppenId"], api.payload["userId"]]
 
-    # TODO: Wann wird ein neues Mitglied hinzugefügt und was bekommt man vom Frontend?
-    @api.marshal_with(lerngruppe)
+        return Administration.delete_user_in_lerngruppe(altes_mitglied)
+
+    @secured
+    @api.expect(mitglied)
     def put(self):
-        proposal = Lerngruppe.create_lerngruppeBO(id=api.payload["id"], lerntyp=api.payload["lerntyp"],
-                                                  name=api.payload["name"], beschreibung=api.payload["beschreibung"],
-                                                  profilBild=api.payload["profilBild"], admin=api.payload["admin"],
-                                                  frequenz=api.payload["frequenz"], lernort=api.payload["lernort"],
-                                                  mitglieder=api.payload["mitglieder"])
-
-        return Administration.create_new_mitglied(proposal)
+        """
+        Fügt ein neues Mitglied einer Lerngruppe hinzu
+        :return: 200 - wenn der Nutzer erfolgreich der Lerngruppe hinzugefügt wurde
+        """
+        new_mitglied = [api.payload["lerngruppenId"], api.payload["userId"]]
+        return Administration.create_new_mitglied(new_mitglied)

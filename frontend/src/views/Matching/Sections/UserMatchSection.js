@@ -1,16 +1,14 @@
 import React from 'react';
 import MobileStepper from '@material-ui/core/MobileStepper';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import theme from "../../../theme";
 import Grid from "@material-ui/core/Grid";
 import {useHistory} from "react-router-dom";
-import ProfilAvatar from "../../../components/Avatar/ProfilAvatar";
 import H3_bold from "../../../components/Fonts/h3_bold";
-import H2_bold from "../../../components/Fonts/h2_bold";
+import H3_regular from "../../../components/Fonts/h3_regular";
+import H1_bold from "../../../components/Fonts/h1_bold";
+import MatchCardAvatar from "../../../components/Avatar/MatchCardAvatar";
 
 
 function UserMatchSection(props) {
@@ -31,26 +29,29 @@ function UserMatchSection(props) {
 
     return (
         <div>
-            <div>
-                <Paper square elevation={0} style={theme.matchCard.body}>
+                <div className="matchHeader">
                     <Grid container spacing={3}>
-                        <Grid className="root" item xs={12}>
-                            <ProfilAvatar img={user.getProfilBild()}/>
-                        </Grid>
-                        <Grid style={theme.root} item xs={4} sm={4}>
-                            <H2_bold inhalt={user.getVorname()}/>
-                        </Grid>
-                        <Grid style={theme.root} item xs={4} sm={4}>
-                            <Typography>{user.getName()}</Typography>
-                        </Grid>
-                        <Grid style={theme.root} item xs={4} sm={4}>
-                            <Typography>{user.getGeburtstag()}</Typography>
+                        <Grid className="matchProfilBox" item xs={12}>
+                            <MatchCardAvatar img={user.getProfilBild()}/>
                         </Grid>
                     </Grid>
-                </Paper>
-                <Paper square elevation={0} style={theme.card}>
-                    <Typography>{user.getStudiengang()}</Typography>
-                </Paper>
+                    <div className="matchHeaderItem">
+                        <H1_bold inhalt={`${user.getVorname()}, ${user.getGeburtstag()}`}/>
+                        <H3_regular inhalt={user.getStudiengang()}/>
+                    </div>
+                </div>
+            <div>
+                <Grid container spacing={3}>
+                        <Grid container className="matchBody">
+                            <Grid item sx={12}>
+                                <H3_bold inhalt={"Studiengang"}/>
+                            </Grid>
+                            <Grid item sx={12}>
+                                <H3_regular inhalt={user.getStudiengang()}/>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </div>
                 <MobileStepper
                     position="static"
                     nextButton={
@@ -66,9 +67,8 @@ function UserMatchSection(props) {
                         </Button>
                     }
                 />
-            </div>
         </div>
     );
-}
+};
 
 export default UserMatchSection;

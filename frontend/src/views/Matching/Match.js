@@ -1,18 +1,9 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/styles';
 import GroupPersonSwitch from "../../components/Icon/GroupPersonSwitch"
 import FilterIcon from "../../components/Icon/FilterIcon";
 import UserMatchSection from "./Sections/UserMatchSection";
 import GroupMatchSection from "./Sections/GroupMatchSection";
-
-const styles = theme => ({
-    root: {
-        width: '100%',
-        maxWidth: 360,
-        margin: "auto",
-    },
-});
+import {Card} from "@material-ui/core";
 
 class Match extends Component {
 
@@ -42,11 +33,10 @@ class Match extends Component {
     }
 
     render(){
-        const { classes } = this.props;
         const { apiUsers, isPerson, apiGruppen}= this.state;
 
         return (
-            <div className={classes.root}>
+            <div className="card">
                 <GroupPersonSwitch onClick={this.handleClick} value={isPerson}/>
                 {apiUsers ? <>
                     <FilterIcon/>
@@ -56,19 +46,21 @@ class Match extends Component {
                                               apiUsers={apiUsers}/>
                         </>
                     :
-                        <>
-                            <GroupMatchSection getView={this.props.getView}
-                                              apiGroups={apiGruppen}/>
-                        </>
-                            }
+                                <>
+                                    {apiGruppen ?
+                                        <GroupMatchSection getView={this.props.getView}
+                                                           apiGroups={apiGruppen}/>
+                                        :
+                                        <Card className="card">
+                                            <h2>Du hast leider keine Gruppen-Matches 😢</h2>
+                                        </Card>
+                                    }
+                                </>
+                        }
                 </> : null }
             </div>
         );
     }
 }
 
-Match.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(Match);
+export default Match;
