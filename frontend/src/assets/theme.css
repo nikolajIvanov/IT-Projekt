@@ -30,6 +30,12 @@
   align-items: center;
 }
 
+.matchPoints{
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
 .rightAligned{
   display: flex;
   justify-content: flex-end;
@@ -72,13 +78,9 @@
 }
 
 .chatsBox{
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  padding-left: 10%;
-  width: 100%;
-  height: 77vh;
+  height: 80vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .chatHeader{
@@ -128,6 +130,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #f8f8f8;
+  position: relative;
+  z-index: 2;
+  padding-bottom: 5%;
 }
 
 .leftUebersicht{
@@ -188,6 +194,17 @@
     flex-direction: row;
     margin-bottom: 5%;
   }
+
+.matchingCards{
+  margin-top: 5%;
+  display: flex;
+  flex-direction: row;
+}
+
+.accord{
+  display: flex;
+  flex-direction: column;
+}
 
 .profileBorder{
   width: 50%;
@@ -309,12 +326,24 @@
 }
 
 .matchHeader{
+  height: 40vh;
   overflow: hidden;
-  margin-top: 5%;
   padding: 10% 10% 0 10%;
   border-radius: 10px;
   box-shadow: 0 6px 20px 0 rgba(0, 74, 95, 0.2);
 }
+
+.matchInfo{
+  margin-left: 5%;
+  height: 40vh;
+  min-width: 20vw;
+  padding: 10% 10% 0 10%;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px 0 rgba(0, 74, 95, 0.2);
+  background-color: var(--primary);
+  color: #f8f8f8;
+}
+
 
 .matchHeaderItem{
   display: inline-block;

@@ -115,7 +115,7 @@ class ProfilBearbeiten extends React.Component {
                             <SectionLerntyp apiObject={apiUser} handleChange={this.handleChange}/>
                         </Grid>
                         <Grid style={theme.root} item xs={12}>
-                            <SectionLerngruppe/>
+                            <SectionLerngruppe apiObject={apiUser}/>
                         </Grid>
                     </Grid>
                     </CardContent>

@@ -18,6 +18,7 @@ class Match extends Component {
 
     // Ladet direkt die User Daten aus dem Backend
     componentDidMount() {
+        console.log(this.props.userList)
         this.setState({
             apiUsers: this.props.userList,
             apiGruppen: this.props.groupList
