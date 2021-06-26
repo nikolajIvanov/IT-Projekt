@@ -14,9 +14,7 @@ function Chatübersicht(props) {
 
     return (
         <div>
-            <H1_bold inhalt={"Chatübersicht"}/>
-            <div>
-                <List className="chatWindow">
+                <List>
                     <Chats
                         roomId={props.roomId}
                         groupId={props.groupId}
@@ -29,7 +27,6 @@ function Chatübersicht(props) {
                     <Chatanfragen
                         authId={authId}/>
                 </List>
-            </div>
         </div>
     );
 }

@@ -6,6 +6,8 @@ import {Chip, IconButton, InputBase} from "@material-ui/core";
 import TeamUpApi from "../../../api/TeamUpApi";
 import { withRouter } from 'react-router-dom';
 import SendIcon from "@material-ui/icons/Send";
+import H3_bold from "../../../components/Fonts/h3_bold";
+import H3_regular from "../../../components/Fonts/h3_regular";
 
 class ChatFenster extends React.Component{
     constructor() {
@@ -52,6 +54,7 @@ class ChatFenster extends React.Component{
             this.setState({
                 chat: [...this.state.chat, (
                     <Grid item className="leftChat" sx={6}>
+                        <H3_regular inhalt={"Name"}/>
                         <Chip color="primary" className="Chatbox" label={message.message} />
                     </Grid>
                 )]
@@ -97,7 +100,7 @@ class ChatFenster extends React.Component{
     render() {
         const {chat, sendData} = this.state
         return (
-            <div className="card" onKeyPress={this.onKeyUp}>
+            <div onKeyPress={this.onKeyUp}>
                 <div className="chatOutlines">
                         {chat.map((chat) =>
                             <div>{chat}</div>

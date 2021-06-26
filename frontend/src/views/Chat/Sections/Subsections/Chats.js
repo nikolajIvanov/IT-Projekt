@@ -3,6 +3,7 @@ import {ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
 import ProfilAvatar from "../../../../components/Avatar/ProfilAvatar";
 import TeamUpApi from "../../../../api/TeamUpApi";
 import firebase from "../../../../api/Firebase";
+import H1_bold from "../../../../components/Fonts/h1_bold";
 
 
 //Ruft alle Chats ab die ein Nutzer hat um die Props an Chat.js zu übergeben um
@@ -30,7 +31,8 @@ function Chats(props) {
     }, [])
 
     return (
-        <div>
+        <div className="card">
+            <H1_bold inhalt={"Chatübersicht"}/>
             {chats.map(room =>
             <ListItem className="chatPreviews" onClick={() =>
                 getChat(room.roomId, room.myId, room.teilnehmer, room.groupId)}>

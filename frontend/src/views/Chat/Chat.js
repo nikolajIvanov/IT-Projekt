@@ -56,14 +56,14 @@ class Chat extends Component {
 
             <div>
                 <Grid container className="chatComponent">
-                    <Grid item sx={3} className="chatItem">
+                    <Grid item sx={3} className="sideBar">
                         <Chatübersicht roomId={this.setRoomId}
                                        myId={this.props.setMyId}
                                        groupId={this.setGroup}
                                        teilnehmer={this.setTeilnehmer}
                                        switch={this.switchChat}/>
                     </Grid>
-                    <Grid item sx={9} className="chatItem">
+                    <Grid item sx={9} className="chatBox">
                         {chatSwitcher ?
                              <>
                                  <div className="root">
