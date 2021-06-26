@@ -66,6 +66,11 @@ class Mapper(AbstractContextManager, ABC):
             raise InternalServerError(err.msg)
 
     def find_modul_id_for_matching(self, user_authid):
+        """
+        Diese Methode findet alle Module welche ein Nutzer belegt. Dies wird für den Matching Algo benötigt
+        :param user_authid: GoogleAuthId des Nutzers für welchen die Module gefunden werden sollen
+        :return: Ein Nutzerobjekt
+        """
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor(buffered=True)
 
@@ -102,6 +107,7 @@ class Mapper(AbstractContextManager, ABC):
 
     def find_userid_by_authid(self, authid):
         """
+        Findet die Interne Id eines Nutzers anhand seiner GoogleAuthId
         :param authid: GoogleID des aktuellen Users
         :return: Gibt die UserID zurück
         """
