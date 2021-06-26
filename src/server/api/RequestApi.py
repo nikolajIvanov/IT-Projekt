@@ -1,5 +1,4 @@
 from flask_restx import Resource
-
 from SecurityDecorator import secured
 from server.Administration import Administration
 from .model import request, api
@@ -8,8 +7,8 @@ from server.bo.RequestBO import RequestBO
 
 class RequestApi(Resource):
 
-    # TODO api marshal anbinden
     @secured
+    @api.marshal_with(request)
     def get(self, auth_id):
         """
         Übergibt alle Anfragen des aktuellen Users.
