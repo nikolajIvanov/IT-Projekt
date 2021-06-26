@@ -14,7 +14,10 @@ function Chatübersicht(props) {
 
     return (
         <div>
-                <List>
+            <div className="chatUeberschrift">
+                <H1_bold inhalt={"Chatübersicht"}/>
+            </div>
+                <List className="chatsBox">
                     <Chats
                         roomId={props.roomId}
                         groupId={props.groupId}

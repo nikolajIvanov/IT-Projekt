@@ -2,12 +2,12 @@ import React from 'react';
 import io from "socket.io-client";
 import ButtonPrimary from "../../../components/Button/ButtonPrimary";
 import Grid from "@material-ui/core/Grid";
-import {Chip, IconButton, InputBase} from "@material-ui/core";
+import {Chip, Divider, IconButton, InputBase} from "@material-ui/core";
 import TeamUpApi from "../../../api/TeamUpApi";
 import { withRouter } from 'react-router-dom';
 import SendIcon from "@material-ui/icons/Send";
-import H3_bold from "../../../components/Fonts/h3_bold";
 import H3_regular from "../../../components/Fonts/h3_regular";
+import H2_bold from "../../../components/Fonts/h2_bold";
 
 class ChatFenster extends React.Component{
     constructor() {
@@ -54,7 +54,6 @@ class ChatFenster extends React.Component{
             this.setState({
                 chat: [...this.state.chat, (
                     <Grid item className="leftChat" sx={6}>
-                        <H3_regular inhalt={"Name"}/>
                         <Chip color="primary" className="Chatbox" label={message.message} />
                     </Grid>
                 )]
@@ -101,16 +100,24 @@ class ChatFenster extends React.Component{
         const {chat, sendData} = this.state
         return (
             <div onKeyPress={this.onKeyUp}>
+                <div className="chatKopf">
+                    <H2_bold inhalt={"Name"}/>
+                    {this.props.groupId === null ?
+                        <ButtonPrimary onClick={this.createLerngruppe} inhalt={"Lerngruppe erstellen"}/>
+                        : null
+                    }
+                </div>
                 <div className="chatOutlines">
                         {chat.map((chat) =>
                             <div>{chat}</div>
                         )}
                 </div>
-                <Grid container className="card">
+                <Grid container>
                     {/* Input Base sollte eingebunden werden --> e prevent error*/}
-                    <Grid item sx={12}>
+                    <Grid item sx={12} className="chatFooter">
                         <InputBase
-                            placeholder="Schreib was"
+                            className="textField"
+                            placeholder="Schreib eine Nachricht"
                             value={sendData}
                             onChange={this.handleMessage}
                             inputProps={{ 'aria-label': 'search google maps' }}
@@ -118,10 +125,6 @@ class ChatFenster extends React.Component{
                         <IconButton onClick={this.handleSend}>
                             <SendIcon />
                         </IconButton>
-                        {this.props.groupId === null ?
-                        <ButtonPrimary onClick={this.createLerngruppe} inhalt={"Lerngruppe erstellen"}/>
-                            : null
-                        }
                     </Grid>
                 </Grid>
             </div>

@@ -55,15 +55,15 @@
 .chatComponent{
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 0 2% 0 2%;
 }
 
 .chatBox{
   width: 70%;
   height: 100%;
   background-color: rgba(0, 144, 240, 0.21);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 .sideBar{
@@ -71,52 +71,108 @@
   height: 100%;
 }
 
+.chatsBox{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  height: 78vh;
+}
+
+.chatHeader{
+  display: flex;
+  align-items: center;
+  padding: 2%;
+  height: 60px;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #f8f8f8;
+}
+
+.textField{
+  width: 100%;
+  margin: 0 0 0 2%;
+  padding-left: 2%;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.chatFooter{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: #e5e5e5;
+}
+
 .chatPreviews{
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
-.chatField{
-  width: 40vw;
-  height: 50vw;
-  background-color: #cdcdcd;
-  padding: 2%;
+.chatKopf{
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+  background-color: #f8f8f8;
+  padding: 0 2% 0 2%;
+  height: 60px;
+  box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+}
+
+.chatUeberschrift{
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.leftUebersicht{
+  padding: 0 3% 0 3%;
 }
 
 .rightChat{
-  width: 25vw;
-  height: 4vw;
   padding: 2%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
 
-.Chatbox{
-  min-width: 10vw;
-}
-
 .leftChat{
-  width: 25vw;
-  height: 4vw;
+  padding: 2%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 
+.Chatbox{
+  min-width: 10vw;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
 .chatOutlines{
+  padding: 0 10% 0 10%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-end;
   width: 100%;
-  height: 100%;
+  height: 78vh;
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+.emptyChatWindow{
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chatBild{
+  width: 50%;
+  height: 50%;
 }
 
 .sendBox{

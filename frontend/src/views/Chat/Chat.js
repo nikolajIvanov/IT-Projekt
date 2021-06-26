@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import Chatübersicht from "./Sections/Chatübersicht";
 import ChatFenster from "./Sections/ChatFenster";
 import Grid from "@material-ui/core/Grid";
-import H1_bold from "../../components/Fonts/h1_bold";
-
+import ChatsGraphic from "../../assets/ChatGraphic.svg"
 
 class Chat extends Component {
     constructor(props) {
@@ -66,8 +65,8 @@ class Chat extends Component {
                     <Grid item sx={9} className="chatBox">
                         {chatSwitcher ?
                              <>
-                                 <div className="root">
-                                     <H1_bold inhalt={"Chatfenster"}/>
+                                 <div className="emptyChatWindow">
+                                     <img className="chatBild" src={ChatsGraphic}/>
                                  </div>
                              </>
                             :

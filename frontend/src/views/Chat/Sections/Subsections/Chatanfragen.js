@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {IconButton, ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
+import {Divider, IconButton, ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
 import ProfilAvatar from "../../../../components/Avatar/ProfilAvatar";
 import TeamUpApi from "../../../../api/TeamUpApi";
 import H3_bold from "../../../../components/Fonts/h3_bold";
@@ -65,28 +65,34 @@ function Chatanfragen(props) {
                     {(userRequests.gestellt.length > 0) || (userRequests.erhalten.length > 0) ?
                         <>
                             {userRequests.gestellt.map(request =>
-                                <ListItem className="chatPreviews">
-                                    <ListItemAvatar>
-                                        <ProfilAvatar/>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={request.name}
-                                        secondary="20:24"
-                                    />
-                                    <div>
+                                <div className="chatPreviews">
+                                    <ListItem>
+                                        <ListItemAvatar>
+                                            <ProfilAvatar/>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={request.name}
+                                            secondary="20:24"
+                                        />
+                                    </ListItem>
+                                    <Divider orientation="vertical" flexItem />
+                                    <div className="leftUebersicht">
                                         <H3_bold inhalt={"Angefragt"}/>
                                     </div>
-                                </ListItem>
+                                </div>
                             )}
                             {userRequests.erhalten.map(request =>
-                                <ListItem className="chatPreviews">
-                                    <ListItemAvatar>
-                                        <ProfilAvatar/>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={request.name}
-                                        secondary="19:14"
-                                    />
+                                <div className="chatPreviews">
+                                    <ListItem>
+                                        <ListItemAvatar>
+                                            <ProfilAvatar/>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={request.name}
+                                            secondary="19:14"
+                                        />
+                                    </ListItem>
+                                    <Divider orientation="vertical" flexItem />
                                     <div>
                                         <IconButton>
                                             <AddIcon onClick={() =>
@@ -94,23 +100,28 @@ function Chatanfragen(props) {
                                         </IconButton>
                                         <IconButton><ClearIcon/></IconButton>
                                     </div>
-                                </ListItem>
+                                </div>
                             )}
                         </> :
-                        <p> Keine Useranfragen gestellt oder erhalten</p>
+                        <div className="leftUebersicht">
+                            <p> Keine Useranfragen gestellt oder erhalten</p>
+                        </div>
                     }
 
                     {groupRequests.erhalten.length > 0 ?
                         <>
                             {groupRequests.erhalten.map(request =>
-                                <ListItem className="chatPreviews">
-                                    <ListItemAvatar>
-                                        <ProfilAvatar/>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={request.vonUserName}
-                                        secondary={request.name}
-                                    />
+                                <div className="chatPreviews">
+                                    <ListItem className="chatPreviews">
+                                        <ListItemAvatar>
+                                            <ProfilAvatar/>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={request.vonUserName}
+                                            secondary={request.name}
+                                        />
+                                    </ListItem>
+                                    <Divider orientation="vertical" flexItem />
                                     <div>
                                         <IconButton>
                                             <AddIcon onClick={() =>
@@ -118,10 +129,12 @@ function Chatanfragen(props) {
                                         </IconButton>
                                         <IconButton><ClearIcon/></IconButton>
                                     </div>
-                                </ListItem>
+                                </div>
                             )}
                         </> :
-                        <p> Keine Gruppenanfragen gestellt oder erhalten</p>
+                        <div className="leftUebersicht">
+                            <p> Keine Gruppenanfragen gestellt oder erhalten</p>
+                        </div>
                     }
                 </>
                 :
