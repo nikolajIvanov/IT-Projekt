@@ -14,7 +14,9 @@ class Navigation extends Component {
         return (
             <div>
                 <div className="nav">
-                    <img src={Logo} className="font-logo"/>
+                    <Link to="/">
+                        <img src={Logo} className="font-logo" alt="TeamUP Logo"/>
+                    </Link>
                     <Toolbar>
                         <Link to="/">
                             <BottomNavigationAction label="Home"
