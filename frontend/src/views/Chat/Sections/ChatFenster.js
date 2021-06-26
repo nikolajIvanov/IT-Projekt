@@ -2,16 +2,15 @@ import React from 'react';
 import io from "socket.io-client";
 import ButtonPrimary from "../../../components/Button/ButtonPrimary";
 import Grid from "@material-ui/core/Grid";
-import {Chip, Divider, IconButton, InputBase} from "@material-ui/core";
+import {Chip, IconButton, InputBase} from "@material-ui/core";
 import TeamUpApi from "../../../api/TeamUpApi";
 import { withRouter } from 'react-router-dom';
 import SendIcon from "@material-ui/icons/Send";
-import H3_regular from "../../../components/Fonts/h3_regular";
 import H2_bold from "../../../components/Fonts/h2_bold";
 
 class ChatFenster extends React.Component{
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             partnerId: null,
             sendData: "",
@@ -59,7 +58,7 @@ class ChatFenster extends React.Component{
                 )]
             })
         }
-        else{
+        if(message.userId !== this.props.myId){
             this.setState({
                 chat: [...this.state.chat, (
                     <Grid item className="rightChat" sx={6}>
