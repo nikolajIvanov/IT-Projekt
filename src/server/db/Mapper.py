@@ -93,9 +93,9 @@ class Mapper(AbstractContextManager, ABC):
         tuple_main_modul = cursor.fetchall()
 
         # Erstellt mir ein UserBO des aktuellen Users
-        main_user_bo = UserBO.create_matching_userBO(id=tuple_main_user[0], lerntyp=tuple_main_user[1],
-                                                     semester=tuple_main_user[2], studiengang=tuple_main_user[3],
-                                                     frequenz=tuple_main_user[4], lernort=tuple_main_user[5])
+        main_user_bo = UserBO.create_matching_user_bo(id=tuple_main_user[0], lerntyp=tuple_main_user[1],
+                                                      semester=tuple_main_user[2], studiengang=tuple_main_user[3],
+                                                      frequenz=tuple_main_user[4], lernort=tuple_main_user[5])
 
         # Speichert mir alle Module des Users in das BO
         for i in tuple_main_modul:  # Löst die Liste von fetchall auf

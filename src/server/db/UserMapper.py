@@ -92,9 +92,9 @@ class UserMapper(Mapper):
             for user in unsorted_users:
                 cursor.execute(query_matching_user, (user,))
                 tuple_user = cursor.fetchone()
-                user = UserBO.create_matching_userBO(id=tuple_user[0], lerntyp=tuple_user[1], semester=tuple_user[2],
-                                                     studiengang=tuple_user[3], frequenz=tuple_user[4],
-                                                     lernort=tuple_user[5])
+                user = UserBO.create_matching_user_bo(id=tuple_user[0], lerntyp=tuple_user[1], semester=tuple_user[2],
+                                                      studiengang=tuple_user[3], frequenz=tuple_user[4],
+                                                      lernort=tuple_user[5])
 
                 matching_users.append(user)
 
@@ -175,10 +175,10 @@ class UserMapper(Mapper):
 
             for (user_id, authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester, studiengang,
                  vorname, frequenz, lernort) in tuples:
-                user = UserBO.create_userBO(id=user_id, authId=authId, profilBild=bild, name=name,
-                                            geburtsdatum=geburtsdatum, email=email, beschreibung=beschreibung,
-                                            lerntyp=lerntyp, gender=gender, semester=semester, studiengang=studiengang,
-                                            vorname=vorname, frequenz=frequenz, lernort=lernort)
+                user = UserBO.create_user_bo(id=user_id, authId=authId, profilBild=bild, name=name,
+                                             geburtsdatum=geburtsdatum, email=email, beschreibung=beschreibung,
+                                             lerntyp=lerntyp, gender=gender, semester=semester, studiengang=studiengang,
+                                             vorname=vorname, frequenz=frequenz, lernort=lernort)
                 # Das Geburtstag wird in das aktuelle Alter umgerechnet.
                 user.set_geburtsdatum(user.calculate_age())
                 result.append(self.find_modul_by_userid(user))
@@ -217,10 +217,10 @@ class UserMapper(Mapper):
             (user_id, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester,
              studiengang, vorname, frequenz, lernort) = tuples[0]
 
-            user = UserBO.create_userBO(id=user_id, authId=user_authid, profilBild=bild, name=name,
-                                        geburtsdatum=geburtsdatum, email=email, beschreibung=beschreibung,
-                                        lerntyp=lerntyp, gender=gender, semester=semester, studiengang=studiengang,
-                                        vorname=vorname, frequenz=frequenz, lernort=lernort)
+            user = UserBO.create_user_bo(id=user_id, authId=user_authid, profilBild=bild, name=name,
+                                         geburtsdatum=geburtsdatum, email=email, beschreibung=beschreibung,
+                                         lerntyp=lerntyp, gender=gender, semester=semester, studiengang=studiengang,
+                                         vorname=vorname, frequenz=frequenz, lernort=lernort)
 
             # Das Geburtstag wird in das aktuelle Alter umgerechnet.
             user.set_geburtsdatum(user.calculate_age())
@@ -254,10 +254,10 @@ class UserMapper(Mapper):
         (authId, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester,
          studiengang, vorname, frequenz, lernort) = tuples[0]
 
-        user = UserBO.create_userBO(id=user_id, authId=authId, profilBild=bild, name=name,
-                                    geburtsdatum=geburtsdatum, email=email, beschreibung=beschreibung, lerntyp=lerntyp,
-                                    gender=gender, semester=semester, studiengang=studiengang, vorname=vorname,
-                                    frequenz=frequenz, lernort=lernort)
+        user = UserBO.create_user_bo(id=user_id, authId=authId, profilBild=bild, name=name,
+                                     geburtsdatum=geburtsdatum, email=email, beschreibung=beschreibung, lerntyp=lerntyp,
+                                     gender=gender, semester=semester, studiengang=studiengang, vorname=vorname,
+                                     frequenz=frequenz, lernort=lernort)
 
         # Das Geburtstag wird in das aktuelle Alter umgerechnet.
         user.set_geburtsdatum(user.calculate_age())

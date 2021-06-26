@@ -17,13 +17,13 @@ class VieleUserApi(Resource):
         users = []
         if payload:
             for _user in payload:
-                proposal = UserBO.create_userBO(id=_user["id"], authId=_user["authId"], profilBild=_user["profilBild"],
-                                                name=_user["name"], geburtsdatum=_user["geburtsdatum"],
-                                                email=_user["email"], beschreibung=_user["beschreibung"],
-                                                lerntyp=_user["lerntyp"], gender=_user["gender"],
-                                                semester=_user["semester"], studiengang=_user["studiengang"],
-                                                vorname=_user["vorname"], frequenz=_user["frequenz"],
-                                                lernort=_user["lernort"])
+                proposal = UserBO.create_user_bo(id=_user["id"], authId=_user["authId"], profilBild=_user["profilBild"],
+                                                 name=_user["name"], geburtsdatum=_user["geburtsdatum"],
+                                                 email=_user["email"], beschreibung=_user["beschreibung"],
+                                                 lerntyp=_user["lerntyp"], gender=_user["gender"],
+                                                 semester=_user["semester"], studiengang=_user["studiengang"],
+                                                 vorname=_user["vorname"], frequenz=_user["frequenz"],
+                                                 lernort=_user["lernort"])
                 users.append(proposal)
                 return Administration.insert_many_user(users)
         else:
