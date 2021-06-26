@@ -2,8 +2,7 @@ import React from 'react';
 import io from "socket.io-client";
 import ButtonPrimary from "../../../components/Button/ButtonPrimary";
 import Grid from "@material-ui/core/Grid";
-import {Chip, IconButton, Input, InputBase} from "@material-ui/core";
-import ButtonSend from "../../../components/Button/ButtonSend";
+import {Chip, IconButton, InputBase} from "@material-ui/core";
 import TeamUpApi from "../../../api/TeamUpApi";
 import { withRouter } from 'react-router-dom';
 import SendIcon from "@material-ui/icons/Send";
@@ -48,6 +47,7 @@ class ChatFenster extends React.Component{
     }
 
     handlePartner = (message) => {
+        console.log(message)
         if(message.userId === this.props.myId){
             this.setState({
                 chat: [...this.state.chat, (
@@ -57,7 +57,7 @@ class ChatFenster extends React.Component{
                 )]
             })
         }
-        if(message.userId === this.state.partnerId){
+        else{
             this.setState({
                 chat: [...this.state.chat, (
                     <Grid item className="rightChat" sx={6}>
@@ -75,6 +75,7 @@ class ChatFenster extends React.Component{
     }
 
     handleSend = (e) => {
+        console.log(this.props.roomId)
         this.socket.emit("message", {
             roomId: this.props.roomId,
             message: this.state.sendData,
