@@ -10,7 +10,7 @@ class LerntypMapper(Mapper):
     def find_all(self):
         """
         Gibt alle Lerntypen wieder, die wir definiert haben
-        :return: Alle Lerntypen
+        :return: Alle Lerntypen in einer Liste
         """
         result = []
         cursor = self._cnx.cursor()

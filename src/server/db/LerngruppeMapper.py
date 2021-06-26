@@ -91,6 +91,10 @@ class LerngruppeMapper(Mapper):
         return main_user_bo, matching_gruppen
 
     def find_all(self):
+        """
+        Findet alle angelegten Lerngruppen
+        :return: Liste mit allen Lerngruppen
+        """
 
         try:
             result = []
@@ -163,6 +167,11 @@ class LerngruppeMapper(Mapper):
         cursor.close()
 
     def find_by_id(self, gruppen_id):
+        """
+        Selektiert eine Lerngruppe mit Ihren Attributen anhand der Lerngruppen Id
+        :param gruppen_id: Lerngruppen Id
+        :return: Lerngruppen Objekt
+        """
         try:
             cursor = self._cnx.cursor()
 
@@ -269,8 +278,6 @@ class LerngruppeMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    # TODO In bearbeitung
-    # TODO: Muss als Parameter authId und lerngruppenID übergeben bekommen
     def delete_user_from_lerngruppe(self, altes_mitglied):
         """
         Löscht den aktuellen User aus der Lerngruppe

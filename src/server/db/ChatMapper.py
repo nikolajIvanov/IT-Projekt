@@ -306,6 +306,11 @@ class ChatMapper(Mapper):
         return users
 
     def get_group_of_room(self, room):
+        """
+        Selektiert die Lerngruppen Id eines Chat Rooms falls der Chatroom zu einer Lerngruppe gehört
+        :param room: Die Id des Chatroom für welchen die LerngruppenId gefunden werden soll
+        :return: Die LerngruppenId als Int
+        """
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor()
 
