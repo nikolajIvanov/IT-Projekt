@@ -76,8 +76,9 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  padding-left: 10%;
   width: 100%;
-  height: 78vh;
+  height: 77vh;
 }
 
 .chatHeader{
@@ -131,6 +132,8 @@
 
 .leftUebersicht{
   padding: 0 3% 0 3%;
+  margin-top: 5%;
+  margin-left: 5%;
 }
 
 .rightChat{
@@ -154,11 +157,8 @@
 
 .chatOutlines{
   padding: 0 10% 0 10%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
   width: 100%;
-  height: 78vh;
+  height: 77vh;
   overflow-x: hidden;
   overflow-y: auto;
 }
