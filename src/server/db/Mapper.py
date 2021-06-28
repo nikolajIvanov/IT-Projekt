@@ -65,10 +65,10 @@ class Mapper(AbstractContextManager, ABC):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def find_modul_id_for_matching(self, user_authid):
+    def find_modul_id_for_matching(self, user_auth_id):
         """
         Diese Methode findet alle Module welche ein Nutzer belegt. Dies wird für den Matching Algo benötigt
-        :param user_authid: GoogleAuthId des Nutzers für welchen die Module gefunden werden sollen
+        :param user_auth_id: GoogleAuthId des Nutzers für welchen die Module gefunden werden sollen
         :return: Ein Nutzerobjekt
         """
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
@@ -82,7 +82,7 @@ class Mapper(AbstractContextManager, ABC):
         query_module = """SELECT modulId FROM TeamUP.userInModul WHERE userId=%s"""
 
         # Holt die Informationen des MainUsers über die auth_id
-        cursor.execute(query_user, (user_authid,))
+        cursor.execute(query_user, (user_auth_id,))
         tuple_main_user = cursor.fetchone()
 
         if not tuple_main_user:
@@ -105,10 +105,10 @@ class Mapper(AbstractContextManager, ABC):
         cursor.close()
         return main_user_bo
 
-    def find_userid_by_authid(self, authid):
+    def find_userid_by_authid(self, auth_id):
         """
         Findet die Interne Id eines Nutzers anhand seiner GoogleAuthId
-        :param authid: GoogleID des aktuellen Users
+        :param auth_id: GoogleID des aktuellen Users
         :return: Gibt die UserID zurück
         """
         try:
@@ -118,7 +118,7 @@ class Mapper(AbstractContextManager, ABC):
             query = """SELECT id FROM TeamUP.users WHERE authId=%s"""
 
             # Ausführen des ersten SQL-Befehls
-            cursor.execute(query, (authid,))
+            cursor.execute(query, (auth_id,))
             # Speichern der SQL Antwort
             user_id = cursor.fetchone()
 
@@ -128,10 +128,10 @@ class Mapper(AbstractContextManager, ABC):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def find_username_by_id(self, userid):
+    def find_username_by_id(self, user_id):
         """
         Sucht nach dem Namen eines Nutzers anhand seiner Id
-        :param userid: Nutzer Id für welche der Name gefunden werden soll.
+        :param user_id: Nutzer Id für welche der Name gefunden werden soll.
         :return: Name des Nutzers
         """
         try:
@@ -141,7 +141,7 @@ class Mapper(AbstractContextManager, ABC):
             query = """SELECT vorname, name FROM TeamUP.users WHERE id=%s"""
 
             # Ausführen des ersten SQL-Befehls
-            cursor.execute(query, (userid,))
+            cursor.execute(query, (user_id,))
             # Speichern der SQL Antwort
             username = cursor.fetchone()
 

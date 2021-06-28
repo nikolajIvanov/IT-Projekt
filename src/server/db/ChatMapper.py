@@ -277,7 +277,7 @@ class ChatMapper(Mapper):
         """
         # query_admin = SELECT id, roomId, admin from TeamUP.lerngruppe WHERE admin=%s
 
-        cursor.execute(query_admin, (userid,))
+        cursor.execute(query_admin, (user_id,))
         admin = cursor. fetchall()
         # query_mitglieder = SELECT userId from TeamUP.userInLerngruppe WHERE lerngruppeId=%s AND admitted = 0
         for gruppe in admin:
