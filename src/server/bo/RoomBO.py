@@ -8,8 +8,8 @@ class RoomBO(BusinessObject):
     """
     def __init__(self):
         super().__init__()
-        self.__userAuthId = None
-        self.__partnerId = None
+        self.__user_auth_id = None
+        self.__partner_id = None
         self.__mitglieder = []
 
     def get_mitglieder(self):
@@ -22,16 +22,16 @@ class RoomBO(BusinessObject):
         self.__mitglieder.append(value)
 
     def get_user_auth_id(self):
-        return self.__userAuthId
+        return self.__user_auth_id
 
     def set_user_auth_id(self, user_auth_id):
-        self.__userAuthId = user_auth_id
+        self.__user_auth_id = user_auth_id
 
     def get_partner_id(self):
-        return self.__partnerId
+        return self.__partner_id
 
     def set_partner_id(self, partner_id):
-        self.__partnerId = partner_id
+        self.__partner_id = partner_id
 
     @staticmethod
     def create_room(**kwargs):
