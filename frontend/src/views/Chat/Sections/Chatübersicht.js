@@ -1,16 +1,25 @@
 import React, {useEffect} from 'react';
-import {Divider, List} from "@material-ui/core";
+import {Collapse, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
 import Chatanfragen from "./Subsections/Chatanfragen";
 import firebase from "../../../api/Firebase";
+import InboxIcon from '@material-ui/icons/MoveToInbox';
 import Chats from "./Subsections/Chats";
 import H1_bold from "../../../components/Fonts/h1_bold";
-
+import {ExpandLess, ExpandMore} from "@material-ui/icons";
 
 // Zeigt alle Chatanfragen und bestehende Chats eines Nutzers
 function Chatübersicht(props) {
     const authId = firebase.auth().currentUser.uid
-    useEffect(async () => {
-    }, [])
+    const [open, setOpen] = React.useState(false)
+
+    function handleClick(){
+        if(open === true){
+            setOpen(false)
+        }
+        else{
+            setOpen(true)
+        }
+    }
 
     return (
         <div>
@@ -26,9 +35,18 @@ function Chatübersicht(props) {
                         switch={props.switch}
                         authId={authId}
                     />
-                    <Divider/>
-                    <Chatanfragen
-                        authId={authId}/>
+                    <ListItem button onClick={handleClick}>
+                        <ListItemIcon>
+                            <InboxIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Chatanfragen" />
+                        {open ? <ExpandLess /> : <ExpandMore />}
+                    </ListItem>
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                        <Chatanfragen handleClick={handleClick}
+                            authId={authId}/>
+                    </Collapse>
+
                 </List>
         </div>
     );

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import "../../assets/theme.css"
 import TeamUpApi from "../../api/TeamUpApi";
 import {Card, CardActions, CardContent, Divider, Modal, Paper} from "@material-ui/core";
@@ -8,7 +8,7 @@ import ButtonSpeichern from "../../components/Button/ButtonSpeichern";
 import ButtonDelete from "../../components/Button/ButtonDelete";
 import GroupSectionBild from "./Sections/GroupSectionBild";
 import GroupSectionBeschreibung from "./Sections/GroupSectionBeschreibung";
-import {useHistory} from "react-router-dom";
+import {useHistory, withRouter} from "react-router-dom";
 import GroupSectionLerntyp from "./Sections/GroupSectionLerntyp";
 import GroupSectionModul from "./Sections/GroupSectionModul";
 import GroupSectionName from "./Sections/GroupSectionName";
@@ -21,7 +21,6 @@ import GroupSectionLernort from "./Sections/GroupSectionLernort";
 
 function GruppeBearbeiten (props) {
 
-
     const verlassen = (<div style={theme.root}>
         <Paper style={theme.modalCard}>
             <H2_bold inhalt={"Wollen Sie die Gruppenerstellung wirklich verlassen?"}/>
@@ -29,10 +28,14 @@ function GruppeBearbeiten (props) {
         </Paper>
     </div>)
 
+    function goHome() {
+        redirect.push("/")
+    }
+
     const erfolg = (<div style={theme.root}>
         <Paper style={theme.modalCard}>
             <H2_bold inhalt={"Die gruppe wurde erfolgreich angelegt 🥳"}/>
-            <ButtonPrimary inhalt={"Verlassen"} onClick={() => redirect.push("/")}/>
+            <ButtonPrimary inhalt={"Verlassen"} onClick={goHome}/>
         </Paper>
     </div>)
 
@@ -137,4 +140,4 @@ function GruppeBearbeiten (props) {
         );
 }
 
-export default GruppeBearbeiten;
+export default withRouter(GruppeBearbeiten);

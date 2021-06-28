@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Divider, IconButton, ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
+import {Card, Divider, IconButton, ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
 import ProfilAvatar from "../../../../components/Avatar/ProfilAvatar";
 import TeamUpApi from "../../../../api/TeamUpApi";
 import H3_bold from "../../../../components/Fonts/h3_bold";
@@ -32,6 +32,7 @@ function Chatanfragen(props) {
         anfrage.setPartnerId(partnerId)
         TeamUpApi.getAPI().acceptUserRequest(anfrage.getAll())
             .then((res) => console.log(res))
+        props.handleClick()
         if(accept === '')
             setAccept('1')
         else{
@@ -47,6 +48,7 @@ function Chatanfragen(props) {
         }
         TeamUpApi.getAPI().acceptGroupRequest(request)
             .then((res) => console.log(res))
+        props.handleClick()
         if(accept === '')
             setAccept('1')
         else{
@@ -103,16 +105,16 @@ function Chatanfragen(props) {
                                 </div>
                             )}
                         </> :
-                        <div className="leftUebersicht">
-                            <p> Keine Useranfragen gestellt oder erhalten</p>
-                        </div>
+                            <Card className="leftUebersicht">
+                                <p> Keine Useranfragen gestellt oder erhalten</p>
+                            </Card>
                     }
 
                     {groupRequests.erhalten.length > 0 ?
                         <>
                             {groupRequests.erhalten.map(request =>
                                 <div className="chatPreviews">
-                                    <ListItem className="chatPreviews">
+                                    <ListItem>
                                         <ListItemAvatar>
                                             <ProfilAvatar/>
                                         </ListItemAvatar>
@@ -132,16 +134,18 @@ function Chatanfragen(props) {
                                 </div>
                             )}
                         </> :
-                        <div className="leftUebersicht">
+                        <Card className="leftUebersicht">
                             <p> Keine Gruppenanfragen gestellt oder erhalten</p>
-                        </div>
+                        </Card>
                     }
                 </>
                 :
-                <h1>Nicht gerendert</h1>
+                <div className="root">
+                    <H3_bold>Anfragen werden geladen...</H3_bold>
+                </div>
             }
         </div>
     );
-};
+}
 
 export default Chatanfragen;

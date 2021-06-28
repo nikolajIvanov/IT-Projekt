@@ -48,7 +48,6 @@ class ChatFenster extends React.Component{
     }
 
     handlePartner = (message) => {
-        console.log(message)
         if(message.userId === this.props.myId){
             this.setState({
                 chat: [...this.state.chat, (
@@ -58,7 +57,7 @@ class ChatFenster extends React.Component{
                 )]
             })
         }
-        if(message.userId !== this.props.myId){
+        if((message.userId !== this.props.myId) && (message.userId !== undefined)){
             this.setState({
                 chat: [...this.state.chat, (
                     <Grid item className="rightChat" sx={6}>

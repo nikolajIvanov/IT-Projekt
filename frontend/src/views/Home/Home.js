@@ -83,7 +83,12 @@ class Home extends Component {
         await this.setState({
             currentUser: firebase.auth().currentUser.uid
         });
-        await TeamUpApi.getAPI().getMatchUserList(this.state.currentUser).then(async users => {
+        this.getUserList()
+    }
+
+    //Ruft die Kompatiblen/Match User auf
+    getUserList = () =>{
+        TeamUpApi.getAPI().getMatchUserList(this.state.currentUser).then(async users => {
             if (users.result.length < 1) {
                 this.setState({
                     matches: false
@@ -116,6 +121,13 @@ class Home extends Component {
         })
     }
 
+    setMatched = async () => {
+        this.setState({
+                userList: null
+            })
+        await this.getUserList()
+    }
+
     render() {
         /*
         * Profil --> bekommt das ausgewählte Nutzerobjekt
@@ -135,11 +147,13 @@ class Home extends Component {
                                 {userList ?
                                 <Match userList={userList}
                                        groupList={groupList}
-                                       getView={this.setAuswahl}/>
+                                       getView={this.setAuswahl}
+                                       setMatched={this.setMatched}
+                                />
                                     :
                                     <>
                                         {matches ?
-                                        <h1 className="App">Matching konnte nicht geladen werden</h1>
+                                        <h1 className="App">Matching wird geladen...</h1>
                                                 :
                                             <NoMatch/>
                                         }
@@ -158,12 +172,13 @@ class Home extends Component {
                                 : <h1 className="App">Gruppe konnte nicht geladen werden</h1>
                             }
                         </Route>
-                        <Route path="/me" component={MyProfil}/>
+                        <Route path="/me"><MyProfil setMatched={this.setMatched}/></Route>
                         <Route path="/chat" exact ><Chat setMyId={this.setMyId}
                                                          myId={myId}
                                                          setPartnerId={this.setPartnerId}/></Route>
                         <Route path="/gruppe_erstellen"><GruppeBearbeiten myId={myId}
-                                                                      partnerId={partnerId}/></Route>
+                                                                          setMatched={this.setMatched}
+                                                                          partnerId={partnerId}/></Route>
                     </Switch>
                 </Router>
             </div>

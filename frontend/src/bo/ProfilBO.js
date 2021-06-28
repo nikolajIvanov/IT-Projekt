@@ -53,7 +53,7 @@ export default class ProfilBO extends BusinessObject {
     }
 
     getFrequenz() {
-        return this.modul;
+        return this.frequenz;
     }
 
     setFrequenz(newFrequenz) {
