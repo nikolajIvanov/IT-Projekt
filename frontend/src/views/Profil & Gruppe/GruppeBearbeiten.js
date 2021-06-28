@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import "../../assets/theme.css"
 import TeamUpApi from "../../api/TeamUpApi";
 import {Card, CardActions, CardContent, Divider, Modal, Paper} from "@material-ui/core";
@@ -20,7 +20,6 @@ import GroupSectionFrequenz from "./Sections/GroupSectionFrequenz";
 import GroupSectionLernort from "./Sections/GroupSectionLernort";
 
 function GruppeBearbeiten (props) {
-
 
     const verlassen = (<div style={theme.root}>
         <Paper style={theme.modalCard}>
