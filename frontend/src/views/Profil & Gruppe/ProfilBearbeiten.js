@@ -14,6 +14,7 @@ import theme from '../../theme'
 import ButtonSpeichern from "../../components/Button/ButtonSpeichern";
 import ButtonDelete from "../../components/Button/ButtonDelete";
 import InputFeld from "../../components/Textfeld/InputFeld";
+import {withRouter} from "react-router-dom";
 
 class ProfilBearbeiten extends React.Component {
     constructor(props) {
@@ -33,7 +34,8 @@ class ProfilBearbeiten extends React.Component {
         console.log(this.state.apiUser)
         const user = new UserBO()
         user.setAll(this.state.apiUser)
-        await TeamUpApi.getAPI().updateUser(user.getAll()).then(user =>{
+        await TeamUpApi.getAPI().updateUser(user.getAll()).then(async user => {
+            await this.props.setMatched();
             this.props.history.push("/");
             this.setState({
                 apiUser: user,
@@ -169,4 +171,4 @@ class ProfilBearbeiten extends React.Component {
     }
 }
 
-export default (ProfilBearbeiten);
+export default withRouter(ProfilBearbeiten);

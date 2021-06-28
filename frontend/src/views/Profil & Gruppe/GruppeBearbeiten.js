@@ -8,7 +8,7 @@ import ButtonSpeichern from "../../components/Button/ButtonSpeichern";
 import ButtonDelete from "../../components/Button/ButtonDelete";
 import GroupSectionBild from "./Sections/GroupSectionBild";
 import GroupSectionBeschreibung from "./Sections/GroupSectionBeschreibung";
-import {useHistory} from "react-router-dom";
+import {useHistory, withRouter} from "react-router-dom";
 import GroupSectionLerntyp from "./Sections/GroupSectionLerntyp";
 import GroupSectionModul from "./Sections/GroupSectionModul";
 import GroupSectionName from "./Sections/GroupSectionName";
@@ -29,10 +29,15 @@ function GruppeBearbeiten (props) {
         </Paper>
     </div>)
 
+    async function goHome() {
+        await props.setMatched()
+        redirect.push("/")
+    }
+
     const erfolg = (<div style={theme.root}>
         <Paper style={theme.modalCard}>
             <H2_bold inhalt={"Die gruppe wurde erfolgreich angelegt 🥳"}/>
-            <ButtonPrimary inhalt={"Verlassen"} onClick={() => redirect.push("/")}/>
+            <ButtonPrimary inhalt={"Verlassen"} onClick={goHome}/>
         </Paper>
     </div>)
 
@@ -137,4 +142,4 @@ function GruppeBearbeiten (props) {
         );
 }
 
-export default GruppeBearbeiten;
+export default withRouter(GruppeBearbeiten);

@@ -172,12 +172,13 @@ class Home extends Component {
                                 : <h1 className="App">Gruppe konnte nicht geladen werden</h1>
                             }
                         </Route>
-                        <Route path="/me" component={MyProfil}/>
+                        <Route path="/me"><MyProfil setMatched={this.setMatched}/></Route>
                         <Route path="/chat" exact ><Chat setMyId={this.setMyId}
                                                          myId={myId}
                                                          setPartnerId={this.setPartnerId}/></Route>
                         <Route path="/gruppe_erstellen"><GruppeBearbeiten myId={myId}
-                                                                      partnerId={partnerId}/></Route>
+                                                                          setMatched={this.setMatched}
+                                                                          partnerId={partnerId}/></Route>
                     </Switch>
                 </Router>
             </div>
