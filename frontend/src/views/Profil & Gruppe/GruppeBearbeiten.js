@@ -29,8 +29,7 @@ function GruppeBearbeiten (props) {
         </Paper>
     </div>)
 
-    async function goHome() {
-        await props.setMatched()
+    function goHome() {
         redirect.push("/")
     }
 
