@@ -51,13 +51,13 @@ class Administration(object):
         with UserMapper() as mapper:
             for user in users:
                 mapper.insert_by_authId(user)
-            # TODO Ardit kann man hier den Statuscode übergeben
+
 
     @staticmethod
     def update_user_by_auth_id(nutzer):
         """
         Updatet den aktuellen User
-        :param nutzer: GoogleID des aktuellen Users
+        :param nutzer: Nutzer Business Objekt
         :return: Alle Objekte des Nutzers (aktualisiert)
         """
         with UserMapper() as mapper:
@@ -92,7 +92,7 @@ class Administration(object):
         with UserMapper() as mapper:
             return mapper.find_by_auth_id(auth_id)
 
-    # TODO KEINE VERWENDUNG NIKO Braucht man des beim chat wenn man übenr chat uafs profiel möchte
+
     def get_user_by_id(self, user_id):
         """
         Findet einen bestimmten User über die id.
@@ -149,7 +149,7 @@ class Administration(object):
     def delete_user_in_lerngruppe(altes_mitglied):
         """
         Löscht einen Mitglied aus der Lerngruppe
-        :param altes_mitglied: lerngruppenobjekt
+        :param altes_mitglied: List mit MitgliedsId
         :return: Statuscode 200 User erfolgreich aus Gruppe gelöscht
         """
         with LerngruppeMapper() as mapper:
@@ -321,7 +321,7 @@ class Administration(object):
     def create_room(room):
         """
         Es wird ein neuer Single Chatroom erstellt
-        :param room: RoomID
+        :param room: Room Business Object
         :return: Statuscode 200 erfolgreich in der DB erstellt.
         """
         with ChatMapper() as mapper:
@@ -331,7 +331,7 @@ class Administration(object):
     def create_request(request):
         """
         Erstellt eine User Anfrage in der Datenbank
-        :param request:
+        :param request: Request Busineess Object
         :return: Statuscode 200
         """
         with RequestMapper() as mapper:
@@ -348,14 +348,14 @@ class Administration(object):
             return mapper.create_group_request(request)
 
     @staticmethod
-    def get_request(authid):
+    def get_request(auth_id):
         """
         Holt die Chatanfragen des aktuellen Users und überprüft, ob Chatanfragen länger als 2 Wochen sind
-        :param authid: GoogleID des aktuellen Users
+        :param auth_id: GoogleID des aktuellen Users
         :return: Alle Chatanfragen des aktuellen Users
         """
         with RequestMapper() as mapper:
-            return mapper.get_user_requests(authid)
+            return mapper.get_user_requests(auth_id)
 
     @staticmethod
     def delete_request(request):
@@ -397,7 +397,6 @@ class Administration(object):
         with LerngruppeMapper() as mapper:
             return mapper.update_info_from_lerngruppe(lerngruppe)
 
-    # TODO: Wird benötigt?
     def update_user_by_id(self, nutzer):
         """
         :param nutzer: Ist die Id

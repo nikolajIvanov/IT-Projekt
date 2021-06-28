@@ -32,5 +32,5 @@ class Chat(Namespace):
         :param data: Daten des Chats
         """
         chat_api = ChatRoomApi()
-        chatlist = chat_api.get(data["authid"])
+        chatlist = chat_api.get(data["auth_id"])
         emit('chatlist', chatlist)

@@ -81,7 +81,7 @@ class Mapper(AbstractContextManager, ABC):
         # Holt mir alle ModuleIDs von vem MainUser
         query_module = """SELECT modulId FROM TeamUP.userInModul WHERE userId=%s"""
 
-        # Holt die Informationen des MainUsers über die authid
+        # Holt die Informationen des MainUsers über die auth_id
         cursor.execute(query_user, (user_authid,))
         tuple_main_user = cursor.fetchone()
 
