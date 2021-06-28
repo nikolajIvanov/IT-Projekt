@@ -8,7 +8,6 @@ from server.bo.RequestBO import RequestBO
 class RequestApi(Resource):
 
     @secured
-    @api.marshal_with(request)
     def get(self, auth_id):
         """
         Übergibt alle Anfragen des aktuellen Users.
