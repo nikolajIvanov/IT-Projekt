@@ -139,11 +139,11 @@ class ChatMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def create_learngruppen_room(self, lerngruppe, groupid):
+    def create_learngruppen_room(self, lerngruppe, group_id):
         """
         Erzeugt ein neuen Gruppen Chatroom für eine Lerngruppe
         :param lerngruppe: Lerngruppen Objekt
-        :param groupid: Id der Gruppe
+        :param group_id: Id der Gruppe
         :return: 200 - Raum wurde erfolgreich angelegt
         """
         try:
@@ -152,7 +152,7 @@ class ChatMapper(Mapper):
 
             query1 = """INSERT INTO TeamUP.room(groupId) VALUE (%s)"""
 
-            cursor.execute(query1, (groupid,))
+            cursor.execute(query1, (group_id,))
             self._cnx.commit()
             room_id = cursor.lastrowid
             cursor.close()
