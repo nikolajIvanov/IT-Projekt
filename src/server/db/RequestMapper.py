@@ -59,7 +59,8 @@ class RequestMapper(Mapper):
             gruppen_from_admin = cursor.fetchall()
             erhalten = []
             erhalten_abfrage = """SELECT gA.id, gA.vonUserid, gA.timestamp, l.name, l.id, l.bild 
-                                  FROM TeamUP.gruppeAdmitted gA JOIN TeamUP.lerngruppe l ON gA.anGruppenid = l.id WHERE anGruppenid=%s"""
+                                  FROM TeamUP.gruppeAdmitted gA JOIN TeamUP.lerngruppe l ON gA.anGruppenid = l.id 
+                                  WHERE anGruppenid=%s"""
             for gruppe in gruppen_from_admin:
 
                 cursor.execute(erhalten_abfrage, (gruppe[0],))

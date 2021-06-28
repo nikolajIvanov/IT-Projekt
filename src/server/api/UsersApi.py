@@ -22,13 +22,13 @@ class UsersApi(Resource):
         :return:
         """
         payload = api.payload
-        proposal = UserBO.create_userBO(id=payload["id"], authId=payload["authId"], profilBild=payload["profilBild"],
-                                        name=payload["name"], geburtsdatum=payload["geburtsdatum"],
-                                        email=payload["email"], beschreibung=payload["beschreibung"],
-                                        lerntyp=payload["lerntyp"], gender=payload["gender"],
-                                        semester=payload["semester"], studiengang=payload["studiengang"],
-                                        vorname=payload["vorname"], frequenz=payload["frequenz"],
-                                        lernort=payload["lernort"])
+        proposal = UserBO.create_user_bo(id=payload["id"], authId=payload["authId"], profilBild=payload["profilBild"],
+                                         name=payload["name"], geburtsdatum=payload["geburtsdatum"],
+                                         email=payload["email"], beschreibung=payload["beschreibung"],
+                                         lerntyp=payload["lerntyp"], gender=payload["gender"],
+                                         semester=payload["semester"], studiengang=payload["studiengang"],
+                                         vorname=payload["vorname"], frequenz=payload["frequenz"],
+                                         lernort=payload["lernort"])
 
         for modul in payload["modul"]:
             proposal.set_module_append(modul)
@@ -42,13 +42,13 @@ class UsersApi(Resource):
     @api.expect(user)
     def put(self):
         payload = api.payload
-        proposal = UserBO.create_userBO(id=payload["id"], authId=payload["authId"], profilBild=payload["profilBild"],
-                                        name=payload["name"],
-                                        email=payload["email"], beschreibung=payload["beschreibung"],
-                                        lerntyp=payload["lerntyp"], gender=payload["gender"],
-                                        semester=payload["semester"], studiengang=payload["studiengang"],
-                                        vorname=payload["vorname"], frequenz=payload["frequenz"],
-                                        lernort=payload["lernort"])
+        proposal = UserBO.create_user_bo(id=payload["id"], authId=payload["authId"], profilBild=payload["profilBild"],
+                                         name=payload["name"],
+                                         email=payload["email"], beschreibung=payload["beschreibung"],
+                                         lerntyp=payload["lerntyp"], gender=payload["gender"],
+                                         semester=payload["semester"], studiengang=payload["studiengang"],
+                                         vorname=payload["vorname"], frequenz=payload["frequenz"],
+                                         lernort=payload["lernort"])
         for modul in payload["modul"]:
             proposal.set_module_append(modul)
 

@@ -1,6 +1,3 @@
-#TODO Warum wird hier Datetime importiert?
-import datetime
-
 from server.bo.ProfilBO import ProfilBO
 from datetime import date
 
@@ -80,7 +77,7 @@ class UserBO(ProfilBO):
                                                              self.get_vorname())
 
     @staticmethod
-    def create_userBO(**kwargs):
+    def create_user_bo(**kwargs):
         """
         Allgemeine Klassenmethode zur erstellung eines UserBO Objektes.
         :param kwargs: Bekommt alle Werte aus der UserBO Tabelle
@@ -108,7 +105,7 @@ class UserBO(ProfilBO):
         return obj
 
     @staticmethod
-    def create_matching_userBO(**kwargs):
+    def create_matching_user_bo(**kwargs):
         """
         Erstellt ein UserBO mit allen relevanten Attributen, die für das Scoring benötigt werden
         :param kwargs: Alle benötigten Attribute -> id, lerntyp, semester, studiengang, frequenz, lernort
