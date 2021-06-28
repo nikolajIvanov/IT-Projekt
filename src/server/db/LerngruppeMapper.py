@@ -1,4 +1,4 @@
-from server.bo.Lerngruppe import Lerngruppe
+from server.bo.LerngruppeBO import Lerngruppe
 from server.db.Mapper import Mapper
 from server.db.RequestMapper import RequestMapper
 import mysql.connector.errors

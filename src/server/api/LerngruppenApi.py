@@ -2,7 +2,7 @@ from SecurityDecorator import secured
 from .model import lerngruppe, api
 from flask_restx import Resource
 from server.Administration import Administration
-from server.bo.Lerngruppe import Lerngruppe
+from server.bo.LerngruppeBO import Lerngruppe
 
 
 class LerngruppenApi(Resource):
