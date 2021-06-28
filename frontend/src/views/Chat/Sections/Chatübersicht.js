@@ -12,9 +12,6 @@ function Chatübersicht(props) {
     const authId = firebase.auth().currentUser.uid
     const [open, setOpen] = React.useState(false)
 
-    useEffect(async () => {
-    }, [])
-
     function handleClick(){
         if(open === true){
             setOpen(false)
@@ -46,7 +43,8 @@ function Chatübersicht(props) {
                         {open ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
                     <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Chatanfragen authId={authId}/>
+                        <Chatanfragen handleClick={handleClick}
+                            authId={authId}/>
                     </Collapse>
 
                 </List>

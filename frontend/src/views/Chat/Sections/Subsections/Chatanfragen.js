@@ -32,6 +32,7 @@ function Chatanfragen(props) {
         anfrage.setPartnerId(partnerId)
         TeamUpApi.getAPI().acceptUserRequest(anfrage.getAll())
             .then((res) => console.log(res))
+        props.handleClick()
         if(accept === '')
             setAccept('1')
         else{
@@ -47,6 +48,7 @@ function Chatanfragen(props) {
         }
         TeamUpApi.getAPI().acceptGroupRequest(request)
             .then((res) => console.log(res))
+        props.handleClick()
         if(accept === '')
             setAccept('1')
         else{
@@ -138,10 +140,12 @@ function Chatanfragen(props) {
                     }
                 </>
                 :
-                <h1>Nicht gerendert</h1>
+                <div className="root">
+                    <H3_bold>Anfragen werden geladen...</H3_bold>
+                </div>
             }
         </div>
     );
-};
+}
 
 export default Chatanfragen;

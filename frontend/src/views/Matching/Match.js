@@ -18,7 +18,6 @@ class Match extends Component {
 
     // Ladet direkt die User Daten aus dem Backend
     componentDidMount() {
-        console.log(this.props.userList)
         this.setState({
             apiUsers: this.props.userList,
             apiGruppen: this.props.groupList
@@ -44,13 +43,16 @@ class Match extends Component {
                     { isPerson ?
                         <>
                             <UserMatchSection getView={this.props.getView}
-                                              apiUsers={apiUsers}/>
+                                              apiUsers={apiUsers}
+                                              setMatched={this.props.setMatched}
+                            />
                         </>
                     :
                                 <>
                                     {apiGruppen ?
                                         <GroupMatchSection getView={this.props.getView}
-                                                           apiGroups={apiGruppen}/>
+                                                           apiGroups={apiGruppen}
+                                        />
                                         :
                                         <Card className="card">
                                             <h2>Du hast leider keine Gruppen-Matches 😢</h2>

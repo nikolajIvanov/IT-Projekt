@@ -201,6 +201,8 @@
   flex-direction: row;
 }
 
+
+
 .accord{
   display: flex;
   flex-direction: column;
@@ -342,6 +344,8 @@
   box-shadow: 0 6px 20px 0 rgba(0, 74, 95, 0.2);
   background-color: var(--primary);
   color: #f8f8f8;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 

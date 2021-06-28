@@ -1,6 +1,5 @@
 import ProfilBO from "./ProfilBO";
 
-
 // Business User Klasse in der alle Werte für einen konkreten User gespeichert und verarbeitet werden.
 export default class UserBO extends ProfilBO {
     constructor() {
@@ -44,7 +43,7 @@ export default class UserBO extends ProfilBO {
     }
 
     setGruppen(gruppe) {
-       this.istinGruppe.add(gruppe);
+       this.istinGruppe = gruppe;
     }
 
     getAuthId(){
