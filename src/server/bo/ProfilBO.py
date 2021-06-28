@@ -11,7 +11,7 @@ class ProfilBO(BusinessObject):
         self.__name = ""
         self.__lerntyp = ""
         self.__modul = []
-        self.__profilBild = ""
+        self.__profil_bild = ""
         self.__beschreibung = ""
         self.__frequenz = ""
         self.__lernort = ""
@@ -63,13 +63,13 @@ class ProfilBO(BusinessObject):
         """Gibt das Bild eines Profiles zurück
         :return: Bild eines Profiles
         """
-        return self.__profilBild
+        return self.__profil_bild
 
     def set_profil_bild(self, bild):
         """Fügt dem ProfilBO ein Bild hinzu.
         :param bild: Module
         """
-        self.__profilBild = bild
+        self.__profil_bild = bild
 
     def get_beschreibung(self):
         """Gibt die Beschreibung eines Profiles zurück
@@ -89,11 +89,11 @@ class ProfilBO(BusinessObject):
         """
         return self.__frequenz
 
-    def set_frequenz(self, newfrequenz):
+    def set_frequenz(self, new_frequenz):
         """Fügt dem ProfilBO eine Frequenz hinzu.
-        :param newfrequenz: Module
+        :param new_frequenz: Module
         """
-        self.__frequenz = newfrequenz
+        self.__frequenz = new_frequenz
 
     def get_lernort(self):
         """Gibt den Lernort eines Profiles zurück
@@ -101,8 +101,8 @@ class ProfilBO(BusinessObject):
         """
         return self.__lernort
 
-    def set_lernort(self, newort):
+    def set_lernort(self, new_ort):
         """Fügt dem ProfilBO einen Lernort hinzu.
-        :param newort: Module
+        :param new_ort: Module
         """
-        self.__lernort = newort
+        self.__lernort = new_ort
