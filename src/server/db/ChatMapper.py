@@ -194,9 +194,10 @@ class ChatMapper(Mapper):
 
             # Erstellen des SQL-Befehls
             query = """SELECT userId from TeamUP.userInRoom WHERE roomId=%s"""
-
+            user_query = """SELECT uIR.userId, users.vorname, users.name FROM TeamUP.userInRoom uIR JOIN TeamUP.users 
+                            ON uIR.userId = users.id WHERE roomId=%s"""
             # Ausführen des SQL-Befehls
-            cursor.execute(query, (room,))
+            cursor.execute(user_query, (room,))
 
             # Speichern der SQL Antwort
             users_tuple = cursor.fetchall()
@@ -206,10 +207,12 @@ class ChatMapper(Mapper):
 
             # Umwandels des Tuples in eine Liste
             users = []
+            users_dict = {}
             for tuples in users_tuple:
-                for i in tuples:
-                    users.append(i)
-            return users
+                # for i in tuples:
+                users_dict[tuples[0]] = tuples[1] + ' ' + tuples[2]
+                # users.append(i)
+            return users_dict
 
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
@@ -253,13 +256,13 @@ class ChatMapper(Mapper):
                 else:
                     user = u
 
-            get_user_name = """SELECT name FROM TeamUP.users WHERE id=%s"""
+            get_user_name = """SELECT vorname, name FROM TeamUP.users WHERE id=%s"""
 
             cursor.execute(get_user_name, user)
 
             name = cursor.fetchone()
 
-            return name[0]
+            return f'{name[0]} {name[1]}'
 
         else:
             return name[0]
