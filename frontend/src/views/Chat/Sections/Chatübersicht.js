@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Collapse, List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
 import Chatanfragen from "./Subsections/Chatanfragen";
 import firebase from "../../../api/Firebase";
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import Chats from "./Subsections/Chats";
-import H1_bold from "../../../components/Fonts/h1_bold";
+import h1Bold from "../../../components/Fonts/h1_bold";
 import {ExpandLess, ExpandMore} from "@material-ui/icons";
 
 // Zeigt alle Chatanfragen und bestehende Chats eines Nutzers
@@ -24,7 +24,7 @@ function Chatübersicht(props) {
     return (
         <div>
             <div className="chatUeberschrift">
-                <H1_bold inhalt={"Chatübersicht"}/>
+                <h1Bold inhalt={"Chatübersicht"}/>
             </div>
                 <List className="chatsBox">
                     <Chats
@@ -32,6 +32,7 @@ function Chatübersicht(props) {
                         groupId={props.groupId}
                         myId={props.myId}
                         teilnehmer={props.teilnehmer}
+                        groupName={props.groupName}
                         switch={props.switch}
                         authId={authId}
                     />

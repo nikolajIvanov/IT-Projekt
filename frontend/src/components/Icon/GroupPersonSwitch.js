@@ -1,6 +1,4 @@
 import React from 'react';
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import {ButtonGroup} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 

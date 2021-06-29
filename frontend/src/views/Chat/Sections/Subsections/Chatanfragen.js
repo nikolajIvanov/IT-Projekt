@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Card, Divider, IconButton, ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
 import ProfilAvatar from "../../../../components/Avatar/ProfilAvatar";
 import TeamUpApi from "../../../../api/TeamUpApi";
-import H3_bold from "../../../../components/Fonts/h3_bold";
+import h3Bold from "../../../../components/Fonts/h3_bold";
 import AddIcon from "@material-ui/icons/Add";
 import ClearIcon from "@material-ui/icons/Clear";
 import AnfrageBO from "../../../../bo/AnfrageBO";
@@ -56,9 +56,7 @@ function Chatanfragen(props) {
         }
     }
 
-    function anfrageAblehnen(requestId, partnerId){
-        //TODO noch erstellen
-    }
+    //TODO Anfrage ablehnen
 
     return (
         <div>
@@ -79,7 +77,7 @@ function Chatanfragen(props) {
                                     </ListItem>
                                     <Divider orientation="vertical" flexItem />
                                     <div className="leftUebersicht">
-                                        <H3_bold inhalt={"Angefragt"}/>
+                                        <h3Bold inhalt={"Angefragt"}/>
                                     </div>
                                 </div>
                             )}
@@ -141,7 +139,7 @@ function Chatanfragen(props) {
                 </>
                 :
                 <div className="root">
-                    <H3_bold>Anfragen werden geladen...</H3_bold>
+                    <h3Bold>Anfragen werden geladen...</h3Bold>
                 </div>
             }
         </div>

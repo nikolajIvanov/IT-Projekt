@@ -6,7 +6,7 @@ import {Chip, IconButton, InputBase} from "@material-ui/core";
 import TeamUpApi from "../../../api/TeamUpApi";
 import { withRouter } from 'react-router-dom';
 import SendIcon from "@material-ui/icons/Send";
-import H2_bold from "../../../components/Fonts/h2_bold";
+import h2Bold from "../../../components/Fonts/h2_bold";
 
 class ChatFenster extends React.Component{
     constructor(props) {
@@ -14,7 +14,8 @@ class ChatFenster extends React.Component{
         this.state = {
             partnerId: null,
             sendData: "",
-            chat:[]
+            chat:[],
+            partnerName: null
         }
     }
 
@@ -24,13 +25,17 @@ class ChatFenster extends React.Component{
 
     async componentDidMount(){
         //setzt die partnerId
-        await this.props.teilnehmer.forEach(teilnehmer => {
-            if(teilnehmer !== this.props.myId){
+        for (const teilnehmer of Object.entries(this.props.teilnehmer)) {
+            let k = parseInt(teilnehmer[0])
+            if(k !== this.props.myId){
+                console.log(k)
                 this.setState({
-                    partnerId: teilnehmer
+                    partnerName: teilnehmer[1],
+                    partnerId: k
                 })
             }
-        })
+        }
+
         //Sucht den Inhalt zu einer RaumId, welche über Props übergeben werden
         await TeamUpApi.getAPI().getChatContent(this.props.roomId).then(
             content => content.forEach((message) => {
@@ -75,7 +80,6 @@ class ChatFenster extends React.Component{
     }
 
     handleSend = (e) => {
-        console.log(this.props.roomId)
         this.socket.emit("message", {
             roomId: this.props.roomId,
             message: this.state.sendData,
@@ -94,17 +98,21 @@ class ChatFenster extends React.Component{
         }
     }
 
+    //TODO click Id's übergeben Gruppen-Partner
     render() {
         const {chat, sendData} = this.state
         return (
             <div onKeyPress={this.onKeyUp}>
-                <div className="chatKopf">
-                    <H2_bold inhalt={"Name"}/>
-                    {this.props.groupId === null ?
+                {this.props.groupId ?
+                    <div className="chatKopf">
+                        <h2Bold inhalt={this.props.groupName}/>
+                    </div>
+                        :
+                    <div className="chatKopf">
+                        <h2Bold inhalt={this.state.partnerName}/>
                         <ButtonPrimary onClick={this.createLerngruppe} inhalt={"Lerngruppe erstellen"}/>
-                        : null
-                    }
-                </div>
+                    </div>
+                }
                 <div className="chatOutlines">
                         {chat.map((chat) =>
                             <div>{chat}</div>

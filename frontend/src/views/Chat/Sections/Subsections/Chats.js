@@ -1,9 +1,8 @@
 import React, {useEffect} from 'react';
-import {Divider, ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
+import {ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
 import ProfilAvatar from "../../../../components/Avatar/ProfilAvatar";
 import TeamUpApi from "../../../../api/TeamUpApi";
 import firebase from "../../../../api/Firebase";
-import H1_bold from "../../../../components/Fonts/h1_bold";
 
 
 //Ruft alle Chats ab die ein Nutzer hat um die Props an Chat.js zu übergeben um
@@ -13,18 +12,20 @@ function Chats(props) {
 
 
     //Übergibt alle RoomInformationen an die Vaterkomponente Chat
-    function getChat(roomId, myId, teilnehmer, groupId){
+    function getChat(roomId, myId, teilnehmer, groupId, name){
         props.roomId(roomId)
         props.myId(myId)
         props.teilnehmer(teilnehmer)
         props.switch()
         props.groupId(groupId)
+        props.groupName(name)
     }
 
     //Ruft alle Räume auf, in denen sich der aktuelle Nutzer befindet
     useEffect(() =>{
         TeamUpApi.getAPI().getChatrooms(firebase.auth().currentUser.uid).then(
             chats => {
+                console.log(chats)
                 setChats(chats)
             }
         )
@@ -34,7 +35,7 @@ function Chats(props) {
         <div>
             {chats.map(room =>
             <ListItem className="chatPreviews" onClick={() =>
-                getChat(room.roomId, room.myId, room.teilnehmer, room.groupId)}>
+                getChat(room.roomId, room.myId, room.teilnehmer, room.groupId, room.name)}>
                 <ListItemAvatar>
                     <ProfilAvatar/>
                 </ListItemAvatar>
