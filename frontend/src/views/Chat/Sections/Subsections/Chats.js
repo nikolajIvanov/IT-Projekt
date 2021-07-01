@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
+import {Avatar, ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
 import ProfilAvatar from "../../../../components/Avatar/ProfilAvatar";
 import TeamUpApi from "../../../../api/TeamUpApi";
 import firebase from "../../../../api/Firebase";
@@ -37,7 +37,7 @@ function Chats(props) {
             <ListItem className="chatPreviews" onClick={() =>
                 getChat(room.roomId, room.myId, room.teilnehmer, room.groupId, room.name)}>
                 <ListItemAvatar>
-                    <ProfilAvatar/>
+                    <Avatar/>
                 </ListItemAvatar>
                 <ListItemText
                 primary={room.name}

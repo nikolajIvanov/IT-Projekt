@@ -1,11 +1,19 @@
 import React, {useEffect} from 'react';
-import {Card, Divider, IconButton, ListItem, ListItemAvatar, ListItemText} from "@material-ui/core";
+import {
+    Avatar,
+    Card,
+    Divider,
+    IconButton,
+    ListItem,
+    ListItemAvatar,
+    ListItemSecondaryAction,
+    ListItemText
+} from "@material-ui/core";
 import ProfilAvatar from "../../../../components/Avatar/ProfilAvatar";
 import TeamUpApi from "../../../../api/TeamUpApi";
-import h3Bold from "../../../../components/Fonts/h3_bold";
 import AddIcon from "@material-ui/icons/Add";
-import ClearIcon from "@material-ui/icons/Clear";
 import AnfrageBO from "../../../../bo/AnfrageBO";
+import H3_bold from "../../../../components/Fonts/h3_bold";
 
 function Chatanfragen(props) {
     const [userRequests, setUserRequests] =React.useState([])
@@ -68,38 +76,33 @@ function Chatanfragen(props) {
                                 <div className="chatPreviews">
                                     <ListItem>
                                         <ListItemAvatar>
-                                            <ProfilAvatar/>
+                                            <Avatar/>
                                         </ListItemAvatar>
                                         <ListItemText
                                             primary={request.name}
                                             secondary="20:24"
                                         />
+                                        <ListItemText primary={
+                                            <H3_bold inhalt={"Angefragt"}/>
+                                        }/>
                                     </ListItem>
-                                    <Divider orientation="vertical" flexItem />
-                                    <div className="leftUebersicht">
-                                        <h3Bold inhalt={"Angefragt"}/>
-                                    </div>
                                 </div>
                             )}
                             {userRequests.erhalten.map(request =>
                                 <div className="chatPreviews">
                                     <ListItem>
                                         <ListItemAvatar>
-                                            <ProfilAvatar/>
+                                            <Avatar/>
                                         </ListItemAvatar>
                                         <ListItemText
                                             primary={request.name}
                                             secondary="19:14"
                                         />
+                                            <IconButton>
+                                                <AddIcon onClick={() =>
+                                                    anfrageAnnehmen(request.requestId, request.vonUserId)}/>
+                                            </IconButton>
                                     </ListItem>
-                                    <Divider orientation="vertical" flexItem />
-                                    <div>
-                                        <IconButton>
-                                            <AddIcon onClick={() =>
-                                                anfrageAnnehmen(request.requestId, request.vonUserId)}/>
-                                        </IconButton>
-                                        <IconButton><ClearIcon/></IconButton>
-                                    </div>
                                 </div>
                             )}
                         </> :
@@ -114,21 +117,17 @@ function Chatanfragen(props) {
                                 <div className="chatPreviews">
                                     <ListItem>
                                         <ListItemAvatar>
-                                            <ProfilAvatar/>
+                                            <Avatar/>
                                         </ListItemAvatar>
                                         <ListItemText
                                             primary={request.vonUserName}
                                             secondary={request.name}
                                         />
-                                    </ListItem>
-                                    <Divider orientation="vertical" flexItem />
-                                    <div>
                                         <IconButton>
                                             <AddIcon onClick={() =>
                                                 anfrageAnnahmenGroup(request.gruppenId, request.vonUserId)}/>
                                         </IconButton>
-                                        <IconButton><ClearIcon/></IconButton>
-                                    </div>
+                                    </ListItem>
                                 </div>
                             )}
                         </> :
@@ -139,7 +138,7 @@ function Chatanfragen(props) {
                 </>
                 :
                 <div className="root">
-                    <h3Bold>Anfragen werden geladen...</h3Bold>
+                    <H3_bold>Anfragen werden geladen...</H3_bold>
                 </div>
             }
         </div>

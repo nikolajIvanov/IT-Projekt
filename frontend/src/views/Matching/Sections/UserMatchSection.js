@@ -5,8 +5,6 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import Grid from "@material-ui/core/Grid";
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import h3Regular from "../../../components/Fonts/h3_regular";
-import h1Bold from "../../../components/Fonts/h1_bold";
 import MatchCardAvatar from "../../../components/Avatar/MatchCardAvatar";
 import List from "@material-ui/core/List";
 import {
@@ -15,13 +13,14 @@ import {
     ListItemIcon,
     ListItemText, Modal, Paper
 } from "@material-ui/core";
-import h3Bold from "../../../components/Fonts/h3_bold";
 import FormatAlignJustifyIcon from "@material-ui/icons/FormatAlignJustify";
 import {ExpandLess, ExpandMore} from "@material-ui/icons";
-import h2Bold from "../../../components/Fonts/h2_bold";
 import ButtonPrimary from "../../../components/Button/ButtonPrimary";
 import firebase from "../../../api/Firebase";
 import TeamUpApi from "../../../api/TeamUpApi";
+import H1_bold from "../../../components/Fonts/h1_bold";
+import H3_regular from "../../../components/Fonts/h3_regular";
+import H3_bold from "../../../components/Fonts/h3_bold";
 
 
 function UserMatchSection(props) {
@@ -90,49 +89,49 @@ function UserMatchSection(props) {
         <div>
             <div className="matchingCards" onClick={openCard}>
                 <Modal open={modal}>{window}</Modal>
-                <div className="matchingCardFront">
+                <div>
                     <div className="matchHeader">
                         <Grid container spacing={3}>
                             <Grid className="matchProfilBox" item xs={12}>
                                 <MatchCardAvatar img={user.getProfilBild()}/>
                             </Grid>
+                            <Grid className="matchProfilBox" item xs={12}>
+                                <H1_bold inhalt={`${user.getVorname()}, ${user.getGeburtstag()}`}/>
+                                <H3_regular inhalt={user.getStudiengang()}/>
+                            </Grid>
                         </Grid>
-                        <div className="matchHeaderItem">
-                            <h1Bold inhalt={`${user.getVorname()}, ${user.getGeburtstag()}`}/>
-                            <h3Regular inhalt={user.getStudiengang()}/>
-                        </div>
                     </div>
                 </div>
                 <Fade in={open} style={{ transitionDelay: open ? '100ms' : '0ms' }} unmountOnExit>
-                    <div className="matchingCardBack">
+                    <div>
                         <List className="matchInfo">
                             <ListItem className="matchPoints">
-                                <h3Bold inhalt={"Lernort"}/>
+                                <H3_bold inhalt={"Lernort"}/>
                                 <ArrowRightIcon/>
                                 <ListItemText primary={user.getLernort()}/>
                             </ListItem>
                             <ListItem>
-                                <h3Bold inhalt={"Lernfrequenz"}/>
+                                <H3_bold inhalt={"Lernfrequenz"}/>
                                 <ArrowRightIcon/>
                                 <ListItemText primary={user.getFrequenz()}/>
                             </ListItem>
                             <ListItem>
-                                <h3Bold inhalt={"Lernvorlieben"}/>
+                                <H3_bold inhalt={"Lernvorlieben"}/>
                                 <ArrowRightIcon/>
                                 <ListItemText primary={user.getLerntyp()}/>
                             </ListItem>
                             <ListItem className="matchPoints">
-                                <h3Bold inhalt={"Studiengang"}/>
+                                <H3_bold inhalt={"Studiengang"}/>
                                 <ArrowRightIcon/>
                                 <ListItemText primary={user.getStudiengang()}/>
                             </ListItem>
                             <ListItem className="matchPoints">
-                                <h3Bold inhalt={"Semester"}/>
+                                <H3_bold inhalt={"Semester"}/>
                                 <ArrowRightIcon/>
                                 <ListItemText primary={user.getSemester()}/>
                             </ListItem>
                             <ListItem className="matchPoints">
-                                <h3Bold inhalt={"Lerntyp"}/>
+                                <H3_bold inhalt={"Lerntyp"}/>
                                 <ArrowRightIcon/>
                                 <ListItemText primary={user.getLerntyp()}/>
                             </ListItem>
