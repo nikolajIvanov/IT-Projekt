@@ -99,10 +99,22 @@ Applikationsserver zuzugreifen.
     DELETE /chatrooms/<auth_id>
     ```
 ###  Zugriff auf `Request`-Objekte   
-1. Gibt alle Studiengänge der HdM zurück:
+1. Gibt alle Anfragen eines Users (gestellt und erhalten) zurück:
     ```
-    GET /studiengang
+    GET /request/<auth_id>
     ```
+2. Erstellt eine neue Chat Anfrage: 
+   ```
+   POST /request
+   ```
+3. Erstellt eine neue Gruppen Anfrage:
+   ```
+   POST /group_request
+   ```
+4. Löscht eine Anfrage:
+   ```
+   POST /delete_request
+   ```
 ###  Zugriff auf `Sonstige`-Objekte   
 1. Gibt alle Studiengänge der HdM zurück:
     ```
@@ -111,4 +123,8 @@ Applikationsserver zuzugreifen.
 2. Gibt alle Lerntypen zurück:
     ```
    GET /lerntyp
+   ```
+3. Überprüfen ob ein User in der Datenbank vorhanden ist:
+   ```
+   GET /init/<auth_id>
    ```
