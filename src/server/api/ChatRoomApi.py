@@ -12,7 +12,7 @@ class ChatRoomApi(Resource):
         """
         Läd alle Chatrooms in denen der User ist.
         :param auth_id: GoogelAuthId des Nutzers für welchen die Chatrooms geladen werden sollen
-        :return: Alle Chat Rooms in denen der Nutzer ist
+        :return: Alle Chat Rooms in denen der Nutszer ist
         """
         return Administration.get_rooms_of_user(auth_id)
 
