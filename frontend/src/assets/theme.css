@@ -60,7 +60,7 @@
 
 .chatComponent{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: flex-start;
   justify-content: center;
 }
@@ -369,10 +369,6 @@
 
 .mobile-nav{
   visibility: hidden;
-}
-
-.sideBar{
-  min-width: 50vw;
 }
 
 .link{
