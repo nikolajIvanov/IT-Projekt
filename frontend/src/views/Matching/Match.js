@@ -42,16 +42,15 @@ class Match extends Component {
                     <FilterIcon/>
                     { isPerson ?
                         <>
-                            <UserMatchSection getView={this.props.getView}
-                                              apiUsers={apiUsers}
+                            <UserMatchSection apiUsers={apiUsers}
                                               setMatched={this.props.setMatched}
                             />
                         </>
                     :
                                 <>
                                     {apiGruppen ?
-                                        <GroupMatchSection getView={this.props.getView}
-                                                           apiGroups={apiGruppen}
+                                        <GroupMatchSection apiGroups={apiGruppen}
+                                                           setMatched={this.props.setMatched}
                                         />
                                         :
                                         <Card className="card">

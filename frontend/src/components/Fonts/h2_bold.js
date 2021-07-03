@@ -2,7 +2,7 @@ import React from 'react';
 
 function H2_bold(props) {
     return (
-        <div>
+        <div onClick={props.onClick}>
             <p className="h2_bold">{props.inhalt}</p>
         </div>
     );

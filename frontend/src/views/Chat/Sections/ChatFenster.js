@@ -2,11 +2,12 @@ import React from 'react';
 import io from "socket.io-client";
 import ButtonPrimary from "../../../components/Button/ButtonPrimary";
 import Grid from "@material-ui/core/Grid";
-import {Chip, IconButton, InputBase} from "@material-ui/core";
+import {Button, Chip, IconButton, InputBase} from "@material-ui/core";
 import TeamUpApi from "../../../api/TeamUpApi";
 import { withRouter } from 'react-router-dom';
 import SendIcon from "@material-ui/icons/Send";
-import h2Bold from "../../../components/Fonts/h2_bold";
+import H2_bold from "../../../components/Fonts/h2_bold";
+import ButtonChat from "../../../components/Button/ButtonChat";
 
 class ChatFenster extends React.Component{
     constructor(props) {
@@ -98,18 +99,29 @@ class ChatFenster extends React.Component{
         }
     }
 
-    //TODO click Id's übergeben Gruppen-Partner
+    getGroupView = (group) =>{
+        console.log("test" + group)
+    }
+
+    getPartnerView = (partner) =>{
+        console.log("test" + partner)
+    }
+
     render() {
         const {chat, sendData} = this.state
         return (
             <div onKeyPress={this.onKeyUp}>
                 {this.props.groupId ?
                     <div className="chatKopf">
-                        <h2Bold inhalt={this.props.groupName}/>
+                        <Button onClick={() => this.getGroupView(this.props.groupId)}>
+                            {this.props.groupName}
+                        </Button>
                     </div>
                         :
                     <div className="chatKopf">
-                        <h2Bold inhalt={this.state.partnerName}/>
+                        <Button onClick={() => this.getPartnerView(this.state.partnerId)}>
+                            {this.state.partnerName}
+                        </Button>
                         <ButtonPrimary onClick={this.createLerngruppe} inhalt={"Lerngruppe erstellen"}/>
                     </div>
                 }
@@ -135,6 +147,6 @@ class ChatFenster extends React.Component{
                 </Grid>
             </div>
         )
-    }
+    };
 }
 export default withRouter(ChatFenster);

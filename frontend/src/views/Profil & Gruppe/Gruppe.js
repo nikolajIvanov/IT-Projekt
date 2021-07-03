@@ -21,7 +21,6 @@ function Gruppe(props) {
 
     function back(){
         const grouparray = {
-            //wie bekomme ich dir GroupId ?
             authId: firebase.auth().currentUser.uid,
             groupId: data.getID()
         }

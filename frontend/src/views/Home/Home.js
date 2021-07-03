@@ -104,7 +104,7 @@ class Home extends Component {
     }
 
     setAuswahl = async (user) => {
-        await this.setState({
+       this.setState({
             suchobjekt: user
         })
     }
