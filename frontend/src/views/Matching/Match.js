@@ -17,11 +17,13 @@ class Match extends Component {
     }
 
     // Ladet direkt die User Daten aus dem Backend
-    componentDidMount() {
-        this.setState({
+    async componentDidMount() {
+        await this.setState({
             apiUsers: this.props.userList,
             apiGruppen: this.props.groupList
         });
+        console.log(this.props.groupList)
+        console.log(this.state.apiGruppen)
     }
     // Setzt den Wert für
     handleClick = () => {

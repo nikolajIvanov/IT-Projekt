@@ -135,14 +135,9 @@ function UserMatchSection(props) {
                                 <ArrowRightIcon/>
                                 <ListItemText primary={user.getLerntyp()}/>
                             </ListItem>
-                            <ListItem button onClick={handleModul}>
-                                <ListItemIcon>
-                                    <FormatAlignJustifyIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Module" />
-                                {modul ? <ExpandLess /> : <ExpandMore />}
-                            </ListItem>
-                            <Collapse in={modul} timeout="auto" unmountOnExit>
+                            <ListItem>
+                                <H3_bold inhalt={"Modul"}/>
+                                <ArrowRightIcon/>
                                 <List component="div" disablePadding>
                                     {user.getModul().map(modul =>
                                         <ListItem>
@@ -150,7 +145,7 @@ function UserMatchSection(props) {
                                         </ListItem>
                                     )}
                                 </List>
-                            </Collapse>
+                            </ListItem>
                         </List>
                     </div>
                 </Fade>

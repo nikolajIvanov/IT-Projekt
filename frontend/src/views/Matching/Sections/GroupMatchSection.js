@@ -122,21 +122,16 @@ function GroupMatchSection(props) {
                             <ListItem className="matchPoints">
                                 <H3_bold inhalt={"Studiengang"}/>
                                 <ArrowRightIcon/>
-                                <ListItemText primary={group.getStudiengang()}/>
+                                <ListItemText primary={group.getStudiengang() || "Nicht angegeben"}/>
                             </ListItem>
                             <ListItem className="matchPoints">
                                 <H3_bold inhalt={"Lerntyp"}/>
                                 <ArrowRightIcon/>
                                 <ListItemText primary={group.getLerntyp()}/>
                             </ListItem>
-                            <ListItem button onClick={handleModul}>
-                                <ListItemIcon>
-                                    <FormatAlignJustifyIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Module" />
-                                {modul ? <ExpandLess /> : <ExpandMore />}
-                            </ListItem>
-                            <Collapse in={modul} timeout="auto" unmountOnExit>
+                            <ListItem>
+                                <H3_bold inhalt={"Modul"}/>
+                                <ArrowRightIcon/>
                                 <List component="div" disablePadding>
                                     {group.getModul().map(modul =>
                                         <ListItem>
@@ -144,7 +139,7 @@ function GroupMatchSection(props) {
                                         </ListItem>
                                     )}
                                 </List>
-                            </Collapse>
+                            </ListItem>
                         </List>
                     </div>
                 </Fade>
@@ -152,13 +147,13 @@ function GroupMatchSection(props) {
             <MobileStepper
                 position="static"
                 nextButton={
-                    <Button size="small" onClick={match} disabled={activeStep === props.apiUsers.length }>
+                    <Button size="small" onClick={match} disabled={activeStep === props.apiGroups.length }>
                         Match
                         <KeyboardArrowRight />
                     </Button>
                 }
                 backButton={
-                    <Button size="small" onClick={handleNo} disabled={activeStep === props.apiUsers.length -1}>
+                    <Button size="small" onClick={handleNo} disabled={activeStep === props.apiGroups.length -1}>
                         <KeyboardArrowLeft />
                         Weiter
                     </Button>
