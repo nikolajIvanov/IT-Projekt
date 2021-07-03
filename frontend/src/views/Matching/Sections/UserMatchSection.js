@@ -8,19 +8,17 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import MatchCardAvatar from "../../../components/Avatar/MatchCardAvatar";
 import List from "@material-ui/core/List";
 import {
-    Collapse, Fade,
+    Fade,
     ListItem,
-    ListItemIcon,
     ListItemText, Modal, Paper
 } from "@material-ui/core";
-import FormatAlignJustifyIcon from "@material-ui/icons/FormatAlignJustify";
-import {ExpandLess, ExpandMore} from "@material-ui/icons";
 import ButtonPrimary from "../../../components/Button/ButtonPrimary";
 import firebase from "../../../api/Firebase";
 import TeamUpApi from "../../../api/TeamUpApi";
 import H1_bold from "../../../components/Fonts/h1_bold";
 import H3_regular from "../../../components/Fonts/h3_regular";
 import H3_bold from "../../../components/Fonts/h3_bold";
+import H2_bold from "../../../components/Fonts/h2_bold";
 
 
 function UserMatchSection(props) {
@@ -77,7 +75,7 @@ function UserMatchSection(props) {
         <div className="card">
             <Paper className="card">
                 <h1>🥳</h1>
-                <h2Bold inhalt={"Anfrage erfolgreich versendet."}/>
+                <H2_bold inhalt={"Anfrage erfolgreich versendet."}/>
                 <ButtonPrimary inhalt={"home"} onClick={update}/>
             </Paper>
         </div>

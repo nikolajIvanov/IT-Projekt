@@ -8,7 +8,7 @@ export default class TeamUpApi {
 
     static #api = null;
 
-    #serverBaseURL = 'api';
+    #serverBaseURL = '';
 
     // Die URL für einen konkreten User.
     #userURL = (authId) => `${this.#serverBaseURL}/users/${authId}`;

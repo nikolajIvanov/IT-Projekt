@@ -132,7 +132,7 @@ function Chatanfragen(props) {
                             )}
                         </> :
                         <Card className="leftUebersicht">
-                            <p> Keine Gruppenanfragen gestellt oder erhalten</p>
+                            <p> Keine Gruppenanfragen erhalten</p>
                         </Card>
                     }
                 </>
