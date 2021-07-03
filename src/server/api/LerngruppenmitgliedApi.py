@@ -1,4 +1,4 @@
-from SecurityDecorator import secured
+from server.SecurityDecorator import secured
 from .model import api, mitglied
 from flask_restx import Resource
 from server.Administration import Administration

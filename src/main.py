@@ -11,7 +11,7 @@ from server.api.UserApi import UserApi
 from server.api.LerngruppeApi import LerngruppeApi
 from server.api.LerngruppenApi import LerngruppenApi
 from server.api.LerngruppenmitgliedApi import LerngruppenmitgliedApi
-from server.api.model import api, app
+from server.api.model import api, app, apins
 from server.api.StudiengangApi import StudiengangApi
 from server.api.ModulApi import ModulApi
 from server.api.LerntypApi import LerntypApi
@@ -25,9 +25,16 @@ from server.api.Chat import Chat
 from server.api.ChatRoomApi import ChatRoomApi
 from server.api.RequestApi import RequestApi
 
-CORS(app, resources=r'/*')
-socketIo = SocketIO(app, cors_allowed_origins="*")
-app.config.from_pyfile('flask.cfg', silent=True)
+# CORS(app)
+
+
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
+
+
+socketIo = SocketIO(app)
+# socketIo = SocketIO(app, cors_allowed_origins="*")
 
 socketIo.on_namespace(Chat('/chat'))
 
@@ -54,48 +61,48 @@ def get_history(room_id):
 
 # Api Endpunkte werden mit der Funktion add_resource an Flask übergeben
 # Wird aufgerufen, wenn ein neuer User erstellt werden soll oder wenn alle User angezeigt werden sollen
-api.add_resource(UsersApi, '/users')
+apins.add_resource(UsersApi, '/users')
 # Gibt den aktuellen User mit allen Informationen zurück
-api.add_resource(UserApi, '/users/<string:auth_id>')
+apins.add_resource(UserApi, '/users/<string:auth_id>')
 # Wird im Matching genutzt, um bestimmte Werte für die Cards zu holen
-api.add_resource(UsersByIdApi, '/usersById')
+apins.add_resource(UsersByIdApi, '/usersById')
 # Wird verwendet, um über Postman viele User gleichzeitig anzulegen
-api.add_resource(VieleUserApi, '/viele-user')
+apins.add_resource(VieleUserApi, '/viele-user')
 # Erstellt oder löscht eine Lerngruppe
-api.add_resource(LerngruppenApi, '/lerngruppen')
+apins.add_resource(LerngruppenApi, '/lerngruppen')
 # Ruft eine Lerngruppe auf
-api.add_resource(LerngruppeApi, '/lerngruppe/<int:gruppen_id>')
+apins.add_resource(LerngruppeApi, '/lerngruppe/<int:gruppen_id>')
 # Wird aufgerufen, wenn der Admin einer Lerngruppe ein neues Mitglied bestätigt
-api.add_resource(LerngruppenmitgliedApi, '/lerngruppen-mitglied')
+apins.add_resource(LerngruppenmitgliedApi, '/lerngruppen-mitglied')
 # Wird im Matching genutzt, um alle Lerngruppen zu laden, die für ein Matching infrage kommen
-api.add_resource(LerngruppenByIdApi, '/lerngruppenById')
+apins.add_resource(LerngruppenByIdApi, '/lerngruppenById')
 # Gibt alle Studiengänge der HdM aus
-api.add_resource(StudiengangApi, '/studiengang')
+apins.add_resource(StudiengangApi, '/studiengang')
 # Zeigt alle Module eines Studiengangs an
-api.add_resource(ModulApi, '/modul/<string:studiengang>')
+apins.add_resource(ModulApi, '/modul/<string:studiengang>')
 # Zeigt alle Lerntypen an
-api.add_resource(LerntypApi, '/lerntyp')
+apins.add_resource(LerntypApi, '/lerntyp')
 # Herzstück der App. Macht das Matching für die User
-api.add_resource(UserMatchingApi, '/usermatch/<string:auth_id>')
+apins.add_resource(UserMatchingApi, '/usermatch/<string:auth_id>')
 # Herzstück der App. Macht das Matching für die Lerngruppen
-api.add_resource(LerngruppenMatchingApi, '/lerngruppenmatch/<string:auth_id>')
+apins.add_resource(LerngruppenMatchingApi, '/lerngruppenmatch/<string:auth_id>')
 # Zeigt den Chatverlauf eines Raumes an
-api.add_resource(ChatApi, '/chat/<int:room_id>')
+apins.add_resource(ChatApi, '/chat/<int:room_id>')
 # Wird aufgerufen wenn eine User Anfrage akzeptiert wurde
-api.add_resource(ChatRoomApi, '/accept_request')
+apins.add_resource(ChatRoomApi, '/accept_request')
 # Zeigt alle Chatrooms an, die bestätigt worden sind
-api.add_resource(ChatRoomApi, '/chatrooms/<string:auth_id>')
+apins.add_resource(ChatRoomApi, '/chatrooms/<string:auth_id>')
 # Sendet einen Post Befehl der ein Argument type hat um zwischen gruppen und single unterscheiden zu können
-api.add_resource(RequestApi, '/request')
+apins.add_resource(RequestApi, '/request')
 # Übergibt alle Anfragen des aktuellen Users.
-api.add_resource(RequestApi, '/request/<string:auth_id>')
+apins.add_resource(RequestApi, '/request/<string:auth_id>')
 # Erstellt eine Gruppenanfrage
-api.add_resource(GroupRequestApi, '/group_request')
+apins.add_resource(GroupRequestApi, '/group_request')
 # Überprüft ob ein User in unserer Datenbank vorhanden ist
-api.add_resource(InitApi, '/init/<string:auth_id>')
+apins.add_resource(InitApi, '/init/<string:auth_id>')
 # Löscht eine Anfrage von der Datenbank
-api.add_resource(DeleteRequestApi, '/delete_request')
+apins.add_resource(DeleteRequestApi, '/delete_request')
 
 if __name__ == '__main__':
-    # app.run(debug=True)
-    socketIo.run(app, debug=True)
+    app.run()
+    # socketIo.run(app, debug=True)

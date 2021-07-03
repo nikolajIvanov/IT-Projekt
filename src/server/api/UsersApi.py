@@ -2,7 +2,7 @@ from .model import user, api
 from flask_restx import Resource
 from server.Administration import Administration
 from server.bo.UserBO import UserBO
-from src.SecurityDecorator import secured
+from server.SecurityDecorator import secured
 
 
 class UsersApi(Resource):

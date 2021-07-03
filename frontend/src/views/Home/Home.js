@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Navigation from "../Navigation";
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import Profil from "../Profil & Gruppe/Profil";
 import Gruppe from "../Profil & Gruppe/Gruppe";
 import MyProfil from "../Profil & Gruppe/ProfilBearbeiten";
@@ -141,6 +141,7 @@ class Home extends Component {
         return (
             <div>
                 <Router>
+                    <Redirect from='/' to='/' />
                     <Navigation logOut={this.handleLogOut}/>
                     <Switch>
                         <Route path="/" exact>
