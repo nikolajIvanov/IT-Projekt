@@ -16,7 +16,7 @@ class Navigation extends Component {
     constructor(props) {
         super(props);
         this.state={
-            open: true
+            open: false
         }
     }
 
@@ -35,17 +35,18 @@ class Navigation extends Component {
 
     render() {
         return (
-                <AppBar className="nav" position="static" style={{backgroundColor: "#2D89FF97"}}>
-                    <Toolbar>
+                <AppBar className="nav" position="static"
+                        style={{backgroundColor: "#2D89FF97"}}>
+                    <Toolbar className="toolbar">
                         <Link to="/">
                             <img src={Logo} className="font-logo" alt="TeamUP Logo"/>
                         </Link>
+                        <div className="nav-command">
                         <div className="web-nav">
-                            <IconButton edge="end">
                                 <Link to="/">
-                                    <img className="TeamUpIcon" src={MatchIcon}/>
+                                    <BottomNavigationAction label="ProfilBO"
+                                    icon={<img className="TeamUpIcon" src={MatchIcon}/>}/>
                                 </Link>
-                            </IconButton>
                         <Link to="/me">
                             <BottomNavigationAction label="ProfilBO"
                                                 icon={<PersonIcon style={theme.icon}/>} />
@@ -54,11 +55,10 @@ class Navigation extends Component {
                             <BottomNavigationAction label="Chat"
                                                 icon={<ChatIcon style={theme.icon}/>} />
                         </Link>
-                            <IconButton edge="end" onClick={this.props.logOut}>
-                                <Link to="/">
-                                    <ExitToAppIcon className="logout-icon"/>
-                                </Link>
-                            </IconButton>
+                            <Link to="/" onClick={this.props.logOut}>
+                                    <BottomNavigationAction label="Chat"
+                                                            icon={<ExitToAppIcon className="logout-icon"/>}/>
+                            </Link>
                         </div>
                         <IconButton edge="end" className="mobile-nav" aria-label="menu">
                             <MenuIcon onClick={this.setOpen}/>
@@ -102,6 +102,7 @@ class Navigation extends Component {
                                 </Link>
                             </List>
                         </Drawer>
+                        </div>
                     </Toolbar>
                 </AppBar>
         );
