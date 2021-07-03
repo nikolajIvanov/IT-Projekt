@@ -27,7 +27,6 @@ from server.api.RequestApi import RequestApi
 
 CORS(app, resources=r'/*')
 socketIo = SocketIO(app, cors_allowed_origins="*")
-app.config.from_pyfile('flask.cfg', silent=True)
 
 socketIo.on_namespace(Chat('/chat'))
 
@@ -97,5 +96,5 @@ api.add_resource(InitApi, '/init/<string:auth_id>')
 api.add_resource(DeleteRequestApi, '/delete_request')
 
 if __name__ == '__main__':
-    # app.run(debug=True)
-    socketIo.run(app, debug=True)
+    app.run(debug=True)
+    # socketIo.run(app)
