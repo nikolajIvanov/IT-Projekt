@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://127.0.0.1:5000",
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@date-io/date-fns": "^2.10.8",
     "@material-ui/lab": "^4.0.0-alpha.58",

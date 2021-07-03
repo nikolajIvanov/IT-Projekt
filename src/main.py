@@ -26,6 +26,14 @@ from server.api.ChatRoomApi import ChatRoomApi
 from server.api.RequestApi import RequestApi
 
 CORS(app, resources=r'/*')
+
+
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
+
+
+# socketIo = SocketIO(app)
 socketIo = SocketIO(app, cors_allowed_origins="*")
 
 socketIo.on_namespace(Chat('/chat'))
@@ -96,5 +104,5 @@ api.add_resource(InitApi, '/init/<string:auth_id>')
 api.add_resource(DeleteRequestApi, '/delete_request')
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    # socketIo.run(app)
+    app.run()
+    # socketIo.run(app, debug=True)

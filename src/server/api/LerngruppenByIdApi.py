@@ -1,4 +1,4 @@
-from SecurityDecorator import secured
+from server.SecurityDecorator import secured
 from .model import lerngruppe, api
 from flask_restx import Resource, reqparse
 from server.Administration import Administration
