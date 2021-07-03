@@ -120,7 +120,6 @@ function Registrierung(props) {
             if (count === (checkData.length - 1)) {
                 user.setAll(infos)
                 await TeamUpApi.getAPI().setUser(user.getAll())
-                console.log(user.getAll())
                 props.exist()
             } else {
                 setCount(count + 1);

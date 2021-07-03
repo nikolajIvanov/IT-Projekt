@@ -133,9 +133,11 @@ function UserMatchSection(props) {
                                 <ArrowRightIcon/>
                                 <ListItemText primary={user.getLerntyp()}/>
                             </ListItem>
-                            <ListItem>
-                                <H3_bold inhalt={"Modul"}/>
-                                <ArrowRightIcon/>
+                            <ListItem className="card">
+                                <div>
+                                    <H3_bold inhalt={"Modul"}/>
+                                    <ArrowRightIcon/>
+                                </div>
                                 <List component="div" disablePadding>
                                     {user.getModul().map(modul =>
                                         <ListItem>

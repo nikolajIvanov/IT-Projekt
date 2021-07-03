@@ -22,8 +22,6 @@ class Match extends Component {
             apiUsers: this.props.userList,
             apiGruppen: this.props.groupList
         });
-        console.log(this.props.groupList)
-        console.log(this.state.apiGruppen)
     }
     // Setzt den Wert für
     handleClick = () => {
