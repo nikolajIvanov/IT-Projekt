@@ -25,7 +25,7 @@ from server.api.Chat import Chat
 from server.api.ChatRoomApi import ChatRoomApi
 from server.api.RequestApi import RequestApi
 
-# CORS(app)
+CORS(app)
 
 
 @app.route('/')
@@ -33,8 +33,8 @@ def index():
     return app.send_static_file('index.html')
 
 
-socketIo = SocketIO(app)
-# socketIo = SocketIO(app, cors_allowed_origins="*")
+# socketIo = SocketIO(app)
+socketIo = SocketIO(app, cors_allowed_origins="*")
 
 socketIo.on_namespace(Chat('/chat'))
 
