@@ -8,7 +8,7 @@ export default class TeamUpApi {
 
     static #api = null;
 
-    #serverBaseURL = '/api';
+    #serverBaseURL = '';
 
     // Die URL für einen konkreten User.
     #userURL = (authId) => `${this.#serverBaseURL}/users/${authId}`;
@@ -65,7 +65,7 @@ export default class TeamUpApi {
     }
     // Der API Call findet über diese Methode statt. Je nachdem um welche HTTP Methode es sich handelt, wird ein
     // anderer Body übergeben sowie die URLs für das Backend.
-    #fetchAdvanced = (url, init) => fetch(url, {...{'credentials':'same-origin'},...init})
+    #fetchAdvanced = (url, init) => fetch(url,{...{'credentials': 'include'},...init})
         .then(res => {
             //HTTP Error werden nicht zurück gewiesen
             if (!res.ok) {
@@ -75,7 +75,7 @@ export default class TeamUpApi {
         }
     )
 
-    #fetchMatching = (url, init) => fetch(url, {...{'credentials':'same-origin'},...init})
+    #fetchMatching = (url, init) => fetch(url, {...{'credentials':'include'},...init})
         .then(res => {
             return res.json()
         })

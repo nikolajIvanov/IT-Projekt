@@ -25,13 +25,13 @@ from server.api.Chat import Chat
 from server.api.ChatRoomApi import ChatRoomApi
 from server.api.RequestApi import RequestApi
 
-CORS(app, resources=r'/*')
+CORS(app, resources=r'/*', support_credentials=True)
 
-
+"""
 @app.route('/')
 def index():
     return app.send_static_file('index.html')
-
+"""
 
 # socketIo = SocketIO(app)
 socketIo = SocketIO(app, cors_allowed_origins="*")
@@ -104,5 +104,5 @@ api.add_resource(InitApi, '/init/<string:auth_id>')
 api.add_resource(DeleteRequestApi, '/delete_request')
 
 if __name__ == '__main__':
-    app.run()
-    # socketIo.run(app, debug=True)
+    # app.run()
+    socketIo.run(app, debug=True)

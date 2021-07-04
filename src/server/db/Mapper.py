@@ -20,7 +20,7 @@ class Mapper(AbstractContextManager, ABC):
             Hierbei handelt es sich also um die Verbindung zwischen Google App Engine und Cloud SQL."""
 
             self._cnx = connector.connect(user='root', password='2CVBkS9g',
-                                          unix_socket='/cloudsql/teamup-316820:europe-west3:teamup-db',
+                                          unix_socket='/cloudsql/teamup-deployment:europe-west3:teamup-db',
                                           database='TeamUP')
         else:
             """Wenn wir hier ankommen, dann handelt sich offenbar um die Ausführung des Codes in einer lokalen Umgebung,
@@ -28,7 +28,7 @@ class Mapper(AbstractContextManager, ABC):
             installierten mySQL-Datenbank her."""
 
             self._cnx = connector.connect(user='root', password='2CVBkS9g',
-                                          host='127.0.0.1',
+                                          unix_socket='/cloudsql/teamup-deployment:europe-west3:teamup-db',
                                           database='TeamUP')
 
         return self
