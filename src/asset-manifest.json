@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/static/css/main.839fcbdd.chunk.css",
+    "main.js": "/static/js/main.05c3ad85.chunk.js",
+    "main.js.map": "/static/js/main.05c3ad85.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.2b18b32a.js",
+    "runtime-main.js.map": "/static/js/runtime-main.2b18b32a.js.map",
+    "static/js/2.c7f3a219.chunk.js": "/static/js/2.c7f3a219.chunk.js",
+    "static/js/2.c7f3a219.chunk.js.map": "/static/js/2.c7f3a219.chunk.js.map",
+    "static/js/3.087f8ada.chunk.js": "/static/js/3.087f8ada.chunk.js",
+    "static/js/3.087f8ada.chunk.js.map": "/static/js/3.087f8ada.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.839fcbdd.chunk.css.map": "/static/css/main.839fcbdd.chunk.css.map",
+    "static/js/2.c7f3a219.chunk.js.LICENSE.txt": "/static/js/2.c7f3a219.chunk.js.LICENSE.txt",
+    "static/media/ChatGraphic.67264889.svg": "/static/media/ChatGraphic.67264889.svg",
+    "static/media/Font-Logo.aee7e30c.svg": "/static/media/Font-Logo.aee7e30c.svg",
+    "static/media/Icon_TeamUp.12eebf3a.svg": "/static/media/Icon_TeamUp.12eebf3a.svg",
+    "static/media/Logo_LogIn.d2b5723d.svg": "/static/media/Logo_LogIn.d2b5723d.svg",
+    "static/media/googleLogo.39c52b1b.png": "/static/media/googleLogo.39c52b1b.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2b18b32a.js",
+    "static/js/2.c7f3a219.chunk.js",
+    "static/css/main.839fcbdd.chunk.css",
+    "static/js/main.05c3ad85.chunk.js"
+  ]
+}

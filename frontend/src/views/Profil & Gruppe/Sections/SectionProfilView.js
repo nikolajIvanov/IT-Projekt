@@ -13,8 +13,6 @@ function SectionProfilView(props) {
     const[win, setWindow] = React.useState('')
     const[open, setOpen] = React.useState(false)
 
-    console.log(props.apiObject.getModul())
-
     useEffect(() => {
         window.addEventListener('resize', handleResize);
     },[])

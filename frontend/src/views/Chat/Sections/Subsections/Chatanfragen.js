@@ -25,7 +25,6 @@ function Chatanfragen(props) {
         //Api Call für alle gruppen die der Nutzer hat
         TeamUpApi.getAPI().getChatRequests(props.authId).then(
             async (requests) => {
-                console.log(requests)
                 await setUserRequests(requests.user)
                 await setGroupRequests(requests.gruppen)
                 setRender(true)
@@ -39,7 +38,6 @@ function Chatanfragen(props) {
         anfrage.setAuthId(props.authId)
         anfrage.setPartnerId(partnerId)
         TeamUpApi.getAPI().acceptUserRequest(anfrage.getAll())
-            .then((res) => console.log(res))
         props.handleClick()
         if(accept === '')
             setAccept('1')
@@ -49,13 +47,11 @@ function Chatanfragen(props) {
     }
 
     function anfrageAnnahmenGroup(lerngruppenId, partnerId){
-        console.log(lerngruppenId, partnerId)
         const request = {
             lerngruppenId : lerngruppenId,
             userId : partnerId
         }
         TeamUpApi.getAPI().acceptGroupRequest(request)
-            .then((res) => console.log(res))
         props.handleClick()
         if(accept === '')
             setAccept('1')

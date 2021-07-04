@@ -29,7 +29,6 @@ class ChatFenster extends React.Component{
         for (const teilnehmer of Object.entries(this.props.teilnehmer)) {
             let k = parseInt(teilnehmer[0])
             if(k !== this.props.myId){
-                console.log(k)
                 this.setState({
                     partnerName: teilnehmer[1],
                     partnerId: k
@@ -100,11 +99,11 @@ class ChatFenster extends React.Component{
     }
 
     getGroupView = (group) =>{
-        console.log("test" + group)
+        console.log("Profil/Gruppen anzeigen nicht implementiert")
     }
 
     getPartnerView = (partner) =>{
-        console.log("test" + partner)
+        console.log("Profil/Gruppen anzeigen nicht implementiert")
     }
 
     render() {

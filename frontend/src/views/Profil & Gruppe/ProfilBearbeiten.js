@@ -31,7 +31,6 @@ class ProfilBearbeiten extends React.Component {
     // Es wird ein neues Objekt der Klasse UserBO erstellt und es werden alle Daten aus der state in das Objekt übertragen
     // und mittels API Call ans Backend übergeben
     handleUpdate  = async () => {
-        console.log(this.state.apiUser)
         const user = new UserBO()
         user.setAll(this.state.apiUser)
         await TeamUpApi.getAPI().updateUser(user.getAll()).then(async user => {

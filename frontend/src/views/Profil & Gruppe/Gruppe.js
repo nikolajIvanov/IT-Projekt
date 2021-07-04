@@ -24,7 +24,6 @@ function Gruppe(props) {
             authId: firebase.auth().currentUser.uid,
             groupId: data.getID()
         }
-        console.log(grouparray)
         //neuer endpunkt für die GruppenChatanfrage
         TeamUpApi.getAPI().sendChatRequestGroup(grouparray).then(
             res => {

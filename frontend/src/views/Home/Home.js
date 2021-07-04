@@ -37,7 +37,7 @@ class Home extends Component {
     callGroups = async () => {
         await TeamUpApi.getAPI().getMatchGroupList(this.state.currentUser).then(async lerngruppen => {
             if (lerngruppen.status === 500) {
-                console.log(lerngruppen.status)
+                console.log("Gruppen konnten nicht geladen werden")
             } else {
                 this.setState({
                     groups: lerngruppen.result

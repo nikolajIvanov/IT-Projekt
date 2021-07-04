@@ -25,7 +25,6 @@ function Chats(props) {
     useEffect(() =>{
         TeamUpApi.getAPI().getChatrooms(firebase.auth().currentUser.uid).then(
             chats => {
-                console.log(chats)
                 setChats(chats)
             }
         )
