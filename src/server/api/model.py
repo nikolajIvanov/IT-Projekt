@@ -1,15 +1,19 @@
-from flask import Flask
+from flask import Flask, Blueprint, url_for
 from flask_restx import Api, fields
 
 
 app = Flask(__name__, static_folder='../../static/build', static_url_path='/')
-api = Api(app)
-apins = api.namespace('api')
-bo = apins.model('BusinessObject', {
+# app = Flask(__name__)
+# api = Api(app)
+blueprint = Blueprint('api', __name__, url_prefix='/api')
+api = Api(blueprint)
+app.register_blueprint(blueprint)
+
+bo = api.model('BusinessObject', {
     'id': fields.Integer(attribute=lambda x: x.get_id(), description='Der Unique Identifier eines Business Object'),
 })
 
-profil = apins.inherit('ProfilBO', bo, {
+profil = api.inherit('ProfilBO', bo, {
     'name': fields.String(attribute=lambda x: x.get_name(), description='Name eines Benutzers oder Lerngruppe'),
     'lerntyp': fields.String(attribute=lambda x: x.get_lerntyp(),
                              description='Lerntyp eines Benutzers oder Lerngruppe'),
@@ -24,7 +28,7 @@ profil = apins.inherit('ProfilBO', bo, {
                              description='Wo findet das Treffen statt online/offline?'),
 })
 
-user = apins.inherit('Nutzer', profil, {
+user = api.inherit('Nutzer', profil, {
     'authId': fields.String(attribute=lambda x: x.get_auth_id(), description='GoogleID eines Benutzers'),
     'geburtsdatum': fields.Integer(attribute=lambda x: x.get_geburtsdatum(), description='Geburtsdatum eines Benutzers'),
     'email': fields.String(attribute=lambda x: x.get_email(), description='E-Mail-Adresse eines Benutzers'),
@@ -35,7 +39,7 @@ user = apins.inherit('Nutzer', profil, {
 
 })
 
-user_without_authid = apins.inherit('Nutzer', profil, {
+user_without_authid = api.inherit('Nutzer', profil, {
     'geburtsdatum': fields.String(attribute=lambda x: x.get_geburtsdatum(), description='Geburtsdatum eines Benutzers'),
     'email': fields.String(attribute=lambda x: x.get_email(), description='E-Mail-Adresse eines Benutzers'),
     'gender': fields.String(attribute=lambda x: x.get_gender(), description='Gender eines Benutzers'),
@@ -44,42 +48,42 @@ user_without_authid = apins.inherit('Nutzer', profil, {
     'vorname': fields.String(attribute=lambda x: x.get_vorname(), description='Vorname eines Benutzers'),
 })
 
-matching = apins.model('MatchingBO', {
+matching = api.model('MatchingBO', {
     'result': fields.List(fields.Integer, attribute=lambda x: x.get_result(),
                           description='Sortierte UserIDs aus dem Matching'),
 })
 
-lerngruppe = apins.inherit('Lerngruppe', profil, {
+lerngruppe = api.inherit('Lerngruppe', profil, {
     'mitglieder': fields.List(fields.Integer, attribute=lambda x: x.get_mitglieder(),
                               description='Mitglieder einer Lerngruppe'),
     'admin': fields.String(attribute=lambda x: x.get_admin(), description='Administrator einer Lerngruppe'),
 })
 
-studiengang = apins.inherit('StudiengangBO', bo, {
+studiengang = api.inherit('StudiengangBO', bo, {
     'studiengang': fields.String(attribute=lambda x: x.get_studiengang(), description='Administrator einer Lerngruppe'),
 })
 
-modul = apins.inherit('ModulBO', bo, {
+modul = api.inherit('ModulBO', bo, {
     'modul': fields.String(attribute=lambda x: x.get_modul(), description='Administrator einer Lerngruppe'),
 })
 
-lerntyp = apins.inherit('LerntypBO', bo, {
+lerntyp = api.inherit('LerntypBO', bo, {
     'bild': fields.String(attribute=lambda x: x.get_bild(), description='Bild eines Benutzers'),
     'lerntyp': fields.String(attribute=lambda x: x.get_lerntyp(), description='Administrator einer Lerngruppe'),
 })
 
-chat = apins.model('Nachricht',  {
+chat = api.model('Nachricht',  {
     'userId': fields.Integer(attribute='userId', description='User Id des Absenders'),
     'message': fields.String(attribute='message', description='Inhalt der Nachricht'),
 })
 
-room = apins.model('Room',  {
+room = api.model('Room',  {
     'requestId': fields.String(attribute='requestId', description='Id der request'),
     'roomId': fields.String(attribute='roomId', description='Room Id'),
     'userId': fields.String(attribute='userId', description='UserId der Mitglieder'),
 })
 
-room_mitglieder = apins.model('Room',  {
+room_mitglieder = api.model('Room',  {
     'roomId': fields.Integer(attribute='roomId', description='Room Id'),
     'groupId': fields.Integer(attribute='groupId', description='Gruppen Id'),
     'teilnehmer': fields.Raw(description='UserId der Mitglieder'),
@@ -87,22 +91,22 @@ room_mitglieder = apins.model('Room',  {
     'name': fields.String(attribute='name', description='Name der Gruppe oder des Lernpartners')
 })
 
-mitglied = apins.model('Mitglied', {
+mitglied = api.model('Mitglied', {
     'lerngruppenId': fields.Integer(attribute='lerngruppenId', description='Lerngruppen'),
     'userId': fields.Integer(attribute='userId', description='User Id des Absenders'),
 })
 
-request = apins.model('Request', {
+request = api.model('Request', {
     'authId': fields.String(attribute='authId', description='Auth ID des Current User'),
     'angefragterId': fields.Integer(attribute='userId', description='User Id des Angefragten')
 })
 
-group_request = apins.model('GroupRequest', {
+group_request = api.model('GroupRequest', {
     'authId': fields.String(attribute='authId', description='Auth ID des Current User'),
     'groupId': fields.Integer(attribute='groupId', description='Angefragte Gruppen ID')
 })
 
-delete_request = apins.model('DeleteRequest', {
+delete_request = api.model('DeleteRequest', {
     'type': fields.String(attribute='type', description='Typ der Anfrage Single oder Group'),
     'requestId': fields.String(attribute='requestId', description='RequestId')
 })
