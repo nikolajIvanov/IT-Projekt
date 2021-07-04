@@ -11,13 +11,13 @@ class UserMapper(Mapper):
     def __init__(self):
         super().__init__()
 
-    def matching_method(self, user_authid):
+    def matching_method(self, user_auth_id):
 
         """
         Sucht alle passenden Kandidaten, die für das Matching in Frage kommen. Dafür sucht man den aktuellen User über
         die authID und sucht alle Module in dem er sich befindet. Über die ModulID sucht man alle User die im selben
         Modul sind und speichert alle Informationen des Kandidaten.
-        :param user_authid: GoogleID des aktuellen Users
+        :param user_auth_id: GoogleID des aktuellen Users
         :return: Als Rückgabe erhalt man den aktuellen User mit allen relevanten Informationen und eine Liste mit
         User Objekten die für das Matching in Frage kommen.
         """
@@ -35,7 +35,7 @@ class UserMapper(Mapper):
             # Datentyp SET wird genutzt, um sicher zu gehen, dass die User nur einmal vorkommen
             unsorted_users = set()
 
-            main_user_bo = self.find_modul_id_for_matching(user_authid)
+            main_user_bo = self.find_modul_id_for_matching(user_auth_id)
 
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(buffered=True)
@@ -44,7 +44,7 @@ class UserMapper(Mapper):
             user_rooms = """SELECT roomId from TeamUP.userInRoom WHERE userId=%s"""
 
             # Alle User welche bereits gematched haben
-            cursor.execute(user_rooms, (self.find_userid_by_authid(user_authid),))
+            cursor.execute(user_rooms, (self.find_userid_by_authid(user_auth_id),))
             u_rooms = cursor.fetchall()
 
             for tuples in u_rooms:
@@ -57,7 +57,7 @@ class UserMapper(Mapper):
             angefragt_user = """SELECT anUserid from TeamUP.userAdmitted WHERE vonUserid=%s"""
 
             # Alle User finden an die ich schon eine Anfrage gestellt habe
-            cursor.execute(angefragt_user, (self.find_userid_by_authid(user_authid),))
+            cursor.execute(angefragt_user, (self.find_userid_by_authid(user_auth_id),))
             anfragen = cursor.fetchall()
             for tuples in anfragen:
                 for anfrage in tuples:
@@ -181,7 +181,7 @@ class UserMapper(Mapper):
                                              vorname=vorname, frequenz=frequenz, lernort=lernort)
                 # Das Geburtstag wird in das aktuelle Alter umgerechnet.
                 user.set_geburtsdatum(user.calculate_age())
-                result.append(self.find_modul_by_userid(user))
+                result.append(self.find_modul_by_user_id(user))
 
             # Bestätigung der Datenbankabfrage/ änderung
             self._cnx.commit()
@@ -193,10 +193,10 @@ class UserMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def find_by_auth_id(self, user_authid):
+    def find_by_auth_id(self, user_auth_id):
         """
         Sucht einen bestimmten User in der Tabelle und gibt die Werte nach vorne durch
-        :param user_authid: GoogleID eines bestimmten Users
+        :param user_auth_id: GoogleID eines bestimmten Users
         :return: Gibt ein UserBO Objekt mit allen Werten eines konkreten Users zurück
         """
         try:
@@ -208,7 +208,7 @@ class UserMapper(Mapper):
                         vorname, frequenz, lernort FROM TeamUP.users WHERE authId=%s"""
 
             # Ausführen des ersten SQL-Befehls
-            cursor.execute(query, (user_authid,))
+            cursor.execute(query, (user_auth_id,))
 
             # Speichern der SQL Antwort
             tuples = cursor.fetchall()
@@ -217,7 +217,7 @@ class UserMapper(Mapper):
             (user_id, bild, name, geburtsdatum, email, beschreibung, lerntyp, gender, semester,
              studiengang, vorname, frequenz, lernort) = tuples[0]
 
-            user = UserBO.create_user_bo(id=user_id, authId=user_authid, profilBild=bild, name=name,
+            user = UserBO.create_user_bo(id=user_id, authId=user_auth_id, profilBild=bild, name=name,
                                          geburtsdatum=geburtsdatum, email=email, beschreibung=beschreibung,
                                          lerntyp=lerntyp, gender=gender, semester=semester, studiengang=studiengang,
                                          vorname=vorname, frequenz=frequenz, lernort=lernort)
@@ -226,7 +226,7 @@ class UserMapper(Mapper):
             user.set_geburtsdatum(user.calculate_age())
             # Rückgabe des UserBO
             cursor.close()
-            return self.find_modul_by_userid(user)
+            return self.find_modul_by_user_id(user)
         # Falls tuples wird ein IndexError ausgelöst und es wird ein Fehler geworfen.
         except IndexError:
             raise InternalServerError('Keinen User mit dieser AuthId gefunden')
@@ -263,9 +263,9 @@ class UserMapper(Mapper):
         user.set_geburtsdatum(user.calculate_age())
 
         # Rückgabe des UserBO
-        return self.find_modul_by_userid(user)
+        return self.find_modul_by_user_id(user)
 
-    def find_modul_by_userid(self, user):
+    def find_modul_by_user_id(self, user):
         """
         Findet alle Module eines Users
         :param user: Bekommt ein User Objekt mit mindestens der User ID um die Module zu finden
@@ -352,10 +352,10 @@ class UserMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def delete_by_auth_id(self, user_authid):
+    def delete_by_auth_id(self, user_auth_id):
         """
         Löscht einen User aus der Datenbank
-        :param user_authid: Die GoogleID des zu löschenden Users
+        :param user_auth_id: Die GoogleID des zu löschenden Users
         :return: Der Statuscode '200' wird zurückgegeben nachdem der User gelöscht wurde
         """
         try:
@@ -363,7 +363,7 @@ class UserMapper(Mapper):
             cursor = self._cnx.cursor(prepared=True)
 
             # Auslesen und speichern der UserBO.id
-            userid = self.get_Id_by_authId(user_authid)
+            userid = self.get_Id_by_authId(user_auth_id)
 
             # Erstellen des SQL-Befehls um die Einträge in der users Datenbank zu löschen
             query = """DELETE FROM TeamUP.users WHERE id=%s"""

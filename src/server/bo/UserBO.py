@@ -6,7 +6,7 @@ class UserBO(ProfilBO):
     def __init__(self):
         super().__init__()
         self.__email = ""
-        self.__authId = ""
+        self.__auth_id = ""
         self.__geburtsdatum = None
         self.__gender = ""
         self.__semester = ""
@@ -20,10 +20,10 @@ class UserBO(ProfilBO):
         self.__email = value
 
     def get_auth_id(self):
-        return self.__authId
+        return self.__auth_id
 
     def set_auth_id(self, value):
-        self.__authId = value
+        self.__auth_id = value
 
     def get_geburtsdatum(self,):
         return self.__geburtsdatum
@@ -71,7 +71,7 @@ class UserBO(ProfilBO):
         Diese besteht aus der ID, dem Namen, den Lerntyp und den Modulen der Superklasse ergänzt durch die GoogleId
 
         des jeweiligen Kunden."""
-        # TODO LERNTYP MODUL dazu allgemein attribute anschauen pls
+
         return "Customer: {}, {}, {}, {}, {}, {}, {}".format(self.get_id(), self.get_auth_id(), self.get_name(),
                                                              self.get_email(), self.get_lerntyp(), self.get_modul(),
                                                              self.get_vorname())

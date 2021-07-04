@@ -34,13 +34,13 @@ class RequestMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def get_gruppen_requests(self, userid):
+    def get_gruppen_requests(self, user_id):
         """
         Prüft ob es Anfragen gibt, die älter als 2 Wochen sind und löscht diese. Es wird überprüft, ob der aktuelle
         User eine Lerngruppe ist und falls es Anfragen an die Lerngruppe gibt, werden diese an den User übergeben.
         Es wird geprüft, ob der User eine Gruppe angefragt hat. Diese Methode wird aufgerufen, wenn alle Anfragen
         des aktuellen Users geprüft werden.
-        :param userid: UserID des aktuellen Users
+        :param user_id: UserID des aktuellen Users
         :return: Alle Gruppen Anfragen
         """
         try:
@@ -55,7 +55,7 @@ class RequestMapper(Mapper):
 
             lerngruppenid = """SELECT id FROM TeamUP.lerngruppe WHERE admin=%s"""
 
-            cursor.execute(lerngruppenid, (userid,))
+            cursor.execute(lerngruppenid, (user_id,))
             gruppen_from_admin = cursor.fetchall()
             erhalten = []
             erhalten_abfrage = """SELECT gA.id, gA.vonUserid, gA.timestamp, l.name, l.id, l.bild 
@@ -80,7 +80,7 @@ class RequestMapper(Mapper):
             gesendete_anfragen = """SELECT gA.id, gA.vonUserid, gA.timestamp, l.name, l.bild 
                                   FROM TeamUP.gruppeAdmitted gA JOIN TeamUP.lerngruppe l WHERE vonUserid=%s """
 
-            cursor.execute(gesendete_anfragen, (userid,))
+            cursor.execute(gesendete_anfragen, (user_id,))
             ausgehende_anfragen = cursor.fetchall()
             gesendet_dict = {}
             for anfrage in ausgehende_anfragen:
@@ -99,12 +99,12 @@ class RequestMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def get_user_requests(self, authid):
+    def get_user_requests(self, auth_id):
         """
         Mit der Methode werden alle Anfragen die der aktuelle User erhalten oder versendet hat ins Frontend übergeben.
         Es wird auch geprüft, ob der User Admin einer Lerngruppe ist und es Anfragen an die Lerngruppe gibt.
         Die Methode wird aufgerufen, wenn der User auf seine Chatrooms klickt.
-        :param authid: Die GoogleID des aktuellen Users
+        :param auth_id: Die GoogleID des aktuellen Users
         :return: Dict mit allen Request eines Users
         """
         try:
@@ -121,7 +121,7 @@ class RequestMapper(Mapper):
                                         u.bild FROM TeamUP.userAdmitted uA JOIN TeamUP.users u ON uA.anUserid = u.id 
                                         WHERE vonUserid=%s"""
 
-            userid = self.find_userid_by_authid(authid)
+            userid = self.find_userid_by_authid(auth_id)
 
             # Ausführen des SQL-Befehls
             cursor.execute(get_gestellte_requests, (userid,))
@@ -173,11 +173,11 @@ class RequestMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def delete_request(self, requestid):
+    def delete_request(self, request_id):
         """
         Mit dieser Methode wird die Anfrage eines Users gelöscht. Die Methode wird aufgerufen, wenn der User im Frontend
         in seinen Chaträumen die Anfrage bestätigt.
-        :param requestid: Request  ID mit dem aktuellen User
+        :param request_id: Request  ID mit dem aktuellen User
         :return: 200 wenn der Eintrag gelöscht wurde
         """
         try:
@@ -185,7 +185,7 @@ class RequestMapper(Mapper):
             cursor = self._cnx.cursor(prepared=True)
 
             query1 = """DELETE FROM TeamUP.userAdmitted WHERE id=%s"""
-            cursor.execute(query1, (requestid,))
+            cursor.execute(query1, (request_id,))
 
             self._cnx.commit()
             cursor.close()
@@ -218,7 +218,7 @@ class RequestMapper(Mapper):
     def create_group_request(self, request):
         """
         Wird aufgerufen, wenn ein User eine Gruppenanfrage macht.
-        :param request: Bekommt ein Dict übergeben,  in der die aktuelle UserID und die LerngruppenID beinhaltet.
+        :param request: Request BO
         :return: Statuscode 200 Anfrage wurde in der DB angelegt.
         """
         try:
@@ -240,10 +240,10 @@ class RequestMapper(Mapper):
         except mysql.connector.Error as err:
             raise InternalServerError(err.msg)
 
-    def delete_group_request(self, requestid):
+    def delete_group_request(self, request_id):
         """"
         Löscht eine Gruppenanfrage aus der Datenbank
-        :param requestid: RequestId welche gelöscht werden soll
+        :param request_id: RequestId welche gelöscht werden soll
         :return: 200 wenn der Eintrag gelöscht wurde
         """
         try:
@@ -251,7 +251,7 @@ class RequestMapper(Mapper):
             cursor = self._cnx.cursor(prepared=True)
 
             query1 = """DELETE FROM TeamUP.gruppeAdmitted WHERE id=%s"""
-            cursor.execute(query1, (requestid,))
+            cursor.execute(query1, (request_id,))
 
             self._cnx.commit()
             cursor.close()

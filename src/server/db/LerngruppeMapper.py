@@ -1,4 +1,4 @@
-from server.bo.Lerngruppe import Lerngruppe
+from server.bo.LerngruppeBO import Lerngruppe
 from server.db.Mapper import Mapper
 from server.db.RequestMapper import RequestMapper
 import mysql.connector.errors
@@ -11,12 +11,12 @@ class LerngruppeMapper(Mapper):
     def __init__(self):
         super().__init__()
 
-    def matching_method(self, user_authid):
+    def matching_method(self, user_auth_id):
         """
         Sucht alle passenden Kandidaten, die für das Matching in Frage kommen. Dafür sucht man den aktuellen User über
         die authID und sucht alle Module in dem er sich befindet. Über die ModulID sucht man alle Lerngruppen, welche
         das selbe Modul anbieten und speichert alle Informationen des Kandidaten.
-        :param user_authid: GoogleID des aktuellen Users
+        :param user_auth_id: GoogleID des aktuellen Users
         :return: Als Rückgabe erhalt man den aktuellen User mit allen relevanten Informationen und eine Liste mit
         Lerngruppen Objekten die für das Matching in Frage kommen.
         """
@@ -33,7 +33,7 @@ class LerngruppeMapper(Mapper):
         # Datentyp SET wird genutzt, um sicher zu gehen, dass die User nur einmal vorkommen
         unsorted_gruppen = set()
 
-        main_user_bo = self.find_modul_id_for_matching(user_authid)
+        main_user_bo = self.find_modul_id_for_matching(user_auth_id)
 
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor(buffered=True)
@@ -42,7 +42,7 @@ class LerngruppeMapper(Mapper):
         user_gruppen = """SELECT lerngruppeId from TeamUP.userInLerngruppe WHERE userId=%s"""
 
         # Alle Lerngruppen abrufen in welchen der User bereits Mitglied ist
-        cursor.execute(user_gruppen, (self.find_userid_by_authid(user_authid),))
+        cursor.execute(user_gruppen, (self.find_userid_by_authid(user_auth_id),))
         u_gruppen = cursor.fetchall()
 
         for tuples in u_gruppen:
@@ -53,7 +53,7 @@ class LerngruppeMapper(Mapper):
         angefragte_lerngruppe = """SELECT anGruppenid from TeamUP.gruppeAdmitted WHERE vonUserid=%s"""
 
         # Alle Lerngruppen finden an die ich schon eine Anfrage gestellt habe
-        cursor.execute(angefragte_lerngruppe, (self.find_userid_by_authid(user_authid),))
+        cursor.execute(angefragte_lerngruppe, (self.find_userid_by_authid(user_auth_id),))
         anfragen = cursor.fetchall()
         for tuples in anfragen:
             for anfrage in tuples:
@@ -313,7 +313,7 @@ class LerngruppeMapper(Mapper):
     def update_lerngruppe(self, lerngruppe):
         """
         Updatet eine komplette Lerngruppe mit allen Werten
-        :param lerngruppe:
+        :param lerngruppe: Lerngruppen Business Object
         :return: 200 wenn die Gruppe aktualisiert wurde
         """
         try:

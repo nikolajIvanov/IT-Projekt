@@ -9,8 +9,8 @@ class NachrichtBO(BusinessObject):
     def __init__(self):
         super().__init__()
         self.__nachricht = ""
-        self.__senderId = ""
-        self.__roomId = ""
+        self.__sender_id = ""
+        self.__room_id = ""
 
     def get_nachricht(self):
         return self.__nachricht
@@ -19,13 +19,13 @@ class NachrichtBO(BusinessObject):
         self.__nachricht = nachricht
 
     def get_sender_id(self):
-        return self.__senderId
+        return self.__sender_id
 
     def set_sender_id(self, sender_id):
-        self.__senderId = sender_id
+        self.__sender_id = sender_id
 
     def get_room_id(self):
-        return self.__roomId
+        return self.__room_id
 
     def set_room_id(self, room_id):
-        self.__roomId = room_id
+        self.__room_id = room_id
