@@ -102,6 +102,11 @@ request = api.model('Request', {
     'angefragterId': fields.Integer(attribute='userId', description='User Id des Angefragten')
 })
 
+request_get = api.model('Get_Request', {
+    'gruppen': fields.Raw(fields.String(attribute='gruppen', description='Liste aller Gruppenanfragen')),
+    'user': fields.Raw(fields.String(attribute='user', description='Liste aller Useranfragen'))
+})
+
 group_request = api.model('GroupRequest', {
     'authId': fields.String(attribute='authId', description='Auth ID des Current User'),
     'groupId': fields.Integer(attribute='groupId', description='Angefragte Gruppen ID')

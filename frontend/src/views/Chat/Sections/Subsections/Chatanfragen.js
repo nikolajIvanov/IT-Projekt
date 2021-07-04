@@ -25,6 +25,7 @@ function Chatanfragen(props) {
         //Api Call für alle gruppen die der Nutzer hat
         TeamUpApi.getAPI().getChatRequests(props.authId).then(
             async (requests) => {
+                console.log(requests)
                 await setUserRequests(requests.user)
                 await setGroupRequests(requests.gruppen)
                 setRender(true)
