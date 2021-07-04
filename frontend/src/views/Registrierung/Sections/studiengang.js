@@ -34,7 +34,6 @@ export default class Studiengang extends React.Component{
                 this.setState({
                         studiengang : res
                 })
-                console.log(this.state.studiengang)
             }
         );
     }

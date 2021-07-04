@@ -48,8 +48,8 @@ class RequestMapper(Mapper):
             cursor = self._cnx.cursor(prepared=True)
 
             # Löscht alle Einträge die älter als 2 Wochen sind
-            anfragen_loeschen = """DELETE FROM teamup.gruppeadmitted 
-                                  WHERE teamup.gruppeadmitted.timestamp < NOW() - INTERVAL 14 DAY """
+            anfragen_loeschen = """DELETE FROM TeamUP.gruppeAdmitted 
+                                  WHERE TeamUP.gruppeAdmitted.timestamp < NOW() - INTERVAL 14 DAY """
             cursor.execute(anfragen_loeschen)
             self._cnx.commit()
 
@@ -111,8 +111,8 @@ class RequestMapper(Mapper):
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
             # Löscht alle Einträge die älter als 2 Wochen sind
-            anfragen_loeschen = """DELETE FROM teamup.useradmitted 
-                                WHERE teamup.useradmitted.timestamp < NOW() - INTERVAL 14 DAY """
+            anfragen_loeschen = """DELETE FROM TeamUP.userAdmitted 
+                                WHERE TeamUP.userAdmitted.timestamp < NOW() - INTERVAL 14 DAY """
             cursor.execute(anfragen_loeschen)
             self._cnx.commit()
 

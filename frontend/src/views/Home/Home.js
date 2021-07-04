@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Navigation from "../Navigation";
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import Profil from "../Profil & Gruppe/Profil";
 import Gruppe from "../Profil & Gruppe/Gruppe";
 import MyProfil from "../Profil & Gruppe/ProfilBearbeiten";
@@ -37,7 +37,7 @@ class Home extends Component {
     callGroups = async () => {
         await TeamUpApi.getAPI().getMatchGroupList(this.state.currentUser).then(async lerngruppen => {
             if (lerngruppen.status === 500) {
-                console.log(lerngruppen.status)
+                console.log("Gruppen konnten nicht geladen werden")
             } else {
                 this.setState({
                     groups: lerngruppen.result
@@ -77,7 +77,6 @@ class Home extends Component {
         )}
     }
 
-    // TODO es sollen 10 User/Gruppen geladen werden für Match, nach 5 Swipes weitere
     async componentDidMount() {
         //Setzt die userId
         await this.setState({
@@ -104,7 +103,7 @@ class Home extends Component {
     }
 
     setAuswahl = async (user) => {
-        await this.setState({
+       this.setState({
             suchobjekt: user
         })
     }
@@ -129,18 +128,11 @@ class Home extends Component {
     }
 
     render() {
-        /*
-        * Profil --> bekommt das ausgewählte Nutzerobjekt
-        * TODO Match --> Setzt das ausgewählte Nutzer- oder Gruppenobjekt --> onClick muss auswahl setzen
-        *                                                                     und showView aufrufen
-        * TODO MyProfil --> Profilansicht des Nutzers , Einstellungen (Zahnrad in Profil?) --> Profildaten ändern
-        * */
-
-        //TODO Skeleton wenn Nutzer nicht da ist
         const {userList, suchobjekt, groupList, matches, myId, partnerId} = this.state
         return (
             <div>
                 <Router>
+                    <Redirect from='/' to='/' />
                     <Navigation logOut={this.handleLogOut}/>
                     <Switch>
                         <Route path="/" exact>

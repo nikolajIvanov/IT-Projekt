@@ -136,7 +136,7 @@ class UserMapper(Mapper):
             module = user.get_modul()
 
             # SQL-Befehl um den Datenbankeintrag zu erstellen
-            query1 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
+            query1 = """INSERT INTO TeamUP.userInmodul( userId, modulId) VALUES (%s, %s)"""
             # Datenbankeintrag für jedes Modul erzeugen
             for i in module:
                 # Auslesen und speichern der users.id und modul.id
@@ -328,7 +328,7 @@ class UserMapper(Mapper):
             nutzer.set_id(cursor.fetchone()[0])
 
             # Erstellen des SQL-Befehls um alle bestehenden einträge des UserBO in userInModule zu löschen
-            query1 = """DELETE FROM TeamUP.userinmodul WHERE userId=%s"""
+            query1 = """DELETE FROM TeamUP.userInModul WHERE userId=%s"""
             # Ausführen des SQL-Befehls
             cursor.execute(query1, (nutzer.get_id(),))
             # Bestätigung der Datenbankabfrage/ änderung
@@ -340,7 +340,7 @@ class UserMapper(Mapper):
             # Für jedes Modul ein Datenbankeintrag erzeugen
             for i in module:
                 # Erstellen des SQL-Befehls
-                query2 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
+                query2 = """INSERT INTO TeamUP.userInModul( userId, modulId) VALUES (%s, %s)"""
                 # Auslesen und speichern der users.id und modul.id
                 data = (nutzer.get_id(), self.get_modul_id_by_modul(i))
                 # cursor_ins.execute(query2, data)
@@ -368,11 +368,11 @@ class UserMapper(Mapper):
             # Erstellen des SQL-Befehls um die Einträge in der users Datenbank zu löschen
             query = """DELETE FROM TeamUP.users WHERE id=%s"""
             # Erstellen des SQL-Befehls um die Einträge in der userInModul Datenbank zu löschen
-            query1 = """DELETE FROM TeamUP.userinmodul WHERE userId=%s"""
+            query1 = """DELETE FROM TeamUP.userInModul WHERE userId=%s"""
             # Erstellen des SQL-Befehls um die Einträge in der userInLerngruppe Datenbank zu löschen
             query2 = """DELETE FROM TeamUP.userInLerngruppe WHERE userId=%s"""
-            # Löschen der Einträge in userinroom Tabelle
-            query3 = """DELETE FROM teamup.userinroom WHERE userId = %s"""
+            # Löschen der Einträge in userInRoom Tabelle
+            query3 = """DELETE FROM TeamUP.userInRoom WHERE userId = %s"""
             # Ausführen des SQL-Befehls
             cursor.execute(query1, (userid,))
             # Ausführen des SQL-Befehls
@@ -452,7 +452,7 @@ class UserMapper(Mapper):
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor(prepared=True)
         # Erstellen des SQL-Befehls um alle bestehenden einträge des UserBO in userInModule zu löschen
-        query1 = """DELETE FROM TeamUP.userinmodul WHERE userId=%s"""
+        query1 = """DELETE FROM TeamUP.userInModul WHERE userId=%s"""
         # Ausführen des SQL-Befehls
         cursor.execute(query1, (nutzer.get_id(),))
         # Schließen der Datenbankverbindung
@@ -467,7 +467,7 @@ class UserMapper(Mapper):
         # Für jedes Modul ein Datenbankeintrag erzeugen
         for i in module:
             # Erstellen des SQL-Befehls
-            query2 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
+            query2 = """INSERT INTO TeamUP.userInModul( userId, modulId) VALUES (%s, %s)"""
             # Auslesen und speichern der users.id und modul.id
             data = (nutzer.get_id(), self.get_modul_id_by_modul(i))
             # (Bitte kein Komma nach data) Ausführen des SQL-Befehls
@@ -506,7 +506,7 @@ class UserMapper(Mapper):
         # Öffnen der Datenbankverbindung
         cursor = self._cnx.cursor(prepared=True)
         # Erstellen des SQL-Befehls um alle bestehenden einträge des UserBO in userInModule zu löschen
-        query1 = """DELETE FROM TeamUP.userinmodul WHERE userId=%s"""
+        query1 = """DELETE FROM TeamUP.userInModul WHERE userId=%s"""
         # Ausführen des SQL-Befehls
         cursor.execute(query1, (nutzer.get_id,))
 
@@ -522,7 +522,7 @@ class UserMapper(Mapper):
         # Für jedes Modul ein Datenbankeintrag erzeugen
         for i in module:
             # Erstellen des SQL-Befehls
-            query2 = """INSERT INTO TeamUP.userinmodul( userId, modulId) VALUES (%s, %s)"""
+            query2 = """INSERT INTO TeamUP.userInModul( userId, modulId) VALUES (%s, %s)"""
             # Auslesen und speichern der users.id und modul.id
             data = (nutzer.get_id(), self.get_modul_id_by_modul(i))
             # (Bitte kein Komma nach data) Ausführen des SQL-Befehls
@@ -545,7 +545,7 @@ class UserMapper(Mapper):
         # Erstellen des SQL-Befehls um die Einträge in der users Datenbank zu löschen
         query = """DELETE FROM TeamUP.users WHERE id=%s"""
         # Erstellen des SQL-Befehls um die Einträge in der userInModul Datenbank zu löschen
-        query1 = """DELETE FROM TeamUP.userinmodul WHERE userId=%s"""
+        query1 = """DELETE FROM TeamUP.userInModul WHERE userId=%s"""
         # Ausführen des ersten SQL-Befehls
         cursor.execute(query, (userid,))
         # Ausführen des zweiten SQL-Befehls
@@ -559,9 +559,9 @@ class UserMapper(Mapper):
         # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
         cursor = self._cnx.cursor()
 
-        query = """SELECT modul.bezeichnung From ((TeamUP.modul JOIN TeamUP.userinmodul 
-                    ON modul.id = userinmodul.modulId) 
-                    JOIN TeamUP.users ON userinmodul.userId = users.id ) WHERE authId=%s"""
+        query = """SELECT modul.bezeichnung From ((TeamUP.modul JOIN TeamUP.userInModul 
+                    ON modul.id = userInModul.modulId) 
+                    JOIN TeamUP.users ON userInModul.userId = users.id ) WHERE authId=%s"""
 
         cursor.execute(query, (authId,))
         tuples = cursor.fetchall()

@@ -7,7 +7,6 @@ function ButtonGoogleSignUp(props) {
     const provider = new firebase.auth.GoogleAuthProvider();
 
     function handleSignUpWithGoogle(){
-        console.log("drinn")
         firebase
             .auth()
             .signInWithPopup(provider)

@@ -11,11 +11,10 @@ class Chat extends Component {
             chatSwitcher: true,
             roomId: null,
             groupId: '',
-            teilnehmer: null
+            teilnehmer: null,
+            groupName: ''
         }
     }
-
-    //TODO wie erkenne ich das ich den Chat verlasse ? --> push verwenden und navbar ausblenden
 
     switchChat = () => {
         if(this.state.chatSwitcher === true) {
@@ -48,8 +47,14 @@ class Chat extends Component {
         })
     }
 
+    setName = (name) => {
+        this.setState({
+            groupName: name
+        })
+    }
+
     render() {
-        const {chatSwitcher, roomId, teilnehmer, groupId} = this.state
+        const {chatSwitcher, roomId, teilnehmer, groupId, groupName} = this.state
 
         return (
 
@@ -59,6 +64,7 @@ class Chat extends Component {
                         <Chatübersicht roomId={this.setRoomId}
                                        myId={this.props.setMyId}
                                        groupId={this.setGroup}
+                                       groupName={this.setName}
                                        teilnehmer={this.setTeilnehmer}
                                        switch={this.switchChat}/>
                     </Grid>
@@ -66,7 +72,7 @@ class Chat extends Component {
                         {chatSwitcher ?
                              <>
                                  <div className="emptyChatWindow">
-                                     <img className="chatBild" src={ChatsGraphic}/>
+                                     <img className="chatBild" src={ChatsGraphic} alt={"chatBild"}/>
                                  </div>
                              </>
                             :
@@ -76,6 +82,7 @@ class Chat extends Component {
                                              teilnehmer={teilnehmer}
                                              groupId={groupId}
                                              setPartnerId={this.props.setPartnerId}
+                                             groupName={groupName}
                                 />
                             </>
                         }

@@ -1,4 +1,4 @@
-//TODO Infofeld für die Lerntypen
+
 const lerntypArten = [
     {
         value:'',

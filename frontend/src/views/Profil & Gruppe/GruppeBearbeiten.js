@@ -76,7 +76,6 @@ function GruppeBearbeiten (props) {
     async function handleCreate() {
         const gruppe = new LerngruppenBO()
         gruppe.setAll(informationen)
-        console.log(gruppe)
         await TeamUpApi.getAPI().setGruppe(gruppe.getAll()).then(gruppe =>{
             if(gruppe === 200){
                 setModalType(erfolg)
@@ -89,7 +88,6 @@ function GruppeBearbeiten (props) {
         })
     }
 
-        //TODO Abbrechen Modal hinzufügen
         return (
             <div className="card">
                     <Card>

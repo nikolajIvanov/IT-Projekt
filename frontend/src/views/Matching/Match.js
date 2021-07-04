@@ -17,8 +17,8 @@ class Match extends Component {
     }
 
     // Ladet direkt die User Daten aus dem Backend
-    componentDidMount() {
-        this.setState({
+    async componentDidMount() {
+        await this.setState({
             apiUsers: this.props.userList,
             apiGruppen: this.props.groupList
         });
@@ -42,16 +42,15 @@ class Match extends Component {
                     <FilterIcon/>
                     { isPerson ?
                         <>
-                            <UserMatchSection getView={this.props.getView}
-                                              apiUsers={apiUsers}
+                            <UserMatchSection apiUsers={apiUsers}
                                               setMatched={this.props.setMatched}
                             />
                         </>
                     :
                                 <>
                                     {apiGruppen ?
-                                        <GroupMatchSection getView={this.props.getView}
-                                                           apiGroups={apiGruppen}
+                                        <GroupMatchSection apiGroups={apiGruppen}
+                                                           setMatched={this.props.setMatched}
                                         />
                                         :
                                         <Card className="card">

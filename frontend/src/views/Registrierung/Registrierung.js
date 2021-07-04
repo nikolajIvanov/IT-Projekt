@@ -65,7 +65,7 @@ function Registrierung(props) {
         <Bio setBio={setBio} mode={styles.card}/>
     ]
 
-    //TODO Api Call aufruf und übergabe von Infos über BO (Nutzer) ans Backend
+    // Api Call aufruf und übergabe von Infos über BO (Nutzer) ans Backend
     const infos = {
         id: 0,
         name: name,
@@ -116,11 +116,9 @@ function Registrierung(props) {
         if (checkData[count] === '') {
             handleOpen()
         } else {
-            //TODO auf length setzen
             if (count === (checkData.length - 1)) {
                 user.setAll(infos)
                 await TeamUpApi.getAPI().setUser(user.getAll())
-                console.log(user.getAll())
                 props.exist()
             } else {
                 setCount(count + 1);

@@ -233,11 +233,7 @@
   margin: auto;
   box-shadow: 0 8px 20px 0 rgba(10, 27, 68, 0.29);
   position: sticky;
-  background-color: var(--primary);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  height: 8vh;
 }
 
 .TeamUpIcon{
@@ -328,9 +324,9 @@
 }
 
 .matchHeader{
-  height: 40vh;
+  min-height: 40vh;
   overflow: hidden;
-  padding: 10% 10% 0 10%;
+  padding: 5% 10% 5% 10%;
   border-radius: 10px;
   box-shadow: 0 6px 20px 0 rgba(0, 74, 95, 0.2);
 }
@@ -370,3 +366,40 @@
   flex-direction: column;
   align-items: center;
 }
+
+.mobile-nav{
+  visibility: hidden;
+}
+
+.link{
+  text-decoration: none;
+  color: black;
+}
+
+.toolbar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-command{
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 700px){
+  .nav{
+    overflow: hidden;
+  }
+  .web-nav{
+    visibility: hidden;
+  }
+
+  .mobile-nav{
+    visibility: visible;
+    color: white;
+  }
+
+
+}
+

@@ -52,7 +52,6 @@ class Administration(object):
             for user in users:
                 mapper.insert_by_authId(user)
 
-
     @staticmethod
     def update_user_by_auth_id(nutzer):
         """

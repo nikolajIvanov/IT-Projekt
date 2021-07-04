@@ -17,7 +17,6 @@ function Module(props){
                         value: i.getModul()
                     })
                 })
-                console.log(middle)
                 setMod(middle)
             })
     }, [accept]);

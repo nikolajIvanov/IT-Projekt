@@ -24,7 +24,6 @@ function Profil(props) {
             authId: firebase.auth().currentUser.uid,
             angefragterId: data.getID()
         }
-        console.log(userarray)
         TeamUpApi.getAPI().sendChatRequest(userarray).then(
             res => {
                 if (res === 200) {

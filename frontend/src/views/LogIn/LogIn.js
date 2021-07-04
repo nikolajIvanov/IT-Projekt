@@ -8,8 +8,6 @@ class LogIn extends Component {
     render() {
         return (
             <div>
-                {/*Login Felder*/}
-                {/*TODO Login & SignUp & Button Componenten zusammenführen*/}
 
 
 

@@ -1,9 +1,14 @@
-from flask import Flask
+from flask import Flask, Blueprint, url_for
 from flask_restx import Api, fields
 
-
+"""
 app = Flask(__name__)
 api = Api(app)
+"""
+app = Flask(__name__, static_folder='../../static/build', static_url_path='/')
+blueprint = Blueprint('api', __name__, url_prefix='/api')
+api = Api(blueprint)
+app.register_blueprint(blueprint)
 
 bo = api.model('BusinessObject', {
     'id': fields.Integer(attribute=lambda x: x.get_id(), description='Der Unique Identifier eines Business Object'),
@@ -82,7 +87,7 @@ room = api.model('Room',  {
 room_mitglieder = api.model('Room',  {
     'roomId': fields.Integer(attribute='roomId', description='Room Id'),
     'groupId': fields.Integer(attribute='groupId', description='Gruppen Id'),
-    'teilnehmer': fields.List(fields.Integer, description='UserId der Mitglieder'),
+    'teilnehmer': fields.Raw(description='UserId der Mitglieder'),
     'myId': fields.Integer(attribute='myId', decription='Id des aktuellen Nutzers'),
     'name': fields.String(attribute='name', description='Name der Gruppe oder des Lernpartners')
 })
