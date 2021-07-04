@@ -28,7 +28,7 @@ class Mapper(AbstractContextManager, ABC):
             installierten mySQL-Datenbank her."""
 
             self._cnx = connector.connect(user='root', password='2CVBkS9g',
-                                          unix_socket='/cloudsql/teamup-deployment:europe-west3:teamup-db',
+                                          host='127.0.0.1',
                                           database='TeamUP')
 
         return self

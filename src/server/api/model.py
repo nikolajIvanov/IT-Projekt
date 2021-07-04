@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint, url_for
 from flask_restx import Api, fields
 
-
+"""
 app = Flask(__name__)
 api = Api(app)
 """
@@ -9,7 +9,7 @@ app = Flask(__name__, static_folder='../../static/build', static_url_path='/')
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 api = Api(blueprint)
 app.register_blueprint(blueprint)
-"""
+
 bo = api.model('BusinessObject', {
     'id': fields.Integer(attribute=lambda x: x.get_id(), description='Der Unique Identifier eines Business Object'),
 })

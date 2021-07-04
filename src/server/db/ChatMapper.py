@@ -20,7 +20,7 @@ class ChatMapper(Mapper):
             cursor = self._cnx.cursor(prepared=True)
 
             # Erstellen des SQL-Befehls
-            query = """INSERT INTO teamup.message (vonUserId, roomId, message) VALUES (%s ,%s ,%s)"""
+            query = """INSERT INTO TeamUP.message (vonUserId, roomId, message) VALUES (%s ,%s ,%s)"""
             # Erstellen des SQL-Befehls
 
             daten = (user, room, nachricht)
@@ -77,7 +77,7 @@ class ChatMapper(Mapper):
             cursor = self._cnx.cursor(prepared=True)
 
             # SQL Befehl erstellen
-            query1 = """INSERT INTO teamup.userInRoom(userId, roomId) VALUES (%s, %s)"""
+            query1 = """INSERT INTO TeamUP.userInRoom(userId, roomId) VALUES (%s, %s)"""
 
             data1 = (user, room)
             cursor.execute(query1, data1)
@@ -99,8 +99,8 @@ class ChatMapper(Mapper):
             cursor = self._cnx.cursor(prepared=True)
 
             # SQL Befehl erstellen
-            query1 = """DELETE FROM teamup.userInRoom WHERE teamup.userInRoom.userId = %s
-                        AND teamup.userInRoom.roomId = %s"""
+            query1 = """DELETE FROM TeamUP.userInRoom WHERE TeamUP.userInRoom.userId = %s
+                        AND TeamUP.userInRoom.roomId = %s"""
             data1 = (user, room)
             cursor.execute(query1, data1)
 
@@ -173,7 +173,7 @@ class ChatMapper(Mapper):
             # Cursor wird erstellt, um auf der Datenbank Befehle durchzuführen
             cursor = self._cnx.cursor(prepared=True)
 
-            query1 = """DELETE FROM teamup.room WHERE teamup.room.id =%s"""
+            query1 = """DELETE FROM TeamUP.room WHERE TeamUP.room.id =%s"""
             cursor.execute(query1, room_id)
 
             self._cnx.commit()
