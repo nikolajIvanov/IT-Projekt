@@ -20,6 +20,7 @@ function Gruppe(props) {
     },[props.profil])
 
     function back(){
+        console.log(data.getID())
         const grouparray = {
             authId: firebase.auth().currentUser.uid,
             groupId: data.getID()

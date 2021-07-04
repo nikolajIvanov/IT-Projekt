@@ -14,6 +14,6 @@ class GroupRequestApi(Resource):
         :return: Statuscode 200 wenn die Erstellung erfolgreich war
         """
         payload = api.payload
-        request_body = RequestBO.create_group_request(auth_id=payload["authId"], groupid=payload["groupId"])
+        request_body = RequestBO.create_group_request(auth_id=payload["authId"], groupId=payload["groupId"])
         Administration.create_group_request(request_body)
         return 200

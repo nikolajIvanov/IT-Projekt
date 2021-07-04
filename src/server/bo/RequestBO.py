@@ -53,5 +53,5 @@ class RequestBO(BusinessObject):
         """
         obj = RequestBO()
         obj.set_auth_id(kwargs["auth_id"])
-        obj.set_gruppe_id(kwargs["group_id"])
+        obj.set_gruppe_id(kwargs["groupId"])
         return obj
