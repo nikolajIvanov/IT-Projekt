@@ -16,8 +16,6 @@ class Chat extends Component {
         }
     }
 
-    //TODO wie erkenne ich das ich den Chat verlasse ? --> push verwenden und navbar ausblenden
-
     switchChat = () => {
         if(this.state.chatSwitcher === true) {
             this.setState({

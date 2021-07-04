@@ -3,8 +3,6 @@ import {Paper, Typography} from "@material-ui/core";
 import DropDown from "../../../components/Textfeld/Dropdown";
 import Lerntypen from "../../../components/Konstante(DropDown)/Lerntypen";
 
-//TODO Infofeld für die Lerntypen
-
 function Lerntyp(props) {
 
     const handleLerntypArt = (event) => {

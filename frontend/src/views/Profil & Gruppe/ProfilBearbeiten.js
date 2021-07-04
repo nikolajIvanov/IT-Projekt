@@ -60,7 +60,6 @@ class ProfilBearbeiten extends React.Component {
                     firebase.auth().currentUser.delete()
                 }
                 else{
-                    //TODO schönere fehlermeldung evtl. eine errorCard
                     alert("Löschen fehlgeschlagen")
                 }
             }

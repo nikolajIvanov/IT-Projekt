@@ -169,8 +169,6 @@ export default class TeamUpApi {
         return this.#put(this.#acceptGroupRequestURL(), anfrage)
     }
 
-    //TODO Delete Gruppe einfügen
-
     // Generische Methode um einen einzelnen Wert vom Backend ans Frontend zu übergeben.
     #getSingle = (url, BO) => {
         return this.#fetchAdvanced(url).then( responseJSON => {

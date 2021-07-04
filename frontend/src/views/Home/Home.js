@@ -77,7 +77,6 @@ class Home extends Component {
         )}
     }
 
-    // TODO es sollen 10 User/Gruppen geladen werden für Match, nach 5 Swipes weitere
     async componentDidMount() {
         //Setzt die userId
         await this.setState({
@@ -129,14 +128,6 @@ class Home extends Component {
     }
 
     render() {
-        /*
-        * Profil --> bekommt das ausgewählte Nutzerobjekt
-        * TODO Match --> Setzt das ausgewählte Nutzer- oder Gruppenobjekt --> onClick muss auswahl setzen
-        *                                                                     und showView aufrufen
-        * TODO MyProfil --> Profilansicht des Nutzers , Einstellungen (Zahnrad in Profil?) --> Profildaten ändern
-        * */
-
-        //TODO Skeleton wenn Nutzer nicht da ist
         const {userList, suchobjekt, groupList, matches, myId, partnerId} = this.state
         return (
             <div>

@@ -88,7 +88,6 @@ function GruppeBearbeiten (props) {
         })
     }
 
-        //TODO Abbrechen Modal hinzufügen
         return (
             <div className="card">
                     <Card>

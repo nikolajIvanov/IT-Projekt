@@ -3,8 +3,6 @@ import {Paper, Typography} from "@material-ui/core";
 import DropDown from "../../../components/Textfeld/Dropdown";
 import frequenz from "../../../components/Konstante(DropDown)/Frequenz";
 
-//TODO Infofeld für die Frequenz
-
 export default function Frequenz(props) {
 
     const handleFrequenz = (event) => {

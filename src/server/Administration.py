@@ -51,7 +51,6 @@ class Administration(object):
         with UserMapper() as mapper:
             for user in users:
                 mapper.insert_by_authId(user)
-            # TODO Ardit kann man hier den Statuscode übergeben
 
     @staticmethod
     def update_user_by_auth_id(nutzer):

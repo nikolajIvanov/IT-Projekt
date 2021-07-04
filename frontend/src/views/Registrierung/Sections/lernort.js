@@ -3,8 +3,6 @@ import {Paper, Typography} from "@material-ui/core";
 import DropDown from "../../../components/Textfeld/Dropdown";
 import lernort from "../../../components/Konstante(DropDown)/Lernort";
 
-//TODO Infofeld für die Lernorte
-
 export default function Lernort(props) {
 
     const handleLernort = (event) => {

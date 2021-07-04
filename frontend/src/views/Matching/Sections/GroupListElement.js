@@ -6,7 +6,7 @@ import theme from "../../../theme";
 import Grid from "@material-ui/core/Grid";
 import {Paper} from "@material-ui/core";
 
-// TODO: Muss komplett erstellt werden.
+
 export default function GroupListElement(props) {
   const gruppen = props.apiGruppe;
 

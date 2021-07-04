@@ -60,8 +60,6 @@ function Chatanfragen(props) {
         }
     }
 
-    //TODO Anfrage ablehnen
-
     return (
         <div>
             {rendered ?
